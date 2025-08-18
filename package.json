@@ -1,0 +1,20 @@
+{
+  "name": "magepeople-starter",
+  "version": "1.0.0",
+  "description": "=== Online Tablely System & Reservation Plugin - WpBookingly === Contributors: aamahin, magepeopleteam Tags: appointment booking, Car Wash Booking, Booking calendar, Tablely Requires at least: 5.3 Stable tag: 1.1.0 Version: 1.1.0 Tested up to: 6.4 WC requires at least: 3.0 WC tested up to: 8.5 Requires PHP: 7.0 License: GPLv2 or later License URI: http://www.gnu.org/licenses/gpl-2.0.html",
+  "main": "index.js",
+  "scripts": {
+    "start": "sass --watch sass/main.scss assets/admin/mptrs_admin.css",
+    "frontend": "sass --watch sass/frontend.scss assets/frontend/mptrs_registration.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magepeopleteam/magepeople-starter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/magepeopleteam/magepeople-starter/issues"
+  },
+  "homepage": "https://github.com/magepeopleteam/magepeople-starter#readme"
+}

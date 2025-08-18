@@ -1,0 +1,14 @@
+/*
+    Author: Shahadat Hossain
+    Email: raselsha@gmail.com 
+    Version: 1.0.0
+    Descriptoin: this file is main sass file that will compile one main css into /assets/admin/mp_main_settings.css
+*/
+@use 'styles/variable';
+@use 'styles/mp-style';
+@use 'styles/metabox';
+@use 'styles/faq';
+@use 'styles/table';
+@use 'styles/category';
+@use 'styles/category-service';
+@use 'styles/sidebar-collapse';
