@@ -11,7 +11,7 @@
 			protected $settings_api;
 			public function __construct() {
 				$this->settings_api = new MPTRS_Setting_API;
-				add_action('admin_menu', array($this, 'global_settings_menu'));
+				add_action('admin_menu', array($this, 'global_settings_menu'), 20);
 				add_action('admin_init', array($this, 'admin_init'));
 				add_filter('mptrs_settings_sec_reg', array($this, 'settings_sec_reg'), 10);
 				add_filter('mptrs_settings_sec_fields', array($this, 'settings_sec_fields'), 10);
@@ -22,7 +22,14 @@
 			public function global_settings_menu() {
 				$label = MPTRS_Function::get_name();
 				$cpt = MPTRS_Function::get_cpt();
-				add_submenu_page('edit.php?post_type=' . $cpt, $label . esc_html__(' Settings', 'theaterly'), $label . esc_html__(' Settings', 'theaterly'), 'manage_options', 'mptrs_settings_page', array($this, 'settings_page'));
+				add_submenu_page(
+                        'mptrs_main_menu',
+                        $label . esc_html__(' Settings', 'theaterly'),
+                        $label . esc_html__(' Settings', 'theaterly'),
+                        'manage_options',
+                        'mptrs_settings_page',
+                        array($this, 'settings_page')
+                );
 			}
 			public function settings_page() {
 				$label = MPTRS_Function::get_name();

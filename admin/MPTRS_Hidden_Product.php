@@ -15,7 +15,7 @@
 				add_action( 'wp', array( $this, 'hide_hidden_wc_product_from_frontend' ) );
 			}
 			public function create_hidden_wc_product_on_publish( $post_id, $post ) {
-				if ( $post->post_type == MPTRS_Function::get_cpt() && $post->post_status == 'publish' && empty( MPTRS_Function::get_post_info( $post_id, 'check_if_run_once' ) ) ) {
+				if ( $post->post_type == MPTRS_Function::get_movie_cpt() && $post->post_status == 'publish' && empty( MPTRS_Function::get_post_info( $post_id, 'check_if_run_once' ) ) ) {
 					$new_post     = array(
 						'post_title'    => $post->post_title,
 						'post_content'  => '',
@@ -38,7 +38,7 @@
 				}
 			}
 			public function run_link_product_on_save( $post_id ) {
-				if ( get_post_type( $post_id ) == MPTRS_Function::get_cpt() ) {
+				if ( get_post_type( $post_id ) == MPTRS_Function::get_movie_cpt() ) {
 					if ( ! isset( $_POST['mptrs_nonce'] ) || ! wp_verify_nonce( sanitize_text_field(wp_unslash($_POST['mptrs_nonce'])), 'mptrs_nonce' ) ) {
 						return;
 					}

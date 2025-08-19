@@ -61,7 +61,9 @@
 				wp_enqueue_script('form-field-dependency', MPTRS_PLUGIN_URL . '/assets/admin/form-field-dependency.js', array('jquery'), '1.0', true);
 				// admin setting global
 				wp_enqueue_script('mptrs_admin_settings', MPTRS_PLUGIN_URL . '/assets/admin/mptrs_admin_settings.js', array('jquery'), time(), true);
+				wp_enqueue_script('mptrs_admin_menu', MPTRS_PLUGIN_URL . '/assets/admin/mptrs_admin_menu.js', array('jquery'), time(), true);
 				wp_enqueue_style('mptrs_admin_settings', MPTRS_PLUGIN_URL . '/assets/admin/mptrs_admin_settings.css', array(), time());
+				wp_enqueue_style('mptrs_admin_menu', MPTRS_PLUGIN_URL . '/assets/admin/mptrs_admin_menu.css', array(), time());
 				// ****custom************//
 				wp_enqueue_style('mptrs_admin', MPTRS_PLUGIN_URL . '/assets/admin/mptrs_admin.css', [], time());
 				wp_enqueue_script('mptrs_admin', MPTRS_PLUGIN_URL . '/assets/admin/mptrs_admin.js', ['jquery'], time(), true);

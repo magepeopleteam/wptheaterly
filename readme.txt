@@ -1,5 +1,5 @@
-=== Online Tablely System & Reservation Plugin - WpBookingly ===
-Contributors: aamahin, magepeopleteam
+=== Online Theater System & Reservation Plugin - WpTheaterly ===
+Contributors: magepeopleteam
 Tags: appointment booking, Car Wash Booking, Booking calendar, Tablely
 Requires at least: 5.3
 Stable tag: 1.1.0

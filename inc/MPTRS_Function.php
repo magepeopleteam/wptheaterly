@@ -398,10 +398,16 @@
 			}
 			//*****************//
 			public static function get_cpt(): string {
-				return 'mptrs_item';
+				return 'mptrs_theater';
+			}
+			public static function get_movie_cpt(): string {
+				return 'mptrs_movie';
+			}
+			public static function get_booking_cpt(): string {
+				return 'mptrs_booking';
 			}
 			public static function get_name() {
-				return self::get_general_settings('label', esc_html__('Tablely', 'theaterly'));
+				return self::get_general_settings('label', esc_html__('Theaterly', 'theaterly'));
 			}
 			public static function get_slug() {
 				return self::get_general_settings('slug', 'service-booking');

@@ -53,7 +53,7 @@
 					'show_in_rest' => true,
 					'capability_type' => 'post',
 					'publicly_queryable' => true,  // you should be able to query it
-					'show_ui' => true,  // you should be able to edit it in wp-admin
+					'show_ui' => false,  // you should be able to edit it in wp-admin
 					'exclude_from_search' => true,  // you should exclude it from search results
 					'show_in_nav_menus' => false,  // you shouldn't be able to add it to menus
 					'has_archive' => false,  // it shouldn't have archive page
