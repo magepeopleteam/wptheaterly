@@ -398,13 +398,22 @@
 			}
 			//*****************//
 			public static function get_cpt(): string {
-				return 'mptrs_theater';
+				return 'wtbm_items';
+			}
+			public static function get_theater_cpt(): string {
+				return 'wtbm_theater';
 			}
 			public static function get_movie_cpt(): string {
-				return 'mptrs_movie';
+				return 'wtbm_movie';
+			}
+			public static function get_show_time_cpt(): string {
+				return 'wtbm_show_time';
+			}
+			public static function get_pricing_cpt(): string {
+				return 'wtbm_pricing';
 			}
 			public static function get_booking_cpt(): string {
-				return 'mptrs_booking';
+				return 'wtbm_booking';
 			}
 			public static function get_name() {
 				return self::get_general_settings('label', esc_html__('Theaterly', 'theaterly'));

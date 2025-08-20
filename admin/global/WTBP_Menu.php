@@ -3,9 +3,9 @@
 if (!defined('ABSPATH')) {
     die;
 }
-if( !class_exists( 'MPTRS_Menu' ) ) {
+if( !class_exists( 'WTBP_Menu' ) ) {
 
-    class MPTRS_Menu {
+    class WTBP_Menu {
 
         public function __construct() {
             add_action('admin_menu', [$this, 'register_admin_menu']);
@@ -64,7 +64,7 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                         <button class="nav-item" data-tab="pricing">
                             💰 Pricing
                         </button>
-                        <button class="nav-item" data-tab="bookings">
+                        <button class="nav-item" data-tab="bookings" style="display: none">
                             👥 Bookings
                         </button>
                     </nav>
@@ -77,12 +77,13 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                         <p>Manage your cinema booking system settings</p>
                     </div>
 
+                    <?php do_action( 'movie_content');?>
                     <!-- Movies Tab -->
                     <div id="movies-content" class="tab-content active">
                         <div class="section">
                             <div class="section-header">
                                 <h3 class="section-title">Movies Management</h3>
-                                <button class="btn btn-primary" id="mptrsAddedMovieForm">
+                                <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpAddedMovieForm">
                                     ➕ Add Movie
                                 </button>
                             </div>
@@ -141,6 +142,8 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                                 </tr>
                                 </thead>
                                 <tbody id="movies-table-body">
+
+
                                 <tr>
                                     <td>
                                         <div class="flex items-center">
@@ -159,34 +162,12 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                                     </td>
                                     <td>
                                         <div class="flex gap-2">
-                                            <button class="btn-icon edit" onclick="editMovie(1)" title="Edit Movie">✏️</button>
-                                            <button class="btn-icon delete" onclick="deleteMovie(1)" title="Delete Movie">🗑️</button>
+                                            <button class="btn-icon edit" title="Edit Movie">✏️</button>
+                                            <button class="btn-icon delete" title="Delete Movie">🗑️</button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <div class="flex items-center">
-                                            <img src="https://via.placeholder.com/200x300/E74C3C/ffffff?text=Spider-Verse" alt="Spider-Man: Across the Spider-Verse" class="movie-poster">
-                                            <div>
-                                                <div class="font-medium text-gray-900">Spider-Man: Across the Spider-Verse</div>
-                                                <div class="text-sm text-gray-500">Released: 2025-06-02</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">Animation, Action, Adventure</td>
-                                    <td class="text-sm text-gray-900">2h 20m</td>
-                                    <td class="text-sm font-medium">⭐ 9.1</td>
-                                    <td>
-                                        <span class="status-badge status-active">active</span>
-                                    </td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" onclick="editMovie(2)" title="Edit Movie">✏️</button>
-                                            <button class="btn-icon delete" onclick="deleteMovie(2)" title="Delete Movie">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -197,14 +178,14 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                         <div class="section">
                             <div class="section-header">
                                 <h3 class="section-title">Theater Management</h3>
-                                <button class="btn btn-primary">
+                                <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpTheaterAddForm">
                                     ➕ Add Theater
                                 </button>
                             </div>
                         </div>
 
                         <!-- Add Theater Form -->
-                        <div id="add-theater-form" class="form-section">
+                        <div id="add-theater-form" class="form-section" style="display: none">
                             <h4 class="mb-4 font-semibold">Add New Theater</h4>
                             <div class="grid grid-cols-2 mb-4">
                                 <div class="form-group">
@@ -245,8 +226,12 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group mb-4">
+                                <label class="form-label">Description</label>
+                                <textarea id="theater-description" class="form-input" rows="3" placeholder="theater description"></textarea>
+                            </div>
                             <div class="flex gap-2">
-                                <button class="btn btn-success" >Add Theater</button>
+                                <button class="btn btn-success" id="wtbp_add_new_theater">Add Theater</button>
                                 <button class="btn btn-secondary" >Cancel</button>
                             </div>
                         </div>
@@ -264,58 +249,26 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
-                                <tbody id="theaters-table-body"><tr>
-                                    <td>
-                                        <div class="font-medium text-gray-900">Screen 1</div>
-                                        <div class="text-sm text-gray-500">8 × 12 layout</div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">Standard</td>
-                                    <td class="text-sm text-gray-900">96 seats</td>
-                                    <td class="text-sm text-gray-900">Dolby Digital</td>
-                                    <td>
-                                        <span class="status-badge status-active">active</span>
-                                    </td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" title="Edit Theater">✏️</button>
-                                            <button class="btn-icon delete" title="Delete Theater">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr><tr>
-                                    <td>
-                                        <div class="font-medium text-gray-900">Screen 2</div>
-                                        <div class="text-sm text-gray-500">8 × 12 layout</div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">Premium</td>
-                                    <td class="text-sm text-gray-900">96 seats</td>
-                                    <td class="text-sm text-gray-900">Dolby Atmos</td>
-                                    <td>
-                                        <span class="status-badge status-active">active</span>
-                                    </td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" title="Edit Theater">✏️</button>
-                                            <button class="btn-icon delete" title="Delete Theater">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr><tr>
-                                    <td>
-                                        <div class="font-medium text-gray-900">Screen 3</div>
-                                        <div class="text-sm text-gray-500">10 × 12 layout</div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">IMAX</td>
-                                    <td class="text-sm text-gray-900">120 seats</td>
-                                    <td class="text-sm text-gray-900">IMAX Enhanced</td>
-                                    <td>
-                                        <span class="status-badge status-maintenance">maintenance</span>
-                                    </td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" title="Edit Theater">✏️</button>
-                                            <button class="btn-icon delete" title="Delete Theater">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr></tbody>
+                                <tbody id="theaters-table-body">
+                                    <tr>
+                                        <td>
+                                            <div class="font-medium text-gray-900">Screen 1</div>
+                                            <div class="text-sm text-gray-500">8 × 12 layout</div>
+                                        </td>
+                                        <td class="text-sm text-gray-900">Standard</td>
+                                        <td class="text-sm text-gray-900">96 seats</td>
+                                        <td class="text-sm text-gray-900">Dolby Digital</td>
+                                        <td>
+                                            <span class="status-badge status-active">active</span>
+                                        </td>
+                                        <td>
+                                            <div class="flex gap-2">
+                                                <button class="btn-icon edit" title="Edit Theater">✏️</button>
+                                                <button class="btn-icon delete" title="Delete Theater">🗑️</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -325,39 +278,60 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                         <div class="section">
                             <div class="section-header">
                                 <h3 class="section-title">Showtimes Management</h3>
-                                <button class="btn btn-primary" onclick="showAddShowtimeForm()">
+                                <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpShowtimeAddForm">
                                     ➕ Add Showtime
                                 </button>
                             </div>
                         </div>
 
                         <!-- Add Showtime Form -->
-                        <div id="add-showtime-form" class="form-section hidden">
+                        <div id="add-showtime-form" class="form-section hidden" style="display: none">
                             <h4 class="mb-4 font-semibold">Create New Showtime</h4>
+                            <div class="form-group">
+                                <label class="form-label">Show time Name</label>
+                                <input type="text" id="showTimeName" class="form-input" placeholder="Show time 1">
+                            </div>
                             <div class="grid grid-cols-3 mb-4">
                                 <div class="form-group">
                                     <label class="form-label">Movie</label>
-                                    <select id="showtime-movie" class="form-input"><option value="">Select Movie</option><option value="1">Guardians of the Galaxy Vol. 3</option><option value="2">Spider-Man: Across the Spider-Verse</option></select>
+                                    <select id="showtime-movie" class="form-input">
+                                        <option value="">Select Movie</option>
+                                        <option value="1">Guardians of the Galaxy Vol. 3</option>
+                                        <option value="2">Spider-Man: Across the Spider-Verse</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Theater</label>
-                                    <select id="showtime-theater" class="form-input"><option value="">Select Theater</option><option value="1">Screen 1</option><option value="2">Screen 2</option><option value="3">Screen 3</option></select>
+                                    <select id="showtime-theater" class="form-input">
+                                        <option value="">Select Theater</option>
+                                        <option value="1">Screen 1</option>
+                                        <option value="2">Screen 2</option>
+                                        <option value="3">Screen 3</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Date</label>
                                     <input type="date" id="showtime-date" class="form-input" min="2025-08-19">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Time</label>
-                                    <input type="time" id="showtime-time" class="form-input">
+                                    <label class="form-label">Start Time</label>
+                                    <input type="time" id="showtime-time-start" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">End Time</label>
+                                    <input type="time" id="showtime-time-end" class="form-input">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Price ($)</label>
                                     <input type="number" id="showtime-price" class="form-input" step="0.01" placeholder="12.99">
                                 </div>
                             </div>
+                            <div class="form-group mb-4">
+                                <label class="form-label">Description</label>
+                                <textarea id="showTime-description" class="form-input" rows="3" placeholder="Show time description"></textarea>
+                            </div>
                             <div class="flex gap-2">
-                                <button class="btn btn-success" onclick="addShowtime()">Add Showtime</button>
+                                <button class="btn btn-success" id="wtbm_add_new_show_time">Add Showtime</button>
                                 <button class="btn btn-secondary" onclick="hideAddShowtimeForm()">Cancel</button>
                             </div>
                         </div>
@@ -375,52 +349,24 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
-                                <tbody id="showtimes-table-body"><tr>
-                                    <td>
-                                        <div class="text-sm font-medium text-gray-900">Guardians of the Galaxy Vol. 3</div>
-                                        <div class="text-sm text-gray-500">Action, Adventure, Comedy</div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">Screen 1</td>
-                                    <td class="text-sm text-gray-900">2025-08-16</td>
-                                    <td class="text-sm text-gray-900">10:30</td>
-                                    <td class="text-sm font-medium text-gray-900">12.99</td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" onclick="editShowtime(1)" title="Edit Showtime">✏️</button>
-                                            <button class="btn-icon delete" onclick="deleteShowtime(1)" title="Delete Showtime">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr><tr>
-                                    <td>
-                                        <div class="text-sm font-medium text-gray-900">Guardians of the Galaxy Vol. 3</div>
-                                        <div class="text-sm text-gray-500">Action, Adventure, Comedy</div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">Screen 2</td>
-                                    <td class="text-sm text-gray-900">2025-08-16</td>
-                                    <td class="text-sm text-gray-900">14:15</td>
-                                    <td class="text-sm font-medium text-gray-900">15.99</td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" onclick="editShowtime(2)" title="Edit Showtime">✏️</button>
-                                            <button class="btn-icon delete" onclick="deleteShowtime(2)" title="Delete Showtime">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr><tr>
-                                    <td>
-                                        <div class="text-sm font-medium text-gray-900">Spider-Man: Across the Spider-Verse</div>
-                                        <div class="text-sm text-gray-500">Animation, Action, Adventure</div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">Screen 1</td>
-                                    <td class="text-sm text-gray-900">2025-08-16</td>
-                                    <td class="text-sm text-gray-900">18:45</td>
-                                    <td class="text-sm font-medium text-gray-900">18.99</td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" onclick="editShowtime(3)" title="Edit Showtime">✏️</button>
-                                            <button class="btn-icon delete" onclick="deleteShowtime(3)" title="Delete Showtime">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr></tbody>
+                                <tbody id="showtimes-table-body">
+                                    <tr>
+                                        <td>
+                                            <div class="text-sm font-medium text-gray-900">Guardians of the Galaxy Vol. 3</div>
+                                            <div class="text-sm text-gray-500">Action, Adventure, Comedy</div>
+                                        </td>
+                                        <td class="text-sm text-gray-900">Screen 1</td>
+                                        <td class="text-sm text-gray-900">2025-08-16</td>
+                                        <td class="text-sm text-gray-900">10:30</td>
+                                        <td class="text-sm font-medium text-gray-900">12.99</td>
+                                        <td>
+                                            <div class="flex gap-2">
+                                                <button class="btn-icon edit" onclick="editShowtime(1)" title="Edit Showtime">✏️</button>
+                                                <button class="btn-icon delete" onclick="deleteShowtime(1)" title="Delete Showtime">🗑️</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -430,14 +376,14 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                         <div class="section">
                             <div class="section-header">
                                 <h3 class="section-title">Pricing Rules</h3>
-                                <button class="btn btn-primary" onclick="showAddPricingForm()">
+                                <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpPricingAddForm">
                                     ➕ Add Pricing Rule
                                 </button>
                             </div>
                         </div>
 
                         <!-- Add Pricing Form -->
-                        <div id="add-pricing-form" class="form-section hidden">
+                        <div id="add-pricing-form" class="form-section hidden" style="display: none">
                             <h4 class="mb-4 font-semibold">Add New Pricing Rule</h4>
                             <div class="grid grid-cols-2 mb-4">
                                 <div class="form-group">
@@ -446,7 +392,7 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Rule Type</label>
-                                    <select id="pricing-type" class="form-input" onchange="updatePricingFields()">
+                                    <select id="pricing-type" class="form-input">
                                         <option value="time">Time-based</option>
                                         <option value="day">Day-based</option>
                                         <option value="date">Date-based</option>
@@ -520,9 +466,9 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                                 </label>
                             </div>
                             <div class="flex gap-2">
-                                <button class="btn btn-success" onclick="addPricingRule()">Add Pricing Rule</button>
+                                <button class="btn btn-success" id="wtbp_add_new_pricing_rule">Add Pricing Rule</button>
                                 <button class="btn btn-secondary" onclick="hideAddPricingForm()">Cancel</button>
-                                <button class="btn btn-secondary" type="button" onclick="previewPricing()">Preview Pricing</button>
+                                <button class="btn btn-secondary" id="wtbp_previewPricing" type="button" >Preview Pricing</button>
                             </div>
 
                             <!-- Preview Section -->
@@ -1214,6 +1160,7 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -1221,5 +1168,5 @@ if( !class_exists( 'MPTRS_Menu' ) ) {
 
     }
 
-    new MPTRS_Menu();
+    new WTBP_Menu();
 }

@@ -13,14 +13,32 @@
     $(document).on('click', '#mptrs_add_new_movie', function (e) {
         addMovie();
     });
-    $(document).on('click', '#mptrsAddedMovieForm', function (e) {
-        showAddMovieForm();
+    $(document).on('click', '#wtbp_add_new_theater', function (e) {
+        addTheater();
     });
 
+    $(document).on('click', '#wtbm_add_new_show_time', function (e) {
+        addShowtime();
+    });
+
+    $(document).on('click', '.wtbpShowHideAddForm', function (e) {
+        let clickedId = $(this).attr( 'id' ).trim();
+        showAddMovieForm( clickedId );
+    });
+
+    $(document).on('change', '#pricing-type', function (e) {
+        updatePricingFields();
+    });
+
+    $(document).on('click', '#wtbp_previewPricing', function (e) {
+        previewPricing();
+    });
+
+    $(document).on('click', '#wtbp_add_new_pricing_rule', function (e) {
+        addPricingRule();
+    });
 
     function addMovie( ) {
-
-        let addMovieData = [];
 
         let movieData = {
             action: "mptrs_insert_movie_post", // WordPress action hook
@@ -35,7 +53,6 @@
             _ajax_nonce: mptrs_admin_ajax.nonce // security nonce
         };
 
-        alert( mptrs_admin_ajax.ajax_url );
         $.ajax({
             url: mptrs_admin_ajax.ajax_url, // admin-ajax.php
             type: "POST",
@@ -55,11 +72,177 @@
 
         // addMovieData.push(movie);
         // movies.push(movie);
-        console.log( addMovieData );
 
         renderMoviesTable( movieData );
         // hideAddMovieForm();
     }
+    function addTheater() {
+        const rows = parseInt(document.getElementById('theater-rows').value);
+        const seatsPerRow = parseInt(document.getElementById('theater-seats-per-row').value);
+
+        var theater = {
+            action: "mptrs_insert_theater_post",
+            id: Date.now(),
+            name: $('#theater-name').val(),
+            description: $('#theater-description').val(),
+            type: $('#theater-type').val(),
+            rows: rows,
+            seatsPerRow: seatsPerRow,
+            soundSystem: $('#theater-sound').val(),
+            status: $('#theater-status').val(),
+            _ajax_nonce: mptrs_admin_ajax.nonce
+        };
+
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url, // admin-ajax.php
+            type: "POST",
+            data: theater,
+            success: function(response) {
+                if (response.success) {
+                    alert("Theater Added: " + response.data.post_title);
+                } else {
+                    alert("Error: " + response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+                alert("Something went wrong!");
+            }
+        });
+
+        console.log( theater );
+
+        /*theaters.push(theater);
+        renderTheatersTable();
+        hideAddTheaterForm();*/
+    }
+
+    function addShowtime() {
+        const showtime = {
+            action: "wtbp_insert_show_time_post",
+            id: Date.now(),
+            title: document.getElementById('showTimeName').value,
+            movieId: parseInt(document.getElementById('showtime-movie').value),
+            theaterId: parseInt(document.getElementById('showtime-theater').value),
+            date: document.getElementById('showtime-date').value,
+            startTime: document.getElementById('showtime-time-start').value,
+            endTime: document.getElementById('showtime-time-end').value,
+            price: parseFloat(document.getElementById('showtime-price').value),
+            description: document.getElementById('showTime-description').value,
+            _ajax_nonce: mptrs_admin_ajax.nonce,
+        };
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url, // admin-ajax.php
+            type: "POST",
+            data: showtime,
+            success: function(response) {
+                if (response.success) {
+                    alert("Show Time Added: " + response.data.post_title);
+                } else {
+                    alert("Error: " + response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+                alert("Something went wrong!");
+            }
+        });
+
+    }
+
+    function addPricingRule() {
+        const name = $('#pricing-name').val();
+        const type = $('#pricing-type').val();
+        const multiplier = parseFloat($('#pricing-multiplier').val());
+
+        if ( !name || !multiplier ) {
+            alert('Please fill in required fields: Name and Price Multiplier');
+            return;
+        }
+
+        const rule = {
+            action: "wtbp_insert_pricing_rules_post",
+            id: Date.now(),
+            name: name,
+            type: type,
+            multiplier: multiplier,
+            active: $('#pricing-status').val() === 'true',
+            priority: parseInt($('#pricing-priority').val()) || 10,
+            description: $('#pricing-description').val(),
+            minSeats: parseInt($('#pricing-min-seats').val()) || 1,
+            combinable: $('#pricing-combinable').is(':checked'),
+            _ajax_nonce: mptrs_admin_ajax.nonce,
+        };
+
+        rule.timeRange = '';
+        rule.days = '';
+        rule.startDate = '';
+        rule.endDate = '';
+        rule.dateRange = '';
+        rule.theaterType = '';
+
+        // Add type-specific properties
+        switch( type ) {
+            case 'time':
+                rule.timeRange = $('#pricing-time-range').val();
+                break;
+            case 'day':
+                const selectedDays = $('#pricing-days option:selected').map(function() {
+                    return $(this).val();
+                }).get();
+                rule.days = selectedDays;
+                break;
+            case 'date':
+                rule.startDate = $('#pricing-start-date').val();
+                rule.endDate = $('#pricing-end-date').val();
+                rule.dateRange = `${rule.startDate || 'start'} to ${rule.endDate || 'end'}`;
+                break;
+            case 'theater':
+                rule.theaterType = $('#pricing-theater-type').val();
+                break;
+        }
+
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url, // admin-ajax.php
+            type: "POST",
+            data: rule,
+            success: function( response ) {
+                if ( response.success ) {
+                    alert("Pricing Rules Added: " + response.data.post_title);
+                } else {
+                    alert("Error: " + response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+                alert("Something went wrong!");
+            }
+        });
+
+        // pricingRules.push(rule);
+        // renderPricingTable();
+        // hideAddPricingForm();
+
+        // Show success message
+        alert(`Pricing rule "${name}" added successfully!`);
+    }
+
+
+    function showAddMovieForm( clickedId ) {
+        if( clickedId === 'wtbpAddedMovieForm' ){
+            $('#add-movie-form').fadeIn();
+        }else if( clickedId === 'wtbpTheaterAddForm' ){
+            $('#add-theater-form').fadeIn();
+        }else if( clickedId === 'wtbpShowtimeAddForm' ){
+            $('#add-showtime-form').fadeIn();
+        }else if( clickedId === 'wtbpPricingAddForm' ){
+            $('#add-pricing-form').fadeIn();
+        }else{
+            $('#add-movie-form').fadeIn();
+        }
+
+    }
+
 
 
 
@@ -165,10 +348,6 @@ function renderMoviesTable( movie ) {
 
 }
 
-function showAddMovieForm() {
-    $('#add-movie-form').fadeIn();
-}
-
 function hideAddMovieForm() {
     document.getElementById('add-movie-form').classList.add('hidden');
     clearMovieForm();
@@ -245,24 +424,6 @@ function clearTheaterForm() {
     document.getElementById('theater-status').value = 'active';
 }
 
-function addTheater() {
-    const rows = parseInt(document.getElementById('theater-rows').value);
-    const seatsPerRow = parseInt(document.getElementById('theater-seats-per-row').value);
-
-    const theater = {
-        id: Date.now(),
-        name: document.getElementById('theater-name').value,
-        type: document.getElementById('theater-type').value,
-        rows: rows,
-        seatsPerRow: seatsPerRow,
-        soundSystem: document.getElementById('theater-sound').value,
-        status: document.getElementById('theater-status').value
-    };
-
-    theaters.push(theater);
-    renderTheatersTable();
-    hideAddTheaterForm();
-}
 
 function editTheater(id) {
     alert('Edit theater functionality - ID: ' + id);
@@ -339,20 +500,7 @@ function clearShowtimeForm() {
     document.getElementById('showtime-price').value = '';
 }
 
-function addShowtime() {
-    const showtime = {
-        id: Date.now(),
-        movieId: parseInt(document.getElementById('showtime-movie').value),
-        theaterId: parseInt(document.getElementById('showtime-theater').value),
-        date: document.getElementById('showtime-date').value,
-        time: document.getElementById('showtime-time').value,
-        price: parseFloat(document.getElementById('showtime-price').value)
-    };
 
-    showtimes.push(showtime);
-    renderShowtimesTable();
-    hideAddShowtimeForm();
-}
 
 function editShowtime(id) {
     alert('Edit showtime functionality - ID: ' + id);
@@ -416,31 +564,28 @@ function getPricingRuleDetails(rule) {
     }
 }
 
-function updatePricingFields() {
-    const type = document.getElementById('pricing-type').value;
+    function updatePricingFields() {
+        var type = $('#pricing-type').val();
 
-    // Hide all conditional fields
-    document.getElementById('time-range-group').style.display = 'none';
-    document.getElementById('days-group').style.display = 'none';
-    document.getElementById('date-range-group').style.display = 'none';
-    document.getElementById('theater-group').style.display = 'none';
+        // Hide all conditional fields
+        $('#time-range-group, #days-group, #date-range-group, #theater-group').hide();
 
-    // Show relevant field based on type
-    switch(type) {
-        case 'time':
-            document.getElementById('time-range-group').style.display = 'block';
-            break;
-        case 'day':
-            document.getElementById('days-group').style.display = 'block';
-            break;
-        case 'date':
-            document.getElementById('date-range-group').style.display = 'block';
-            break;
-        case 'theater':
-            document.getElementById('theater-group').style.display = 'block';
-            break;
+        // Show relevant field based on type
+        switch(type) {
+            case 'time':
+                $('#time-range-group').show();
+                break;
+            case 'day':
+                $('#days-group').show();
+                break;
+            case 'date':
+                $('#date-range-group').show();
+                break;
+            case 'theater':
+                $('#theater-group').show();
+                break;
+        }
     }
-}
 
 function showAddPricingForm() {
     document.getElementById('add-pricing-form').classList.remove('hidden');
@@ -509,54 +654,7 @@ function previewPricing() {
     document.getElementById('pricing-preview').style.display = 'block';
 }
 
-function addPricingRule() {
-    const name = document.getElementById('pricing-name').value;
-    const type = document.getElementById('pricing-type').value;
-    const multiplier = parseFloat(document.getElementById('pricing-multiplier').value);
 
-    if (!name || !multiplier) {
-        alert('Please fill in required fields: Name and Price Multiplier');
-        return;
-    }
-
-    const rule = {
-        id: Date.now(),
-        name: name,
-        type: type,
-        multiplier: multiplier,
-        active: document.getElementById('pricing-status').value === 'true',
-        priority: parseInt(document.getElementById('pricing-priority').value) || 10,
-        description: document.getElementById('pricing-description').value,
-        minSeats: parseInt(document.getElementById('pricing-min-seats').value) || 1,
-        combinable: document.getElementById('pricing-combinable').checked
-    };
-
-    // Add type-specific properties
-    switch(type) {
-        case 'time':
-            rule.timeRange = document.getElementById('pricing-time-range').value;
-            break;
-        case 'day':
-            const selectedDays = Array.from(document.getElementById('pricing-days').selectedOptions).map(o => o.value);
-            rule.days = selectedDays;
-            break;
-        case 'date':
-            rule.startDate = document.getElementById('pricing-start-date').value;
-            rule.endDate = document.getElementById('pricing-end-date').value;
-            rule.dateRange = `${rule.startDate || 'start'} to ${rule.endDate || 'end'}`;
-            break;
-        case 'theater':
-            rule.theaterType = document.getElementById('pricing-theater-type').value;
-            break;
-    }
-
-    pricingRules.push(rule);
-    renderPricingTable();
-    hideAddPricingForm();
-
-    // Show success message
-    alert(`Pricing rule "${name}" added successfully!`);
-}
 
 function editPricingRule(id) {
     const rule = pricingRules.find(r => r.id === id);

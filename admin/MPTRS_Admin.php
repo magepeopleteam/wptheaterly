@@ -21,13 +21,13 @@
 				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Taxonomy.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Dummy_Import.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Hidden_Product.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_CPT.php';
+				require_once MPTRS_PLUGIN_DIR . '/admin/WTBP_CPT.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Quick_Setup.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Admin_Manage_Ajax.php';
+				require_once MPTRS_PLUGIN_DIR . '/admin/WTBP_Admin_Manage_Ajax.php';
 				//*************Global Settings*****************//
 				require_once MPTRS_PLUGIN_DIR . '/admin/global/MPTRS_Setting_API.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/global/MPTRS_Settings_Global.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/global/MPTRS_Menu.php';
+				require_once MPTRS_PLUGIN_DIR . '/admin/global/WTBP_Menu.php';
 				//*************Service Settings*****************//
 				require_once MPTRS_PLUGIN_DIR . '/admin/settings/MPTRS_Settings.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/settings/MPTRS_General_Settings.php';

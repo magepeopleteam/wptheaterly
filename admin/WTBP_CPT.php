@@ -6,8 +6,8 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_CPT')) {
-		class MPTRS_CPT {
+	if (!class_exists('WTBP_CPT')) {
+		class WTBP_CPT {
 			public function __construct() {
 				add_action('init', [$this, 'add_cpt']);
 			}
@@ -60,7 +60,36 @@
 					'rewrite' => ['slug' => $slug],
 				];
 				register_post_type($cpt, $args);
+
+
+                $args = [
+                    'public' => true,
+                    'label' => esc_html__('Theater', 'theaterly'),
+                    'supports' => ['title', 'thumbnail', 'editor'],
+                    'show_in_menu' => false,
+                    'capability_type' => 'post',
+                ];
+                register_post_type('wtbm_theater', $args);
+
+                $args = [
+                    'public' => true,
+                    'label' => esc_html__('Show Time', 'theaterly'),
+                    'supports' => ['title', 'thumbnail', 'editor'],
+                    'show_in_menu' => false,
+                    'capability_type' => 'post',
+                ];
+                register_post_type('wtbm_show_time', $args);
+
+                $args = [
+                    'public' => true,
+                    'label' => esc_html__('Pricing Rules', 'theaterly'),
+                    'supports' => ['title', 'thumbnail', 'editor'],
+                    'show_in_menu' => false,
+                    'capability_type' => 'post',
+                ];
+                register_post_type('wtbm_pricing', $args);
+
 			}
 		}
-		new MPTRS_CPT();
+		new WTBP_CPT();
 	}

@@ -259,7 +259,7 @@ body {
 }
 
 .form-section.hidden {
-    display: none;
+    display: block;
 }
 
 .status-badge {
