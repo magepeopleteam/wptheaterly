@@ -52,19 +52,19 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                     </div>
 
                     <nav class="nav-menu">
-                        <button class="nav-item active"" data-tab="movies">
+                        <button class="nav-item active" data-tab="wtbm_movies">
                             🎬 Movies
                         </button>
-                        <button class="nav-item" data-tab="theaters">
+                        <button class="nav-item" data-tab="wtbm_theaters">
                             🏛️ Theaters
                         </button>
-                        <button class="nav-item" data-tab="showtimes">
+                        <button class="nav-item" data-tab="wtbm_showtimes">
                             📅 Showtimes
                         </button>
-                        <button class="nav-item" data-tab="pricing">
+                        <button class="nav-item" data-tab="wtbm_pricing">
                             💰 Pricing
                         </button>
-                        <button class="nav-item" data-tab="bookings" style="display: none">
+                        <button class="nav-item" data-tab="wtbm_bookings" style="display: none">
                             👥 Bookings
                         </button>
                     </nav>
@@ -79,7 +79,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
 
                     <?php do_action( 'movie_content');?>
                     <!-- Movies Tab -->
-                    <div id="movies-content" class="tab-content active">
+                    <div id="wtbm_movies_content" class="tab-content active">
                         <div class="section">
                             <div class="section-header">
                                 <h3 class="section-title">Movies Management</h3>
@@ -92,40 +92,12 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                         <!-- Add Movie Form -->
                         <div id="add-movie-form" class="form-section" style="display: none">
                             <h4 class="mb-4 font-semibold">Add New Movie</h4>
-                            <div class="grid grid-cols-2 mb-4">
-                                <div class="form-group">
-                                    <label class="form-label">Movie Title</label>
-                                    <input type="text" id="movie-title" class="form-input" placeholder="Movie Title">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Genre</label>
-                                    <input type="text" id="movie-genre" class="form-input" placeholder="Genre">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Duration</label>
-                                    <input type="text" id="movie-duration" class="form-input" placeholder="2h 30m">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Rating</label>
-                                    <input type="number" id="movie-rating" class="form-input" step="0.1" placeholder="8.5">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Release Date</label>
-                                    <input type="date" id="movie-release-date" class="form-input">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Poster URL</label>
-                                    <input type="url" id="movie-poster" class="form-input" placeholder="https://...">
-                                </div>
+                            <div id="wtbm_add_edit_movie_form_holder">
+                                <?php
+//                                echo WTBM_Layout_Functions::add_edit_new_movie_html( 'add' );
+                                ?>
                             </div>
-                            <div class="form-group mb-4">
-                                <label class="form-label">Description</label>
-                                <textarea id="movie-description" class="form-input" rows="3" placeholder="Movie description"></textarea>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="btn btn-success mptrs_add_new_movie" id="mptrs_add_new_movie">Add Movie</button>
-                                <button class="btn btn-secondary" onclick="hideAddMovieForm()">Cancel</button>
-                            </div>
+
                         </div>
 
                         <!-- Movies Table -->
@@ -142,31 +114,10 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                                 </tr>
                                 </thead>
                                 <tbody id="movies-table-body">
-
-
-                                <tr>
-                                    <td>
-                                        <div class="flex items-center">
-                                            <img src="https://via.placeholder.com/200x300/4A90E2/ffffff?text=GOTG+Vol.3" alt="Guardians of the Galaxy Vol. 3" class="movie-poster">
-                                            <div>
-                                                <div class="font-medium text-gray-900">Guardians of the Galaxy Vol. 3</div>
-                                                <div class="text-sm text-gray-500">Released: 2025-05-05</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">Action, Adventure, Comedy</td>
-                                    <td class="text-sm text-gray-900">2h 30m</td>
-                                    <td class="text-sm font-medium">⭐ 8.2</td>
-                                    <td>
-                                        <span class="status-badge status-active">active</span>
-                                    </td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" title="Edit Movie">✏️</button>
-                                            <button class="btn-icon delete" title="Delete Movie">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <?php
+                                    $movie_data = WTBM_Layout_Functions::get_and_display_movies();
+                                    echo WTBM_Layout_Functions::display_movies_data( $movie_data );
+                                    ?>
 
                                 </tbody>
                             </table>
@@ -174,7 +125,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                     </div>
 
                     <!-- Theaters Tab -->
-                    <div id="theaters-content" class="tab-content">
+                    <div id="wtbm_theaters_content" class="tab-content">
                         <div class="section">
                             <div class="section-header">
                                 <h3 class="section-title">Theater Management</h3>
@@ -185,55 +136,11 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                         </div>
 
                         <!-- Add Theater Form -->
-                        <div id="add-theater-form" class="form-section" style="display: none">
-                            <h4 class="mb-4 font-semibold">Add New Theater</h4>
-                            <div class="grid grid-cols-2 mb-4">
-                                <div class="form-group">
-                                    <label class="form-label">Theater Name</label>
-                                    <input type="text" id="theater-name" class="form-input" placeholder="Screen 1">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Theater Type</label>
-                                    <select id="theater-type" class="form-input">
-                                        <option value="Standard">Standard</option>
-                                        <option value="Premium">Premium</option>
-                                        <option value="IMAX">IMAX</option>
-                                        <option value="VIP">VIP</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Rows</label>
-                                    <input type="number" id="theater-rows" class="form-input" placeholder="8">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Seats per Row</label>
-                                    <input type="number" id="theater-seats-per-row" class="form-input" placeholder="12">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Sound System</label>
-                                    <select id="theater-sound" class="form-input">
-                                        <option value="Dolby Digital">Dolby Digital</option>
-                                        <option value="Dolby Atmos">Dolby Atmos</option>
-                                        <option value="IMAX Enhanced">IMAX Enhanced</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Status</label>
-                                    <select id="theater-status" class="form-input">
-                                        <option value="active">Active</option>
-                                        <option value="maintenance">Maintenance</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group mb-4">
-                                <label class="form-label">Description</label>
-                                <textarea id="theater-description" class="form-input" rows="3" placeholder="theater description"></textarea>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="btn btn-success" id="wtbp_add_new_theater">Add Theater</button>
-                                <button class="btn btn-secondary" >Cancel</button>
-                            </div>
+                        <div id="wtbmAddTheaterForm" class="form-section" style="display: none">
+                            <!--Here-->
+                            <?php
+//                                echo WTBM_Layout_Functions::add_edit_theater_html();
+                            ?>
                         </div>
 
                         <!-- Theaters Table -->
@@ -274,7 +181,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                     </div>
 
                     <!-- Showtimes Tab -->
-                    <div id="showtimes-content" class="tab-content">
+                    <div id="wtbm_showtimes_content" class="tab-content">
                         <div class="section">
                             <div class="section-header">
                                 <h3 class="section-title">Showtimes Management</h3>
@@ -372,7 +279,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                     </div>
 
                     <!-- Pricing Tab -->
-                    <div id="pricing-content" class="tab-content">
+                    <div id="wtbm_pricing_content" class="tab-content">
                         <div class="section">
                             <div class="section-header">
                                 <h3 class="section-title">Pricing Rules</h3>
@@ -590,7 +497,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                     </div>
 
                     <!-- Bookings Tab -->
-                    <div id="bookings-content" class="tab-content">
+                    <div id="wtbm_bookings_content" class="tab-content">
                         <div class="section">
                             <div class="section-header">
                                 <div>

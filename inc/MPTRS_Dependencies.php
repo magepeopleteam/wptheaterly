@@ -22,6 +22,7 @@
 			}
 			private function load_file(): void {
 				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Function.php';
+				require_once MPTRS_PLUGIN_DIR . '/inc/WTBM_Layout_Functions.php';
 				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Slider.php';
 				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Style.php';
 				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Select_Icon_image.php';

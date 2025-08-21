@@ -5,14 +5,20 @@
         $('.nav-item').removeClass('active');
         $('.tab-content').hide();
         let nav_name = $(this).attr('data-tab').trim();
-        let nav_container = nav_name+'-content';
+        let nav_container = nav_name+'_content';
         $("#"+nav_container).fadeIn();
         $(this).addClass('active');
 
     });
     $(document).on('click', '#mptrs_add_new_movie', function (e) {
-        addMovie();
+        addMovie( 'add', 'mptrs_insert_movie_post', '' );
     });
+
+    $(document).on('click', '#mptrs_edit_movie', function (e) {
+        let post_id = $(this).attr('data-edited-post-id');
+        addMovie( 'edit', 'wtbm_update_movie_post', post_id );
+    });
+
     $(document).on('click', '#wtbp_add_new_theater', function (e) {
         addTheater();
     });
@@ -38,10 +44,38 @@
         addPricingRule();
     });
 
-    function addMovie( ) {
+    $(document).on('click', '.wrbm_edit_movie', function (e) {
 
+        let postId = $(this).closest('.twbm_movie_content').attr('date-movie-id');
+        const sent_data = {
+            action: "wtbp_add_edit_movie_form",
+            post_id: postId,
+            _ajax_nonce: mptrs_admin_ajax.nonce,
+        };
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url,
+            type: "POST",
+            data: sent_data,
+            success: function( response ) {
+                if ( response.success ) {
+                    $('#wtbm_add_edit_movie_form_holder').html( response.data );
+                    $('#add-movie-form').fadeIn();
+                } else {
+                    alert("Error: " + response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("Something went wrong!");
+            }
+        });
+
+    });
+
+    function addMovie( action_type, action, post_id, edited_movie ) {
+
+        let response_type = 'Added'
         let movieData = {
-            action: "mptrs_insert_movie_post", // WordPress action hook
+            action: action,
             title: $("#movie-title").val(),
             genre: $("#movie-genre").val(),
             duration: $("#movie-duration").val(),
@@ -50,16 +84,23 @@
             poster: $("#movie-poster").val(),
             description: $("#movie-description").val(),
             status: "publish",
-            _ajax_nonce: mptrs_admin_ajax.nonce // security nonce
+            _ajax_nonce: mptrs_admin_ajax.nonce
         };
 
+        if( action_type === 'edit' ){
+            movieData.post_id = post_id;
+            response_type = 'Edited';
+            edited_movie = 'movie_content_'+post_id;
+        }
+
         $.ajax({
-            url: mptrs_admin_ajax.ajax_url, // admin-ajax.php
+            url: mptrs_admin_ajax.ajax_url,
             type: "POST",
             data: movieData,
             success: function(response) {
                 if (response.success) {
-                    alert("Movie Added: " + response.data.post_title);
+                    $("#"+edited_movie).hide();
+                    alert("Movie : "+response_type+' '+ response.data.post_title);
                 } else {
                     alert("Error: " + response.data);
                 }
@@ -230,9 +271,51 @@
 
     function showAddMovieForm( clickedId ) {
         if( clickedId === 'wtbpAddedMovieForm' ){
-            $('#add-movie-form').fadeIn();
+            // let aaa = $(this).closest('#wtbm_movies_content').find('#mptrs_add_new_movie').length;
+            const rule = {
+                action: "wtbp_add_edit_movie_form",
+                _ajax_nonce: mptrs_admin_ajax.nonce,
+            };
+            $.ajax({
+                url: mptrs_admin_ajax.ajax_url,
+                type: "POST",
+                data: rule,
+                success: function( response ) {
+                    if ( response.success ) {
+                        $('#wtbm_add_edit_movie_form_holder').html( response.data );
+                        $('#add-movie-form').fadeIn();
+                    } else {
+                        alert("Error: " + response.data);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("Something went wrong!");
+                }
+            });
         }else if( clickedId === 'wtbpTheaterAddForm' ){
-            $('#add-theater-form').fadeIn();
+
+            const theater_rule = {
+                action: "wtbp_add_edit_theater_form",
+                post_id: "",
+                _ajax_nonce: mptrs_admin_ajax.nonce,
+            };
+            $.ajax({
+                url: mptrs_admin_ajax.ajax_url,
+                type: "POST",
+                data: theater_rule,
+                success: function( response ) {
+                    if ( response.success ) {
+                        $('#wtbmAddTheaterForm').html( response.data );
+                        $('#wtbmAddTheaterForm').fadeIn();
+                    } else {
+                        alert("Error: " + response.data);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("Something went wrong!");
+                }
+            });
+
         }else if( clickedId === 'wtbpShowtimeAddForm' ){
             $('#add-showtime-form').fadeIn();
         }else if( clickedId === 'wtbpPricingAddForm' ){
@@ -246,74 +329,9 @@
 
 
 
-let movies = [
-    {
-        id: 1,
-        title: "Guardians of the Galaxy Vol. 3",
-        genre: "Action, Adventure, Comedy",
-        duration: "2h 30m",
-        rating: 8.2,
-        poster: "https://via.placeholder.com/200x300/4A90E2/ffffff?text=GOTG+Vol.3",
-        description: "The beloved Guardians must reunite for their most dangerous mission yet.",
-        status: "active",
-        releaseDate: "2025-05-05"
-    },
-    {
-        id: 2,
-        title: "Spider-Man: Across the Spider-Verse",
-        genre: "Animation, Action, Adventure",
-        duration: "2h 20m",
-        rating: 9.1,
-        poster: "https://via.placeholder.com/200x300/E74C3C/ffffff?text=Spider-Verse",
-        description: "Miles Morales catapults across the Multiverse with Gwen Stacy.",
-        status: "active",
-        releaseDate: "2025-06-02"
-    }
-];
 
-let theaters = [
-    {
-        id: 1,
-        name: "Screen 1",
-        type: "Standard",
-        status: "active",
-        rows: 8,
-        seatsPerRow: 12,
-        soundSystem: "Dolby Digital"
-    },
-    {
-        id: 2,
-        name: "Screen 2",
-        type: "Premium",
-        status: "active",
-        rows: 8,
-        seatsPerRow: 12,
-        soundSystem: "Dolby Atmos"
-    },
-    {
-        id: 3,
-        name: "Screen 3",
-        type: "IMAX",
-        status: "maintenance",
-        rows: 10,
-        seatsPerRow: 12,
-        soundSystem: "IMAX Enhanced"
-    }
-];
 
-let showtimes = [
-    { id: 1, movieId: 1, theaterId: 1, date: "2025-08-16", time: "10:30", price: 12.99 },
-    { id: 2, movieId: 1, theaterId: 2, date: "2025-08-16", time: "14:15", price: 15.99 },
-    { id: 3, movieId: 2, theaterId: 1, date: "2025-08-16", time: "18:45", price: 18.99 }
-];
 
-let pricingRules = [
-    { id: 1, name: "Matinee", type: "time", timeRange: "09:00-14:00", multiplier: 0.8, active: true, priority: 10, description: "Morning and early afternoon discount" },
-    { id: 2, name: "Evening", type: "time", timeRange: "14:01-18:00", multiplier: 1.0, active: true, priority: 20, description: "Standard evening pricing" },
-    { id: 3, name: "Prime Time", type: "time", timeRange: "18:01-23:00", multiplier: 1.5, active: true, priority: 30, description: "Peak evening hours" },
-    { id: 4, name: "Weekend", type: "day", days: ["saturday", "sunday"], multiplier: 1.2, active: true, priority: 25, description: "Weekend surcharge" },
-    { id: 5, name: "IMAX Premium", type: "theater", theaterType: "IMAX", multiplier: 1.8, active: true, priority: 40, description: "IMAX theater premium pricing" }
-];
 
 // Movies Management
 function renderMoviesTable( movie ) {
@@ -363,14 +381,8 @@ function clearMovieForm() {
     document.getElementById('movie-description').value = '';
 }
 
-
-
-function editMovie(id) {
-    alert('Edit movie functionality - ID: ' + id);
-}
-
-function deleteMovie(id) {
-    if (confirm('Are you sure you want to delete this movie?')) {
+function deleteMovie( id ) {
+    if ( confirm('Are you sure you want to delete this movie?') ) {
         movies = movies.filter(m => m.id !== id);
         renderMoviesTable();
     }
@@ -406,35 +418,6 @@ function renderTheatersTable() {
     });
 }
 
-function showAddTheaterForm() {
-    document.getElementById('add-theater-form').classList.remove('hidden');
-}
-
-function hideAddTheaterForm() {
-    document.getElementById('add-theater-form').classList.add('hidden');
-    clearTheaterForm();
-}
-
-function clearTheaterForm() {
-    document.getElementById('theater-name').value = '';
-    document.getElementById('theater-type').value = 'Standard';
-    document.getElementById('theater-rows').value = '';
-    document.getElementById('theater-seats-per-row').value = '';
-    document.getElementById('theater-sound').value = 'Dolby Digital';
-    document.getElementById('theater-status').value = 'active';
-}
-
-
-function editTheater(id) {
-    alert('Edit theater functionality - ID: ' + id);
-}
-
-function deleteTheater(id) {
-    if (confirm('Are you sure you want to delete this theater?')) {
-        theaters = theaters.filter(t => t.id !== id);
-        renderTheatersTable();
-    }
-}
 
 // Showtimes Management
 function renderShowtimesTable() {
@@ -480,37 +463,6 @@ function populateShowtimeSelects() {
     theaters.forEach(theater => {
         theaterSelect.innerHTML += `<option value="${theater.id}">${theater.name}</option>`;
     });
-}
-
-function showAddShowtimeForm() {
-    document.getElementById('add-showtime-form').classList.remove('hidden');
-    populateShowtimeSelects();
-}
-
-function hideAddShowtimeForm() {
-    document.getElementById('add-showtime-form').classList.add('hidden');
-    clearShowtimeForm();
-}
-
-function clearShowtimeForm() {
-    document.getElementById('showtime-movie').value = '';
-    document.getElementById('showtime-theater').value = '';
-    document.getElementById('showtime-date').value = '';
-    document.getElementById('showtime-time').value = '';
-    document.getElementById('showtime-price').value = '';
-}
-
-
-
-function editShowtime(id) {
-    alert('Edit showtime functionality - ID: ' + id);
-}
-
-function deleteShowtime(id) {
-    if (confirm('Are you sure you want to delete this showtime?')) {
-        showtimes = showtimes.filter(s => s.id !== id);
-        renderShowtimesTable();
-    }
 }
 
 // Pricing Management
@@ -587,17 +539,6 @@ function getPricingRuleDetails(rule) {
         }
     }
 
-function showAddPricingForm() {
-    document.getElementById('add-pricing-form').classList.remove('hidden');
-    updatePricingFields(); // Initialize field visibility
-}
-
-function hideAddPricingForm() {
-    document.getElementById('add-pricing-form').classList.add('hidden');
-    document.getElementById('pricing-preview').style.display = 'none';
-    clearPricingForm();
-}
-
 function clearPricingForm() {
     document.getElementById('pricing-name').value = '';
     document.getElementById('pricing-type').value = 'time';
@@ -654,24 +595,6 @@ function previewPricing() {
     document.getElementById('pricing-preview').style.display = 'block';
 }
 
-
-
-function editPricingRule(id) {
-    const rule = pricingRules.find(r => r.id === id);
-    if (rule) {
-        alert(`Edit pricing rule: ${rule.name}\nType: ${rule.type}\nMultiplier: ${rule.multiplier}x\nStatus: ${rule.active ? 'Active' : 'Inactive'}`);
-    }
-}
-
-function deletePricingRule(id) {
-    const rule = pricingRules.find(r => r.id === id);
-    if (rule && confirm(`Are you sure you want to delete the pricing rule "${rule.name}"?`)) {
-        pricingRules = pricingRules.filter(r => r.id !== id);
-        renderPricingTable();
-        alert(`Pricing rule "${rule.name}" deleted successfully!`);
-    }
-}
-
 // Bookings Management
 function renderBookingsTable() {
     const tbody = document.getElementById('bookings-table-body');
@@ -713,80 +636,6 @@ function renderBookingsTable() {
     });
 }
 
-function populateBookingFilters() {
-    const movieFilter = document.getElementById('movie-filter');
-    const theaterFilter = document.getElementById('theater-filter');
-
-    movieFilter.innerHTML = '<option value="">All Movies</option>';
-    theaterFilter.innerHTML = '<option value="">All Theaters</option>';
-
-    movies.forEach(movie => {
-        movieFilter.innerHTML += `<option value="${movie.id}">${movie.title}</option>`;
-    });
-
-    theaters.forEach(theater => {
-        theaterFilter.innerHTML += `<option value="${theater.id}">${theater.name}</option>`;
-    });
-
-    // Add event listeners
-    document.getElementById('search-filter').addEventListener('input', applyFilters);
-    document.getElementById('movie-filter').addEventListener('change', applyFilters);
-    document.getElementById('theater-filter').addEventListener('change', applyFilters);
-    document.getElementById('status-filter').addEventListener('change', applyFilters);
-}
-
-function applyFilters() {
-    const searchTerm = document.getElementById('search-filter').value.toLowerCase();
-    const movieId = document.getElementById('movie-filter').value;
-    const theaterId = document.getElementById('theater-filter').value;
-    const status = document.getElementById('status-filter').value;
-
-    filteredBookings = bookings.filter(booking => {
-        return (
-            (!movieId || booking.movieId.toString() === movieId) &&
-            (!theaterId || booking.theaterId.toString() === theaterId) &&
-            (!status || booking.bookingStatus === status) &&
-            (!searchTerm ||
-                booking.customerName.toLowerCase().includes(searchTerm) ||
-                booking.customerEmail.toLowerCase().includes(searchTerm) ||
-                booking.id.toLowerCase().includes(searchTerm))
-        );
-    });
-
-    renderBookingsTable();
-    updateBookingStats();
-    document.getElementById('bookings-count').textContent = `Total: ${filteredBookings.length} bookings`;
-}
-
-function clearFilters() {
-    document.getElementById('search-filter').value = '';
-    document.getElementById('movie-filter').value = '';
-    document.getElementById('theater-filter').value = '';
-    document.getElementById('status-filter').value = '';
-    applyFilters();
-}
-
-function toggleFilters() {
-    const filtersDiv = document.getElementById('booking-filters');
-    showFilters = !showFilters;
-    if (showFilters) {
-        filtersDiv.classList.remove('hidden');
-    } else {
-        filtersDiv.classList.add('hidden');
-    }
-}
-
-function updateBookingStats() {
-    const totalBookings = filteredBookings.length;
-    const totalRevenue = filteredBookings.reduce((sum, booking) => sum + booking.totalAmount, 0);
-    const paidBookings = filteredBookings.filter(b => b.paymentStatus === 'paid').length;
-    const cancelledBookings = filteredBookings.filter(b => b.bookingStatus === 'cancelled').length;
-
-    document.getElementById('stat-total-bookings').textContent = totalBookings;
-    document.getElementById('stat-total-revenue').textContent = `${totalRevenue.toFixed(2)}`;
-    document.getElementById('stat-paid-bookings').textContent = paidBookings;
-    document.getElementById('stat-cancelled-bookings').textContent = cancelledBookings;
-}
 
 
 }(jQuery));
