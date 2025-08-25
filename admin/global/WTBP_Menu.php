@@ -48,24 +48,24 @@ if( !class_exists( 'WTBP_Menu' ) ) {
             <div class="container">
                 <div class="sidebar">
                     <div class="sidebar-header">
-                        <h1 class="sidebar-title">⚙️ CineMax Admin</h1>
+                        <h1 class="sidebar-title">⚙️ <?php esc_attr_e( 'CineMax Admin', 'wptheaterly' ); ?></h1>
                     </div>
 
                     <nav class="nav-menu">
                         <button class="nav-item active" data-tab="wtbm_movies">
-                            🎬 Movies
+                            🎬 <?php esc_attr_e( 'Movies', 'wptheaterly' ); ?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_theaters">
-                            🏛️ Theaters
+                            🏛️ <?php esc_attr_e( 'Theaters', 'wptheaterly' ); ?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_showtimes">
-                            📅 Showtimes
+                            📅 <?php esc_attr_e( 'Showtimes', 'wptheaterly' ); ?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_pricing">
-                            💰 Pricing
+                            💰 <?php esc_attr_e( 'Pricing', 'wptheaterly' ); ?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_bookings" style="display: none">
-                            👥 Bookings
+                            👥 <?php esc_attr_e( 'Bookings', 'wptheaterly' ); ?>
                         </button>
                     </nav>
                 </div>
@@ -73,8 +73,8 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                 <!-- Main Content -->
                 <div class="main-content">
                     <div class="header">
-                        <h2>Backend Configuration</h2>
-                        <p>Manage your cinema booking system settings</p>
+                        <h2><?php esc_attr_e( 'Backend Configuration', 'wptheaterly' ); ?></h2>
+                        <p><?php esc_attr_e( 'Manage your cinema booking system settings', 'wptheaterly' ); ?></p>
                     </div>
 
                     <?php do_action( 'movie_content');?>
@@ -82,22 +82,16 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                     <div id="wtbm_movies_content" class="tab-content active">
                         <div class="section">
                             <div class="section-header">
-                                <h3 class="section-title">Movies Management</h3>
+                                <h3 class="section-title"><?php esc_attr_e( 'Movies Management', 'wptheaterly' ); ?></h3>
                                 <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpAddedMovieForm">
-                                    ➕ Add Movie
+                                    ➕ <?php esc_attr_e( 'Add Movie', 'wptheaterly' ); ?>
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Add Movie Form -->
                         <div id="add-movie-form" class="form-section" style="display: none">
-                            <h4 class="mb-4 font-semibold">Add New Movie</h4>
-                            <div id="wtbm_add_edit_movie_form_holder">
-                                <?php
-//                                echo WTBM_Layout_Functions::add_edit_new_movie_html( 'add' );
-                                ?>
-                            </div>
-
+                            <h4 class="mb-4 font-semibold"><?php esc_attr_e( 'Add New Movie', 'wptheaterly' ); ?></h4>
+                            <div id="wtbm_add_edit_movie_form_holder"></div>
                         </div>
 
                         <!-- Movies Table -->
@@ -105,12 +99,12 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>Movie</th>
-                                    <th>Genre</th>
-                                    <th>Duration</th>
-                                    <th>Rating</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th><?php esc_attr_e( 'Movie', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Genre', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Duration', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Rating', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Status', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Actions', 'wptheaterly' ); ?></th>
                                 </tr>
                                 </thead>
                                 <tbody id="movies-table-body">
@@ -128,9 +122,9 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                     <div id="wtbm_theaters_content" class="tab-content">
                         <div class="section">
                             <div class="section-header">
-                                <h3 class="section-title">Theater Management</h3>
+                                <h3 class="section-title"><?php esc_attr_e( 'Theater Management', 'wptheaterly' ); ?></h3>
                                 <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpTheaterAddForm">
-                                    ➕ Add Theater
+                                    ➕ <?php esc_attr_e( 'Add Theater', 'wptheaterly' ); ?>
                                 </button>
                             </div>
                         </div>
@@ -148,33 +142,21 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                    <th>Capacity</th>
-                                    <th>Sound System</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th><?php esc_attr_e( 'Name', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Type', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Capacity', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Sound System', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Status', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Actions', 'wptheaterly' ); ?></th>
                                 </tr>
                                 </thead>
                                 <tbody id="theaters-table-body">
-                                    <tr>
-                                        <td>
-                                            <div class="font-medium text-gray-900">Screen 1</div>
-                                            <div class="text-sm text-gray-500">8 × 12 layout</div>
-                                        </td>
-                                        <td class="text-sm text-gray-900">Standard</td>
-                                        <td class="text-sm text-gray-900">96 seats</td>
-                                        <td class="text-sm text-gray-900">Dolby Digital</td>
-                                        <td>
-                                            <span class="status-badge status-active">active</span>
-                                        </td>
-                                        <td>
-                                            <div class="flex gap-2">
-                                                <button class="btn-icon edit" title="Edit Theater">✏️</button>
-                                                <button class="btn-icon delete" title="Delete Theater">🗑️</button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <!--Here Theater Data-->
+                                <?php
+                                    $theater_data = WTBM_Layout_Functions::get_and_display_theater_date();
+//                                    error_log( print_r( [ '$theater_data' => $theater_data ], true ) );
+                                    echo WTBM_Layout_Functions::display_theater_date( $theater_data );
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -184,63 +166,19 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                     <div id="wtbm_showtimes_content" class="tab-content">
                         <div class="section">
                             <div class="section-header">
-                                <h3 class="section-title">Showtimes Management</h3>
+                                <h3 class="section-title"><?php esc_attr_e( 'Showtimes Management', 'wptheaterly' ); ?></h3>
                                 <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpShowtimeAddForm">
-                                    ➕ Add Showtime
+                                    ➕ <?php esc_attr_e( 'Add Showtime', 'wptheaterly' ); ?>
                                 </button>
                             </div>
                         </div>
 
                         <!-- Add Showtime Form -->
-                        <div id="add-showtime-form" class="form-section hidden" style="display: none">
-                            <h4 class="mb-4 font-semibold">Create New Showtime</h4>
-                            <div class="form-group">
-                                <label class="form-label">Show time Name</label>
-                                <input type="text" id="showTimeName" class="form-input" placeholder="Show time 1">
-                            </div>
-                            <div class="grid grid-cols-3 mb-4">
-                                <div class="form-group">
-                                    <label class="form-label">Movie</label>
-                                    <select id="showtime-movie" class="form-input">
-                                        <option value="">Select Movie</option>
-                                        <option value="1">Guardians of the Galaxy Vol. 3</option>
-                                        <option value="2">Spider-Man: Across the Spider-Verse</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Theater</label>
-                                    <select id="showtime-theater" class="form-input">
-                                        <option value="">Select Theater</option>
-                                        <option value="1">Screen 1</option>
-                                        <option value="2">Screen 2</option>
-                                        <option value="3">Screen 3</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Date</label>
-                                    <input type="date" id="showtime-date" class="form-input" min="2025-08-19">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Start Time</label>
-                                    <input type="time" id="showtime-time-start" class="form-input">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">End Time</label>
-                                    <input type="time" id="showtime-time-end" class="form-input">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Price ($)</label>
-                                    <input type="number" id="showtime-price" class="form-input" step="0.01" placeholder="12.99">
-                                </div>
-                            </div>
-                            <div class="form-group mb-4">
-                                <label class="form-label">Description</label>
-                                <textarea id="showTime-description" class="form-input" rows="3" placeholder="Show time description"></textarea>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="btn btn-success" id="wtbm_add_new_show_time">Add Showtime</button>
-                                <button class="btn btn-secondary" onclick="hideAddShowtimeForm()">Cancel</button>
-                            </div>
+                        <div id="wtbm_add-showtime-form" class="form-section hidden" style="display: none">
+                           <?php
+                           $action_type = 'add';
+//                            echo WTBM_Manage_Showtimes::add_edit_show_time_html();
+                           ?>
                         </div>
 
                         <!-- Showtimes Table -->
@@ -248,31 +186,18 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>Movie</th>
-                                    <th>Theater</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Price</th>
-                                    <th>Actions</th>
+                                    <th><?php esc_attr_e( 'Movie', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Theater', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Date', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Time', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Price', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Actions', 'wptheaterly' ); ?></th>
                                 </tr>
                                 </thead>
                                 <tbody id="showtimes-table-body">
-                                    <tr>
-                                        <td>
-                                            <div class="text-sm font-medium text-gray-900">Guardians of the Galaxy Vol. 3</div>
-                                            <div class="text-sm text-gray-500">Action, Adventure, Comedy</div>
-                                        </td>
-                                        <td class="text-sm text-gray-900">Screen 1</td>
-                                        <td class="text-sm text-gray-900">2025-08-16</td>
-                                        <td class="text-sm text-gray-900">10:30</td>
-                                        <td class="text-sm font-medium text-gray-900">12.99</td>
-                                        <td>
-                                            <div class="flex gap-2">
-                                                <button class="btn-icon edit" onclick="editShowtime(1)" title="Edit Showtime">✏️</button>
-                                                <button class="btn-icon delete" onclick="deleteShowtime(1)" title="Delete Showtime">🗑️</button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                        echo WTBM_Manage_Showtimes::display_show_times_data();
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

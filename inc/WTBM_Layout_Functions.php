@@ -11,6 +11,229 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
     {
         public function __construct(){}
 
+
+        public static function get_and_display_movies() {
+            // WP_Query args
+            $args = [
+                'post_type'      => 'wtbm_movie',
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+            ];
+
+            $query = new WP_Query( $args );
+
+            if ( ! $query->have_posts() ) {
+                echo '<tr><td colspan="6">' . esc_html__( 'No movies found.', 'theaterly' ) . '</td></tr>';
+                return;
+            }
+
+            $movie_data = [];
+
+            while ( $query->have_posts() ) {
+                $query->the_post();
+
+                $movie_data[] = [
+                    'id'          => get_the_ID(),
+                    'title'       => get_the_title(),
+                    'genre'       => get_post_meta( get_the_ID(), 'wtbp_movie_genre', true ),
+                    'duration'    => get_post_meta( get_the_ID(), 'wtbp_movie_duration', true ),
+                    'rating'      => get_post_meta( get_the_ID(), 'wtbp_movie_rating', true ),
+                    'releaseDate' => get_post_meta( get_the_ID(), 'wtbp_movie_release_date', true ),
+                    'poster'      => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
+                    'status'      => get_post_meta( get_the_ID(), 'wtbm_status', true ) ?: 'inactive',
+                ];
+            }
+
+            wp_reset_postdata();
+
+            return $movie_data;
+        }
+
+        public static function get_movies_data_by_id( $post_id ) {
+            $post_id = intval( $post_id );
+            if ( ! $post_id ) {
+                return null;
+            }
+            $args = [
+                'post_type'      => 'wtbm_movie',
+                'post_status'    => 'publish',
+                'p'              => $post_id,
+                'posts_per_page' => 1,
+            ];
+            $query = new WP_Query( $args );
+            if ( ! $query->have_posts() ) {
+                wp_reset_postdata();
+                return null;
+            }
+            $movie_data = [];
+            while ( $query->have_posts() ) {
+                $query->the_post();
+
+                $movie_data = [
+                    'id'          => get_the_ID(),
+                    'title'       => get_the_title(),
+                    'description' => get_the_content(),
+                    'genre'       => get_post_meta( get_the_ID(), 'wtbp_movie_genre', true ),
+                    'duration'    => get_post_meta( get_the_ID(), 'wtbp_movie_duration', true ),
+                    'rating'      => get_post_meta( get_the_ID(), 'wtbp_movie_rating', true ),
+                    'releaseDate' => get_post_meta( get_the_ID(), 'wtbp_movie_release_date', true ),
+                    'poster'      => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
+                    'status'      => get_post_meta( get_the_ID(), 'wtbm_status', true ) ?: 'active',
+                ];
+            }
+            wp_reset_postdata();
+
+            return $movie_data;
+        }
+        public static function get_theater_data_by_id( $post_id ) {
+            $post_id = intval( $post_id );
+            if ( ! $post_id ) {
+                return null;
+            }
+            $args = [
+                'post_type'      => MPTRS_Function::get_theater_cpt(),
+                'post_status'    => 'publish',
+                'p'              => $post_id,
+                'posts_per_page' => 1,
+            ];
+            $query = new WP_Query( $args );
+            if ( ! $query->have_posts() ) {
+                wp_reset_postdata();
+                return null;
+            }
+            $movie_data = [];
+
+            while ( $query->have_posts() ) {
+                $query->the_post();
+
+                $movie_data = [
+                    'id'            => get_the_ID(),
+                    'name'          => get_the_title(),
+                    'description'   => get_the_content(),
+                    'status'        => get_post_meta( get_the_ID(), 'wtbp_theater_status', true ),
+                    'sound'         => get_post_meta( get_the_ID(), 'wtbp_theater_soundSystem', true ),
+                    'seats_per_row' => get_post_meta( get_the_ID(), 'wtbp_theater_seatsPerRow', true ),
+                    'number_of_rows'   => get_post_meta( get_the_ID(), 'wtbp_theater_rows', true ),
+                    'type'          => get_post_meta( get_the_ID(), 'wtbp_theater_type', true ),
+                ];
+            }
+            wp_reset_postdata();
+
+            return $movie_data;
+        }
+        public static function get_and_display_theater_date() {
+            // WP_Query args
+            $args = [
+                'post_type'      => MPTRS_Function::get_theater_cpt(),
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+            ];
+
+            $query = new WP_Query( $args );
+
+            if ( ! $query->have_posts() ) {
+                echo '<tr><td colspan="6">' . esc_html__( 'No movies found.', 'theaterly' ) . '</td></tr>';
+                return;
+            }
+
+            $theater_date = [];
+
+            while ( $query->have_posts() ) {
+                $query->the_post();
+
+                $theater_date[] = [
+                    'id'            => get_the_ID(),
+                    'name'          => get_the_title(),
+                    'description'   => get_the_content(),
+                    'status'        => get_post_meta( get_the_ID(), 'wtbp_theater_status', true ),
+                    'sound'         => get_post_meta( get_the_ID(), 'wtbp_theater_soundSystem', true ),
+                    'theater_row'   => get_post_meta( get_the_ID(), 'wtbp_theater_rows', true ),
+                    'seats_per_row' => get_post_meta( get_the_ID(), 'wtbp_theater_seatsPerRow', true ),
+                    'type'          => get_post_meta( get_the_ID(), 'wtbp_theater_type', true ),
+                ];
+            }
+
+            wp_reset_postdata();
+
+            return $theater_date;
+        }
+        public static function get_show_time_data() {
+
+            $args = [
+                'post_type'      => MPTRS_Function::get_show_time_cpt(),
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+            ];
+            $query = new WP_Query( $args );
+            if ( ! $query->have_posts() ) {
+                wp_reset_postdata();
+                return null;
+            }
+            $show_time_data = [];
+
+            while ( $query->have_posts() ) {
+                $query->the_post();
+
+                $show_time_data[] = [
+                    'id'                => get_the_ID(),
+                    'name'              => get_the_title(),
+                    'description'       => get_the_content(),
+                    'price'             => get_post_meta( get_the_ID(), 'wtbp_show_time_price', true ),
+                    'show_time_end'     => get_post_meta( get_the_ID(), 'wtbp_show_time_end_date', true ),
+                    'show_time_start'   => get_post_meta( get_the_ID(), 'wtbp_show_time_start_date', true ),
+                    'theater_id'        => get_post_meta( get_the_ID(), 'wtbp_show_time_theaterId', true ),
+                    'movie_id'          => get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true ),
+                    'show_time_date'    => get_post_meta( get_the_ID(), 'wtbp_show_time_date', true ),
+                ];
+            }
+            wp_reset_postdata();
+
+            return $show_time_data;
+        }
+        public static function get_show_time_data_by_id( $post_id ) {
+            $post_id = intval( $post_id );
+            if ( ! $post_id ) {
+                return null;
+            }
+            $args = [
+                'post_type'      => MPTRS_Function::get_show_time_cpt(),
+                'post_status'    => 'publish',
+                'p'              => $post_id,
+                'posts_per_page' => 1,
+            ];
+            $query = new WP_Query( $args );
+            if ( ! $query->have_posts() ) {
+                wp_reset_postdata();
+                return null;
+            }
+            $movie_data = [];
+
+            while ( $query->have_posts() ) {
+                $query->the_post();
+
+                $movie_data = [
+                    'id'                => get_the_ID(),
+                    'name'              => get_the_title(),
+                    'description'       => get_the_content(),
+                    'price'             => get_post_meta( get_the_ID(), 'wtbp_show_time_price', true ),
+                    'show_time_end'     => get_post_meta( get_the_ID(), 'wtbp_show_time_end_date', true ),
+                    'show_time_start'   => get_post_meta( get_the_ID(), 'wtbp_show_time_start_date', true ),
+                    'theater_id'        => get_post_meta( get_the_ID(), 'wtbp_show_time_theaterId', true ),
+                    'movie_id'          => get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true ),
+                    'show_time_date'    => get_post_meta( get_the_ID(), 'wtbp_show_time_date', true ),
+                ];
+            }
+            wp_reset_postdata();
+
+            return $movie_data;
+        }
+
         public static function add_edit_new_movie_html( $add, $data = [] ) {
             $defaults = [
                 'id'       => '',
@@ -85,7 +308,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             </div>
             <div class="flex gap-2">
                 <?php if( $add === 'add' ){?>
-                <button class="btn btn-success mptrs_add_new_movie" id="mptrs_add_new_movie">Add Movie</button>
+                    <button class="btn btn-success mptrs_add_new_movie" id="mptrs_add_new_movie">Add Movie</button>
                 <?php }else{?>
                     <button class="btn btn-success mptrs_add_new_movie" data-edited-post-id=<?php echo esc_attr( $post_id );?> id="mptrs_edit_movie">Update Movie</button>
                 <?php }?>
@@ -94,116 +317,6 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             <?php
 
             return ob_get_clean();
-        }
-        public static function get_and_display_movies() {
-            // WP_Query args
-            $args = [
-                'post_type'      => 'wtbm_movie',
-                'post_status'    => 'publish',
-                'posts_per_page' => -1,
-                'orderby'        => 'date',
-                'order'          => 'DESC',
-            ];
-
-            $query = new WP_Query( $args );
-
-            if ( ! $query->have_posts() ) {
-                echo '<tr><td colspan="6">' . esc_html__( 'No movies found.', 'theaterly' ) . '</td></tr>';
-                return;
-            }
-
-            $movie_data = [];
-
-            while ( $query->have_posts() ) {
-                $query->the_post();
-
-                $movie_data[] = [
-                    'id'          => get_the_ID(),
-                    'title'       => get_the_title(),
-                    'genre'       => get_post_meta( get_the_ID(), 'wtbp_movie_genre', true ),
-                    'duration'    => get_post_meta( get_the_ID(), 'wtbp_movie_duration', true ),
-                    'rating'      => get_post_meta( get_the_ID(), 'wtbp_movie_rating', true ),
-                    'releaseDate' => get_post_meta( get_the_ID(), 'wtbp_movie_release_date', true ),
-                    'poster'      => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
-                    'status'      => get_post_meta( get_the_ID(), 'wtbm_status', true ) ?: 'inactive',
-                ];
-            }
-
-            wp_reset_postdata();
-
-            return $movie_data;
-        }
-        public static function get_movies_data_by_id( $post_id ) {
-            $post_id = intval( $post_id );
-            if ( ! $post_id ) {
-                return null;
-            }
-            $args = [
-                'post_type'      => 'wtbm_movie',
-                'post_status'    => 'publish',
-                'p'              => $post_id,
-                'posts_per_page' => 1,
-            ];
-            $query = new WP_Query( $args );
-            if ( ! $query->have_posts() ) {
-                wp_reset_postdata();
-                return null;
-            }
-            $movie_data = [];
-            while ( $query->have_posts() ) {
-                $query->the_post();
-
-                $movie_data = [
-                    'id'          => get_the_ID(),
-                    'title'       => get_the_title(),
-                    'description' => get_the_content(),
-                    'genre'       => get_post_meta( get_the_ID(), 'wtbp_movie_genre', true ),
-                    'duration'    => get_post_meta( get_the_ID(), 'wtbp_movie_duration', true ),
-                    'rating'      => get_post_meta( get_the_ID(), 'wtbp_movie_rating', true ),
-                    'releaseDate' => get_post_meta( get_the_ID(), 'wtbp_movie_release_date', true ),
-                    'poster'      => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
-                    'status'      => get_post_meta( get_the_ID(), 'wtbm_status', true ) ?: 'active',
-                ];
-            }
-            wp_reset_postdata();
-
-            return $movie_data;
-        }
-        public static function get_theater_data_by_id( $post_id ) {
-            $post_id = intval( $post_id );
-            if ( ! $post_id ) {
-                return null;
-            }
-            $args = [
-                'post_type'      => MPTRS_Function::get_theater_cpt(),
-                'post_status'    => 'publish',
-                'p'              => $post_id,
-                'posts_per_page' => 1,
-            ];
-            $query = new WP_Query( $args );
-            if ( ! $query->have_posts() ) {
-                wp_reset_postdata();
-                return null;
-            }
-            $movie_data = [];
-
-            while ( $query->have_posts() ) {
-                $query->the_post();
-
-                $movie_data = [
-                    'id'          => get_the_ID(),
-                    'name'       => get_the_title(),
-                    'description' => get_the_content(),
-                    'status'       => get_post_meta( get_the_ID(), 'wtbp_theater_status', true ),
-                    'sound'    => get_post_meta( get_the_ID(), 'wtbp_theater_soundSystem', true ),
-                    'seats_per_row'      => get_post_meta( get_the_ID(), 'wtbp_theater_seatsPerRow', true ),
-                    'releaseDate' => get_post_meta( get_the_ID(), 'wtbp_theater_rows', true ),
-                    'type'      => get_post_meta( get_the_ID(), 'wtbp_theater_type', true ),
-                ];
-            }
-            wp_reset_postdata();
-
-            return $movie_data;
         }
         public static function display_movies_data( $movie_data = [] ) {
             if ( empty( $movie_data ) || ! is_array( $movie_data ) ) {
@@ -259,7 +372,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     </td>
                     <td>
                         <div class="flex gap-2">
-                            <button class="btn-icon edit wrbm_edit_movie" id="wrbm_edit_<?php echo esc_attr( $id );?>"
+                            <button class="btn-icon edit wtbm_edit_movie" id="wrbm_edit_<?php echo esc_attr( $id );?>"
                                     title="<?php esc_attr_e( 'Edit Movie', 'theaterly' ); ?>">✏️</button>
                             <button class="btn-icon delete" id="wrbm_delete_<?php echo esc_attr( $id );?>"
                                     title="<?php esc_attr_e( 'Delete Movie', 'theaterly' ); ?>">🗑️</button>
@@ -270,90 +383,48 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             }
         }
 
-        public static function add_edit_theater_html_old(){
-
-            ob_start();
-            ?>
-            <h4 class="mb-4 font-semibold">Add New Theater</h4>
-            <div class="grid grid-cols-2 mb-4">
-                <div class="form-group">
-                    <label class="form-label">Theater Name</label>
-                    <input type="text" id="theater-name" class="form-input" placeholder="Screen 1">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Theater Type</label>
-                    <select id="theater-type" class="form-input">
-                        <option value="Standard">Standard</option>
-                        <option value="Premium">Premium</option>
-                        <option value="IMAX">IMAX</option>
-                        <option value="VIP">VIP</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Rows</label>
-                    <input type="number" id="theater-rows" class="form-input" placeholder="8">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Seats per Row</label>
-                    <input type="number" id="theater-seats-per-row" class="form-input" placeholder="12">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Sound System</label>
-                    <select id="theater-sound" class="form-input">
-                        <option value="Dolby Digital">Dolby Digital</option>
-                        <option value="Dolby Atmos">Dolby Atmos</option>
-                        <option value="IMAX Enhanced">IMAX Enhanced</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Status</label>
-                    <select id="theater-status" class="form-input">
-                        <option value="active">Active</option>
-                        <option value="maintenance">Maintenance</option>
-                        <option value="inactive">Inactive</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group mb-4">
-                <label class="form-label">Description</label>
-                <textarea id="theater-description" class="form-input" rows="3" placeholder="theater description"></textarea>
-            </div>
-            <div class="flex gap-2">
-                <button class="btn btn-success" id="wtbp_add_new_theater">Add Theater</button>
-                <button class="btn btn-secondary" >Cancel</button>
-            </div>
-            <?php
-            return ob_get_clean();
-        }
-
         public static function add_edit_theater_html( $action, $theater = null ) {
             // Prefill data if editing
+            $theater_id          = $theater ? esc_attr( $theater['id'] ?? '' ) : '';
             $theater_name        = $theater ? esc_attr( $theater['name'] ?? '' ) : '';
             $theater_type        = $theater ? esc_attr( $theater['type'] ?? 'Standard' ) : 'Standard';
-            $theater_rows        = $theater ? intval( $theater['rows'] ?? 0 ) : '';
+            $theater_rows        = $theater ? intval( $theater['number_of_rows'] ?? 0 ) : '';
             $theater_seats       = $theater ? intval( $theater['seats_per_row'] ?? 0 ) : '';
             $theater_sound       = $theater ? esc_attr( $theater['sound'] ?? 'Dolby Digital' ) : 'Dolby Digital';
             $theater_status      = $theater ? esc_attr( $theater['status'] ?? 'active' ) : 'active';
             $theater_description = $theater ? esc_textarea( $theater['description'] ?? '' ) : '';
 
+            /*$defaults = [
+                'id'       => '',
+                'name'       => '',
+                'description'       => '',
+                'status'    => '',
+                'sound'      => '',
+                'seats_per_row' => '',
+                'releaseDate'      => '',
+                'type' => '',
+            ];
+            $data = wp_parse_args( $theater, $defaults );*/
+
             ob_start(); ?>
 
             <h4 class="mb-4 font-semibold">
-                <?php echo $theater ? esc_html__( 'Edit Theater', 'your-textdomain' ) : esc_html__( 'Add New Theater', 'your-textdomain' ); ?>
+                <?php echo $theater ? esc_html__( 'Edit Theater', 'theaterly' ) : esc_html__( 'Add New Theater', 'theaterly' ); ?>
             </h4>
+            <input type="hidden" name="wtbp_theater_id" value="<?php echo esc_attr( $theater_id ); ?>">
 
             <?php wp_nonce_field( 'wtbp_theater_action', 'wtbp_theater_nonce' ); ?>
 
             <div class="grid grid-cols-2 mb-4">
                 <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Theater Name', 'your-textdomain' ); ?></label>
+                    <label class="form-label"><?php esc_html_e( 'Theater Name', 'theaterly' ); ?></label>
                     <input type="text" id="theater-name" class="form-input"
                            value="<?php echo $theater_name; ?>"
-                           placeholder="<?php esc_attr_e( 'Screen 1', 'your-textdomain' ); ?>">
+                           placeholder="<?php esc_attr_e( 'Screen 1', 'theaterly' ); ?>">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Theater Type', 'your-textdomain' ); ?></label>
+                    <label class="form-label"><?php esc_html_e( 'Theater Type', 'theaterly' ); ?></label>
                     <select id="theater-type" class="form-input">
                         <?php
                         $types = [ 'Standard', 'Premium', 'IMAX', 'VIP' ];
@@ -368,21 +439,21 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Rows', 'your-textdomain' ); ?></label>
+                    <label class="form-label"><?php esc_html_e( 'Rows', 'theaterly' ); ?></label>
                     <input type="number" id="theater-rows" class="form-input"
                            value="<?php echo $theater_rows; ?>"
-                           placeholder="<?php esc_attr_e( '8', 'your-textdomain' ); ?>">
+                           placeholder="<?php esc_attr_e( '8', 'theaterly' ); ?>">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Seats per Row', 'your-textdomain' ); ?></label>
+                    <label class="form-label"><?php esc_html_e( 'Seats per Row', 'theaterly' ); ?></label>
                     <input type="number" id="theater-seats-per-row" class="form-input"
                            value="<?php echo $theater_seats; ?>"
-                           placeholder="<?php esc_attr_e( '12', 'your-textdomain' ); ?>">
+                           placeholder="<?php esc_attr_e( '12', 'theaterly' ); ?>">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Sound System', 'your-textdomain' ); ?></label>
+                    <label class="form-label"><?php esc_html_e( 'Sound System', 'theaterly' ); ?></label>
                     <select id="theater-sound" class="form-input">
                         <?php
                         $sounds = [ 'Dolby Digital', 'Dolby Atmos', 'IMAX Enhanced' ];
@@ -395,7 +466,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Status', 'your-textdomain' ); ?></label>
+                    <label class="form-label"><?php esc_html_e( 'Status', 'theaterly' ); ?></label>
                     <select id="theater-status" class="form-input">
                         <?php
                         $statuses = [ 'active', 'maintenance', 'inactive' ];
@@ -411,22 +482,88 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             </div>
 
             <div class="form-group mb-4">
-                <label class="form-label"><?php esc_html_e( 'Description', 'your-textdomain' ); ?></label>
+                <label class="form-label"><?php esc_html_e( 'Description', 'theaterly' ); ?></label>
                 <textarea id="theater-description" class="form-input" rows="3"
-                          placeholder="<?php esc_attr_e( 'Theater description', 'your-textdomain' ); ?>"><?php echo $theater_description; ?></textarea>
+                          placeholder="<?php esc_attr_e( 'Theater description', 'theaterly' ); ?>"><?php echo $theater_description; ?></textarea>
             </div>
 
             <div class="flex gap-2">
+                <?php if( $action === 'add' ){?>
                 <button type="button" class="btn btn-success" id="wtbp_add_new_theater">
-                    <?php echo $theater ? esc_html__( 'Update Theater', 'your-textdomain' ) : esc_html__( 'Add Theater', 'your-textdomain' ); ?>
+                    <?php echo $theater ? esc_html__( 'Update Theater', 'theaterly' ) : esc_html__( 'Add Theater', 'theaterly' ); ?>
                 </button>
-                <button type="button" class="btn btn-secondary"><?php esc_html_e( 'Cancel', 'your-textdomain' ); ?></button>
+                <?php } else{?>
+                    <button type="button" class="btn btn-success" id="wtbm_update_theater">
+                        <?php echo $theater ? esc_html__( 'Update Theater', 'theaterly' ) : esc_html__( 'Add Theater', 'theaterly' ); ?>
+                    </button>
+                <?php }?>
+                <button type="button" class="btn btn-secondary"><?php esc_html_e( 'Cancel', 'theaterly' ); ?></button>
             </div>
 
             <?php
             return ob_get_clean();
         }
 
+        public static function display_theater_date( $theater_data ) {
+            if ( empty( $theater_data ) || ! is_array( $theater_data ) ) {
+                return ''; // security: no unexpected output
+            }
+
+            ob_start();
+
+            foreach ( $theater_data as $theater ) {
+                // Sanitize / escape values
+                $id          = isset( $theater['id'] ) ? intval( $theater['id'] ) : 0;
+                $name        = isset( $theater['name'] ) ? esc_html( $theater['name'] ) : '';
+                $desc        = isset( $theater['description'] ) ? esc_html( $theater['description'] ) : '';
+//                $status      = isset( $theater['status'] ) && $theater['status'] == 1 ? 'active' : 'inactive';
+                $status      = isset( $theater['status'] ) ? $theater['status'] : 'inactive';
+                $sound       = isset( $theater['sound'] ) ? esc_html( $theater['sound'] ) : '';
+                $rows        = isset( $theater['theater_row'] ) ? intval( $theater['theater_row'] ) : 0;
+                $seats_row   = isset( $theater['seats_per_row'] ) ? intval( $theater['seats_per_row'] ) : 0;
+                $type        = isset( $theater['type'] ) ? esc_html( $theater['type'] ) : '';
+
+                // Total seats
+                $total_seats = $rows * $seats_row;
+                ?>
+                <tr data-id="<?php echo esc_attr( $id ); ?>">
+                    <td>
+                        <div class="font-medium text-gray-900"><?php echo $name; ?></div>
+                        <div class="text-sm text-gray-500">
+                            <?php echo esc_html( "{$rows} × {$seats_row} layout" ); ?>
+                        </div>
+                        <div class="text-xs text-gray-400"><?php echo $desc; ?></div>
+                    </td>
+                    <td class="text-sm text-gray-900"><?php echo $type; ?></td>
+                    <td class="text-sm text-gray-900"><?php echo esc_html( "{$total_seats} seats" ); ?></td>
+                    <td class="text-sm text-gray-900"><?php echo $sound; ?></td>
+                    <td>
+                <span class="status-badge status-<?php echo esc_attr( $status ); ?>">
+                    <?php echo esc_html( $status ); ?>
+                </span>
+                    </td>
+                    <td>
+                        <div class="flex gap-2">
+                            <button
+                                    class="btn-icon edit wtbm_edit_theater"
+                                    data-theater-id="<?php echo esc_attr( $id ); ?>"
+                                    title="<?php esc_attr_e( 'Edit Theater', 'text-domain' ); ?>">
+                                ✏️
+                            </button>
+                            <button
+                                    class="btn-icon delete"
+                                    data-theater-id="<?php echo esc_attr( $id ); ?>"
+                                    title="<?php esc_attr_e( 'Delete Theater', 'text-domain' ); ?>">
+                                🗑️
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <?php
+            }
+
+            return ob_get_clean();
+        }
 
     }
 

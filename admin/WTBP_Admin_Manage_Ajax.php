@@ -15,20 +15,21 @@ if (!class_exists('WTBP_Admin_Manage_Ajax')) {
             add_action('wp_ajax_wtbm_update_movie_post', [ $this, 'wtbm_update_movie_post' ]);
             add_action('wp_ajax_wtbm_update_movie_post', [ $this, 'wtbm_update_movie_post' ]);
 
+            add_action('wp_ajax_wtbp_add_edit_movie_form', [ $this, 'wtbp_add_edit_movie_form' ]);
+            add_action('wp_ajax_nopriv_wtbp_add_edit_movie_form', [ $this, 'wtbp_add_edit_movie_form' ]);
+
             add_action('wp_ajax_mptrs_insert_theater_post', [ $this, 'mptrs_insert_theater_post' ]);
             add_action('wp_ajax_nopriv_mptrs_insert_theater_post', [ $this, 'mptrs_insert_theater_post' ]);
 
             add_action('wp_ajax_wtbp_add_edit_theater_form', [ $this, 'wtbp_add_edit_theater_form' ]);
             add_action('wp_ajax_nopriv_wtbp_add_edit_theater_form', [ $this, 'wtbp_add_edit_theater_form' ]);
 
-            add_action('wp_ajax_wtbp_insert_show_time_post', [ $this, 'wtbp_insert_show_time_post' ]);
-            add_action('wp_ajax_nopriv_wtbp_insert_show_time_post', [ $this, 'wtbp_insert_show_time_post' ]);
+            add_action('wp_ajax_mptrs_update_theater_post', [ $this, 'mptrs_update_theater_post' ]);
+            add_action('wp_ajax_nopriv_mptrs_update_theater_post', [ $this, 'mptrs_update_theater_post' ]);
+
 
             add_action('wp_ajax_wtbp_insert_pricing_rules_post', [ $this, 'wtbp_insert_pricing_rules_post' ]);
             add_action('wp_ajax_nopriv_wtbp_insert_pricing_rules_post', [ $this, 'wtbp_insert_pricing_rules_post' ]);
-
-            add_action('wp_ajax_wtbp_add_edit_movie_form', [ $this, 'wtbp_add_edit_movie_form' ]);
-            add_action('wp_ajax_nopriv_wtbp_add_edit_movie_form', [ $this, 'wtbp_add_edit_movie_form' ]);
 
         }
 
@@ -66,10 +67,7 @@ if (!class_exists('WTBP_Admin_Manage_Ajax')) {
         }
 
         function wtbm_update_movie_post() {
-
-            error_log( print_r( [ 'ss' => $_POST], true ) );
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
-
             $cpt = MPTRS_Function::get_movie_cpt();
             $title       = sanitize_text_field( $_POST['title']);
             $genre       = sanitize_text_field( $_POST['genre']);
@@ -111,9 +109,9 @@ if (!class_exists('WTBP_Admin_Manage_Ajax')) {
             $title       = sanitize_text_field( $_POST['name']);
             $type      = sanitize_text_field( $_POST['type']);
             $rows    = sanitize_text_field( $_POST['rows']);
-            $seatsPerRow     = floatval($_POST['seatsPerRow']);
+            $seatsPerRow     = sanitize_text_field($_POST['seatsPerRow']);
             $soundSystem = sanitize_text_field($_POST['soundSystem']);
-            $status      = floatval($_POST['status']);
+            $status      = sanitize_text_field($_POST['status']);
             $description = sanitize_textarea_field($_POST['description']);
 
             $post_id = wp_insert_post([
@@ -125,51 +123,57 @@ if (!class_exists('WTBP_Admin_Manage_Ajax')) {
 
             if ( $post_id ) {
                 // Save meta data
-                update_post_meta($post_id, 'wtbp_theater_type', $type);
-                update_post_meta($post_id, 'wtbp_theater_rows', $rows);
-                update_post_meta($post_id, 'wtbp_theater_seatsPerRow', $seatsPerRow);
-                update_post_meta($post_id, 'wtbp_theater_soundSystem', $soundSystem);
-                update_post_meta($post_id, 'wtbp_theater_status', $status);
+                update_post_meta( $post_id, 'wtbp_theater_type', $type );
+                update_post_meta( $post_id, 'wtbp_theater_rows', $rows );
+                update_post_meta( $post_id, 'wtbp_theater_seatsPerRow', $seatsPerRow );
+                update_post_meta( $post_id, 'wtbp_theater_soundSystem', $soundSystem );
+                update_post_meta( $post_id, 'wtbp_theater_status', $status );
 
                 wp_send_json_success( get_post( $post_id ) );
             } else {
-                wp_send_json_error("Failed to insert post");
+                wp_send_json_error("Failed to insert post" );
             }
         }
 
-        function wtbp_insert_show_time_post() {
+        function mptrs_update_theater_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
-            $cpt = MPTRS_Function::get_show_time_cpt();
-            $title       = sanitize_text_field( $_POST['title']);
-            $movieId       = sanitize_text_field( $_POST['movieId']);
-            $theaterId    = sanitize_text_field( $_POST['theaterId']);
-            $date   = sanitize_text_field( $_POST['date']);
-            $startTime    = floatval($_POST['startTime']);
-            $endTime = sanitize_text_field($_POST['endTime']);
-            $price      = floatval($_POST['price']);
+
+            $cpt = MPTRS_Function::get_theater_cpt();
+
+            $title       = sanitize_text_field( $_POST['name']);
+            $type      = sanitize_text_field( $_POST['type']);
+            $rows    = sanitize_text_field( $_POST['rows']);
+            $seatsPerRow     = sanitize_text_field($_POST['seatsPerRow']);
+            $soundSystem = sanitize_text_field($_POST['soundSystem']);
+            $status      = sanitize_text_field($_POST['status']);
             $description = sanitize_textarea_field($_POST['description']);
 
-            $post_id = wp_insert_post([
+            $post_id     = isset($_POST['post_id']) ? intval($_POST['post_id']) : '';
+            $post_data['ID'] = $post_id;
+            $post_data = [
                 'post_title'   => $title,
                 'post_type'    => $cpt,
                 'post_status'  => 'publish',
                 'post_content' => $description,
-            ]);
+            ];
 
             if ( $post_id ) {
-                // Save meta data
-                update_post_meta($post_id, 'wtbp_show_time_movieId', $movieId);
-                update_post_meta($post_id, 'wtbp_show_time_theaterId', $theaterId);
-                update_post_meta($post_id, 'wtbp_show_time_date', $date);
-                update_post_meta($post_id, 'wtbp_show_time_start_date', $startTime);
-                update_post_meta($post_id, 'wtbp_show_time_end_date', $endTime);
-                update_post_meta($post_id, 'wtbp_show_time_price', $price);
 
-                wp_send_json_success( get_post( $post_id ) );
+                $updated_post_id = wp_update_post( $post_data );
+                // Save meta data
+                update_post_meta( $post_id, 'wtbp_theater_type', $type );
+                update_post_meta( $post_id, 'wtbp_theater_rows', $rows );
+                update_post_meta( $post_id, 'wtbp_theater_seatsPerRow', $seatsPerRow );
+                update_post_meta( $post_id, 'wtbp_theater_soundSystem', $soundSystem );
+                update_post_meta( $post_id, 'wtbp_theater_status', $status );
+
+                wp_send_json_success( 'Successfully updated theater' );
             } else {
-                wp_send_json_error("Failed to insert post");
+                wp_send_json_error("Failed to edit theater" );
             }
         }
+
+
 
         public function wtbp_insert_pricing_rules_post(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');

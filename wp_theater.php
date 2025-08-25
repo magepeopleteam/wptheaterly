@@ -6,7 +6,7 @@
 	 * Version: 1.0.0
 	 * Author: MagePeople Team
 	 * Author URI: http://www.mage-people.com/
-	 * Text Domain: theaterly
+	 * Text Domain: wptheaterly
 	 * Domain Path: /languages/
 	 */
 	if (!defined('ABSPATH'))

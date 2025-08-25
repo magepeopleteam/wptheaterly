@@ -20,11 +20,26 @@
     });
 
     $(document).on('click', '#wtbp_add_new_theater', function (e) {
-        addTheater();
+        addTheater( '' );
+    });
+
+    $(document).on('click', '#wtbm_update_theater', function (e) {
+        let post_id = $(this).attr('wtbp_theater_id');
+        addTheater( post_id );
     });
 
     $(document).on('click', '#wtbm_add_new_show_time', function (e) {
-        addShowtime();
+        e.preventDefault();
+        let showTimeId = '';
+        let action = 'add';
+        addShowtime( action ,showTimeId );
+    });
+
+    $(document).on('click', '#wtbm_edit_show_time', function (e) {
+        e.preventDefault();
+        let showTimeId = $(this).attr( 'data-showTimeId' );
+        let action = 'edit';
+        addShowtime( action ,showTimeId );
     });
 
     $(document).on('click', '.wtbpShowHideAddForm', function (e) {
@@ -44,7 +59,60 @@
         addPricingRule();
     });
 
-    $(document).on('click', '.wrbm_edit_movie', function (e) {
+    $(document).on('click', '.wtbm_edit_theater', function (e) {
+
+        let theaterId = $(this).attr('data-theater-id');
+        const theater_rule = {
+            action: "wtbp_add_edit_theater_form",
+            post_id: theaterId,
+            _ajax_nonce: mptrs_admin_ajax.nonce,
+        };
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url,
+            type: "POST",
+            data: theater_rule,
+            success: function( response ) {
+                if ( response.success ) {
+                    $('#wtbmAddTheaterForm').html( response.data );
+                    $('#wtbmAddTheaterForm').fadeIn();
+                } else {
+                    alert("Error: " + response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("Something went wrong!");
+            }
+        });
+
+    });
+
+    $(document).on('click', '.editwtbm_edit_show_time', function (e) {
+        let showTimeId = $(this).attr('data-editShowtime');
+        const show_time_rule = {
+            action: "wtbm_add_edit_show_time_form",
+            post_id: showTimeId,
+            _ajax_nonce: mptrs_admin_ajax.nonce,
+        };
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url,
+            type: "POST",
+            data: show_time_rule,
+            success: function( response ) {
+                if ( response.success ) {
+                    $('#wtbm_add-showtime-form').html( response.data );
+                    $('#wtbm_add-showtime-form').fadeIn();
+                } else {
+                    alert("Error: " + response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("Something went wrong!");
+            }
+        });
+
+    });
+
+    $(document).on('click', '.wtbm_edit_movie', function (e) {
 
         let postId = $(this).closest('.twbm_movie_content').attr('date-movie-id');
         const sent_data = {
@@ -117,12 +185,18 @@
         renderMoviesTable( movieData );
         // hideAddMovieForm();
     }
-    function addTheater() {
+    function addTheater( post_id ) {
         const rows = parseInt(document.getElementById('theater-rows').value);
         const seatsPerRow = parseInt(document.getElementById('theater-seats-per-row').value);
 
+        let action = 'mptrs_insert_theater_post';
+        if( post_id ){
+            action = 'mptrs_update_theater_post';
+        }
+
         var theater = {
-            action: "mptrs_insert_theater_post",
+            action: action,
+            post_id: post_id,
             id: Date.now(),
             name: $('#theater-name').val(),
             description: $('#theater-description').val(),
@@ -158,18 +232,20 @@
         hideAddTheaterForm();*/
     }
 
-    function addShowtime() {
+    function addShowtime( action_type, showTimeId ) {
         const showtime = {
             action: "wtbp_insert_show_time_post",
             id: Date.now(),
-            title: document.getElementById('showTimeName').value,
-            movieId: parseInt(document.getElementById('showtime-movie').value),
-            theaterId: parseInt(document.getElementById('showtime-theater').value),
-            date: document.getElementById('showtime-date').value,
-            startTime: document.getElementById('showtime-time-start').value,
-            endTime: document.getElementById('showtime-time-end').value,
-            price: parseFloat(document.getElementById('showtime-price').value),
-            description: document.getElementById('showTime-description').value,
+            showTimeId: showTimeId,
+            action_type: action_type,
+            title: $('#showTimeName').val(),
+            movieId: parseInt($('#showtime-movie').val(), 10),
+            theaterId: parseInt($('#showtime-theater').val(), 10),
+            date: $('#showtime-date').val(),
+            startTime: $('#showtime-time-start').val(),
+            endTime: $('#showtime-time-end').val(),
+            price: parseFloat($('#showtime-price').val()),
+            description: $('#showTime-description').val(),
             _ajax_nonce: mptrs_admin_ajax.nonce,
         };
         $.ajax({
@@ -317,7 +393,32 @@
             });
 
         }else if( clickedId === 'wtbpShowtimeAddForm' ){
-            $('#add-showtime-form').fadeIn();
+
+            const show_time_rule = {
+                action: "wtbm_add_edit_show_time_form",
+                post_id: "",
+                _ajax_nonce: mptrs_admin_ajax.nonce,
+            };
+
+            console.log( show_time_rule );
+            $.ajax({
+                url: mptrs_admin_ajax.ajax_url,
+                type: "POST",
+                data: show_time_rule,
+                success: function( response ) {
+                    if ( response.success ) {
+                        $('#wtbm_add-showtime-form').html( response.data );
+                        $('#wtbm_add-showtime-form').fadeIn();
+                    } else {
+                        alert("Error: " + response.data);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("Something went wrong!");
+                }
+            });
+
+
         }else if( clickedId === 'wtbpPricingAddForm' ){
             $('#add-pricing-form').fadeIn();
         }else{
