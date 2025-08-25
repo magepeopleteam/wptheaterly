@@ -233,6 +233,91 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
             return $movie_data;
         }
+        public static function get_pricing_rules_data_by_id( $post_id ) {
+            $post_id = intval( $post_id );
+            if ( ! $post_id ) {
+                return null;
+            }
+            $args = [
+                'post_type'      => MPTRS_Function::get_pricing_cpt(),
+                'post_status'    => 'publish',
+                'p'              => $post_id,
+                'posts_per_page' => 1,
+            ];
+            $query = new WP_Query( $args );
+            if ( ! $query->have_posts() ) {
+                wp_reset_postdata();
+                return null;
+            }
+            $pricing_rules_data = [];
+
+            while ( $query->have_posts() ) {
+                $query->the_post();
+
+                $pricing_rules_data = [
+                    'id'                    => get_the_ID(),
+                    'name'                  => get_the_title(),
+                    'description'           => get_the_content(),
+                    'rules_theater_type'    => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_theaterType', true ),
+                    'rules_type'            => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_type', true ),
+                    'rules_date_rang'        => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_dateRange', true ),
+                    'rules_end_date'       => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_endDate', true ),
+                    'rules_start_date'      => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_startDate', true ),
+                    'rules_days'            => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_days', true ),
+                    'rules_time_range'      => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_timeRange', true ),
+                    'rules_combinable'      => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_combinable', true ),
+                    'rules_min_seats'       => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_minSeats', true ),
+                    'rules_priority'        => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_priority', true ),
+                    'rules_active'          => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_active', true ),
+                    'rules_multiplier'      => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_multiplier', true ),
+                ];
+            }
+            wp_reset_postdata();
+
+            return $pricing_rules_data;
+        }
+
+        public static function get_pricing_rules_data() {
+
+            $args = [
+                'post_type'      => MPTRS_Function::get_pricing_cpt(),
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+            ];
+            $query = new WP_Query( $args );
+            if ( ! $query->have_posts() ) {
+                wp_reset_postdata();
+                return null;
+            }
+            $pricing_rules_data = [];
+
+            while ( $query->have_posts() ) {
+                $query->the_post();
+
+                $pricing_rules_data[] = [
+                    'id'                    => get_the_ID(),
+                    'name'                  => get_the_title(),
+                    'description'           => get_the_content(),
+                    'rules_theater_type'    => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_theaterType', true ),
+                    'rules_type'            => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_type', true ),
+                    'rules_date_range'        => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_dateRange', true ),
+                    'rules_end_date'       => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_endDate', true ),
+                    'rules_start_date'      => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_startDate', true ),
+                    'rules_days'            => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_days', true ),
+                    'rules_time_range'      => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_timeRange', true ),
+                    'rules_combinable'      => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_combinable', true ),
+                    'rules_min_seats'       => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_minSeats', true ),
+                    'rules_priority'        => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_priority', true ),
+                    'rules_active'          => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_active', true ),
+                    'rules_multiplier'      => get_post_meta( get_the_ID(), 'wtbp_pricing_rules_multiplier', true ),
+                ];
+            }
+            wp_reset_postdata();
+
+            return $pricing_rules_data;
+        }
 
         public static function add_edit_new_movie_html( $add, $data = [] ) {
             $defaults = [

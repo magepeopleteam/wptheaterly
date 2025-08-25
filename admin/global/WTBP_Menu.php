@@ -215,208 +215,22 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                         </div>
 
                         <!-- Add Pricing Form -->
-                        <div id="add-pricing-form" class="form-section hidden" style="display: none">
-                            <h4 class="mb-4 font-semibold">Add New Pricing Rule</h4>
-                            <div class="grid grid-cols-2 mb-4">
-                                <div class="form-group">
-                                    <label class="form-label">Rule Name</label>
-                                    <input type="text" id="pricing-name" class="form-input" placeholder="e.g., Matinee, Evening, Weekend" required="">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Rule Type</label>
-                                    <select id="pricing-type" class="form-input">
-                                        <option value="time">Time-based</option>
-                                        <option value="day">Day-based</option>
-                                        <option value="date">Date-based</option>
-                                        <option value="theater">Theater-based</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" id="time-range-group">
-                                    <label class="form-label">Time Range</label>
-                                    <input type="text" id="pricing-time-range" class="form-input" placeholder="e.g., 09:00-14:00">
-                                </div>
-                                <div class="form-group" id="days-group" style="display: none;">
-                                    <label class="form-label">Days of Week</label>
-                                    <select id="pricing-days" class="form-input" multiple="">
-                                        <option value="monday">Monday</option>
-                                        <option value="tuesday">Tuesday</option>
-                                        <option value="wednesday">Wednesday</option>
-                                        <option value="thursday">Thursday</option>
-                                        <option value="friday">Friday</option>
-                                        <option value="saturday">Saturday</option>
-                                        <option value="sunday">Sunday</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" id="date-range-group" style="display: none;">
-                                    <label class="form-label">Date Range</label>
-                                    <div class="grid grid-cols-2 gap-2">
-                                        <input type="date" id="pricing-start-date" class="form-input" placeholder="Start Date">
-                                        <input type="date" id="pricing-end-date" class="form-input" placeholder="End Date">
-                                    </div>
-                                </div>
-                                <div class="form-group" id="theater-group" style="display: none;">
-                                    <label class="form-label">Theater Type</label>
-                                    <select id="pricing-theater-type" class="form-input">
-                                        <option value="">All Theaters</option>
-                                        <option value="Standard">Standard</option>
-                                        <option value="Premium">Premium</option>
-                                        <option value="IMAX">IMAX</option>
-                                        <option value="VIP">VIP</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Price Multiplier</label>
-                                    <input type="number" id="pricing-multiplier" class="form-input" step="0.1" min="0.1" max="5.0" placeholder="1.0" required="">
-                                    <div class="text-sm text-gray-500 mt-1">1.0 = base price, 0.8 = 20% discount, 1.5 = 50% markup</div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Priority</label>
-                                    <input type="number" id="pricing-priority" class="form-input" min="1" max="100" placeholder="10">
-                                    <div class="text-sm text-gray-500 mt-1">Higher numbers = higher priority (1-100)</div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Status</label>
-                                    <select id="pricing-status" class="form-input">
-                                        <option value="true">Active</option>
-                                        <option value="false">Inactive</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Minimum Seats</label>
-                                    <input type="number" id="pricing-min-seats" class="form-input" min="1" placeholder="1">
-                                    <div class="text-sm text-gray-500 mt-1">Minimum seats required for this rule to apply</div>
-                                </div>
-                            </div>
-                            <div class="form-group mb-4">
-                                <label class="form-label">Description</label>
-                                <textarea id="pricing-description" class="form-input" rows="2" placeholder="Brief description of when this pricing rule applies"></textarea>
-                            </div>
-                            <div class="form-group mb-4">
-                                <label class="flex items-center">
-                                    <input type="checkbox" id="pricing-combinable" class="mr-2">
-                                    <span class="text-sm">Can be combined with other rules</span>
-                                </label>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="btn btn-success" id="wtbp_add_new_pricing_rule">Add Pricing Rule</button>
-                                <button class="btn btn-secondary" onclick="hideAddPricingForm()">Cancel</button>
-                                <button class="btn btn-secondary" id="wtbp_previewPricing" type="button" >Preview Pricing</button>
-                            </div>
-
-                            <!-- Preview Section -->
-                            <div id="pricing-preview" class="mt-4 p-4 bg-gray-50 rounded-lg" style="display: none;">
-                                <h5 class="font-semibold mb-2">Pricing Preview</h5>
-                                <div id="preview-content" class="text-sm"></div>
-                            </div>
-                        </div>
+                        <div id="wtbm_AddPricingForm" class="form-section hidden" style="display: none"></div>
 
                         <div class="section">
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>Rule Name</th>
-                                    <th>Time Range</th>
-                                    <th>Multiplier</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th><?php esc_attr_e( 'Rule Name', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Time Range', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Multiplier', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Status', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Actions', 'wptheaterly' ); ?></th>
                                 </tr>
                                 </thead>
-                                <tbody id="pricing-table-body"><tr>
-                                    <td>
-                                        <div class="text-sm font-medium text-gray-900">IMAX Premium</div>
-                                        <div class="text-sm text-gray-500">theater-based rule</div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">IMAX</td>
-                                    <td class="text-sm text-gray-900">1.8x</td>
-                                    <td>
-                        <span class="status-badge status-active">
-                            Active
-                        </span>
-                                        <div class="text-xs text-gray-500 mt-1">Priority: 40</div>
-                                    </td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" onclick="editPricingRule(5)" title="Edit Rule">✏️</button>
-                                            <button class="btn-icon delete" onclick="deletePricingRule(5)" title="Delete Rule">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr><tr>
-                                    <td>
-                                        <div class="text-sm font-medium text-gray-900">Prime Time</div>
-                                        <div class="text-sm text-gray-500">time-based rule</div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">18:01-23:00</td>
-                                    <td class="text-sm text-gray-900">1.5x</td>
-                                    <td>
-                        <span class="status-badge status-active">
-                            Active
-                        </span>
-                                        <div class="text-xs text-gray-500 mt-1">Priority: 30</div>
-                                    </td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" onclick="editPricingRule(3)" title="Edit Rule">✏️</button>
-                                            <button class="btn-icon delete" onclick="deletePricingRule(3)" title="Delete Rule">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr><tr>
-                                    <td>
-                                        <div class="text-sm font-medium text-gray-900">Weekend</div>
-                                        <div class="text-sm text-gray-500">day-based rule</div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">saturday, sunday</td>
-                                    <td class="text-sm text-gray-900">1.2x</td>
-                                    <td>
-                        <span class="status-badge status-active">
-                            Active
-                        </span>
-                                        <div class="text-xs text-gray-500 mt-1">Priority: 25</div>
-                                    </td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" onclick="editPricingRule(4)" title="Edit Rule">✏️</button>
-                                            <button class="btn-icon delete" onclick="deletePricingRule(4)" title="Delete Rule">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr><tr>
-                                    <td>
-                                        <div class="text-sm font-medium text-gray-900">Evening</div>
-                                        <div class="text-sm text-gray-500">time-based rule</div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">14:01-18:00</td>
-                                    <td class="text-sm text-gray-900">1x</td>
-                                    <td>
-                        <span class="status-badge status-active">
-                            Active
-                        </span>
-                                        <div class="text-xs text-gray-500 mt-1">Priority: 20</div>
-                                    </td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" onclick="editPricingRule(2)" title="Edit Rule">✏️</button>
-                                            <button class="btn-icon delete" onclick="deletePricingRule(2)" title="Delete Rule">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr><tr>
-                                    <td>
-                                        <div class="text-sm font-medium text-gray-900">Matinee</div>
-                                        <div class="text-sm text-gray-500">time-based rule</div>
-                                    </td>
-                                    <td class="text-sm text-gray-900">09:00-14:00</td>
-                                    <td class="text-sm text-gray-900">0.8x</td>
-                                    <td>
-                        <span class="status-badge status-active">
-                            Active
-                        </span>
-                                        <div class="text-xs text-gray-500 mt-1">Priority: 10</div>
-                                    </td>
-                                    <td>
-                                        <div class="flex gap-2">
-                                            <button class="btn-icon edit" onclick="editPricingRule(1)" title="Edit Rule">✏️</button>
-                                            <button class="btn-icon delete" onclick="deletePricingRule(1)" title="Delete Rule">🗑️</button>
-                                        </div>
-                                    </td>
-                                </tr></tbody>
+                                <tbody id="pricing-table-body">
+                                    <?php echo WTBM_Pricing_Rules::pricing_rules_data_display();?>
+                                </tbody>
                             </table>
                         </div>
                     </div>

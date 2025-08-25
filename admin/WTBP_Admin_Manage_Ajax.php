@@ -27,10 +27,6 @@ if (!class_exists('WTBP_Admin_Manage_Ajax')) {
             add_action('wp_ajax_mptrs_update_theater_post', [ $this, 'mptrs_update_theater_post' ]);
             add_action('wp_ajax_nopriv_mptrs_update_theater_post', [ $this, 'mptrs_update_theater_post' ]);
 
-
-            add_action('wp_ajax_wtbp_insert_pricing_rules_post', [ $this, 'wtbp_insert_pricing_rules_post' ]);
-            add_action('wp_ajax_nopriv_wtbp_insert_pricing_rules_post', [ $this, 'wtbp_insert_pricing_rules_post' ]);
-
         }
 
         function mptrs_insert_movie_post() {
@@ -170,55 +166,6 @@ if (!class_exists('WTBP_Admin_Manage_Ajax')) {
                 wp_send_json_success( 'Successfully updated theater' );
             } else {
                 wp_send_json_error("Failed to edit theater" );
-            }
-        }
-
-
-
-        public function wtbp_insert_pricing_rules_post(){
-            check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
-            $cpt = MPTRS_Function::get_pricing_cpt();
-
-            $name           = sanitize_text_field( $_POST['name'] );
-            $description    = sanitize_textarea_field( $_POST['description'] );
-
-            $type           = sanitize_text_field( $_POST['type']);
-            $multiplier     = sanitize_text_field( $_POST['multiplier']);
-            $active         = sanitize_text_field( $_POST['active']);
-            $priority       = sanitize_text_field($_POST['priority']);
-            $minSeats       = sanitize_text_field($_POST['minSeats']);
-            $combinable     = sanitize_text_field($_POST['combinable']);
-            $timeRange      = sanitize_text_field($_POST['timeRange']);
-            $days           = $_POST['days'];
-            $startDate      = sanitize_text_field($_POST['startDate']);
-            $endDate        = sanitize_text_field($_POST['endDate']);
-            $dateRange      = sanitize_text_field($_POST['dateRange']);
-            $theaterType    = sanitize_text_field($_POST['theaterType']);
-
-            $post_id = wp_insert_post([
-                'post_title'   => $name,
-                'post_type'    => $cpt,
-                'post_status'  => 'publish',
-                'post_content' => $description,
-            ]);
-
-            if ( $post_id ) {
-                update_post_meta($post_id, 'wtbp_pricing_rules_type', $type);
-                update_post_meta($post_id, 'wtbp_pricing_rules_multiplier', $multiplier);
-                update_post_meta($post_id, 'wtbp_pricing_rules_active', $active);
-                update_post_meta($post_id, 'wtbp_pricing_rules_priority', $priority);
-                update_post_meta($post_id, 'wtbp_pricing_rules_minSeats', $minSeats);
-                update_post_meta($post_id, 'wtbp_pricing_rules_combinable', $combinable);
-                update_post_meta($post_id, 'wtbp_pricing_rules_timeRange', $timeRange);
-                update_post_meta($post_id, 'wtbp_pricing_rules_days', $days);
-                update_post_meta($post_id, 'wtbp_pricing_rules_startDate', $startDate);
-                update_post_meta($post_id, 'wtbp_pricing_rules_endDate', $endDate);
-                update_post_meta($post_id, 'wtbp_pricing_rules_dateRange', $dateRange);
-                update_post_meta($post_id, 'wtbp_pricing_rules_theaterType', $theaterType);
-
-                wp_send_json_success( get_post( $post_id ) );
-            } else {
-                wp_send_json_error("Failed to insert post");
             }
         }
 

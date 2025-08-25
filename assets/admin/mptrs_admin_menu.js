@@ -56,7 +56,12 @@
     });
 
     $(document).on('click', '#wtbp_add_new_pricing_rule', function (e) {
-        addPricingRule();
+        addPricingRule( '', 'add' );
+    });
+
+    $(document).on('click', '#wtbm_edit_pricing_rule', function (e) {
+        let pricingId = $(this).attr('data-edit-pricing');
+        addPricingRule( pricingId, 'edit' );
     });
 
     $(document).on('click', '.wtbm_edit_theater', function (e) {
@@ -84,6 +89,30 @@
             }
         });
 
+    });
+
+    $(document).on('click', '.wtbm_edit_pricing_rules', function (e) {
+        const show_pricing_rule = {
+            action: "wtbm_add_edit_pricing_form",
+            post_id: $(this).attr('data-pricing-id'),
+            _ajax_nonce: mptrs_admin_ajax.nonce,
+        };
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url,
+            type: "POST",
+            data: show_pricing_rule,
+            success: function( response ) {
+                if ( response.success ) {
+                    $('#wtbm_AddPricingForm').html( response.data );
+                    $('#wtbm_AddPricingForm').fadeIn();
+                } else {
+                    alert("Error: " + response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("Something went wrong!");
+            }
+        });
     });
 
     $(document).on('click', '.editwtbm_edit_show_time', function (e) {
@@ -267,7 +296,7 @@
 
     }
 
-    function addPricingRule() {
+    function addPricingRule( post_id, action_type ) {
         const name = $('#pricing-name').val();
         const type = $('#pricing-type').val();
         const multiplier = parseFloat($('#pricing-multiplier').val());
@@ -278,11 +307,13 @@
         }
 
         const rule = {
-            action: "wtbp_insert_pricing_rules_post",
+            action: "wtbm_insert_pricing_rules_post",
             id: Date.now(),
             name: name,
             type: type,
             multiplier: multiplier,
+            post_id: post_id,
+            action_type: action_type,
             active: $('#pricing-status').val() === 'true',
             priority: parseInt($('#pricing-priority').val()) || 10,
             description: $('#pricing-description').val(),
@@ -298,16 +329,20 @@
         rule.dateRange = '';
         rule.theaterType = '';
 
+        // console.log( rule );
+
         // Add type-specific properties
         switch( type ) {
             case 'time':
                 rule.timeRange = $('#pricing-time-range').val();
                 break;
             case 'day':
-                const selectedDays = $('#pricing-days option:selected').map(function() {
+                const selectedDays = $('input[name="pricing-days[]"]:checked').map(function() {
                     return $(this).val();
                 }).get();
                 rule.days = selectedDays;
+
+                console.log( rule.days  );
                 break;
             case 'date':
                 rule.startDate = $('#pricing-start-date').val();
@@ -399,8 +434,6 @@
                 post_id: "",
                 _ajax_nonce: mptrs_admin_ajax.nonce,
             };
-
-            console.log( show_time_rule );
             $.ajax({
                 url: mptrs_admin_ajax.ajax_url,
                 type: "POST",
@@ -420,6 +453,28 @@
 
 
         }else if( clickedId === 'wtbpPricingAddForm' ){
+
+            const show_pricing_rule = {
+                action: "wtbm_add_edit_pricing_form",
+                post_id: "",
+                _ajax_nonce: mptrs_admin_ajax.nonce,
+            };
+            $.ajax({
+                url: mptrs_admin_ajax.ajax_url,
+                type: "POST",
+                data: show_pricing_rule,
+                success: function( response ) {
+                    if ( response.success ) {
+                        $('#wtbm_AddPricingForm').html( response.data );
+                        $('#wtbm_AddPricingForm').fadeIn();
+                    } else {
+                        alert("Error: " + response.data);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("Something went wrong!");
+                }
+            });
             $('#add-pricing-form').fadeIn();
         }else{
             $('#add-movie-form').fadeIn();

@@ -96,8 +96,6 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 $show_time_id = isset( $show_time_data['id'] ) ? $show_time_data['id'] : '';
             }
 
-            error_log( print_r( [ '$show_time_data' => $show_time_data ], true ) );
-
             ?>
             <h4 class="mb-4 font-semibold"><?php echo esc_html( $title ); ?></h4>
 
