@@ -195,7 +195,7 @@
 
     $(document).on('click', '.wtbm_edit_movie', function (e) {
 
-        let postId = $(this).closest('.twbm_movie_content').attr('date-movie-id');
+        let postId = $(this).attr('data-edit-movie-id');
         const sent_data = {
             action: "wtbp_add_edit_movie_form",
             post_id: postId,
@@ -248,8 +248,11 @@
             data: movieData,
             success: function(response) {
                 if (response.success) {
+                    let movie_id = response.data.ID;
                     $("#"+edited_movie).hide();
                     alert("Movie : "+response_type+' '+ response.data.post_title);
+                    renderMoviesTable( movieData, movie_id );
+
                 } else {
                     alert("Error: " + response.data);
                 }
@@ -263,7 +266,7 @@
         // addMovieData.push(movie);
         // movies.push(movie);
 
-        renderMoviesTable( movieData );
+
         // hideAddMovieForm();
     }
     function addTheater( post_id ) {
@@ -295,7 +298,16 @@
             data: theater,
             success: function(response) {
                 if (response.success) {
-                    alert("Theater Added: " + response.data.post_title);
+                    if( post_id ){
+                        let edited_theater = 'theater_content_'+post_id;
+                        $("#"+edited_theater).fadeOut();
+                        $("#theaters-table-body").prepend( response.data );
+                        alert( "Theater Edited" );
+                    }else{
+                        $("#theaters-table-body").prepend(response.data);
+                        alert( "Theater Added" );
+                    }
+
                 } else {
                     alert("Error: " + response.data);
                 }
@@ -335,7 +347,17 @@
             data: showtime,
             success: function(response) {
                 if (response.success) {
-                    alert("Show Time Added: " + response.data.post_title);
+                    if( action_type === 'add' ){
+                        alert(" Show Time Added ");
+                        $("#showtimes-table-body").prepend( response.data );
+                    }else{
+                        let edited_show_time = 'show_time_content_'+showTimeId;
+                        $( "#"+edited_show_time ).fadeOut();
+
+                        $("#showtimes-table-body").prepend( response.data );
+                        alert(" Show Time Updated ");
+                    }
+
                 } else {
                     alert("Error: " + response.data);
                 }
@@ -412,13 +434,22 @@
             data: rule,
             success: function( response ) {
                 if ( response.success ) {
-                    alert("Pricing Rules Added: " + response.data.post_title);
+                    if( action_type === 'add' ){
+                        $("#pricing-table-body").prepend( response.data );
+                        alert( "Pricing Rules Added" );
+                        // clearPricingForm();
+                    }else{
+                        let edited_pricing = 'pricing_rules_content_'+post_id;
+                        $("#"+edited_pricing).fadeOut();
+                        alert("Pricing Rules Updated: " );
+                        $("#pricing-table-body").prepend( response.data );
+                    }
+
                 } else {
                     alert("Error: " + response.data);
                 }
             },
             error: function(xhr, status, error) {
-                console.log(error);
                 alert("Something went wrong!");
             }
         });
@@ -542,35 +573,37 @@
 
 
 // Movies Management
-function renderMoviesTable( movie ) {
-    const tbody = document.getElementById('movies-table-body');
-
-        const row = document.createElement('tr');
-        row.innerHTML = `
-                    <td>
-                        <div class="flex items-center">
-                            <img src="${movie.poster}" alt="${movie.title}" class="movie-poster">
-                            <div>
-                                <div class="font-medium text-gray-900">${movie.title}</div>
-                                
-                                <div class="text-sm text-gray-500">Released: ${movie.releaseDate}</div>
+function renderMoviesTable( movie, movie_id ) {
+        let movie_html  =  `
+                    <tr class="wtbm_movie_content" id="movie_content_${movie_id}" data-movie-id="${movie_id}">
+                        <td>
+                            <div class="flex items-center">
+                                <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" loading="lazy">
+                                <div>
+                                    <div class="font-medium text-gray-900">${movie.title}</div>
+                                    ${movie.release_date ? `<div class="text-sm text-gray-500">Released: ${movie.release_date}</div>` : ''}
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td class="text-sm text-gray-900">${movie.genre}</td>
-                    <td class="text-sm text-gray-900">${movie.duration}</td>
-                    <td class="text-sm font-medium">⭐ ${movie.rating}</td>
-                    <td>
-                        <span class="status-badge status-${movie.status}">${movie.status}</span>
-                    </td>
-                    <td>
-                        <div class="flex gap-2">
-                            <button class="btn-icon edit" onclick="editMovie(${movie.id})" title="Edit Movie">✏️</button>
-                            <button class="btn-icon delete" onclick="deleteMovie(${movie.id})" title="Delete Movie">🗑️</button>
-                        </div>
-                    </td>
+                        </td>
+                        <td class="text-sm text-gray-900">${movie.genre}</td>
+                        <td class="text-sm text-gray-900">${movie.duration}</td>
+                        <td class="text-sm font-medium">⭐ ${movie.rating}</td>
+                        <td>
+                            <span class="status-badge status-${movie.status.toLowerCase()}">
+                                ${movie.status}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button class="btn-icon edit wtbm_edit_movie" data-edit-movie-id="${movie_id}" id="wrbm_edit_${movie_id}"
+                                    title="Edit Movie">✏️</button>
+                                <button class="btn-icon delete wtbm_delete_movie" id="wrbm_delete_${movie_id}"
+                                    title="Delete Movie" data-delete-movie-id="${movie_id}">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
                 `;
-        tbody.appendChild(row);
+                $("#movies-table-body").prepend( movie_html );
 
 }
 
@@ -589,12 +622,7 @@ function clearMovieForm() {
     document.getElementById('movie-description').value = '';
 }
 
-function deleteMovie( id ) {
-    if ( confirm('Are you sure you want to delete this movie?') ) {
-        movies = movies.filter(m => m.id !== id);
-        renderMoviesTable();
-    }
-}
+
 
 // Theaters Management
 function renderTheatersTable() {
@@ -804,45 +832,6 @@ function previewPricing() {
 }
 
 // Bookings Management
-function renderBookingsTable() {
-    const tbody = document.getElementById('bookings-table-body');
-    tbody.innerHTML = '';
-
-    filteredBookings.forEach(booking => {
-        const movie = movies.find(m => m.id === booking.movieId);
-        const theater = theaters.find(t => t.id === booking.theaterId);
-
-        const row = document.createElement('tr');
-        row.innerHTML = `
-                    <td class="text-sm font-medium text-gray-900">${booking.id}</td>
-                    <td>
-                        <div class="text-sm font-medium text-gray-900">${booking.customerName}</div>
-                        <div class="text-sm text-gray-500">${booking.customerEmail}</div>
-                    </td>
-                    <td>
-                        <div class="text-sm font-medium text-gray-900">${movie?.title || 'Unknown'}</div>
-                        <div class="text-sm text-gray-500">${movie?.genre || 'N/A'}</div>
-                    </td>
-                    <td class="text-sm text-gray-900">${theater?.name || 'Unknown'}</td>
-                    <td>
-                        <div class="text-sm text-gray-900">${booking.date}</div>
-                        <div class="text-sm text-gray-500">${booking.time}</div>
-                    </td>
-                    <td class="text-sm text-gray-900">${booking.seats.join(', ')}</td>
-                    <td class="text-sm font-medium text-gray-900">${booking.totalAmount}</td>
-                    <td>
-                        <span class="status-badge status-${booking.bookingStatus}">${booking.bookingStatus}</span>
-                    </td>
-                    <td>
-                        <div class="flex gap-2">
-                            <button class="btn-icon" style="color: #2563eb;" title="View Booking">👁️</button>
-                            <button class="btn-icon edit" title="Edit Booking">✏️</button>
-                        </div>
-                    </td>
-                `;
-        tbody.appendChild(row);
-    });
-}
 
 
 

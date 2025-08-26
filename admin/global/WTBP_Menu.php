@@ -196,7 +196,8 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                                 </thead>
                                 <tbody id="showtimes-table-body">
                                     <?php
-                                        echo WTBM_Manage_Showtimes::display_show_times_data();
+                                        $show_time_data = WTBM_Layout_Functions::get_show_time_data();
+                                        echo WTBM_Manage_Showtimes::display_show_times_data( $show_time_data );
                                     ?>
                                 </tbody>
                             </table>
@@ -229,7 +230,10 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                                 </tr>
                                 </thead>
                                 <tbody id="pricing-table-body">
-                                    <?php echo WTBM_Pricing_Rules::pricing_rules_data_display();?>
+                                    <?php
+                                        $pricing_rules_date =  WTBM_Layout_Functions::get_pricing_rules_data();
+                                        echo WTBM_Pricing_Rules::pricing_rules_data_display( $pricing_rules_date );
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

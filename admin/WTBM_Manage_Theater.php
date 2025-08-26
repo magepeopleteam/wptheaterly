@@ -46,7 +46,13 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
                 update_post_meta( $post_id, 'wtbp_theater_soundSystem', $soundSystem );
                 update_post_meta( $post_id, 'wtbp_theater_status', $status );
 
-                wp_send_json_success( get_post( $post_id ) );
+
+                $theater_data =array(
+                    0=>WTBM_Layout_Functions::get_theater_data_by_id( $post_id ),
+                ) ;
+
+                $new_theater = WTBM_Layout_Functions::display_theater_date( $theater_data );
+                wp_send_json_success( $new_theater );
             } else {
                 wp_send_json_error("Failed to insert post" );
             }
@@ -84,7 +90,12 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
                 update_post_meta( $post_id, 'wtbp_theater_soundSystem', $soundSystem );
                 update_post_meta( $post_id, 'wtbp_theater_status', $status );
 
-                wp_send_json_success( 'Successfully updated theater' );
+                $theater_data =array(
+                    0=>WTBM_Layout_Functions::get_theater_data_by_id( $post_id ),
+                ) ;
+                $new_theater = WTBM_Layout_Functions::display_theater_date( $theater_data );
+                wp_send_json_success( $new_theater );
+
             } else {
                 wp_send_json_error("Failed to edit theater" );
             }

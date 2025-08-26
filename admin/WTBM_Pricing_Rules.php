@@ -91,9 +91,16 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                 update_post_meta($post_id, 'wtbp_pricing_rules_dateRange', $dateRange);
                 update_post_meta($post_id, 'wtbp_pricing_rules_theaterType', $theaterType);
 
-                wp_send_json_success( get_post( $post_id ) );
+
+                $new_pricing_rules = array(
+                    0 => WTBM_Layout_Functions::get_pricing_rules_data_by_id( $post_id ),
+                );
+                $pricing_rule_html = self::pricing_rules_data_display( $new_pricing_rules );
+                wp_send_json_success($pricing_rule_html );
+
+
             } else {
-                wp_send_json_error("Failed to insert post");
+                wp_send_json_error("Failed to insert post" );
             }
         }
 
@@ -247,9 +254,8 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
             return ob_get_clean();
         }
 
-        public static function pricing_rules_data_display() {
+        public static function pricing_rules_data_display( $pricing_rules_date ) {
 
-            $pricing_rules_date =  WTBM_Layout_Functions::get_pricing_rules_data();
             ob_start();
 
             if ( empty( $pricing_rules_date ) ) {

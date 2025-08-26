@@ -27,6 +27,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
             $date           = sanitize_text_field( $_POST['date']);
             $startTime      = sanitize_text_field( $_POST['startTime'] );
             $endTime        = sanitize_text_field( $_POST['endTime'] );
+            $action_type       = sanitize_text_field( $_POST['action_type'] );
             $price          = floatval( $_POST['price'] );
             $description    = sanitize_textarea_field( $_POST['description'] );
 
@@ -58,7 +59,13 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 update_post_meta($post_id, 'wtbp_show_time_end_date', $endTime);
                 update_post_meta($post_id, 'wtbp_show_time_price', $price);
 
-                wp_send_json_success( get_post( $post_id ) );
+                $new_show_time = array(
+                    0=>WTBM_Layout_Functions::get_show_time_data_by_id( $post_id ),
+                );
+                $display_show_time = self::display_show_times_data( $new_show_time );
+                wp_send_json_success( $display_show_time );
+
+
             } else {
                 wp_send_json_error("Failed to insert post");
             }
@@ -182,8 +189,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
             return ob_get_clean();
         }
-        public static function display_show_times_data() {
-            $show_time_data = WTBM_Layout_Functions::get_show_time_data();
+        public static function display_show_times_data( $show_time_data ) {
             ob_start();
 
             if ( ! empty( $show_time_data ) && is_array( $show_time_data ) ) {

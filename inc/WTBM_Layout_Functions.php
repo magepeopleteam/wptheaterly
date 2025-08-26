@@ -50,7 +50,6 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
             return $movie_data;
         }
-
         public static function get_movies_data_by_id( $post_id ) {
             $post_id = intval( $post_id );
             if ( ! $post_id ) {
@@ -115,7 +114,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     'status'        => get_post_meta( get_the_ID(), 'wtbp_theater_status', true ),
                     'sound'         => get_post_meta( get_the_ID(), 'wtbp_theater_soundSystem', true ),
                     'seats_per_row' => get_post_meta( get_the_ID(), 'wtbp_theater_seatsPerRow', true ),
-                    'number_of_rows'   => get_post_meta( get_the_ID(), 'wtbp_theater_rows', true ),
+                    'theater_row'   => get_post_meta( get_the_ID(), 'wtbp_theater_rows', true ),
                     'type'          => get_post_meta( get_the_ID(), 'wtbp_theater_type', true ),
                 ];
             }
@@ -431,7 +430,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $poster      = esc_url( $movie['poster'] );
                 $status      = esc_html( $movie['status'] );
                 ?>
-                <tr class="twbm_movie_content" id="movie_content_<?php echo esc_attr( $id );?>" date-movie-id="<?php echo esc_attr( $id );?>">
+                <tr class="wtbm_movie_content" id="movie_content_<?php echo esc_attr( $id );?>" date-movie-id="<?php echo esc_attr( $id );?>">
                     <td>
                         <div class="flex items-center">
                             <img src="<?php echo $poster; ?>"
@@ -457,7 +456,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     </td>
                     <td>
                         <div class="flex gap-2">
-                            <button class="btn-icon edit wtbm_edit_movie" id="wrbm_edit_<?php echo esc_attr( $id );?>"
+                            <button class="btn-icon edit wtbm_edit_movie" data-edit-movie-id="<?php echo esc_attr( $id );?>" id="wrbm_edit_<?php echo esc_attr( $id );?>"
                                     title="<?php esc_attr_e( 'Edit Movie', 'theaterly' ); ?>">✏️</button>
                             <button class="btn-icon delete wtbm_delete_movie" id="wrbm_delete_<?php echo esc_attr( $id );?>"
                                     title="<?php esc_attr_e( 'Delete Movie', 'theaterly' ); ?>" data-delete-movie-id="<?php echo esc_attr( $id );?>">🗑️</button>
@@ -473,7 +472,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             $theater_id          = $theater ? esc_attr( $theater['id'] ?? '' ) : '';
             $theater_name        = $theater ? esc_attr( $theater['name'] ?? '' ) : '';
             $theater_type        = $theater ? esc_attr( $theater['type'] ?? 'Standard' ) : 'Standard';
-            $theater_rows        = $theater ? intval( $theater['number_of_rows'] ?? 0 ) : '';
+            $theater_rows        = $theater ? intval( $theater['theater_row'] ?? 0 ) : '';
             $theater_seats       = $theater ? intval( $theater['seats_per_row'] ?? 0 ) : '';
             $theater_sound       = $theater ? esc_attr( $theater['sound'] ?? 'Dolby Digital' ) : 'Dolby Digital';
             $theater_status      = $theater ? esc_attr( $theater['status'] ?? 'active' ) : 'active';

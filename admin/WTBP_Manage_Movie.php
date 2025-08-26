@@ -86,7 +86,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 update_post_meta($post_id, 'wtbp_movie_release_date', $releaseDate);
                 update_post_meta($post_id, 'wtbp_movie_poster', $poster);
 
-                wp_send_json_success(get_post($post_id));
+                wp_send_json_success( get_post( $post_id ) );
             } else {
                 wp_send_json_error("Failed to insert post");
             }
