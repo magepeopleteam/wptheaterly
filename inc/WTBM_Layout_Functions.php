@@ -12,12 +12,12 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
         public function __construct(){}
 
 
-        public static function get_and_display_movies() {
+        public static function get_and_display_movies( $limit = -1) {
             // WP_Query args
             $args = [
                 'post_type'      => 'wtbm_movie',
                 'post_status'    => 'publish',
-                'posts_per_page' => -1,
+                'posts_per_page' => $limit,
                 'orderby'        => 'date',
                 'order'          => 'DESC',
             ];
@@ -123,12 +123,12 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
             return $movie_data;
         }
-        public static function get_and_display_theater_date() {
+        public static function get_and_display_theater_date( $limit = -1 ) {
             // WP_Query args
             $args = [
                 'post_type'      => MPTRS_Function::get_theater_cpt(),
                 'post_status'    => 'publish',
-                'posts_per_page' => -1,
+                'posts_per_page' => $limit,
                 'orderby'        => 'date',
                 'order'          => 'DESC',
             ];

@@ -94,6 +94,9 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 $show_time_id = isset( $show_time_data['id'] ) ? $show_time_data['id'] : '';
             }
 
+            $movie_data = WTBM_Layout_Functions::get_and_display_movies( 10 );
+            $theater_data = WTBM_Layout_Functions::get_and_display_theater_date( 10 );
+
             ?>
             <h4 class="mb-4 font-semibold"><?php echo esc_html( $title ); ?></h4>
 
@@ -115,8 +118,11 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                         <label class="form-label"><?php esc_html_e( 'Movie', 'wptheaterly' ); ?></label>
                         <select id="showtime-movie" name="showtime_movie" class="form-input">
                             <option value=""><?php esc_html_e( 'Select Movie', 'wptheaterly' ); ?></option>
-                            <option value="1" <?php selected( $show_time_data['movie_id'] ?? '', 1 ); ?>>Guardians of the Galaxy Vol. 3</option>
-                            <option value="2" <?php selected( $show_time_data['movie_id'] ?? '', 2 ); ?>>Spider-Man: Across the Spider-Verse</option>
+                            <?php if( is_array( $movie_data ) && !empty( $movie_data ) ){
+                                foreach ( $movie_data as $movie ){
+                                ?>
+                                <option value="<?php echo esc_attr( $movie['id'] )?>" <?php selected( $show_time_data['movie_id'] ?? '', $movie['id']); ?>><?php echo esc_attr(  $movie['title'] )?></option>
+                            <?php } }?>
                         </select>
                     </div>
 
@@ -124,9 +130,11 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                         <label class="form-label"><?php esc_html_e( 'Theater', 'wptheaterly' ); ?></label>
                         <select id="showtime-theater" name="showtime_theater" class="form-input">
                             <option value=""><?php esc_html_e( 'Select Theater', 'wptheaterly' ); ?></option>
-                            <option value="1" <?php selected( $show_time_data['theater_id'] ?? '', 1 ); ?>>Screen 1</option>
-                            <option value="2" <?php selected( $show_time_data['theater_id'] ?? '', 2 ); ?>>Screen 2</option>
-                            <option value="3" <?php selected( $show_time_data['theater_id'] ?? '', 3 ); ?>>Screen 3</option>
+                            <?php if( is_array( $theater_data ) && !empty( $theater_data ) ){
+                                foreach ( $theater_data as $theater ){
+                                ?>
+                                <option value="<?php echo esc_attr( $theater['id'] )?>" <?php selected( $show_time_data['theater_id'] ?? '', $theater['id']); ?>><?php echo esc_attr( $theater['name'] )?></option>
+                            <?php } }?>
                         </select>
                     </div>
 
