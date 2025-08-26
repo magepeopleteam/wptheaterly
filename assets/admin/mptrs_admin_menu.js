@@ -253,6 +253,7 @@
                     alert("Movie : "+response_type+' '+ response.data.post_title);
                     renderMoviesTable( movieData, movie_id );
 
+                    clearForm( "#add-movie-form" );
                 } else {
                     alert("Error: " + response.data);
                 }
@@ -308,6 +309,8 @@
                         alert( "Theater Added" );
                     }
 
+                    clearForm( "#wtbmAddTheaterForm" );
+
                 } else {
                     alert("Error: " + response.data);
                 }
@@ -357,6 +360,8 @@
                         $("#showtimes-table-body").prepend( response.data );
                         alert(" Show Time Updated ");
                     }
+                    clearForm( "#wtbm_add-showtime-form" );
+
 
                 } else {
                     alert("Error: " + response.data);
@@ -444,6 +449,8 @@
                         alert("Pricing Rules Updated: " );
                         $("#pricing-table-body").prepend( response.data );
                     }
+                    clearForm( "#wtbm_AddPricingForm" );
+
 
                 } else {
                     alert("Error: " + response.data);
@@ -566,270 +573,162 @@
     }
 
 
-
-
-
-
-
-
-// Movies Management
-function renderMoviesTable( movie, movie_id ) {
-        let movie_html  =  `
-                    <tr class="wtbm_movie_content" id="movie_content_${movie_id}" data-movie-id="${movie_id}">
-                        <td>
-                            <div class="flex items-center">
-                                <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" loading="lazy">
-                                <div>
-                                    <div class="font-medium text-gray-900">${movie.title}</div>
-                                    ${movie.release_date ? `<div class="text-sm text-gray-500">Released: ${movie.release_date}</div>` : ''}
+    function renderMoviesTable( movie, movie_id ) {
+            let movie_html  =  `
+                        <tr class="wtbm_movie_content" id="movie_content_${movie_id}" data-movie-id="${movie_id}">
+                            <td>
+                                <div class="flex items-center">
+                                    <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" loading="lazy">
+                                    <div>
+                                        <div class="font-medium text-gray-900">${movie.title}</div>
+                                        ${movie.release_date ? `<div class="text-sm text-gray-500">Released: ${movie.release_date}</div>` : ''}
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class="text-sm text-gray-900">${movie.genre}</td>
-                        <td class="text-sm text-gray-900">${movie.duration}</td>
-                        <td class="text-sm font-medium">⭐ ${movie.rating}</td>
-                        <td>
-                            <span class="status-badge status-${movie.status.toLowerCase()}">
-                                ${movie.status}
-                            </span>
-                        </td>
-                        <td>
-                            <div class="flex gap-2">
-                                <button class="btn-icon edit wtbm_edit_movie" data-edit-movie-id="${movie_id}" id="wrbm_edit_${movie_id}"
-                                    title="Edit Movie">✏️</button>
-                                <button class="btn-icon delete wtbm_delete_movie" id="wrbm_delete_${movie_id}"
-                                    title="Delete Movie" data-delete-movie-id="${movie_id}">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                $("#movies-table-body").prepend( movie_html );
+                            </td>
+                            <td class="text-sm text-gray-900">${movie.genre}</td>
+                            <td class="text-sm text-gray-900">${movie.duration}</td>
+                            <td class="text-sm font-medium">⭐ ${movie.rating}</td>
+                            <td>
+                                <span class="status-badge status-${movie.status.toLowerCase()}">
+                                    ${movie.status}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="flex gap-2">
+                                    <button class="btn-icon edit wtbm_edit_movie" data-edit-movie-id="${movie_id}" id="wrbm_edit_${movie_id}"
+                                        title="Edit Movie">✏️</button>
+                                    <button class="btn-icon delete wtbm_delete_movie" id="wrbm_delete_${movie_id}"
+                                        title="Delete Movie" data-delete-movie-id="${movie_id}">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    $("#movies-table-body").prepend( movie_html );
 
-}
-
-function hideAddMovieForm() {
-    document.getElementById('add-movie-form').classList.add('hidden');
-    clearMovieForm();
-}
-
-function clearMovieForm() {
-    document.getElementById('movie-title').value = '';
-    document.getElementById('movie-genre').value = '';
-    document.getElementById('movie-duration').value = '';
-    document.getElementById('movie-rating').value = '';
-    document.getElementById('movie-release-date').value = '';
-    document.getElementById('movie-poster').value = '';
-    document.getElementById('movie-description').value = '';
-}
-
-
-
-// Theaters Management
-function renderTheatersTable() {
-    const tbody = document.getElementById('theaters-table-body');
-    tbody.innerHTML = '';
-
-    theaters.forEach(theater => {
-        const capacity = theater.rows * theater.seatsPerRow;
-        const row = document.createElement('tr');
-        row.innerHTML = `
-                    <td>
-                        <div class="font-medium text-gray-900">${theater.name}</div>
-                        <div class="text-sm text-gray-500">${theater.rows} × ${theater.seatsPerRow} layout</div>
-                    </td>
-                    <td class="text-sm text-gray-900">${theater.type}</td>
-                    <td class="text-sm text-gray-900">${capacity} seats</td>
-                    <td class="text-sm text-gray-900">${theater.soundSystem}</td>
-                    <td>
-                        <span class="status-badge status-${theater.status}">${theater.status}</span>
-                    </td>
-                    <td>
-                        <div class="flex gap-2">
-                            <button class="btn-icon edit" onclick="editTheater(${theater.id})" title="Edit Theater">✏️</button>
-                            <button class="btn-icon delete" onclick="deleteTheater(${theater.id})" title="Delete Theater">🗑️</button>
-                        </div>
-                    </td>
-                `;
-        tbody.appendChild(row);
-    });
-}
-
-
-// Showtimes Management
-function renderShowtimesTable() {
-    const tbody = document.getElementById('showtimes-table-body');
-    tbody.innerHTML = '';
-
-    showtimes.forEach(showtime => {
-        const movie = movies.find(m => m.id === showtime.movieId);
-        const theater = theaters.find(t => t.id === showtime.theaterId);
-
-        const row = document.createElement('tr');
-        row.innerHTML = `
-                    <td>
-                        <div class="text-sm font-medium text-gray-900">${movie?.title || 'Unknown'}</div>
-                        <div class="text-sm text-gray-500">${movie?.genre || 'N/A'}</div>
-                    </td>
-                    <td class="text-sm text-gray-900">${theater?.name || 'Unknown'}</td>
-                    <td class="text-sm text-gray-900">${showtime.date}</td>
-                    <td class="text-sm text-gray-900">${showtime.time}</td>
-                    <td class="text-sm font-medium text-gray-900">${showtime.price}</td>
-                    <td>
-                        <div class="flex gap-2">
-                            <button class="btn-icon edit" onclick="editShowtime(${showtime.id})" title="Edit Showtime">✏️</button>
-                            <button class="btn-icon delete" onclick="deleteShowtime(${showtime.id})" title="Delete Showtime">🗑️</button>
-                        </div>
-                    </td>
-                `;
-        tbody.appendChild(row);
-    });
-}
-
-function populateShowtimeSelects() {
-    const movieSelect = document.getElementById('showtime-movie');
-    const theaterSelect = document.getElementById('showtime-theater');
-
-    movieSelect.innerHTML = '<option value="">Select Movie</option>';
-    theaterSelect.innerHTML = '<option value="">Select Theater</option>';
-
-    movies.forEach(movie => {
-        movieSelect.innerHTML += `<option value="${movie.id}">${movie.title}</option>`;
-    });
-
-    theaters.forEach(theater => {
-        theaterSelect.innerHTML += `<option value="${theater.id}">${theater.name}</option>`;
-    });
-}
-
-// Pricing Management
-function renderPricingTable() {
-    const tbody = document.getElementById('pricing-table-body');
-    tbody.innerHTML = '';
-
-    // Sort by priority (higher priority first)
-    const sortedRules = [...pricingRules].sort((a, b) => (b.priority || 0) - (a.priority || 0));
-
-    sortedRules.forEach(rule => {
-        const row = document.createElement('tr');
-        const ruleDetails = getPricingRuleDetails(rule);
-
-        row.innerHTML = `
-                    <td>
-                        <div class="text-sm font-medium text-gray-900">${rule.name}</div>
-                        <div class="text-sm text-gray-500">${rule.type || 'time'}-based rule</div>
-                    </td>
-                    <td class="text-sm text-gray-900">${ruleDetails}</td>
-                    <td class="text-sm text-gray-900">${rule.multiplier}x</td>
-                    <td>
-                        <span class="status-badge ${rule.active ? 'status-active' : 'status-inactive'}">
-                            ${rule.active ? 'Active' : 'Inactive'}
-                        </span>
-                        ${rule.priority ? `<div class="text-xs text-gray-500 mt-1">Priority: ${rule.priority}</div>` : ''}
-                    </td>
-                    <td>
-                        <div class="flex gap-2">
-                            <button class="btn-icon edit" onclick="editPricingRule(${rule.id})" title="Edit Rule">✏️</button>
-                            <button class="btn-icon delete" onclick="deletePricingRule(${rule.id})" title="Delete Rule">🗑️</button>
-                        </div>
-                    </td>
-                `;
-        tbody.appendChild(row);
-    });
-}
-
-function getPricingRuleDetails(rule) {
-    switch(rule.type) {
-        case 'time':
-            return rule.timeRange || 'All day';
-        case 'day':
-            return rule.days ? rule.days.join(', ') : 'All days';
-        case 'date':
-            return rule.dateRange || 'All dates';
-        case 'theater':
-            return rule.theaterType || 'All theaters';
-        default:
-            return rule.timeRange || 'All times';
     }
-}
+
+    function hideAddMovieForm() {
+        document.getElementById('add-movie-form').classList.add('hidden');
+        clearMovieForm();
+    }
+
+    function clearForm( formSelector ) {
+        $(formSelector).find("input[type=text], input[type=number], input[type=date], input[type=url], textarea").val("");
+        $(formSelector).find("select").prop("selectedIndex", 0);
+        $(formSelector).find("[data-edited-post-id]").attr("data-edited-post-id", "");
+        $(formSelector).fadeOut();
+    }
+
+    $(document).on("click", "#wtbm_clear_add_movie_form", function(e) {
+        e.preventDefault();
+        clearForm("#add-movie-form");
+
+    });
+
+    $(document).on("click", "#wtbm_clear_theater_from", function(e) {
+        e.preventDefault();
+        clearForm("#wtbmAddTheaterForm");
+    });
+
+    $(document).on("click", "#wtbm_clear_show_time_form", function(e) {
+        e.preventDefault();
+        clearForm("#wtbm_add-showtime-form");
+    });
+
+    $(document).on("click", "#wtbm_clear_pricing_form", function(e) {
+        e.preventDefault();
+        clearForm("#wtbm_AddPricingForm");
+
+    });
+
+    function clearMovieForm() {
+        document.getElementById('movie-title').value = '';
+        document.getElementById('movie-genre').value = '';
+        document.getElementById('movie-duration').value = '';
+        document.getElementById('movie-rating').value = '';
+        document.getElementById('movie-release-date').value = '';
+        document.getElementById('movie-poster').value = '';
+        document.getElementById('movie-description').value = '';
+    }
 
     function updatePricingFields() {
-        var type = $('#pricing-type').val();
+            var type = $('#pricing-type').val();
 
-        // Hide all conditional fields
-        $('#time-range-group, #days-group, #date-range-group, #theater-group').hide();
+            // Hide all conditional fields
+            $('#time-range-group, #days-group, #date-range-group, #theater-group').hide();
 
-        // Show relevant field based on type
+            // Show relevant field based on type
+            switch(type) {
+                case 'time':
+                    $('#time-range-group').show();
+                    break;
+                case 'day':
+                    $('#days-group').show();
+                    break;
+                case 'date':
+                    $('#date-range-group').show();
+                    break;
+                case 'theater':
+                    $('#theater-group').show();
+                    break;
+            }
+        }
+
+    function clearPricingForm() {
+        document.getElementById('pricing-name').value = '';
+        document.getElementById('pricing-type').value = 'time';
+        document.getElementById('pricing-time-range').value = '';
+        document.getElementById('pricing-days').selectedIndex = -1;
+        document.getElementById('pricing-start-date').value = '';
+        document.getElementById('pricing-end-date').value = '';
+        document.getElementById('pricing-theater-type').value = '';
+        document.getElementById('pricing-multiplier').value = '';
+        document.getElementById('pricing-priority').value = '';
+        document.getElementById('pricing-status').value = 'true';
+        document.getElementById('pricing-min-seats').value = '';
+        document.getElementById('pricing-description').value = '';
+        document.getElementById('pricing-combinable').checked = false;
+        updatePricingFields();
+    }
+
+    function previewPricing() {
+        const type = document.getElementById('pricing-type').value;
+        const multiplier = parseFloat(document.getElementById('pricing-multiplier').value) || 1.0;
+        const basePrice = 15.99; // Example base price
+        const finalPrice = (basePrice * multiplier).toFixed(2);
+
+        let conditions = '';
         switch(type) {
             case 'time':
-                $('#time-range-group').show();
+                const timeRange = document.getElementById('pricing-time-range').value;
+                conditions = timeRange ? `during ${timeRange}` : 'at any time';
                 break;
             case 'day':
-                $('#days-group').show();
+                const selectedDays = Array.from(document.getElementById('pricing-days').selectedOptions).map(o => o.text);
+                conditions = selectedDays.length ? `on ${selectedDays.join(', ')}` : 'on any day';
                 break;
             case 'date':
-                $('#date-range-group').show();
+                const startDate = document.getElementById('pricing-start-date').value;
+                const endDate = document.getElementById('pricing-end-date').value;
+                conditions = `from ${startDate || 'start'} to ${endDate || 'end'}`;
                 break;
             case 'theater':
-                $('#theater-group').show();
+                const theaterType = document.getElementById('pricing-theater-type').value;
+                conditions = theaterType ? `in ${theaterType} theaters` : 'in any theater';
                 break;
         }
+
+        const previewContent = `
+                    <div><strong>Base Price:</strong> ${basePrice}</div>
+                    <div><strong>Multiplier:</strong> ${multiplier}x</div>
+                    <div><strong>Final Price:</strong> ${finalPrice}</div>
+                    <div><strong>Applies:</strong> ${conditions}</div>
+                    <div><strong>Effect:</strong> ${multiplier > 1 ? `+${((multiplier - 1) * 100).toFixed(0)}% markup` : multiplier < 1 ? `-${((1 - multiplier) * 100).toFixed(0)}% discount` : 'No change'}</div>
+                `;
+
+        document.getElementById('preview-content').innerHTML = previewContent;
+        document.getElementById('pricing-preview').style.display = 'block';
     }
-
-function clearPricingForm() {
-    document.getElementById('pricing-name').value = '';
-    document.getElementById('pricing-type').value = 'time';
-    document.getElementById('pricing-time-range').value = '';
-    document.getElementById('pricing-days').selectedIndex = -1;
-    document.getElementById('pricing-start-date').value = '';
-    document.getElementById('pricing-end-date').value = '';
-    document.getElementById('pricing-theater-type').value = '';
-    document.getElementById('pricing-multiplier').value = '';
-    document.getElementById('pricing-priority').value = '';
-    document.getElementById('pricing-status').value = 'true';
-    document.getElementById('pricing-min-seats').value = '';
-    document.getElementById('pricing-description').value = '';
-    document.getElementById('pricing-combinable').checked = false;
-    updatePricingFields();
-}
-
-function previewPricing() {
-    const type = document.getElementById('pricing-type').value;
-    const multiplier = parseFloat(document.getElementById('pricing-multiplier').value) || 1.0;
-    const basePrice = 15.99; // Example base price
-    const finalPrice = (basePrice * multiplier).toFixed(2);
-
-    let conditions = '';
-    switch(type) {
-        case 'time':
-            const timeRange = document.getElementById('pricing-time-range').value;
-            conditions = timeRange ? `during ${timeRange}` : 'at any time';
-            break;
-        case 'day':
-            const selectedDays = Array.from(document.getElementById('pricing-days').selectedOptions).map(o => o.text);
-            conditions = selectedDays.length ? `on ${selectedDays.join(', ')}` : 'on any day';
-            break;
-        case 'date':
-            const startDate = document.getElementById('pricing-start-date').value;
-            const endDate = document.getElementById('pricing-end-date').value;
-            conditions = `from ${startDate || 'start'} to ${endDate || 'end'}`;
-            break;
-        case 'theater':
-            const theaterType = document.getElementById('pricing-theater-type').value;
-            conditions = theaterType ? `in ${theaterType} theaters` : 'in any theater';
-            break;
-    }
-
-    const previewContent = `
-                <div><strong>Base Price:</strong> ${basePrice}</div>
-                <div><strong>Multiplier:</strong> ${multiplier}x</div>
-                <div><strong>Final Price:</strong> ${finalPrice}</div>
-                <div><strong>Applies:</strong> ${conditions}</div>
-                <div><strong>Effect:</strong> ${multiplier > 1 ? `+${((multiplier - 1) * 100).toFixed(0)}% markup` : multiplier < 1 ? `-${((1 - multiplier) * 100).toFixed(0)}% discount` : 'No change'}</div>
-            `;
-
-    document.getElementById('preview-content').innerHTML = previewContent;
-    document.getElementById('pricing-preview').style.display = 'block';
-}
 
 // Bookings Management
 

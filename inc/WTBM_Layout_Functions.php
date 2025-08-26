@@ -396,7 +396,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 <?php }else{?>
                     <button class="btn btn-success mptrs_add_new_movie" data-edited-post-id=<?php echo esc_attr( $post_id );?> id="mptrs_edit_movie">Update Movie</button>
                 <?php }?>
-                <button class="btn btn-secondary" >Cancel</button>
+                <button class="btn btn-secondary" id="wtbm_clear_add_movie_form" >Cancel</button>
             </div>
             <?php
 
@@ -581,7 +581,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <?php echo $theater ? esc_html__( 'Update Theater', 'theaterly' ) : esc_html__( 'Add Theater', 'theaterly' ); ?>
                     </button>
                 <?php }?>
-                <button type="button" class="btn btn-secondary"><?php esc_html_e( 'Cancel', 'theaterly' ); ?></button>
+                <button type="button" class="btn btn-secondary" id="wtbm_clear_theater_from"><?php esc_html_e( 'Cancel', 'theaterly' ); ?></button>
             </div>
 
             <?php

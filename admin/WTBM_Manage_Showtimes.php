@@ -182,7 +182,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                     <button class="btn btn-success" id="<?php echo esc_attr( $add_action );?>" data-showTimeId="<?php echo esc_attr( $show_time_id );?>">
                         <?php echo ( $action_type === 'edit' ) ? esc_html__( 'Update Showtime', 'wptheaterly' ) : esc_html__( 'Add Showtime', 'wptheaterly' ); ?>
                     </button>
-                    <button class="btn btn-secondary">Cancel</button>
+                    <button class="btn btn-secondary" id="wtbm_clear_show_time_form"><?php esc_attr_e( 'Cancel', 'wptheaterly' )?></button>
                 </div>
             </form>
             <?php

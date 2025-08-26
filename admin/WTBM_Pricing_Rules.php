@@ -241,7 +241,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
 
             <div class="flex gap-2">
                 <button class="btn btn-success" data-edit-pricing="<?php echo esc_attr( $id );?>" id="<?php echo esc_attr( $add_action );?>"><?php echo ( $action_type === 'edit' ) ? esc_html__( 'Update Rule', 'wptheaterly' ) : esc_html__( 'Add Rule', 'wptheaterly' ); ?></button>
-                <button class="btn btn-secondary" type="button"><?php esc_html_e( 'Cancel', 'wptheaterly' ); ?></button>
+                <button class="btn btn-secondary" type="button" id="wtbm_clear_pricing_form"><?php esc_html_e( 'Cancel', 'wptheaterly' ); ?></button>
                 <button class="btn btn-secondary" style="display: none" id="wtbp_previewPricing" type="button"><?php esc_html_e( 'Preview Pricing', 'wptheaterly' ); ?></button>
             </div>
 
