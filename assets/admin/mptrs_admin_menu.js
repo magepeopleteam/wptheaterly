@@ -91,6 +91,58 @@
 
     });
 
+    $(document).on('click', '.wtbm_delete_movie', function (e) {
+        let deleteId = $(this).attr('data-delete-movie-id');
+        let movie = 'movie_content_'+deleteId;
+
+        wtbm_delete_custom_post( deleteId, movie );
+    });
+    $(document).on('click', '.wtbm_delete_theater', function (e) {
+        let theaterId = $(this).attr('data-delete-theater-id');
+        let theater = 'theater_content_'+theaterId;
+        wtbm_delete_custom_post( theaterId, theater );
+
+    });
+    $(document).on('click', '.wtbm_delete_pricing_rules', function (e) {
+        let pricing_rulesId = $(this).attr('data-pricing-rules-id');
+        let pricing_rules = 'pricing_rules_content_'+pricing_rulesId;
+        wtbm_delete_custom_post( pricing_rulesId, pricing_rules );
+    });
+    $(document).on('click', '.wtbm_delete_show_time', function (e) {
+        let show_timeId = $(this).attr('data-delete-showtime-id');
+        let show_time = 'show_time_content_'+show_timeId;
+        wtbm_delete_custom_post( show_timeId, show_time );
+    });
+
+    // $(document).on('click', '.wtbm_delete_movie', function (e) {
+
+    function wtbm_delete_custom_post( post_id, content ) {
+        const delete_rule = {
+            action: "wtbt_delete_custom_post",
+            post_id: post_id,
+            _ajax_nonce: mptrs_admin_ajax.nonce,
+        };
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url,
+            type: "POST",
+            data: delete_rule,
+            success: function (response) {
+
+                if (response.success) {
+                    $('#'+content).fadeOut();
+                    alert( response.data.message );
+                } else {
+                    alert("Error: " + response.data);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("Something went wrong!");
+            }
+        });
+    }
+
+    // });
+
     $(document).on('click', '.wtbm_edit_pricing_rules', function (e) {
         const show_pricing_rule = {
             action: "wtbm_add_edit_pricing_form",

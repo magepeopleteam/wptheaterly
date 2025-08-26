@@ -459,8 +459,8 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <div class="flex gap-2">
                             <button class="btn-icon edit wtbm_edit_movie" id="wrbm_edit_<?php echo esc_attr( $id );?>"
                                     title="<?php esc_attr_e( 'Edit Movie', 'theaterly' ); ?>">✏️</button>
-                            <button class="btn-icon delete" id="wrbm_delete_<?php echo esc_attr( $id );?>"
-                                    title="<?php esc_attr_e( 'Delete Movie', 'theaterly' ); ?>">🗑️</button>
+                            <button class="btn-icon delete wtbm_delete_movie" id="wrbm_delete_<?php echo esc_attr( $id );?>"
+                                    title="<?php esc_attr_e( 'Delete Movie', 'theaterly' ); ?>" data-delete-movie-id="<?php echo esc_attr( $id );?>">🗑️</button>
                         </div>
                     </td>
                 </tr>
@@ -611,7 +611,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 // Total seats
                 $total_seats = $rows * $seats_row;
                 ?>
-                <tr data-id="<?php echo esc_attr( $id ); ?>">
+                <tr id="theater_content_<?php echo esc_attr( $id );?>" data-id="<?php echo esc_attr( $id ); ?>">
                     <td>
                         <div class="font-medium text-gray-900"><?php echo $name; ?></div>
                         <div class="text-sm text-gray-500">
@@ -636,8 +636,8 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                 ✏️
                             </button>
                             <button
-                                    class="btn-icon delete"
-                                    data-theater-id="<?php echo esc_attr( $id ); ?>"
+                                    class="btn-icon delete wtbm_delete_theater"
+                                    data-delete-theater-id="<?php echo esc_attr( $id ); ?>"
                                     title="<?php esc_attr_e( 'Delete Theater', 'text-domain' ); ?>">
                                 🗑️
                             </button>

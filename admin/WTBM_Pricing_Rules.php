@@ -37,7 +37,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
             $cpt = MPTRS_Function::get_pricing_cpt();
 
-            error_log( print_r( [ '$_POST' => $_POST ], true ) );
+//            error_log( print_r( [ '$_POST' => $_POST ], true ) );
 
             $name           = sanitize_text_field( $_POST['name'] );
             $description    = sanitize_textarea_field( $_POST['description'] );
@@ -258,6 +258,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
             }
 
             foreach ( $pricing_rules_date as $rule ) {
+                $id           = esc_html( $rule['id'] );
                 $name        = esc_html( $rule['name'] );
                 $desc        = esc_html( $rule['description'] );
                 $type        = esc_html( $rule['rules_type'] );
@@ -297,7 +298,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                         break;
                 }
                 ?>
-                <tr>
+                <tr id="pricing_rules_content_<?php echo esc_attr( $id );?>">
                     <td>
                         <div class="text-sm font-medium text-gray-900"><?php echo $name; ?></div>
                         <div class="text-sm text-gray-500"><?php echo $subtitle; ?></div>
@@ -313,7 +314,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                     <td>
                         <div class="flex gap-2">
                             <button class="btn-icon edit wtbm_edit_pricing_rules" data-pricing-id="<?php echo intval( $rule['id'] ); ?>" title="Edit Rule">✏️</button>
-                            <button class="btn-icon delete" data-id="<?php echo intval( $rule['id'] ); ?>" title="Delete Rule">🗑️</button>
+                            <button class="btn-icon delete wtbm_delete_pricing_rules" data-pricing-rules-id="<?php echo intval( $rule['id'] ); ?>" title="Delete Rule">🗑️</button>
                         </div>
                     </td>
                 </tr>

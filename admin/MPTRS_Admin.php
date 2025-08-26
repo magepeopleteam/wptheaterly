@@ -23,9 +23,10 @@
 				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Hidden_Product.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/WTBP_CPT.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Quick_Setup.php';
+				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Manage_Theater.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Manage_Showtimes.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Pricing_Rules.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/WTBP_Admin_Manage_Ajax.php';
+				require_once MPTRS_PLUGIN_DIR . '/admin/WTBP_Manage_Movie.php';
 				//*************Global Settings*****************//
 				require_once MPTRS_PLUGIN_DIR . '/admin/global/MPTRS_Setting_API.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/global/MPTRS_Settings_Global.php';

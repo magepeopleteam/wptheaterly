@@ -63,7 +63,6 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 wp_send_json_error("Failed to insert post");
             }
         }
-
         public function wtbm_add_edit_show_time_form(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
@@ -78,7 +77,6 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
             wp_send_json_success(  $add_form );
 
         }
-
         public static function add_edit_show_time_html( $action_type, $showtime_id ) {
             ob_start();
             if ( ! current_user_can( 'manage_options' ) ) {
@@ -176,8 +174,6 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
             return ob_get_clean();
         }
-
-
         public static function display_show_times_data() {
             $show_time_data = WTBM_Layout_Functions::get_show_time_data();
             ob_start();
@@ -185,7 +181,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
             if ( ! empty( $show_time_data ) && is_array( $show_time_data ) ) {
                 foreach ( $show_time_data as $showtime ) {
                     ?>
-                    <tr>
+                    <tr id="show_time_content_<?php echo esc_attr( $showtime['id'] );?>">
                         <td>
                             <div class="text-sm font-medium text-gray-900">
                                 <?php echo esc_html( $showtime['name'] ); ?>
@@ -211,8 +207,8 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                                 <button class="btn-icon editwtbm_edit_show_time"
                                         data-editShowtime="<?php echo esc_attr( $showtime['id'] ); ?>"
                                         title="<?php esc_attr_e( 'Edit Showtime', 'wtbm' ); ?>">✏️</button>
-                                <button class="btn-icon delete"
-                                        data-deleteShowtime="<?php echo esc_attr( $showtime['id'] ); ?>"
+                                <button class="btn-icon delete wtbm_delete_show_time"
+                                        data-delete-showtime-id="<?php echo esc_attr( $showtime['id'] ); ?>"
                                         title="<?php esc_attr_e( 'Delete Showtime', 'wtbm' ); ?>">🗑️</button>
                             </div>
                         </td>
@@ -231,7 +227,6 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
             return ob_get_clean();
         }
-
 
     }
 
