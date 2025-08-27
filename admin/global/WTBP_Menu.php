@@ -133,7 +133,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                         <div id="wtbmAddTheaterForm" class="form-section" style="display: none">
                             <!--Here-->
                             <?php
-//                                echo WTBM_Layout_Functions::add_edit_theater_html();
+//                                echo WTBM_Layout_Functions::add_edit_theater_html( 'add', '' );
                             ?>
                         </div>
 

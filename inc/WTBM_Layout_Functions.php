@@ -571,6 +571,17 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                           placeholder="<?php esc_attr_e( 'Theater description', 'theaterly' ); ?>"><?php echo $theater_description; ?></textarea>
             </div>
 
+            <div class="tabsItem" data-tabs="#mptrs_seat_mapping">
+                <header>
+                    <h2><?php esc_html_e('Seat Mapping', 'tablely'); ?></h2>
+                    <span><?php esc_html_e('In this section you will make table and seat for reservation.', 'tablely'); ?></span>
+                </header>
+                <section class="mptrs-seat-mapping-section " id="mptrs-seat-mapping-section">
+                    <?php
+                    WTBM_Theater_Seat_Mapping::render_seat_mapping_meta_box( $theater_id ); ?>
+                </section>
+            </div>
+
             <div class="flex gap-2">
                 <?php if( $action === 'add' ){?>
                 <button type="button" class="btn btn-success" id="wtbp_add_new_theater">

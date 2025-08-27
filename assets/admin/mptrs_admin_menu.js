@@ -1,5 +1,4 @@
 (function ($) {
-
     $(document).on('click', '.nav-item', function (e) {
 
         $('.nav-item').removeClass('active');
@@ -113,8 +112,6 @@
         let show_time = 'show_time_content_'+show_timeId;
         wtbm_delete_custom_post( show_timeId, show_time );
     });
-
-    // $(document).on('click', '.wtbm_delete_movie', function (e) {
 
     function wtbm_delete_custom_post( post_id, content ) {
         const delete_rule = {
@@ -264,13 +261,70 @@
             }
         });
 
-        // addMovieData.push(movie);
-        // movies.push(movie);
-
-
-        // hideAddMovieForm();
     }
     function addTheater( post_id ) {
+        var seatPlanTexts = [];
+        var selectedSeats = [];
+        var dynamicShapes = [];
+        $('.mptrs_mappingSeat.save').each(function () {
+            if ( $(this).css('background-color') !== 'rgb(255, 255, 255)') { // Not default white
+                const id = $(this).data('id');
+                const row = $(this).data('row');
+                const col = $(this).data('col');
+                const backgroundImage = $(this).data('background-image');
+                const seat_number = $(this).attr('data-seat-num');
+                const data_degree = $(this).data('degree');
+                const data_tableBind = $(this).attr('data-tablebind');
+                const color = $(this).css('background-color');
+                const price = $(this).attr('data-price') || 0;
+                const width =$(this).css('width') || 0;
+                const height = $(this).css('height') || 0;
+                const z_index = $(this).css('z-index') || 0;
+                const left = $(this).css('left') || 0;
+                const top = $(this).css('top') || 0;
+                const border_radius = $(this).css('border-radius') || 0;
+                const seatText = $(this).find('.seatText').text();
+
+                selectedSeats.push({ id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage });
+            }
+        });
+
+        $('.mptrs_text-wrapper').each(function () {
+            const textLeft = parseInt($(this).css('left')) || 0;
+            const textTop = parseInt($(this).css('top')) || 0;
+            const class_name = $(this).data('class');
+            const color = $(this).children('.mptrs_dynamic-text' ).css('color') || '';
+            const fontSize = $(this).children('.mptrs_dynamic-text').css('font-size') || '';
+            const text = $(this).children('.mptrs_dynamic-text').text() || '';
+            const textRotateDeg = $(this).data('text-degree') || 0;
+
+            seatPlanTexts.push({ text, class_name, textLeft, textTop, color, fontSize, textRotateDeg});
+        });
+
+        $('.mptrs_dynamicShape').each(function () {
+            const textLeft = parseInt($(this).css('left')) || 0;
+            const textTop = parseInt($(this).css('top')) || 0;
+            const width = parseInt($(this).css('width')) || 0;
+            const height = parseInt($(this).css('height')) || 0;
+            const backgroundColor = $(this).css('background-color') || '';
+            const borderRadius = $(this).css('border-radius') || '';
+            const clipPath = $(this).css('clip-path') || '';
+            const shapeRotateDeg = $(this).data('shape-rotate') || 0;
+            const tableBindID = $(this).attr('id').trim() || '';
+            const backgroundImage = $(this).data('background-image');
+
+            dynamicShapes.push({ textLeft, textTop, width, height,  backgroundColor, borderRadius, clipPath, shapeRotateDeg,tableBindID, backgroundImage });
+        });
+
+        if ( selectedSeats.length === 0 ) {
+            alert('No seats selected to save!');
+            return;
+        }
+
+        let selectedSeatsStr = JSON.stringify(selectedSeats);
+        let seatPlanTextsStr = JSON.stringify(seatPlanTexts);
+        let dynamicShapesStr = JSON.stringify(dynamicShapes);
+
         const rows = parseInt(document.getElementById('theater-rows').value);
         const seatsPerRow = parseInt(document.getElementById('theater-seats-per-row').value);
 
@@ -282,6 +336,9 @@
         var theater = {
             action: action,
             post_id: post_id,
+            seat_maps_meta_data: selectedSeatsStr,
+            seatPlanTexts: seatPlanTextsStr,
+            dynamicShapes: dynamicShapesStr,
             id: Date.now(),
             name: $('#theater-name').val(),
             description: $('#theater-description').val(),
@@ -320,9 +377,6 @@
                 alert("Something went wrong!");
             }
         });
-
-        console.log( theater );
-
         /*theaters.push(theater);
         renderTheatersTable();
         hideAddTheaterForm();*/
@@ -461,11 +515,6 @@
             }
         });
 
-        // pricingRules.push(rule);
-        // renderPricingTable();
-        // hideAddPricingForm();
-
-        // Show success message
         alert(`Pricing rule "${name}" added successfully!`);
     }
 
@@ -653,11 +702,7 @@
 
     function updatePricingFields() {
             var type = $('#pricing-type').val();
-
-            // Hide all conditional fields
             $('#time-range-group, #days-group, #date-range-group, #theater-group').hide();
-
-            // Show relevant field based on type
             switch(type) {
                 case 'time':
                     $('#time-range-group').show();
@@ -673,23 +718,6 @@
                     break;
             }
         }
-
-    function clearPricingForm() {
-        document.getElementById('pricing-name').value = '';
-        document.getElementById('pricing-type').value = 'time';
-        document.getElementById('pricing-time-range').value = '';
-        document.getElementById('pricing-days').selectedIndex = -1;
-        document.getElementById('pricing-start-date').value = '';
-        document.getElementById('pricing-end-date').value = '';
-        document.getElementById('pricing-theater-type').value = '';
-        document.getElementById('pricing-multiplier').value = '';
-        document.getElementById('pricing-priority').value = '';
-        document.getElementById('pricing-status').value = 'true';
-        document.getElementById('pricing-min-seats').value = '';
-        document.getElementById('pricing-description').value = '';
-        document.getElementById('pricing-combinable').checked = false;
-        updatePricingFields();
-    }
 
     function previewPricing() {
         const type = document.getElementById('pricing-type').value;
@@ -729,9 +757,5 @@
         document.getElementById('preview-content').innerHTML = previewContent;
         document.getElementById('pricing-preview').style.display = 'block';
     }
-
-// Bookings Management
-
-
 
 }(jQuery));

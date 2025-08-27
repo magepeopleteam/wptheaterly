@@ -31,6 +31,19 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
             $status      = sanitize_text_field($_POST['status']);
             $description = sanitize_textarea_field($_POST['description']);
 
+
+            $seat_maps_meta_data = isset( $_POST['seat_maps_meta_data'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['seat_maps_meta_data'] ) ), true ) : [];
+            $seat_plan_texts= isset( $_POST['seatPlanTexts'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['seatPlanTexts'] ) ), true ) : '' ;
+            $dynamicShapes = isset( $_POST['dynamicShapes'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['dynamicShapes'] ) ), true ) : '';
+
+            $seat_plan_data = array(
+                'seat_data' => $seat_maps_meta_data,
+                'seat_text_data' => $seat_plan_texts,
+                'dynamic_shapes' => $dynamicShapes,
+            );
+
+            error_log( print_r( [ '$seat_plan_data' => $seat_plan_data ], true ) );
+
             $post_id = wp_insert_post([
                 'post_title'   => $title,
                 'post_type'    => $cpt,
@@ -45,6 +58,7 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
                 update_post_meta( $post_id, 'wtbp_theater_seatsPerRow', $seatsPerRow );
                 update_post_meta( $post_id, 'wtbp_theater_soundSystem', $soundSystem );
                 update_post_meta( $post_id, 'wtbp_theater_status', $status );
+                update_post_meta( $post_id, 'wtbp_theater_seat_map', $seat_plan_data );
 
 
                 $theater_data =array(
@@ -80,7 +94,19 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
                 'post_content' => $description,
             ];
 
+
+
             if ( $post_id ) {
+
+                $seat_maps_meta_data = isset( $_POST['seat_maps_meta_data'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['seat_maps_meta_data'] ) ), true ) : [];
+                $seat_plan_texts= isset( $_POST['seatPlanTexts'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['seatPlanTexts'] ) ), true ) : '' ;
+                $dynamicShapes = isset( $_POST['dynamicShapes'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['dynamicShapes'] ) ), true ) : '';
+                $seat_plan_data = array(
+                    'seat_data' => $seat_maps_meta_data,
+                    'seat_text_data' => $seat_plan_texts,
+                    'dynamic_shapes' => $dynamicShapes,
+                );
+
 
                 $updated_post_id = wp_update_post( $post_data );
                 // Save meta data
@@ -89,6 +115,10 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
                 update_post_meta( $post_id, 'wtbp_theater_seatsPerRow', $seatsPerRow );
                 update_post_meta( $post_id, 'wtbp_theater_soundSystem', $soundSystem );
                 update_post_meta( $post_id, 'wtbp_theater_status', $status );
+
+                update_post_meta( $post_id, 'wtbp_theater_seat_map', $seat_plan_data );
+
+
 
                 $theater_data =array(
                     0=>WTBM_Layout_Functions::get_theater_data_by_id( $post_id ),

@@ -32,9 +32,12 @@
 				require_once MPTRS_PLUGIN_DIR . '/frontend/MPTRS_Frontend.php';
 			}
 			public function global_enqueue() {
-				wp_enqueue_script('jquery');
-				wp_enqueue_script('jquery-ui-core');
-				wp_enqueue_script('jquery-ui-datepicker');
+                wp_enqueue_script( 'jquery' );
+                wp_enqueue_script( 'jquery-ui-core' );
+                wp_enqueue_script( 'jquery-ui-datepicker' );
+                wp_enqueue_script('jquery-ui-mouse');
+                wp_enqueue_script('jquery-ui-sortable');
+                wp_enqueue_script('jquery-ui-dialog');
 				wp_enqueue_style('mp_jquery_ui', MPTRS_PLUGIN_URL . '/assets/jquery-ui.min.css', array(), '1.13.2');
 				wp_enqueue_style('mp_font_awesome', MPTRS_PLUGIN_URL . '/assets/admin/all.min.css', array(), '5.15.3');
 				wp_enqueue_style('mp_select_2', MPTRS_PLUGIN_URL . '/assets/select_2/select2.min.css', array(), '4.0.13');
@@ -68,6 +71,11 @@
 				// ****custom************//
 				wp_enqueue_style('mptrs_admin', MPTRS_PLUGIN_URL . '/assets/admin/mptrs_admin.css', [], time());
 				wp_enqueue_script('mptrs_admin', MPTRS_PLUGIN_URL . '/assets/admin/mptrs_admin.js', ['jquery'], time(), true);
+
+
+                wp_enqueue_script('create_seat_plan', MPTRS_PLUGIN_URL . '/assets/admin/create_seat_plan.js', ['jquery'], time(), true);
+                wp_enqueue_style('create_seat_plan', MPTRS_PLUGIN_URL . '/assets/admin/create_seat_plan.css', array(), time());
+
 				wp_localize_script('mptrs_admin', 'mptrs_admin_ajax', array(
 					'ajax_url' => admin_url('admin-ajax.php'),
 					'nonce'    => wp_create_nonce('mptrs_admin_nonce')
