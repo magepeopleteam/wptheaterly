@@ -14,6 +14,9 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
             add_action('wp_ajax_wtbm_add_edit_show_time_form', [ $this, 'wtbm_add_edit_show_time_form' ]);
             add_action('wp_ajax_nopriv_wtbm_add_edit_show_time_form', [ $this, 'wtbm_add_edit_show_time_form' ]);
+
+            add_action('wp_ajax_wtbm_get_theater_categories', [ $this, 'wtbm_get_theater_categories' ]);
+            add_action('wp_ajax_nopriv_wtbm_get_theater_categories', [ $this, 'wtbm_get_theater_categories' ]);
         }
 
         function wtbp_insert_show_time_post() {
@@ -79,11 +82,60 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
             }else{
                 $type = 'edit';
             }
-            $add_form = WTBM_Manage_Showtimes::add_edit_show_time_html( $type, $post_id );
+            $add_form = self::add_edit_show_time_html( $type, $post_id );
 
             wp_send_json_success(  $add_form );
 
         }
+        public function wtbm_get_theater_categories(){
+            check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
+
+            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';
+            if( $post_id ){
+                $categories_html = self::get_theater_categories_html( $post_id );
+                wp_send_json_success(  $categories_html );
+            }else{
+                wp_send_json_error("Invalid Theater");
+            }
+
+
+        }
+
+        public static function get_theater_categories( $theater_id ){
+            return get_post_meta( $theater_id, 'wtbp_theater_category', true );
+        }
+        public static function get_theater_categories_html( $post_id ) {
+
+            $categories = self::get_theater_categories( $post_id );
+            ob_start();
+            echo '<div class="wtbm_theater_categories_list">';
+            foreach ( $categories as $index => $cat ) {
+                $cat_name = isset( $cat['category_name'] ) ? esc_html( $cat['category_name'] ) : '';
+                $seats    = isset( $cat['seats'] ) ? intval( $cat['seats'] ) : 0;
+                $price    = isset( $cat['price'] ) ? esc_html( $cat['price'] ) : '0.00';
+                ?>
+                <div class="pricing-item">
+                    <div
+                            data-cat-name="<?php echo esc_attr( $cat_name );?>"
+                            data-cat-seats="<?php echo esc_attr( $seats );?>"
+                            data-cat-base-price="<?php echo esc_attr( $price );?>"
+                    >
+                        <div class="font-medium"><?php echo esc_attr( $cat_name );?></div>
+                        <div class="text-sm text-gray-500"><?php echo esc_attr( $seats );?> seats</div>
+                        <div class="text-sm text-gray-500">Base: <?php echo esc_attr( $price );?></div>
+                    </div>
+                    <div>
+                        <input type="number" class="form-input pricing-input" data-category="Regular" placeholder="12.99" value="<?php echo esc_attr( $price );?>" step="0.01" min="0" style="width: 100px;">
+                    </div>
+                </div>
+                <?php
+
+            }
+
+            echo '</div>';
+            return ob_get_clean();
+        }
+
         public static function add_edit_show_time_html( $action_type, $showtime_id ) {
             ob_start();
             if ( ! current_user_can( 'manage_options' ) ) {
@@ -135,7 +187,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
                     <div class="form-group">
                         <label class="form-label"><?php esc_html_e( 'Theater', 'wptheaterly' ); ?></label>
-                        <select id="showtime-theater" name="showtime_theater" class="form-input">
+                        <select id="wtbm_showtime_theater" name="showtime_theater" class="form-input">
                             <option value=""><?php esc_html_e( 'Select Theater', 'wptheaterly' ); ?></option>
                             <?php if( is_array( $theater_data ) && !empty( $theater_data ) ){
                                 foreach ( $theater_data as $theater ){
@@ -172,6 +224,11 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                     </div>
                 </div>
 
+                <div id="wtbm_pricing-section" class="wtbm_pricing-section ">
+                    <h5 class="font-semibold mb-3">Pricing by Seating Category</h5>
+                    <div id="wtbm_pricing_categories"></div>
+                </div>
+
                 <div class="form-group mb-4">
                     <label class="form-label"><?php esc_html_e( 'Description', 'wptheaterly' ); ?></label>
                     <textarea id="showTime-description" name="showtime_description" class="form-input" rows="3"
@@ -184,6 +241,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                     </button>
                     <button class="btn btn-secondary" id="wtbm_clear_show_time_form"><?php esc_attr_e( 'Cancel', 'wptheaterly' )?></button>
                 </div>
+
             </form>
             <?php
 

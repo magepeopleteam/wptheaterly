@@ -115,13 +115,9 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
             foreach ( $templates as $template ) {
                 $plan_data = get_post_meta( $template, 'wtbp_theater_seat_map', true );
 
-                error_log( print_r( [ '$plan_data' => $plan_data ], true ) );
-
                 $plan_seats = isset( $plan_data['seat_data'] ) ? $plan_data['seat_data'] : array();
                 $plan_seat_texts = isset( $plan_data['seat_text_data'] ) ? $plan_data['seat_text_data'] : array();
                 $dynamic_shapes = isset( $plan_data['dynamic_shapes'] ) ? $plan_data['dynamic_shapes'] : '';
-
-//                error_log( print_r( [ '$dynamic_shapes' => $dynamic_shapes ], true ) );
 
                 if ( is_array( $dynamic_shapes ) && count( $dynamic_shapes ) > 0 ) {
                     foreach ( $dynamic_shapes as $dynamic_shape ) {

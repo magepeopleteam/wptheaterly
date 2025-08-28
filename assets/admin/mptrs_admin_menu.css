@@ -398,3 +398,100 @@ body {
 .text-gray-900 { color: #111827; }
 .font-medium { font-weight: 500; }
 .font-semibold { font-weight: 600; }
+.wtbm_theater_category_box {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    position: relative;
+    background: #fafafa;
+}
+.wtbm_theater_remove_btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #e74c3c;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+.wtbm_theater_form_group_holder{
+    display: flex;
+}
+.wtbm_theater_form_group {
+    display: inline-block;
+    margin-right: 15px;
+    width: 33%;
+}
+.wtbm_theater_form_group label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 3px;
+    font-weight: bold;
+}
+.wtbm_theater_form_group input {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: calc( 100% - 10px );
+}
+.wtbm_theater_add_btn {
+    background: #16a085;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.wtbm_theater_add_btn:hover {
+    background: #138d75;
+}
+
+.wtbm_category_add_section{
+    padding: 10px;
+    border: 1px solid #e3e1e1;
+    border-radius: 5px;
+}
+.wtbm_pricing-section {
+    background: #fef7f0;
+    border: 1px solid #fed7aa;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.wtbm_pricing-section h5 {
+    margin-bottom: 1.5rem;
+}
+.pricing-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 1rem;
+}
+.font-medium {
+    font-weight: 500;
+}
+.text-gray-500 {
+    color: #6b7280;
+}
+.text-gray-500 {
+    color: #6b7280;
+}
+.form-input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+}

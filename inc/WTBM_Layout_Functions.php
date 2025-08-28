@@ -108,14 +108,15 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $query->the_post();
 
                 $movie_data = [
-                    'id'            => get_the_ID(),
-                    'name'          => get_the_title(),
-                    'description'   => get_the_content(),
-                    'status'        => get_post_meta( get_the_ID(), 'wtbp_theater_status', true ),
-                    'sound'         => get_post_meta( get_the_ID(), 'wtbp_theater_soundSystem', true ),
-                    'seats_per_row' => get_post_meta( get_the_ID(), 'wtbp_theater_seatsPerRow', true ),
-                    'theater_row'   => get_post_meta( get_the_ID(), 'wtbp_theater_rows', true ),
-                    'type'          => get_post_meta( get_the_ID(), 'wtbp_theater_type', true ),
+                    'id'                => get_the_ID(),
+                    'name'              => get_the_title(),
+                    'description'       => get_the_content(),
+                    'status'            => get_post_meta( get_the_ID(), 'wtbp_theater_status', true ),
+                    'sound'             => get_post_meta( get_the_ID(), 'wtbp_theater_soundSystem', true ),
+                    'seats_per_row'     => get_post_meta( get_the_ID(), 'wtbp_theater_seatsPerRow', true ),
+                    'theater_row'       => get_post_meta( get_the_ID(), 'wtbp_theater_rows', true ),
+                    'type'              => get_post_meta( get_the_ID(), 'wtbp_theater_type', true ),
+                    'theater_category'  => get_post_meta( get_the_ID(), 'wtbp_theater_category', true ),
                 ];
             }
             wp_reset_postdata();
@@ -467,6 +468,69 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             }
         }
 
+        public static function add_category( $action, $category_data ){
+            ob_start();
+            if( $action === 'add' ){
+            ?>
+            <div class="wtbm_theater_category_box" data-id="1">
+                <h4>Seating Category 1</h4>
+
+                <div class="wtbm_theater_form_group_holder">
+                    <div class="wtbm_theater_form_group">
+                        <label>Category Name</label>
+                        <input type="text" placeholder="e.g., Regular, Premium" name="wtbm_theater_category_name" required>
+                    </div>
+
+                    <div class="wtbm_theater_form_group">
+                        <label>Number of Seats</label>
+                        <input type="number" placeholder="50" name="wtbm_theater_seats" required>
+                    </div>
+
+                    <div class="wtbm_theater_form_group">
+                        <label>Base Price ($)</label>
+                        <input type="number" step="0.01" placeholder="12.99" name="wtbm_theater_price" required>
+                    </div>
+                </div>
+
+            </div>
+            <?php
+            }else{
+                $count_category = 1;
+                if( is_array( $category_data ) && ! empty( $category_data ) ){
+                    foreach ( $category_data as $category ) {
+                        ?>
+                        <div class="wtbm_theater_category_box" data-id="<?php echo esc_attr( $count_category );?>">
+                            <?php if( $count_category > 1 ){?>
+                                <button type="button" class="wtbm_theater_remove_btn">&times;</button>
+                            <?php }?>
+                            <h4>Seating Category <?php echo esc_attr( $count_category );?></h4>
+                            <div class="wtbm_theater_form_group_holder">
+                                <div class="wtbm_theater_form_group">
+                                    <label>Category Name</label>
+                                    <input type="text" placeholder="e.g., Regular, Premium" name="wtbm_theater_category_name" value="<?php echo esc_attr( $category['category_name']);?>" required>
+                                </div>
+
+                                <div class="wtbm_theater_form_group">
+                                    <label>Number of Seats</label>
+                                    <input type="number" placeholder="50" name="wtbm_theater_seats" value="<?php echo esc_attr( $category['seats']);?>" required>
+                                </div>
+
+                                <div class="wtbm_theater_form_group">
+                                    <label>Base Price ($)</label>
+                                    <input type="number" step="0.01" placeholder="12.99" name="wtbm_theater_price" value="<?php echo esc_attr( $category['price']);?>" required>
+                                </div>
+                            </div>
+
+                        </div>
+                    <?php
+                        $count_category++;
+                    }
+                }
+
+            }
+
+            return ob_get_clean();
+        }
         public static function add_edit_theater_html( $action, $theater = null ) {
             // Prefill data if editing
             $theater_id          = $theater ? esc_attr( $theater['id'] ?? '' ) : '';
@@ -477,6 +541,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             $theater_sound       = $theater ? esc_attr( $theater['sound'] ?? 'Dolby Digital' ) : 'Dolby Digital';
             $theater_status      = $theater ? esc_attr( $theater['status'] ?? 'active' ) : 'active';
             $theater_description = $theater ? esc_textarea( $theater['description'] ?? '' ) : '';
+            $theater_category    = $theater ?  $theater['theater_category'] ?? '' : '';
 
             /*$defaults = [
                 'id'       => '',
@@ -565,6 +630,17 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 </div>
             </div>
 
+            <div class="form-group mb-4 wtbm_category_add_section">
+                <div id="wtbm_theater_categories_wrapper">
+                    <!--Add category-->
+                    <?php
+                        echo self::add_category( $action, $theater_category );
+                    ?>
+                </div>
+
+                <button type="button" class="wtbm_theater_add_btn">+ Add Seating Category</button>
+            </div>
+
             <div class="form-group mb-4">
                 <label class="form-label"><?php esc_html_e( 'Description', 'theaterly' ); ?></label>
                 <textarea id="theater-description" class="form-input" rows="3"
@@ -588,7 +664,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <?php echo $theater ? esc_html__( 'Update Theater', 'theaterly' ) : esc_html__( 'Add Theater', 'theaterly' ); ?>
                 </button>
                 <?php } else{?>
-                    <button type="button" class="btn btn-success" id="wtbm_update_theater">
+                    <button type="button" class="btn btn-success" id="wtbm_update_theater" date-theater-id="<?php echo esc_attr( $theater_id );?>">
                         <?php echo $theater ? esc_html__( 'Update Theater', 'theaterly' ) : esc_html__( 'Add Theater', 'theaterly' ); ?>
                     </button>
                 <?php }?>

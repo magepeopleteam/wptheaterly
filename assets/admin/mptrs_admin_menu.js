@@ -23,7 +23,7 @@
     });
 
     $(document).on('click', '#wtbm_update_theater', function (e) {
-        let post_id = $(this).attr('wtbp_theater_id');
+        let post_id = $(this).attr('date-theater-id');
         addTheater( post_id );
     });
 
@@ -263,6 +263,7 @@
 
     }
     function addTheater( post_id ) {
+
         var seatPlanTexts = [];
         var selectedSeats = [];
         var dynamicShapes = [];
@@ -316,10 +317,22 @@
             dynamicShapes.push({ textLeft, textTop, width, height,  backgroundColor, borderRadius, clipPath, shapeRotateDeg,tableBindID, backgroundImage });
         });
 
-        if ( selectedSeats.length === 0 ) {
-            alert('No seats selected to save!');
-            return;
-        }
+        let wtbm_theater_categories = [];
+        $("#wtbm_theater_categories_wrapper .wtbm_theater_category_box").each(function(){
+            let categoryName = $(this).find("input[name='wtbm_theater_category_name']").val();
+            let seats = $(this).find("input[name='wtbm_theater_seats']").val();
+            let price = $(this).find("input[name='wtbm_theater_price']").val();
+
+            wtbm_theater_categories.push({
+                category_name: categoryName,
+                seats: seats,
+                price: price
+            });
+        });
+        wtbm_theater_categories = JSON.stringify( wtbm_theater_categories);
+
+
+        // console.log( wtbm_categories );
 
         let selectedSeatsStr = JSON.stringify(selectedSeats);
         let seatPlanTextsStr = JSON.stringify(seatPlanTexts);
@@ -333,6 +346,7 @@
             action = 'mptrs_update_theater_post';
         }
 
+        console.log( action );
         var theater = {
             action: action,
             post_id: post_id,
@@ -347,10 +361,11 @@
             seatsPerRow: seatsPerRow,
             soundSystem: $('#theater-sound').val(),
             status: $('#theater-status').val(),
+            wtbm_categories: wtbm_theater_categories,
             _ajax_nonce: mptrs_admin_ajax.nonce
         };
 
-        $.ajax({
+       $.ajax({
             url: mptrs_admin_ajax.ajax_url, // admin-ajax.php
             type: "POST",
             data: theater,
@@ -377,9 +392,6 @@
                 alert("Something went wrong!");
             }
         });
-        /*theaters.push(theater);
-        renderTheatersTable();
-        hideAddTheaterForm();*/
     }
 
     function addShowtime( action_type, showTimeId ) {
@@ -390,7 +402,7 @@
             action_type: action_type,
             title: $('#showTimeName').val(),
             movieId: parseInt($('#showtime-movie').val(), 10),
-            theaterId: parseInt($('#showtime-theater').val(), 10),
+            theaterId: parseInt($('#wtbm_showtime_theater').val(), 10),
             date: $('#showtime-date').val(),
             startTime: $('#showtime-time-start').val(),
             endTime: $('#showtime-time-end').val(),
@@ -757,5 +769,75 @@
         document.getElementById('preview-content').innerHTML = previewContent;
         document.getElementById('pricing-preview').style.display = 'block';
     }
+
+
+    let wtbm_theater_count = 1;
+
+    function addCategory() {
+        wtbm_theater_count++;
+        let categoryHTML = `
+          <div class="wtbm_theater_category_box" data-id="${wtbm_theater_count}">
+            <button type="button" class="wtbm_theater_remove_btn">&times;</button>
+            <h4>Seating Category ${wtbm_theater_count}</h4>
+            <div class="wtbm_theater_form_group_holder">
+                <div class="wtbm_theater_form_group">
+                  <label>Category Name</label>
+                  <input type="text" placeholder="e.g., Regular, Premium" name="wtbm_theater_category_name" required>
+                </div>
+                
+                <div class="wtbm_theater_form_group">
+                  <label>Number of Seats</label>
+                  <input type="number" value="50" name="wtbm_theater_seats" required>
+                </div>
+                
+                <div class="wtbm_theater_form_group">
+                  <label>Base Price ($)</label>
+                  <input type="number" step="0.01" value="12.99" name="wtbm_theater_price" required>
+                </div>
+            </div>
+          </div>`;
+
+        $("#wtbm_theater_categories_wrapper").append(categoryHTML);
+    }
+
+    // Add button click
+    $(document).on( "click", ".wtbm_theater_add_btn","click", function(){
+        addCategory();
+    });
+
+    // Remove category
+    $(document).on("click", ".wtbm_theater_remove_btn", function(){
+        $(this).closest(".wtbm_theater_category_box").remove();
+    });
+
+    // Remove category
+    $(document).on("change", "#wtbm_showtime_theater", function(){
+        let selectedTheaterId = parseInt( $(this).val() );
+        if( selectedTheaterId ) {
+            const show_pricing_rule = {
+                action: "wtbm_get_theater_categories",
+                post_id: selectedTheaterId,
+                _ajax_nonce: mptrs_admin_ajax.nonce,
+            };
+            $.ajax({
+                url: mptrs_admin_ajax.ajax_url,
+                type: "POST",
+                data: show_pricing_rule,
+                success: function (response) {
+                    if (response.success) {
+                        $('#wtbm_pricing_categories').html(response.data);
+                    } else {
+                        alert("Error: " + response.data);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Something went wrong!");
+                }
+            });
+        }else{
+            $('#wtbm_pricing_categories').empty();
+        }
+    });
+
 
 }(jQuery));
