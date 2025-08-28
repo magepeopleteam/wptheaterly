@@ -145,12 +145,17 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
             $add_action = 'wtbm_add_new_show_time';
 
-            $show_time_id = '';
+            $show_time_id = $categories_html = '';
             $show_time_data = [];
             if ( $action_type === 'edit' && $showtime_id ) {
                 $add_action = 'wtbm_edit_show_time';
                 $show_time_data = WTBM_Layout_Functions::get_show_time_data_by_id( absint( $showtime_id ) );
-                $show_time_id = isset( $show_time_data['id'] ) ? $show_time_data['id'] : '';
+
+                $show_time_id = isset( $show_time_data['theater_id'] ) ? $show_time_data['theater_id'] : '';
+                $theater_id = isset( $show_time_data['theater_id'] ) ? $show_time_data['theater_id'] : '';
+
+                $categories_html = self::get_theater_categories_html( $theater_id );
+
             }
 
             $movie_data = WTBM_Layout_Functions::get_and_display_movies( 10 );
@@ -226,7 +231,11 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
                 <div id="wtbm_pricing-section" class="wtbm_pricing-section ">
                     <h5 class="font-semibold mb-3">Pricing by Seating Category</h5>
-                    <div id="wtbm_pricing_categories"></div>
+                    <div id="wtbm_pricing_categories">
+                        <?php  if ( $action_type === 'edit' && $showtime_id ) {
+                            echo  $categories_html ;
+                        }?>
+                    </div>
                 </div>
 
                 <div class="form-group mb-4">
