@@ -341,7 +341,10 @@
 
 }
 
-.mptrs_mapping_controls .mptrs_setSeatNumber {
+.mptrs_mapping_controls ,
+.mptrs_setSeatNumber,
+.wtbm_addSeatCategory
+{
     width: 100%;
     display: flex;
     align-items: center;
@@ -361,6 +364,7 @@
 #mptrs_applyPriceChanges,
 #mptrs_applyColorChanges,
 #mptrs_setSeatNumber,
+#wtbm_addSeatCategory,
 #mptrs_mapping_multiselect,
 #mptrs_mapping_set_seat,
 #mptrs_mapping_set_shape,
@@ -374,7 +378,7 @@
     margin-top: 2px;
 }
 
-#mptrs_applyPriceChanges, #mptrs_applyColorChanges, #mptrs_setSeatNumber{
+#mptrs_applyPriceChanges, #mptrs_applyColorChanges, #mptrs_setSeatNumber, #wtbm_addSeatCategory{
     background-color: #817a7a;
     color: #fff;
     width: 125px;
@@ -387,6 +391,9 @@
 #mptrs_applyPriceChanges:hover,
 #mptrs_applyColorChanges:hover,
 #mptrs_setSeatNumber:hover {
+    background-color: #218838;
+}
+#wtbm_addSeatCategory:hover {
     background-color: #218838;
 }
 
@@ -884,3 +891,22 @@ button.mptrs_textZoomIn:hover, button.mptrs_textZoomOut:hover {
     }
 }
 
+.wtbm_setSeatCategoryContainer{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 5px;
+}
+
+.wtbm_Categoryname{
+    background-color: #cbcdcd;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 1px;
+}
+
+.wtbm_Categoryname:hover{
+    background-color: #959999;
+    color: #fff;
+}

@@ -81,13 +81,19 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
             $shapeText = '<span class="mptrs_setShapeTitle">' . esc_html__('Select Shape', 'wptheaterly') . '</span>';
 
             $category_html = '';
-            foreach ( $theater_categories as $key => $category ) {
-                $category_html .=
-                    '<div class="wtbm_CategoryHolder">
-
-</div>';
-
-
+            if( is_array( $theater_categories ) && !empty( $theater_categories ) ) {
+                foreach ($theater_categories as $key => $category) {
+                    $category_html .= '
+                                <div class="wtbm_CategoryHolder"
+                                data-category-id="' . $key . '"
+                                data-category-seats="' . $category['seats'] . '"
+                                data-category-price="' . $category['price'] . '"
+                                data-category-name="' . $category['category_name'] . '"
+                                >
+                                    <div class="wtbm_Categoryname">' . $category['category_name'] . '</div>
+                                </div>
+                                ';
+                }
             }
 
             foreach ( $dynamic_shape_texts as $key => $val ) {
@@ -393,6 +399,10 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                                                     <input type="number" id="mptrs_seatNumberCount" placeholder="1" value="0">
                                                  </div>
                                                 <button class="mptrs_setSeatNumber" id="mptrs_setSeatNumber">Set Seat Number</button>
+                                            </div>
+                                            <div class="wtbm_setSeatCategoryContainer">
+                                                 '.$category_html.'
+                                                <button class="wtbm_addSeatCategory" id="wtbm_addSeatCategory">Set Category</button>
                                             </div>
                                         </div>
                                     </div>
