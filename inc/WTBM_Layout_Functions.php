@@ -557,111 +557,114 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
             ob_start(); ?>
 
-            <h4 class="mb-4 font-semibold">
-                <?php echo $theater ? esc_html__( 'Edit Theater', 'theaterly' ) : esc_html__( 'Add New Theater', 'theaterly' ); ?>
-            </h4>
-            <input type="hidden" name="wtbp_theater_id" value="<?php echo esc_attr( $theater_id ); ?>">
+            <div class="wtbm_add_edit_theater_container" id="wtbm_add_edit_theater_container">
+                <h4 class="mb-4 font-semibold">
+                    <?php echo $theater ? esc_html__( 'Edit Theater', 'theaterly' ) : esc_html__( 'Add New Theater', 'theaterly' ); ?>
+                </h4>
+                <input type="hidden" name="wtbp_theater_id" value="<?php echo esc_attr( $theater_id ); ?>">
 
-            <?php wp_nonce_field( 'wtbp_theater_action', 'wtbp_theater_nonce' ); ?>
+                <?php wp_nonce_field( 'wtbp_theater_action', 'wtbp_theater_nonce' ); ?>
 
-            <div class="grid grid-cols-2 mb-4">
-                <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Theater Name', 'theaterly' ); ?></label>
-                    <input type="text" id="theater-name" class="form-input"
-                           value="<?php echo $theater_name; ?>"
-                           placeholder="<?php esc_attr_e( 'Screen 1', 'theaterly' ); ?>">
+                <div class="grid grid-cols-2 mb-4">
+                    <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'Theater Name', 'theaterly' ); ?></label>
+                        <input type="text" id="theater-name" class="form-input"
+                               value="<?php echo $theater_name; ?>"
+                               placeholder="<?php esc_attr_e( 'Screen 1', 'theaterly' ); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'Theater Type', 'theaterly' ); ?></label>
+                        <select id="theater-type" class="form-input">
+                            <?php
+                            $types = [ 'Standard', 'Premium', 'IMAX', 'VIP' ];
+                            foreach ( $types as $type ) {
+                                echo '<option value="' . esc_attr( $type ) . '" ' .
+                                    selected( $theater_type, $type, false ) . '>' .
+                                    esc_html( $type ) .
+                                    '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'Rows', 'theaterly' ); ?></label>
+                        <input type="number" id="theater-rows" class="form-input"
+                               value="<?php echo $theater_rows; ?>"
+                               placeholder="<?php esc_attr_e( '8', 'theaterly' ); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'Seats per Row', 'theaterly' ); ?></label>
+                        <input type="number" id="theater-seats-per-row" class="form-input"
+                               value="<?php echo $theater_seats; ?>"
+                               placeholder="<?php esc_attr_e( '12', 'theaterly' ); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'Sound System', 'theaterly' ); ?></label>
+                        <select id="theater-sound" class="form-input">
+                            <?php
+                            $sounds = [ 'Dolby Digital', 'Dolby Atmos', 'IMAX Enhanced' ];
+                            foreach ( $sounds as $sound ) {
+                                $selected = selected( $theater_sound, $sound, false );
+                                echo '<option value="' . esc_attr( $sound ) . '"' . $selected . '>' . esc_html( $sound ) . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'Status', 'theaterly' ); ?></label>
+                        <select id="theater-status" class="form-input">
+                            <?php
+                            $statuses = [ 'active', 'maintenance', 'inactive' ];
+                            foreach ( $statuses as $status ) {
+                                echo '<option value="' . esc_attr( $status ) . '" ' .
+                                    selected( $theater_status, $status, false ) . '>' .
+                                    esc_html( ucfirst( $status ) ) .
+                                    '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Theater Type', 'theaterly' ); ?></label>
-                    <select id="theater-type" class="form-input">
+                <div class="form-group mb-4 wtbm_category_add_section">
+                    <div id="wtbm_theater_categories_wrapper">
+                        <!--Add category-->
                         <?php
-                        $types = [ 'Standard', 'Premium', 'IMAX', 'VIP' ];
-                        foreach ( $types as $type ) {
-                            echo '<option value="' . esc_attr( $type ) . '" ' .
-                                selected( $theater_type, $type, false ) . '>' .
-                                esc_html( $type ) .
-                                '</option>';
-                        }
+                            echo self::add_category( $action, $theater_category );
                         ?>
-                    </select>
+                    </div>
+
+                    <button type="button" class="wtbm_theater_add_btn">+ Add Seating Category</button>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Rows', 'theaterly' ); ?></label>
-                    <input type="number" id="theater-rows" class="form-input"
-                           value="<?php echo $theater_rows; ?>"
-                           placeholder="<?php esc_attr_e( '8', 'theaterly' ); ?>">
+                <div class="form-group mb-4">
+                    <label class="form-label"><?php esc_html_e( 'Description', 'theaterly' ); ?></label>
+                    <textarea id="theater-description" class="form-input" rows="3"
+                              placeholder="<?php esc_attr_e( 'Theater description', 'theaterly' ); ?>"><?php echo $theater_description; ?></textarea>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Seats per Row', 'theaterly' ); ?></label>
-                    <input type="number" id="theater-seats-per-row" class="form-input"
-                           value="<?php echo $theater_seats; ?>"
-                           placeholder="<?php esc_attr_e( '12', 'theaterly' ); ?>">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Sound System', 'theaterly' ); ?></label>
-                    <select id="theater-sound" class="form-input">
+                <?php if( $action === 'edit' ) { ?>
+                <div class="tabsItem" data-tabs="#mptrs_seat_mapping">
+                    <header>
+                        <h2><?php esc_html_e('Seat Mapping', 'wptheaterly'); ?></h2>
+                        <span><?php esc_html_e('In this section you will make table and seat for reservation.', 'wptheaterly'); ?></span>
+                    </header>
+                    <section class="mptrs-seat-mapping-section " id="wtbm_SeatMappingSection">
                         <?php
-                        $sounds = [ 'Dolby Digital', 'Dolby Atmos', 'IMAX Enhanced' ];
-                        foreach ( $sounds as $sound ) {
-                            $selected = selected( $theater_sound, $sound, false );
-                            echo '<option value="' . esc_attr( $sound ) . '"' . $selected . '>' . esc_html( $sound ) . '</option>';
-                        }
+                            echo WTBM_Theater_Seat_Mapping::render_seat_mapping_meta_box( $theater_id, 'edit', $theater_rows, $theater_seats, );
                         ?>
-                    </select>
+                    </section>
                 </div>
+                <?php } ?>
 
-                <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Status', 'theaterly' ); ?></label>
-                    <select id="theater-status" class="form-input">
-                        <?php
-                        $statuses = [ 'active', 'maintenance', 'inactive' ];
-                        foreach ( $statuses as $status ) {
-                            echo '<option value="' . esc_attr( $status ) . '" ' .
-                                selected( $theater_status, $status, false ) . '>' .
-                                esc_html( ucfirst( $status ) ) .
-                                '</option>';
-                        }
-                        ?>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group mb-4 wtbm_category_add_section">
-                <div id="wtbm_theater_categories_wrapper">
-                    <!--Add category-->
-                    <?php
-                        echo self::add_category( $action, $theater_category );
-                    ?>
-                </div>
-
-                <button type="button" class="wtbm_theater_add_btn">+ Add Seating Category</button>
-            </div>
-
-            <div class="form-group mb-4">
-                <label class="form-label"><?php esc_html_e( 'Description', 'theaterly' ); ?></label>
-                <textarea id="theater-description" class="form-input" rows="3"
-                          placeholder="<?php esc_attr_e( 'Theater description', 'theaterly' ); ?>"><?php echo $theater_description; ?></textarea>
-            </div>
-
-            <div class="tabsItem" data-tabs="#mptrs_seat_mapping">
-                <header>
-                    <h2><?php esc_html_e('Seat Mapping', 'tablely'); ?></h2>
-                    <span><?php esc_html_e('In this section you will make table and seat for reservation.', 'tablely'); ?></span>
-                </header>
-                <section class="mptrs-seat-mapping-section " id="mptrs-seat-mapping-section">
-                    <?php
-                    WTBM_Theater_Seat_Mapping::render_seat_mapping_meta_box( $theater_id ); ?>
-                </section>
-            </div>
-
-            <div class="flex gap-2">
+                <div class="flex gap-2">
                 <?php if( $action === 'add' ){?>
                 <button type="button" class="btn btn-success" id="wtbp_add_new_theater">
-                    <?php echo $theater ? esc_html__( 'Update Theater', 'theaterly' ) : esc_html__( 'Add Theater', 'theaterly' ); ?>
+                    <?php echo $theater ? esc_html__( 'Update Theater', 'theaterly' ) : esc_html__( 'Save Theater & Load Seat Map', 'theaterly' ); ?>
                 </button>
                 <?php } else{?>
                     <button type="button" class="btn btn-success" id="wtbm_update_theater" date-theater-id="<?php echo esc_attr( $theater_id );?>">
@@ -670,7 +673,17 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 <?php }?>
                 <button type="button" class="btn btn-secondary" id="wtbm_clear_theater_from"><?php esc_html_e( 'Cancel', 'theaterly' ); ?></button>
             </div>
+            </div>
 
+            <?php if( $action === 'add' ) { ?>
+                <div class="tabsItem" data-tabs="#mptrs_seat_mapping">
+                    <header>
+                        <h2><?php esc_html_e('Seat Mapping', 'wptheaterly'); ?></h2>
+                        <span><?php esc_html_e('In this section you will make table and seat for reservation.', 'wptheaterly'); ?></span>
+                    </header>
+                    <section class="mptrs-seat-mapping-section " id="wtbm_SeatMappingSection"></section>
+                </div>
+            <?php } ?>
             <?php
             return ob_get_clean();
         }

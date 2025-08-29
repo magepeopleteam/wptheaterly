@@ -12,17 +12,11 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
         public function __construct(){
         }
 
-        public static function render_seat_mapping_meta_box( $post_id ) {
-            /*$post = get_post( $post_id );
-            if ( ! $post ) {
-                wp_die( 'Invalid post ID' );
-            }*/
+        public static function render_seat_mapping_meta_box( $post_id, $action_type, $rows = 20, $seatsPerRow = 30 ) {
+
+            error_log( print_r( [ '$post_id' => $post_id ], true ) );
 
             $template_id = '';
-            /*if ( isset( $_GET['nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['nonce'] ) ), 'mptrs_template' ) ) {
-                $template_id = isset( $_GET['templateId'] ) ? sanitize_text_field( wp_unslash( $_GET['templateId'] ) ) : '';
-            }*/
-
             $selection = WTBM_Plan_ASSETS . 'images/tools/selection.png';
             $choice = WTBM_Plan_ASSETS . 'images/tools/choice.png';
             $add_seats = WTBM_Plan_ASSETS . 'images/tools/add-seats.png';
@@ -38,23 +32,28 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
             $save_template = WTBM_Plan_ASSETS . 'images/tools/save_template.png';
             // Output the meta box content
 
+            $theater_categories = WTBM_Manage_Showtimes::get_theater_categories( $post_id );
+//            error_log( print_r( [ '$theater_categories' => $theater_categories ], true ) );
+            ob_start();
             ?>
             <div class="mptrs_mapping_controls" id="<?php echo esc_attr( $post_id ); ?>">
                 <input type="hidden" id="mptrs_mapping_plan_id" name="mptrs_mapping_plan_id" value="<?php echo esc_attr( $post_id ); ?>">
                 <div class="mptrs_mapping_planControlHolder">
-                    <button class="mptrs_mapping_multiselect tooltips" id="mptrs_mapping_multiselect" data-tooltip="<?php esc_html_e('Multi Select', 'tablely'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($selection); ?>" alt=""></button>
-                    <button class="mptrs_mapping_singleSelect tooltips" id="mptrs_mapping_singleSelect" data-tooltip="<?php esc_html_e('Single Select', 'tablely'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($choice); ?>" alt=""></button>
-                    <button class="mptrs_mapping_set_seat enable_set_seat tooltips" id="mptrs_mapping_set_seat"  data-tooltip="<?php esc_html_e('Add Seat', 'tablely'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($add_seats); ?>" alt=""></button>
-                    <button class="mptrs_mapping_set_shape tooltips" id="mptrs_mapping_set_shape" data-tooltip="<?php esc_html_e('Add Shape', 'tablely'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($shapes); ?>" alt=""></button>
-                    <button class="mptrs_mapping_setText tooltips" id="mptrs_mapping_setText" data-tooltip="<?php esc_html_e('Set Text', 'tablely'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($text); ?>" alt=""></button>
-<!--                    <button class="mptrs_importFromTemplate tooltips" id="mptrs_importFromTemplate"  data-tooltip="--><?php //esc_html_e('Import From Template', 'tablely'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($import); ?><!--" alt=""></button>-->
-                    <button class="mptrs_removeSelected tooltips" id="mptrs_removeSelected"  data-tooltip="<?php esc_html_e('Erase', 'tablely'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($eraser); ?>" alt=""></button>
-                    <button class="mptrs_undo tooltips" id="mptrs_undo" data-tooltip="<?php esc_html_e('Undo', 'tablely'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($undo); ?>" alt=""></button>
-                    <button class="mptrs_copyPaste tooltips" id="mptrs_copyPaste" data-tooltip="<?php esc_html_e('Paste', 'tablely'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($paste); ?>" alt=""></button>
-                    <button class="mptrs_bindTableWidthChair tooltips" id="mptrs_bindTableWidthChair" data-tooltip="<?php esc_html_e('Group Table', 'tablely'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($group); ?>" alt=""></button>
-                    <button class="tooltips" id="mptrs_clearAllPlan" data-tooltip="<?php esc_html_e('Clear All', 'tablely'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($reset); ?>" alt=""></button>
-<!--                    <button class="mptrs_savePlan tooltips" id="mptrs_savePlan" data-tooltip="--><?php //esc_html_e('Save Plan', 'tablely'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($save_plan); ?><!--" alt=""></button>-->
-<!--                    <button class="mptrs_savePlan tooltips" id="mptrs_savePlanAsTemplate" data-tooltip="--><?php //esc_html_e('Save Plan with Template', 'tablely'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($save_template); ?><!--" alt=""></button>-->
+                    <button class="mptrs_mapping_multiselect tooltips" id="mptrs_mapping_multiselect" data-tooltip="<?php esc_html_e('Multi Select', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($selection); ?>" alt=""></button>
+                    <button class="mptrs_mapping_singleSelect tooltips" id="mptrs_mapping_singleSelect" data-tooltip="<?php esc_html_e('Single Select', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($choice); ?>" alt=""></button>
+                    <button class="mptrs_mapping_set_seat enable_set_seat tooltips" id="mptrs_mapping_set_seat"  data-tooltip="<?php esc_html_e('Add Seat', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($add_seats); ?>" alt=""></button>
+                    <button class="mptrs_mapping_set_shape tooltips" id="mptrs_mapping_set_shape" data-tooltip="<?php esc_html_e('Add Shape', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($shapes); ?>" alt=""></button>
+                    <button class="mptrs_mapping_setText tooltips" id="mptrs_mapping_setText" data-tooltip="<?php esc_html_e('Set Text', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($text); ?>" alt=""></button>
+<!--                    <button class="mptrs_importFromTemplate tooltips" id="mptrs_importFromTemplate"  data-tooltip="--><?php //esc_html_e('Import From Template', 'wptheaterly'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($import); ?><!--" alt=""></button>-->
+                    <button class="mptrs_removeSelected tooltips" id="mptrs_removeSelected"  data-tooltip="<?php esc_html_e('Erase', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($eraser); ?>" alt=""></button>
+                    <button class="mptrs_undo tooltips" id="mptrs_undo" data-tooltip="<?php esc_html_e('Undo', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($undo); ?>" alt=""></button>
+                    <button class="mptrs_copyPaste tooltips" id="mptrs_copyPaste" data-tooltip="<?php esc_html_e('Paste', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($paste); ?>" alt=""></button>
+                    <button class="mptrs_bindTableWidthChair tooltips" id="mptrs_bindTableWidthChair" data-tooltip="<?php esc_html_e('Group Table', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($group); ?>" alt=""></button>
+                    <button class="tooltips" id="mptrs_clearAllPlan" data-tooltip="<?php esc_html_e('Clear All', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($reset); ?>" alt=""></button>
+                   <?php if( $action_type === 'add' ){?>
+                        <button class="mptrs_savePlan tooltips" data-theater-id="<?php echo esc_attr( $post_id );?>" id="wtbm_saveSeatPlan" data-tooltip="<?php esc_html_e('Save Plan', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($save_plan); ?>" alt=""></button>
+                    <?php }?>
+<!--                    <button class="mptrs_savePlan tooltips" id="mptrs_savePlanAsTemplate" data-tooltip="--><?php //esc_html_e('Save Plan with Template', 'wptheaterly'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($save_template); ?><!--" alt=""></button>-->
                 </div>
             </div>
 
@@ -79,7 +78,17 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                 'oval'          => array( 'Oval', 'oval' ),
             );
 
-            $shapeText = '<span class="mptrs_setShapeTitle">' . esc_html__('Select Shape', 'tablely') . '</span>';
+            $shapeText = '<span class="mptrs_setShapeTitle">' . esc_html__('Select Shape', 'wptheaterly') . '</span>';
+
+            $category_html = '';
+            foreach ( $theater_categories as $key => $category ) {
+                $category_html .=
+                    '<div class="wtbm_CategoryHolder">
+
+</div>';
+
+
+            }
 
             foreach ( $dynamic_shape_texts as $key => $val ) {
                 $select_class = ( $key === 'rectangle' ) ? 'shapeTextSelected' : '';
@@ -88,9 +97,9 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
             }
 
             $seat_mapping_info = get_option( 'mptrs_seat_mapping_info' );
-            $box_size = isset($seat_mapping_info[ 'mptrs_box_size' ]) ? $seat_mapping_info[ 'mptrs_box_size' ] : 35;
-            $rows = isset($seat_mapping_info[ 'mptrs_num_of_rows' ]) ? $seat_mapping_info[ 'mptrs_num_of_rows' ] : 30;
-            $columns = isset($seat_mapping_info[ 'mptrs_num_of_columns' ]) ? $seat_mapping_info[ 'mptrs_num_of_columns' ] : 20;
+            $box_size = isset($seat_mapping_info[ 'mptrs_box_size' ]) ? $seat_mapping_info[ 'mptrs_box_size' ] : 30;
+            $rows = isset($seat_mapping_info[ 'mptrs_num_of_rows' ]) ? $seat_mapping_info[ 'mptrs_num_of_rows' ] : $rows;
+            $columns = isset($seat_mapping_info[ 'mptrs_num_of_columns' ]) ? $seat_mapping_info[ 'mptrs_num_of_columns' ] : $seatsPerRow;
 
 
             $gap = isset( $get_create_box_data['boxGap'] ) ? absint( $get_create_box_data['boxGap'] ) : 10;
@@ -348,7 +357,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="mptrs_seatIconContainer">
+                                            <div class="mptrs_seatIconContainer" style="display: none">
                                                 <span class="mptrs_seatIconTitle">Select seat icon</span>
                                                 '.wp_kses_post( $icon_images ).'
                                             </div>
@@ -388,6 +397,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                                         </div>
                                     </div>
                                 </div>';
+            return ob_get_clean();
         }
 
     }

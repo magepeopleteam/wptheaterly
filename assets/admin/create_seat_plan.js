@@ -1850,7 +1850,7 @@ jQuery(document).ready(function ($) {
                               width: ${lastElementData.width}; 
                               height: ${lastElementData.height}; 
                               background-color: ${lastElementData.color}; 
-                              background-image: url(${mptrs_admin_ajax.site_url}'/wp-content/plugins/tablely/assets/images/icons/seatIcons/${lastElementData.backgroundImage}.png'); 
+                              background-image: url(${mptrs_admin_ajax.site_url}'/wp-content/plugins/wptheaterly/assets/images/icons/seatIcons/${lastElementData.backgroundImage}.png'); 
                               z-index: ${lastElementData.z_index}; 
                               transform: rotate(${lastElementData.data_degree}deg);
                               border-radius: ${lastElementData.border_radius};
@@ -1903,106 +1903,5 @@ jQuery(document).ready(function ($) {
         }
     }
 
-    $(document).on( 'click', '.mptrs_savePlan', function (e) {
-        e.preventDefault();
-        /*const planName = $('#plan-name').val();
-        if (!planName) {
-            alert('Please enter a plan name!');
-            return;
-        }*/
-
-        let clickedId = $(this).attr('id');
-        let template = '';
-        if( clickedId === 'mptrs_savePlanAsTemplate'){
-            template = 'template'
-        }
-
-        var seatPlanTexts = [];
-        var selectedSeats = [];
-        var dynamicShapes = [];
-        $('.mptrs_mappingSeat.save').each(function () {
-            if ( $(this).css('background-color') !== 'rgb(255, 255, 255)') { // Not default white
-                const id = $(this).data('id');
-                const row = $(this).data('row');
-                const col = $(this).data('col');
-                const backgroundImage = $(this).data('background-image');
-                const seat_number = $(this).attr('data-seat-num');
-                const data_degree = $(this).data('degree');
-                const data_tableBind = $(this).attr('data-tablebind');
-                const color = $(this).css('background-color');
-                const price = $(this).attr('data-price') || 0;
-                const width =$(this).css('width') || 0;
-                const height = $(this).css('height') || 0;
-                const z_index = $(this).css('z-index') || 0;
-                const left = $(this).css('left') || 0;
-                const top = $(this).css('top') || 0;
-                const border_radius = $(this).css('border-radius') || 0;
-                const seatText = $(this).find('.seatText').text();
-
-
-                selectedSeats.push({ id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage });
-            }
-        });
-
-        $('.mptrs_text-wrapper').each(function () {
-            const textLeft = parseInt($(this).css('left')) || 0;
-            const textTop = parseInt($(this).css('top')) || 0;
-            const class_name = $(this).data('class');
-            const color = $(this).children('.mptrs_dynamic-text' ).css('color') || '';
-            const fontSize = $(this).children('.mptrs_dynamic-text').css('font-size') || '';
-            const text = $(this).children('.mptrs_dynamic-text').text() || '';
-            const textRotateDeg = $(this).data('text-degree') || 0;
-            seatPlanTexts.push({ text, class_name, textLeft, textTop, color, fontSize, textRotateDeg});
-        });
-
-        $('.mptrs_dynamicShape').each(function () {
-            const textLeft = parseInt($(this).css('left')) || 0;
-            const textTop = parseInt($(this).css('top')) || 0;
-            const width = parseInt($(this).css('width')) || 0;
-            const height = parseInt($(this).css('height')) || 0;
-            const backgroundColor = $(this).css('background-color') || '';
-            const borderRadius = $(this).css('border-radius') || '';
-            const clipPath = $(this).css('clip-path') || '';
-            const shapeRotateDeg = $(this).data('shape-rotate') || 0;
-            const tableBindID = $(this).attr('id').trim() || '';
-            const backgroundImage = $(this).data('background-image');
-            console.log( backgroundImage );
-            dynamicShapes.push({ textLeft, textTop, width, height,  backgroundColor, borderRadius, clipPath, shapeRotateDeg,tableBindID, backgroundImage });
-        });
-
-        if ( selectedSeats.length === 0 ) {
-            alert('No seats selected to save!');
-            return;
-        }
-        const postId = $('#mptrs_mapping_plan_id').val();
-        let selectedSeatsStr = JSON.stringify(selectedSeats);
-        let seatPlanTextsStr = JSON.stringify(seatPlanTexts);
-        let dynamicShapesStr = JSON.stringify(dynamicShapes);
-
-        $.ajax({
-            url: mptrs_admin_ajax.ajax_url,
-            type: 'POST',
-            data: {
-                action: 'mptrs_save_seat_maps_meta_data',
-                nonce: mptrs_admin_ajax.nonce,
-                post_id: postId,
-                seat_maps_meta_data: selectedSeatsStr,
-                seatPlanTexts: seatPlanTextsStr,
-                seatIcon: seatIconName,
-                dynamicShapes: dynamicShapesStr,
-                template: template,
-            },
-            success: function (response) {
-                if (response.success) {
-                    alert('Seat Plan data saved successfully! Please publish your post');
-                } else {
-                    alert('Error: ' + response.data.message);
-                }
-            },
-            error: function () {
-                alert('An unexpected error occurred.');
-            }
-        });
-    });
 
 });

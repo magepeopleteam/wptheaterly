@@ -440,8 +440,8 @@ body {
     width: calc( 100% - 10px );
 }
 .wtbm_theater_add_btn {
-    background: #16a085;
-    color: #fff;
+    /*background: #16a085;*/
+    color: #333333;
     border: none;
     padding: 8px 16px;
     font-size: 14px;

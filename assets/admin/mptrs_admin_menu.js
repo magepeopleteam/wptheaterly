@@ -262,60 +262,63 @@
         });
 
     }
+
     function addTheater( post_id ) {
+        let seatPlanTexts = [];
+        let selectedSeats = [];
+        let dynamicShapes = [];
 
-        var seatPlanTexts = [];
-        var selectedSeats = [];
-        var dynamicShapes = [];
-        $('.mptrs_mappingSeat.save').each(function () {
-            if ( $(this).css('background-color') !== 'rgb(255, 255, 255)') { // Not default white
-                const id = $(this).data('id');
-                const row = $(this).data('row');
-                const col = $(this).data('col');
+        if( post_id ) {
+            $('.mptrs_mappingSeat.save').each(function () {
+                if ($(this).css('background-color') !== 'rgb(255, 255, 255)') { // Not default white
+                    const id = $(this).data('id');
+                    const row = $(this).data('row');
+                    const col = $(this).data('col');
+                    const backgroundImage = $(this).data('background-image');
+                    const seat_number = $(this).attr('data-seat-num');
+                    const data_degree = $(this).data('degree');
+                    const data_tableBind = $(this).attr('data-tablebind');
+                    const color = $(this).css('background-color');
+                    const price = $(this).attr('data-price') || 0;
+                    const width = $(this).css('width') || 0;
+                    const height = $(this).css('height') || 0;
+                    const z_index = $(this).css('z-index') || 0;
+                    const left = $(this).css('left') || 0;
+                    const top = $(this).css('top') || 0;
+                    const border_radius = $(this).css('border-radius') || 0;
+                    const seatText = $(this).find('.seatText').text();
+
+                    selectedSeats.push({id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage
+                    });
+                }
+            });
+            $('.mptrs_text-wrapper').each(function () {
+                const textLeft = parseInt($(this).css('left')) || 0;
+                const textTop = parseInt($(this).css('top')) || 0;
+                const class_name = $(this).data('class');
+                const color = $(this).children('.mptrs_dynamic-text').css('color') || '';
+                const fontSize = $(this).children('.mptrs_dynamic-text').css('font-size') || '';
+                const text = $(this).children('.mptrs_dynamic-text').text() || '';
+                const textRotateDeg = $(this).data('text-degree') || 0;
+
+                seatPlanTexts.push({text, class_name, textLeft, textTop, color, fontSize, textRotateDeg});
+            });
+            $('.mptrs_dynamicShape').each(function () {
+                const textLeft = parseInt($(this).css('left')) || 0;
+                const textTop = parseInt($(this).css('top')) || 0;
+                const width = parseInt($(this).css('width')) || 0;
+                const height = parseInt($(this).css('height')) || 0;
+                const backgroundColor = $(this).css('background-color') || '';
+                const borderRadius = $(this).css('border-radius') || '';
+                const clipPath = $(this).css('clip-path') || '';
+                const shapeRotateDeg = $(this).data('shape-rotate') || 0;
+                const tableBindID = $(this).attr('id').trim() || '';
                 const backgroundImage = $(this).data('background-image');
-                const seat_number = $(this).attr('data-seat-num');
-                const data_degree = $(this).data('degree');
-                const data_tableBind = $(this).attr('data-tablebind');
-                const color = $(this).css('background-color');
-                const price = $(this).attr('data-price') || 0;
-                const width =$(this).css('width') || 0;
-                const height = $(this).css('height') || 0;
-                const z_index = $(this).css('z-index') || 0;
-                const left = $(this).css('left') || 0;
-                const top = $(this).css('top') || 0;
-                const border_radius = $(this).css('border-radius') || 0;
-                const seatText = $(this).find('.seatText').text();
 
-                selectedSeats.push({ id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage });
-            }
-        });
-
-        $('.mptrs_text-wrapper').each(function () {
-            const textLeft = parseInt($(this).css('left')) || 0;
-            const textTop = parseInt($(this).css('top')) || 0;
-            const class_name = $(this).data('class');
-            const color = $(this).children('.mptrs_dynamic-text' ).css('color') || '';
-            const fontSize = $(this).children('.mptrs_dynamic-text').css('font-size') || '';
-            const text = $(this).children('.mptrs_dynamic-text').text() || '';
-            const textRotateDeg = $(this).data('text-degree') || 0;
-
-            seatPlanTexts.push({ text, class_name, textLeft, textTop, color, fontSize, textRotateDeg});
-        });
-
-        $('.mptrs_dynamicShape').each(function () {
-            const textLeft = parseInt($(this).css('left')) || 0;
-            const textTop = parseInt($(this).css('top')) || 0;
-            const width = parseInt($(this).css('width')) || 0;
-            const height = parseInt($(this).css('height')) || 0;
-            const backgroundColor = $(this).css('background-color') || '';
-            const borderRadius = $(this).css('border-radius') || '';
-            const clipPath = $(this).css('clip-path') || '';
-            const shapeRotateDeg = $(this).data('shape-rotate') || 0;
-            const tableBindID = $(this).attr('id').trim() || '';
-            const backgroundImage = $(this).data('background-image');
-
-            dynamicShapes.push({ textLeft, textTop, width, height,  backgroundColor, borderRadius, clipPath, shapeRotateDeg,tableBindID, backgroundImage });
-        });
+                dynamicShapes.push({textLeft, textTop, width, height, backgroundColor, borderRadius, clipPath, shapeRotateDeg, tableBindID, backgroundImage
+                });
+            });
+        }
 
         let wtbm_theater_categories = [];
         $("#wtbm_theater_categories_wrapper .wtbm_theater_category_box").each(function(){
@@ -341,13 +344,14 @@
         const rows = parseInt(document.getElementById('theater-rows').value);
         const seatsPerRow = parseInt(document.getElementById('theater-seats-per-row').value);
 
-        let action = 'mptrs_insert_theater_post';
+        let action = '';
         if( post_id ){
             action = 'mptrs_update_theater_post';
+        }else{
+            action = 'mptrs_insert_theater_post';
         }
 
-        console.log( action );
-        var theater = {
+        let theater = {
             action: action,
             post_id: post_id,
             seat_maps_meta_data: selectedSeatsStr,
@@ -366,7 +370,7 @@
         };
 
        $.ajax({
-            url: mptrs_admin_ajax.ajax_url, // admin-ajax.php
+            url: mptrs_admin_ajax.ajax_url,
             type: "POST",
             data: theater,
             success: function(response) {
@@ -374,14 +378,16 @@
                     if( post_id ){
                         let edited_theater = 'theater_content_'+post_id;
                         $("#"+edited_theater).fadeOut();
-                        $("#theaters-table-body").prepend( response.data );
+                        $("#theaters-table-body").prepend( response.data.new_theater );
                         alert( "Theater Edited" );
+                        clearForm( "#wtbmAddTheaterForm" );
                     }else{
-                        $("#theaters-table-body").prepend(response.data);
+
+                        $("#wtbm_add_edit_theater_container").fadeOut();
+                        $("#theaters-table-body").prepend( response.data.new_theater );
+                        $("#wtbm_SeatMappingSection").html( response.data.seat_map );
                         alert( "Theater Added" );
                     }
-
-                    clearForm( "#wtbmAddTheaterForm" );
 
                 } else {
                     alert("Error: " + response.data);
@@ -529,8 +535,6 @@
 
         alert(`Pricing rule "${name}" added successfully!`);
     }
-
-
     function showAddMovieForm( clickedId ) {
         if( clickedId === 'wtbpAddedMovieForm' ){
             // let aaa = $(this).closest('#wtbm_movies_content').find('#mptrs_add_new_movie').length;
@@ -632,8 +636,6 @@
         }
 
     }
-
-
     function renderMoviesTable( movie, movie_id ) {
             let movie_html  =  `
                         <tr class="wtbm_movie_content" id="movie_content_${movie_id}" data-movie-id="${movie_id}">
@@ -667,7 +669,6 @@
                     $("#movies-table-body").prepend( movie_html );
 
     }
-
     function hideAddMovieForm() {
         document.getElementById('add-movie-form').classList.add('hidden');
         clearMovieForm();
@@ -699,6 +700,99 @@
     $(document).on("click", "#wtbm_clear_pricing_form", function(e) {
         e.preventDefault();
         clearForm("#wtbm_AddPricingForm");
+
+    });
+
+    $(document).on('click', '#wtbm_saveSeatPlan', function (e) {
+        e.preventDefault();
+        let theater_id = $(this).attr('data-theater-id').trim();
+        let seatPlanTexts = [];
+        let selectedSeats = [];
+        let dynamicShapes = [];
+        $('.mptrs_mappingSeat.save').each(function () {
+            if ( $(this).css('background-color') !== 'rgb(255, 255, 255)') { // Not default white
+                const id = $(this).data('id');
+                const row = $(this).data('row');
+                const col = $(this).data('col');
+                const backgroundImage = $(this).data('background-image');
+                const seat_number = $(this).attr('data-seat-num');
+                const data_degree = $(this).data('degree');
+                const data_tableBind = $(this).attr('data-tablebind');
+                const color = $(this).css('background-color');
+                const price = $(this).attr('data-price') || 0;
+                const width =$(this).css('width') || 0;
+                const height = $(this).css('height') || 0;
+                const z_index = $(this).css('z-index') || 0;
+                const left = $(this).css('left') || 0;
+                const top = $(this).css('top') || 0;
+                const border_radius = $(this).css('border-radius') || 0;
+                const seatText = $(this).find('.seatText').text();
+
+                selectedSeats.push({ id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage });
+            }
+        });
+        $('.mptrs_text-wrapper').each(function () {
+            const textLeft = parseInt($(this).css('left')) || 0;
+            const textTop = parseInt($(this).css('top')) || 0;
+            const class_name = $(this).data('class');
+            const color = $(this).children('.mptrs_dynamic-text' ).css('color') || '';
+            const fontSize = $(this).children('.mptrs_dynamic-text').css('font-size') || '';
+            const text = $(this).children('.mptrs_dynamic-text').text() || '';
+            const textRotateDeg = $(this).data('text-degree') || 0;
+
+            seatPlanTexts.push({ text, class_name, textLeft, textTop, color, fontSize, textRotateDeg});
+        });
+        $('.mptrs_dynamicShape').each(function () {
+            const textLeft = parseInt($(this).css('left')) || 0;
+            const textTop = parseInt($(this).css('top')) || 0;
+            const width = parseInt($(this).css('width')) || 0;
+            const height = parseInt($(this).css('height')) || 0;
+            const backgroundColor = $(this).css('background-color') || '';
+            const borderRadius = $(this).css('border-radius') || '';
+            const clipPath = $(this).css('clip-path') || '';
+            const shapeRotateDeg = $(this).data('shape-rotate') || 0;
+            const tableBindID = $(this).attr('id').trim() || '';
+            const backgroundImage = $(this).data('background-image');
+
+            dynamicShapes.push({ textLeft, textTop, width, height,  backgroundColor, borderRadius, clipPath, shapeRotateDeg,tableBindID, backgroundImage });
+        });
+
+        let selectedSeatsStr = JSON.stringify(selectedSeats);
+        let seatPlanTextsStr = JSON.stringify(seatPlanTexts);
+        let dynamicShapesStr = JSON.stringify(dynamicShapes);
+
+        let theater_seat_map = {
+            action: 'wtbm_theater_seat_map_add',
+            post_id: theater_id,
+            seat_maps_meta_data: selectedSeatsStr,
+            seatPlanTexts: seatPlanTextsStr,
+            dynamicShapes: dynamicShapesStr,
+            _ajax_nonce: mptrs_admin_ajax.nonce
+        };
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url,
+            type: "POST",
+            data: theater_seat_map,
+            success: function( response ) {
+
+                console.log( response.success );
+
+                if ( response.success ) {
+                    if( theater_id ){
+                        alert( "Theater Map Added" );
+                        clearForm( "#wtbmAddTheaterForm" );
+                    }
+
+                } else {
+                    alert("Error: " + response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+                alert("Something went wrong!");
+            }
+        });
+
 
     });
 
@@ -787,12 +881,12 @@
                 
                 <div class="wtbm_theater_form_group">
                   <label>Number of Seats</label>
-                  <input type="number" value="50" name="wtbm_theater_seats" required>
+                  <input type="number" placeholder="50" name="wtbm_theater_seats" required>
                 </div>
                 
                 <div class="wtbm_theater_form_group">
                   <label>Base Price ($)</label>
-                  <input type="number" step="0.01" value="12.99" name="wtbm_theater_price" required>
+                  <input type="number" step="0.01" placeholder="12.99" name="wtbm_theater_price" required>
                 </div>
             </div>
           </div>`;
