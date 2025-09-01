@@ -468,7 +468,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             }
         }
 
-        public static function add_category( $action, $category_data ){
+        public static function add_category( $action, $category_data, $default_color ){
             ob_start();
             if( $action === 'add' ){
             ?>
@@ -490,6 +490,10 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <label>Base Price ($)</label>
                         <input type="number" step="0.01" placeholder="12.99" name="wtbm_theater_price" required>
                     </div>
+                    <div class="wtbm_theater_form_group">
+                        <label>Set Color</label>
+                        <input type="color" name="wtbm_theater_color" class="wtbm_theater_color" value="<?php echo esc_attr( $default_color );?>" required>
+                    </div>
                 </div>
 
             </div>
@@ -498,6 +502,9 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $count_category = 1;
                 if( is_array( $category_data ) && ! empty( $category_data ) ){
                     foreach ( $category_data as $category ) {
+
+                        $color = isset( $category['color'] ) ? $category['color'] : '';
+                        error_log( print_r( [ '$color' => $color ], true ) );
                         ?>
                         <div class="wtbm_theater_category_box" data-id="<?php echo esc_attr( $count_category );?>">
                             <?php if( $count_category > 1 ){?>
@@ -518,6 +525,11 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                 <div class="wtbm_theater_form_group">
                                     <label>Base Price ($)</label>
                                     <input type="number" step="0.01" placeholder="12.99" name="wtbm_theater_price" value="<?php echo esc_attr( $category['price']);?>" required>
+                                </div>
+
+                                <div class="wtbm_theater_form_group">
+                                    <label>Set Color</label>
+                                    <input type="color" name="wtbm_theater_color" class="wtbm_theater_color" value="<?php echo esc_attr( $color );?>" required>
                                 </div>
                             </div>
 
@@ -635,7 +647,8 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <div id="wtbm_theater_categories_wrapper">
                         <!--Add category-->
                         <?php
-                            echo self::add_category( $action, $theater_category );
+                            $default_color = '#2e8708';
+                            echo self::add_category( $action, $theater_category, $default_color );
                         ?>
                     </div>
 

@@ -276,6 +276,7 @@
                     const col = $(this).data('col');
                     const backgroundImage = $(this).data('background-image');
                     const seat_number = $(this).attr('data-seat-num');
+                    const seat_category = $(this).attr('data-seat-category');
                     const data_degree = $(this).data('degree');
                     const data_tableBind = $(this).attr('data-tablebind');
                     const color = $(this).css('background-color');
@@ -288,10 +289,12 @@
                     const border_radius = $(this).css('border-radius') || 0;
                     const seatText = $(this).find('.seatText').text();
 
-                    selectedSeats.push({id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage
+                    selectedSeats.push({id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage, seat_category
                     });
                 }
             });
+
+            // console.log( selectedSeats );
             $('.mptrs_text-wrapper').each(function () {
                 const textLeft = parseInt($(this).css('left')) || 0;
                 const textTop = parseInt($(this).css('top')) || 0;
@@ -325,13 +328,19 @@
             let categoryName = $(this).find("input[name='wtbm_theater_category_name']").val();
             let seats = $(this).find("input[name='wtbm_theater_seats']").val();
             let price = $(this).find("input[name='wtbm_theater_price']").val();
+            let color = $(this).find("input[name='wtbm_theater_color']").val();
 
             wtbm_theater_categories.push({
+                category_id: wtbm_generateUniqueId( categoryName ),
                 category_name: categoryName,
                 seats: seats,
-                price: price
+                price: price,
+                color: color,
             });
         });
+
+        console.log( wtbm_theater_categories );
+
         wtbm_theater_categories = JSON.stringify( wtbm_theater_categories);
 
 
@@ -398,6 +407,20 @@
                 alert("Something went wrong!");
             }
         });
+    }
+
+    function wtbm_simpleHash(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = ((hash << 5) - hash) + str.charCodeAt(i);
+            hash |= 0;
+        }
+        return Math.abs(hash).toString(36);
+    }
+    function wtbm_generateUniqueId( categoryName, length = 8) {
+        let input = categoryName + Date.now() + Math.random();
+        let hash = wtbm_simpleHash(input);
+        return hash.slice(0, length);
     }
 
     function addShowtime( action_type, showTimeId ) {
@@ -716,6 +739,7 @@
                 const col = $(this).data('col');
                 const backgroundImage = $(this).data('background-image');
                 const seat_number = $(this).attr('data-seat-num');
+                const seat_category = $(this).attr('data-seat-category');
                 const data_degree = $(this).data('degree');
                 const data_tableBind = $(this).attr('data-tablebind');
                 const color = $(this).css('background-color');
@@ -728,7 +752,7 @@
                 const border_radius = $(this).css('border-radius') || 0;
                 const seatText = $(this).find('.seatText').text();
 
-                selectedSeats.push({ id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage });
+                selectedSeats.push({ id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage, seat_category });
             }
         });
         $('.mptrs_text-wrapper').each(function () {
@@ -887,6 +911,10 @@
                 <div class="wtbm_theater_form_group">
                   <label>Base Price ($)</label>
                   <input type="number" step="0.01" placeholder="12.99" name="wtbm_theater_price" required>
+                </div>
+                <div class="wtbm_theater_form_group">
+                    <label>Set Color</label>
+                    <input type="color" name="wtbm_theater_color" class="wtbm_theater_color" value="#2e8708" required>
                 </div>
             </div>
           </div>`;

@@ -495,3 +495,7 @@ body {
     border-radius: 0.5rem;
     font-size: 0.875rem;
 }
+.wtbm_theater_color{
+    height: 40px !important;
+    width: 80px !important;
+}

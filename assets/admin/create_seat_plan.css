@@ -149,7 +149,7 @@
 .mptrs_seatNumber{
     position: absolute;
     top: 0px;
-    left: 10px;
+    left: 5px;
     z-index: 10;
     color: #fff;
 }
@@ -899,14 +899,15 @@ button.mptrs_textZoomIn:hover, button.mptrs_textZoomOut:hover {
 }
 
 .wtbm_Categoryname{
-    background-color: #cbcdcd;
+    /*background-color: #cbcdcd;*/
     text-align: center;
+    color: #fff;
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 1px;
 }
 
 .wtbm_Categoryname:hover{
-    background-color: #959999;
+    /*background-color: #959999;*/
     color: #fff;
 }

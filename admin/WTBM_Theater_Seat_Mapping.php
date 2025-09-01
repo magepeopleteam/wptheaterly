@@ -82,14 +82,19 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
 
             $category_html = '';
             if( is_array( $theater_categories ) && !empty( $theater_categories ) ) {
+                $default_color = '#2e8708';
                 foreach ($theater_categories as $key => $category) {
+                    $cat_id = isset( $category['category_id'] ) ? $category['category_id'] : $key;
+                    $cat_color = isset( $category['color'] ) ? $category['color'] : $default_color;
                     $category_html .= '
                                 <div class="wtbm_CategoryHolder"
-                                data-category-id="' . $key . '"
+                                data-category-id="' . $cat_id . '"
                                 data-category-seats="' . $category['seats'] . '"
                                 data-category-price="' . $category['price'] . '"
                                 data-category-name="' . $category['category_name'] . '"
-                                >
+                                data-category-color="' . $cat_color . '"
+                                style="background-color: '.$cat_color.'"
+                                 >
                                     <div class="wtbm_Categoryname">' . $category['category_name'] . '</div>
                                 </div>
                                 ';
@@ -186,6 +191,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                     $top = $col * ( $childHeight + $gap ) + 10;
                     $seat_number = $col * $columns + $row;
                     $seat_num = '';
+                    $seat_category = '';
                     $seat_price = 0;
                     $background_color = '';
                     $zindex = 'auto';
@@ -205,6 +211,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                                 $isSelected = true;
                                 $background_color = sanitize_text_field( $plan_seat['color'] ) ;
                                 $seat_num = isset( $plan_seat['seat_number'] ) ? sanitize_text_field( $plan_seat['seat_number'] ) : '';
+                                $seat_category = isset( $plan_seat['seat_category'] ) ? sanitize_text_field( $plan_seat['seat_category'] ) : '';
                                 $tableBind = isset( $plan_seat['data_tableBind'] ) ? sanitize_text_field( $plan_seat['data_tableBind'] ) : '';
                                 $seat_price = floatval( $plan_seat['price'] );
                                 $width = isset( $plan_seat['width'] ) ? absint( $plan_seat['width'] ) : '' ;
@@ -240,6 +247,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                                         data-row="' . esc_attr( $col ) . '" 
                                         data-col="' . esc_attr( $row ) . '" 
                                         data-seat-num=" ' . esc_attr( $seat_num ) . ' " 
+                                        data-seat-category=" ' . esc_attr( $seat_category ) . ' " 
                                         data-price=" ' . esc_attr( $seat_price ) . ' " 
                                         data-degree="' . esc_attr( $degree ) . '"
                                         data-tableBind="' . esc_attr( $tableBind ) . '"
@@ -342,7 +350,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                                             </div>
                                         </div>
                                         <div class="mptrs_setPriceColorHolder" id="mptrs_setPriceColorHolder" style="display: none">
-                                            <div class="mptrs_copyHolder">
+                                            <div class="mptrs_copyHolder" style="display: none">
                                                 <button class="mptrs_seatCopyStore">Copy</button>
                                             </div>
                                             <div class="mptrs_rotateControls">

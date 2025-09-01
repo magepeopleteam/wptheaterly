@@ -417,6 +417,27 @@ jQuery(document).ready(function ($) {
         selectedSeatsDivs = selectedDraggableDivs = selectedDivs = [];
     });
 
+    $(document).on('click', '.wtbm_Categoryname', function (e) {
+        e.preventDefault();
+        let category_id     = $(this).parent().attr('data-category-id');
+        let category_price  = $(this).parent().attr('data-category-price');
+        let categorySeats = $(this).parent().attr('data-category-seats');
+        let category_color  = $(this).parent().attr('data-category-color');
+        selectedSeatsDivs.forEach(div => {
+            if( div.hasClass('selected')){
+
+                div.addClass("save").removeClass('selected');
+                if (category_color ) div.css("background-color", category_color );
+                $(div).attr('data-seat-category', category_id);
+                div.attr("data-price", category_price );
+
+                div.removeClass('selected');
+            }
+
+        });
+        selectedSeatsDivs = selectedDraggableDivs = selectedDivs = [];
+    });
+
     $(document).on('click', '#setText', function (e) {
         e.preventDefault();
         $(this).toggleClass('enable_set_text');
