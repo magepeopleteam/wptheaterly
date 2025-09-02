@@ -13,7 +13,7 @@
 				add_filter( 'single_template', array( $this, 'load_single_template' ) );
 			}
 			private function load_file(){
-				require_once MPTRS_PLUGIN_DIR . '/frontend/MPTRS_Shortcodes.php';
+				require_once MPTRS_PLUGIN_DIR . '/frontend/WTBM_Shortcodes.php';
 				require_once MPTRS_PLUGIN_DIR . '/frontend/MPTRS_Details_Layout.php';
 				require_once MPTRS_PLUGIN_DIR . '/frontend/MPTRS_Woocommerce.php';
 			}
