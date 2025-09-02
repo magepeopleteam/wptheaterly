@@ -350,45 +350,23 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                                             </div>
                                         </div>
                                         <div class="mptrs_setPriceColorHolder" id="mptrs_setPriceColorHolder" style="display: none">
+                                            <div class="wtbm_setSeatCategoryContainer">
+                                                <span class="wtbm_addSeatCategory" id="wtbm_addSeatCategory">Select Category</span>
+                                                 '.$category_html.'
+                                            </div>
+                                        
                                             <div class="mptrs_copyHolder" style="display: none">
                                                 <button class="mptrs_seatCopyStore">Copy</button>
                                             </div>
-                                            <div class="mptrs_rotateControls">
-                                                <select class="mptrs_rotationHandle" name="mptrs_rotationHandle" id="mptrs_rotationHandle" style="display: none">
-                                                    <option class="mptrs_rotateOptions" selected value="top-to-bottom">Rotate top to bottom</option>
-                                                    <option class="mptrs_rotateOptions"  value="bottom-to-top">Rotate bottom to Top</option>
-                                                    <option class="mptrs_rotateOptions"  value="right-to-left">Rotate right to Left</option>
-                                                    <option class="mptrs_rotateOptions"  value="left-to-right">Rotate left to Right</option>
-                                                </select>
-                                                <div class="mptrs_seatRotateIconTextHolder">
-                                                    <span class="mptrs_seatRotateIconText">Seat Rotate In Degree</span>
-                                                    <div class="mptrs_seatRotateIconImgHolder"> 
-                                                        <div class="mptrs_seatRotateIconHolder">
-                                                            <img class="mptrs_shapeRotate" id="mptrs_rotateRight" src="'.esc_url(WTBM_Plan_ASSETS.'images/icons/rotate/rotate_right.webp').'"/>
-                                                            <img class="mptrs_shapeRotate" id="mptrs_rotateLeft" src="'.esc_url(WTBM_Plan_ASSETS.'images/icons/rotate/rotate_left.webp').'"/>
-                                                        </div>
-                                                        <input class="mptrs_seatRotateDegree" type="number" name="mptrs_rotationAngle" id="mptrs_rotationAngle" value="10" placeholder="10 degree">
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
+                                           
                                             <div class="mptrs_seatIconContainer" style="display: none">
                                                 <span class="mptrs_seatIconTitle">Select seat icon</span>
                                                 '.wp_kses_post( $icon_images ).'
                                             </div>
-                                            <div class="mptrs_movementHolder" id="mptrs_movementHolder">
-                                                 <div class="mptrs_movementControl">
-                                                    <span class="mptrs_movementText">Movement In Px</span>
-                                                    <input class="mptrs_movementInPx" id="mptrs_movementInPx" name="mptrs_movementInPx" type="number" value="15" placeholder="movement in px" style="display: none">
-                                                </div>
-                                                <div class="mptrs_movementControl">
-                                                    <div id="mptrs_leftMovement" class="mptrs_movementPlan"><i class="arrowIcon far fa-arrow-alt-circle-left"></i></div>
-                                                    <div id="mptrs_topMovement" class="mptrs_movementPlan"><i class="arrowIcon far fa-arrow-alt-circle-up"></i></div>
-                                                    <div id="mptrs_bottomMovement" class="mptrs_movementPlan"><i class="arrowIcon far fa-arrow-alt-circle-down"></i></div>
-                                                    <div id="mptrs_rightMovement" class="mptrs_movementPlan"><i class="arrowIcon far fa-arrow-alt-circle-right"></i></div>
-                                                </div>
-                                            </div>
+                                            
                                             <div class="mptrs_colorPriceHolder">
-                                                <div>
+                                                <div class="wtbm_colorSet">
                                                     <span>Select Color</span>:
                                                     <input type="color" id="mptrs_setSeatColor" value="#3498db">
                                                 </div>
@@ -408,10 +386,39 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                                                  </div>
                                                 <button class="mptrs_setSeatNumber" id="mptrs_setSeatNumber">Set Seat Number</button>
                                             </div>
-                                            <div class="wtbm_setSeatCategoryContainer">
-                                                 '.$category_html.'
-                                                <button class="wtbm_addSeatCategory" id="wtbm_addSeatCategory">Set Category</button>
+                                            
+                                            <div class="mptrs_movementHolder" id="mptrs_movementHolder">
+                                                 <div class="mptrs_movementControl">
+                                                    <span class="mptrs_movementText">Movement In Px</span>
+                                                    <input class="mptrs_movementInPx" id="mptrs_movementInPx" name="mptrs_movementInPx" type="number" value="15" placeholder="movement in px" style="display: none">
+                                                </div>
+                                                <div class="mptrs_movementControl">
+                                                    <div id="mptrs_leftMovement" class="mptrs_movementPlan"><i class="arrowIcon far fa-arrow-alt-circle-left"></i></div>
+                                                    <div id="mptrs_topMovement" class="mptrs_movementPlan"><i class="arrowIcon far fa-arrow-alt-circle-up"></i></div>
+                                                    <div id="mptrs_bottomMovement" class="mptrs_movementPlan"><i class="arrowIcon far fa-arrow-alt-circle-down"></i></div>
+                                                    <div id="mptrs_rightMovement" class="mptrs_movementPlan"><i class="arrowIcon far fa-arrow-alt-circle-right"></i></div>
+                                                </div>
                                             </div>
+                                            
+                                             <div class="mptrs_rotateControls">
+                                                <select class="mptrs_rotationHandle" name="mptrs_rotationHandle" id="mptrs_rotationHandle" style="display: none">
+                                                    <option class="mptrs_rotateOptions" selected value="top-to-bottom">Rotate top to bottom</option>
+                                                    <option class="mptrs_rotateOptions"  value="bottom-to-top">Rotate bottom to Top</option>
+                                                    <option class="mptrs_rotateOptions"  value="right-to-left">Rotate right to Left</option>
+                                                    <option class="mptrs_rotateOptions"  value="left-to-right">Rotate left to Right</option>
+                                                </select>
+                                                <div class="mptrs_seatRotateIconTextHolder">
+                                                    <span class="mptrs_seatRotateIconText">Seat Rotate In Degree</span>
+                                                    <div class="mptrs_seatRotateIconImgHolder"> 
+                                                        <div class="mptrs_seatRotateIconHolder">
+                                                            <img class="mptrs_shapeRotate" id="mptrs_rotateRight" src="'.esc_url(WTBM_Plan_ASSETS.'images/icons/rotate/rotate_right.webp').'"/>
+                                                            <img class="mptrs_shapeRotate" id="mptrs_rotateLeft" src="'.esc_url(WTBM_Plan_ASSETS.'images/icons/rotate/rotate_left.webp').'"/>
+                                                        </div>
+                                                        <input class="mptrs_seatRotateDegree" type="number" name="mptrs_rotationAngle" id="mptrs_rotationAngle" value="10" placeholder="10 degree">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>';

@@ -10,7 +10,7 @@
     width: 100%;
     height: auto;
     overflow: scroll;
-    border: 1px solid #333;
+    border: 1px solid #edecec;
 }
 .mptrs_seatPlanHolder::-webkit-scrollbar { width: 4px; }
 .mptrs_seatPlanHolder::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 2px; }
@@ -18,16 +18,15 @@
 .mptrs_seatPlanHolder::-webkit-scrollbar-thumb:hover { background: #555; }
 
 .mptrs_seatActionControl{
-    display: block;
-    width: 150px;
-    margin-left: 10px;
-    max-height: 500px;
-    overflow-y: scroll;
     position: absolute;
-
-
-    padding:13px;
     right: 0;
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    margin-left: 8px;
+    padding: 5px 10px 5px 10px;
+    height: auto;
+    background-color: #e3e3e3d4;
 }
 
 #mptrs_parentDiv {
@@ -35,8 +34,13 @@
     padding: 10px;
 }
 #mptrs_setSeatColor{
-    width: 30px;
+    width: 48px;
     margin-bottom: 2px;
+}
+
+.wtbm_colorSet{
+    display: flex;
+    justify-content: space-between;
 }
 
 #mptrs_setSeatPrice{
@@ -49,7 +53,8 @@
 }
 .mptrs_textPriceHolder{
     display: flex;
-    width: 120px;
+    justify-content: space-between;
+    /*width: 120px;*/
     margin-bottom: 3px;
 }
 .mptrs_movementHolder{
@@ -147,9 +152,6 @@
 }
 
 .mptrs_seatNumber{
-    position: absolute;
-    top: 0px;
-    left: 5px;
     z-index: 10;
     color: #fff;
 }
@@ -239,10 +241,9 @@
 }
 
 .mptrs_seatRotateIconTextHolder{
-    display: block;
-    float: right;
-    width: 100%;
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
 }
 .mptrs_seatRotateIconImgHolder{
     display: flex;
@@ -252,13 +253,10 @@
 
 .mptrs_seatRotateIconHolder{
     display: flex;
-    width: 100%;
     height: 30px;
 }
 .mptrs_seatRotateDegree{
-    width: 60px;
-    padding: 0 5px !important;
-    margin-left: 10px;
+    width: 50px;
 }
 .mptrs_seatRotateIconText{
     display: block;
@@ -309,17 +307,21 @@
     transition: background-color 0.3s ease;
 }
 .mptrs_setPriceColorHolder{
-    display: block;
-    float: left;
+    display: flex;
+    flex-direction: column;
+    /*float: left;*/
     position: relative;
     width: 100%;
     z-index: 999;
 }
 .mptrs_colorPriceHolder{
     width: 100%;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 12px;
     margin-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dotted #e5dfdf;
 }
 
 .mptrs_setShapeTitle{
@@ -342,13 +344,15 @@
 }
 
 .mptrs_mapping_controls ,
-.mptrs_setSeatNumber,
-.wtbm_addSeatCategory
-{
+.mptrs_setSeatNumber {
     width: 100%;
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+.mptrs_setSeatNumber{
+    margin-bottom: 10px;
 }
 .mptrs_mapping_planControlHolder{
     width: 100%;
@@ -364,7 +368,6 @@
 #mptrs_applyPriceChanges,
 #mptrs_applyColorChanges,
 #mptrs_setSeatNumber,
-#wtbm_addSeatCategory,
 #mptrs_mapping_multiselect,
 #mptrs_mapping_set_seat,
 #mptrs_mapping_set_shape,
@@ -378,10 +381,10 @@
     margin-top: 2px;
 }
 
-#mptrs_applyPriceChanges, #mptrs_applyColorChanges, #mptrs_setSeatNumber, #wtbm_addSeatCategory{
+#mptrs_applyPriceChanges, #mptrs_applyColorChanges, #mptrs_setSeatNumber{
     background-color: #817a7a;
     color: #fff;
-    width: 125px;
+    /*width: 125px;*/
     border-width: 1px;
     padding: 3px 0px;
     border-radius: 3px;
@@ -393,21 +396,19 @@
 #mptrs_setSeatNumber:hover {
     background-color: #218838;
 }
-#wtbm_addSeatCategory:hover {
-    background-color: #218838;
-}
+
 
 .mptrs_seatNumberContainer{
     display: flex;
-    width: 130px;
+    justify-content: space-between;
 }
 
 #mptrs_seatNumberPrefix{
     width: 75px;
 }
 #mptrs_seatNumberCount {
-    width: 45px;
-    padding: 0 2px !important;
+    width: 55px;
+    padding: 1px 8px !important;
 }
 
 #mptrs_mapping_set_seat,
@@ -894,8 +895,9 @@ button.mptrs_textZoomIn:hover, button.mptrs_textZoomOut:hover {
 .wtbm_setSeatCategoryContainer{
     display: flex;
     flex-direction: column;
+    border: 1px solid #cbc9c9;
+    gap: 2px;
     padding: 5px;
-    margin: 5px;
 }
 
 .wtbm_Categoryname{
