@@ -13,9 +13,6 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
         }
 
         public static function render_seat_mapping_meta_box( $post_id, $action_type, $rows = 20, $seatsPerRow = 30 ) {
-
-            error_log( print_r( [ '$post_id' => $post_id ], true ) );
-
             $template_id = '';
             $selection = WTBM_Plan_ASSETS . 'images/tools/selection.png';
             $choice = WTBM_Plan_ASSETS . 'images/tools/choice.png';
@@ -57,7 +54,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                 </div>
             </div>
 
-            <div class="mptrs_seatContentHolder" id="mptrs_seatContentHolder">
+            <div class="wtbm_seatContentHolder" id="wtbm_seatContentHolder">
                 <div id="mptrs_popupContainer" class="mptrs_popup">
                     <div class="mptrs_popupContent">
                         <span id="mptrs_closePopup" class="mptrs_close">&times;</span>

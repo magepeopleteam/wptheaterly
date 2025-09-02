@@ -504,7 +504,6 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     foreach ( $category_data as $category ) {
 
                         $color = isset( $category['color'] ) ? $category['color'] : '';
-                        error_log( print_r( [ '$color' => $color ], true ) );
                         ?>
                         <div class="wtbm_theater_category_box" data-id="<?php echo esc_attr( $count_category );?>">
                             <?php if( $count_category > 1 ){?>

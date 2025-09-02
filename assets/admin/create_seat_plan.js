@@ -143,7 +143,7 @@ jQuery(document).ready(function ($) {
                                                 </div>\
                                             </div>\
                                         </div>';
-                    $("#mptrs_seatContentHolder").append( popUp );
+                    $("#wtbm_seatContentHolder").append( popUp );
                 } else {
                     alert('Failed to load templates.');
                 }
