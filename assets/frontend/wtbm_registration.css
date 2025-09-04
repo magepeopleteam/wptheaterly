@@ -15,7 +15,7 @@ body {
     color: #e2e8f0;
 }
 
-.container {
+.wtbm_registrationContainer {
     display: flex;
     max-width: 1600px;
     margin: 0 auto;
@@ -24,7 +24,7 @@ body {
     min-height: 100vh;
 }
 
-.main-content {
+.wtbm_registrationMainContent {
     flex: 1;
     background: rgba(30, 41, 59, 0.8);
     backdrop-filter: blur(20px);
@@ -34,7 +34,7 @@ body {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
-.sidebar {
+.wtbm_registrationSidebar {
     width: 420px;
     background: rgba(30, 41, 59, 0.8);
     backdrop-filter: blur(20px);
@@ -331,7 +331,7 @@ body {
     border-radius: 6px;
 }
 
-.summary-card {
+.wtbm_registrationSummaryCard {
     background: rgba(51, 65, 85, 0.5);
     border-radius: 16px;
     padding: 24px;
@@ -347,7 +347,7 @@ body {
     color: #f8fafc;
 }
 
-.summary-item {
+.wtbm_registrationSummaryItem {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -356,7 +356,7 @@ body {
     color: #e2e8f0;
 }
 
-.summary-item:last-child {
+.wtbm_registrationSummaryItem:last-child {
     border-top: 1px solid rgba(148, 163, 184, 0.3);
     padding-top: 20px;
     margin-top: 20px;

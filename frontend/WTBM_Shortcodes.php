@@ -25,109 +25,114 @@
             }
 
             public function display_registration_data( $atts ){
-                $lay_outs = new WTBM_Details_Layout();
                 ob_start();
+
+//                $date = new DateTime();
+                $today_date = date('M d, y');
+
                 ?>
-                <div class="container">
-                    <div class="main-content">
-                        <!-- Date Selection -->
+                <div class="wtbm_registrationContainer">
+                    <div class="wtbm_registrationMainContent">
                         <?php
-                        WTBM_Details_Layout::booking_date_display();
+                            WTBM_Details_Layout::booking_date_display();
                         ?>
 
-                        <!-- Movie Selection -->
                         <div class="section" id="wtbm_movieSection">
                             <?php echo wp_kses_post( WTBM_Details_Layout::display_date_wise_movies() );?>
                         </div>
 
-                        <!-- Hall & Time Selection -->
                         <div class="section" id="wtbm_hallSection" style="display: none">
-                            <h2 class="section-title">Select Show Time</h2>
+                            <h2 class="section-title"><?php esc_attr_e( 'Select Show Time', 'wptheaterly' );?></h2>
                             <div class="halls-list" id="wtbm_displayHallsList">
                             </div>
                         </div>
 
-                        <!-- Seat Selection -->
                         <div class="section" id="wtbm_seatSection" style="display: none">
-                            <h2 class="section-title">Select Seats</h2>
-                            <div class="seat-map">
-                                <div class="screen">THEATER SCREEN</div>
-                                <div class="seats-grid" id="wtbm_seatsGrid">
-                                    <!-- Seats will be populated by JavaScript -->
-                                </div>
+                            <h2 class="section-title"><?php esc_attr_e( 'Select Seats', 'wptheaterly' );?></h2>
+                            <div class=" v seat-map">
+                                <div class="screen"><?php esc_attr_e( 'THEATER SCREEN', 'wptheaterly' );?></div>
+                                <div class="seats-grid" id="wtbm_seatsGrid"></div>
                                 <div class="seat-legend">
                                     <div class="legend-item">
                                         <div class="legend-color" style="background: #28a745;"></div>
-                                        <span>Available</span>
+                                        <span><?php esc_attr_e( 'Available', 'wptheaterly' );?></span>
                                     </div>
                                     <div class="legend-item">
                                         <div class="legend-color" style="background: #667eea;"></div>
-                                        <span>Selected</span>
+                                        <span><?php esc_attr_e( 'Selected', 'wptheaterly' );?></span>
                                     </div>
                                     <div class="legend-item">
                                         <div class="legend-color" style="background: #dc3545;"></div>
-                                        <span>Occupied</span>
+                                        <span><?php esc_attr_e( 'Occupied', 'wptheaterly' );?></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="sidebar">
-                        <h2 class="summary-title">Tickets Summary</h2>
+                    <div class="wtbm_registrationSidebar" id="wtbm_registrationSidebar">
+                        <h2 class="summary-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
 
-                        <div class="summary-card">
-                            <div id="selectedMovieDisplay">
-                                <div style="width: 60px; height: 80px; background: #ddd; border-radius: 8px; margin-bottom: 15px;"></div>
-                                <div style="color: #666;">Select a movie</div>
+                        <div class="wtbm_registrationSummaryCard">
+                            <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="">
+                            <input type="hidden" name="wtbm_summeryTheaterId" id="wtbm_summeryTheaterId" value="">
+                            <input type="hidden" name="wtbm_summeryDate" id="wtbm_summeryDate" value="<?php echo esc_attr( date("Y-m-d") );?>">
+                            <input type="hidden" name="wtbm_summeryTime" id="wtbm_summeryTime" value="">
+                            <input type="hidden" name="wtbm_summerySeatType" id="wtbm_summerySeatType" value="">
+                            <input type="hidden" name="wtbm_summerySeatNumber" id="wtbm_summerySeatNumber" value="">
+                            <input type="hidden" name="wtbm_summeryTotalAmount" id="wtbm_summeryTotalAmount" value="">
+
+                            <div id="wtbm_selectedMovieDisplay">
+                                <div id="wtbm_movieName" style="width: 60px; height: 80px; background: #ddd; border-radius: 8px; margin-bottom: 15px;"></div>
+                                <div id="wtbm_movieDuration" style="color: #666;"><?php esc_attr_e( 'Select a movie', 'wptheaterly' );?></div>
                             </div>
 
-                            <div class="summary-item">
-                                <span>Location:</span>
-                                <span>BSC</span>
+                            <div class="wtbm_registrationSummaryItem">
+                                <span><?php esc_attr_e( 'Location', 'wptheaterly' );?>:</span>
+                                <span><?php esc_attr_e( 'BSC', 'wptheaterly' );?></span>
                             </div>
-                            <div class="summary-item">
+                            <div class="wtbm_registrationSummaryItem">
                                 <span>Show Date:</span>
-                                <span id="summaryDate">Aug 18, 25</span>
+                                <span id="wtbm_summaryDateDisplay"><?php echo esc_attr( $today_date );?></span>
                             </div>
-                            <div class="summary-item">
-                                <span>Hall Name:</span>
-                                <span id="summaryHall">--</span>
+                            <div class="wtbm_registrationSummaryItem">
+                                <span><?php esc_attr_e( 'Hall Name:', 'wptheaterly' );?></span>
+                                <span id="wtbm_summaryTheaterName">--</span>
                             </div>
-                            <div class="summary-item">
-                                <span>Show Time:</span>
-                                <span id="summaryTime">--</span>
+                            <div class="wtbm_registrationSummaryItem">
+                                <span><?php esc_attr_e( 'Show Time:', 'wptheaterly' );?></span>
+                                <span id="wtbm_summaryTimeSlot">--</span>
                             </div>
-                            <div class="summary-item">
+                            <div class="wtbm_registrationSummaryItem">
                                 <span>Seat Type:</span>
-                                <span id="summarySeatType">Premium</span>
+                                <span id="wtbm_summarySeatType"><?php esc_attr_e( 'Premium', 'wptheaterly' );?></span>
                             </div>
-                            <div class="summary-item">
-                                <span>Ticket Quantity:</span>
-                                <span id="summaryQuantity">0</span>
+                            <div class="swtbm_registrationSummaryItem">
+                                <span><?php esc_attr_e( 'Ticket Quantity:', 'wptheaterly' );?></span>
+                                <span id="wtbm_summaryQuantity">0</span>
                             </div>
-                            <div class="summary-item">
-                                <span>Selected Seat:</span>
-                                <span id="summarySeats">--</span>
+                            <div class="wtbm_registrationSummaryItem">
+                                <span><?php esc_attr_e( 'Selected Seat:', 'wptheaterly' );?></span>
+                                <span id="wtbm_summarySeats">--</span>
                             </div>
-                            <div class="summary-item">
-                                <span>Total Amount:</span>
-                                <span id="summaryTotal">0 BDT</span>
+                            <div class="wtbm_registrationSummaryItem">
+                                <span><?php esc_attr_e( 'Total Amount:', 'wptheaterly' );?></span>
+                                <span id="wtbm_summaryTotal">0 BDT</span>
                             </div>
                         </div>
 
                         <div class="booking-form">
-                            <h3 style="margin-bottom: 15px;">Ticket For</h3>
+                            <h3 style="margin-bottom: 15px;"><?php esc_attr_e( 'Ticket For', 'wptheaterly' );?></h3>
                             <div class="form-group">
-                                <label class="form-label">Full Name</label>
+                                <label class="form-label"><?php esc_attr_e( 'Full Name', 'wptheaterly' );?></label>
                                 <input type="text" class="form-input" placeholder="Enter your name">
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Mobile Number</label>
+                                <label class="form-label"><?php esc_attr_e( 'Mobile Number', 'wptheaterly' );?></label>
                                 <input type="tel" class="form-input" placeholder="Enter mobile number">
                             </div>
-                            <button class="purchase-btn" id="purchaseBtn" disabled="">PURCHASE TICKET</button>
+                            <button class="purchase-btn" id="purchaseBtn" disabled=""><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
                             <div style="margin-top: 15px; font-size: 12px; color: #666; text-align: center;">
-                                By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex
+                                <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>
                             </div>
                         </div>
                     </div>

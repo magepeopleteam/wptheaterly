@@ -15,7 +15,7 @@
             public static function booking_date_display() {
                 ?>
                 <div class="wtbm_booking_date_section" id="wtbm_bookingDateSection">
-                    <h2 class="tbm_booking_date_section_title">Select Date</h2>
+                    <h2 class="tbm_booking_date_section_title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
                     <div class="wtbm_booking_date_date_selector" id="wtbm_bookingDateSelector">
                         <?php
                         for ( $i = 0; $i < 7; $i++ ) {
@@ -57,11 +57,15 @@
                                 $active = '';
                             }
                             ?>
-                            <div class="wtbm_booking_movie_card <?php echo esc_attr( $active );?>" data-movie-id="<?php echo esc_attr( $movie['movie_id'] );?>">
+                            <div class="wtbm_booking_movie_card"
+                                 data-movie-name="<?php echo esc_attr( $movie['title'] );?>"
+                                 data-movie-id="<?php echo esc_attr( $movie['movie_id'] );?>"
+                                 data-movie-duration="<?php echo esc_attr( $movie['movie_duration'] );?>"
+                            >
                                 <div class="wtbm_booking_movies_poster">🎬</div>
                                 <div class="wtbm_booking_movies_info">
                                     <div class="wtbm_booking_movies_title"><?php echo esc_attr( $movie['title'] );?></div>
-                                    <div class="wtbm_booking_movies_details">Duration - <?php echo esc_attr( $movie['movie_duration'] );?></div>
+                                    <div class="wtbm_booking_movies_details"><?php esc_attr_e( 'Duration', 'wptheaterly' );?> - <?php echo esc_attr( $movie['movie_duration'] );?></div>
                                 </div>
                             </div>
                         <?php
@@ -89,7 +93,7 @@
                                     foreach ( $show_time as $time ){
                                         $formatted_time = date('h:i A', strtotime( esc_attr( $time ) ));
                                         ?>
-                                        <div class="wtbm_timeSlot" data-wtbm-theater="<?php echo esc_attr( $theater_id );?>" data-time-slot="<?php echo esc_attr( $time );?>">
+                                        <div class="wtbm_timeSlot" data-wtbm-theater-name = "<?php echo esc_attr( $post_title );?>" data-wtbm-theater="<?php echo esc_attr( $theater_id );?>" data-time-slot="<?php echo esc_attr( $time );?>">
                                             <?php echo esc_attr( $formatted_time );?>
                                         </div>
                                 <?php } }?>
