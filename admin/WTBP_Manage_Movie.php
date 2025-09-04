@@ -26,9 +26,9 @@ if (!class_exists('WTBP_Manage_Movie')) {
         public function wtbt_delete_custom_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
-            $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+            $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : '';
 
-            if ($post_id) {
+            if ( $post_id ) {
                 $post = get_post($post_id);
                 if ($post) {
                     $result = wp_trash_post($post_id);

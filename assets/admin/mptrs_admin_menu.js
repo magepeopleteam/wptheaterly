@@ -424,8 +424,16 @@
     }
 
     function addShowtime( action_type, showTimeId ) {
+
+        let action = '';
+        if( showTimeId ){
+            action = 'wtbm_update_show_time_post';
+        }else{
+            action = 'wtbm_insert_show_time_post';
+        }
+
         const showtime = {
-            action: "wtbp_insert_show_time_post",
+            action: action,
             id: Date.now(),
             showTimeId: showTimeId,
             action_type: action_type,

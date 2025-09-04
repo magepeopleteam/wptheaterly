@@ -39,11 +39,6 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                 $movie_id = sanitize_text_field( $_POST['movie_id'] );
                 // Fetch movies or showtimes based on date
                 $theater_show_times = WTBM_Details_Layout::display_theater_show_time( $movie_id, $date  );
-                error_log( print_r( [
-                    '$movie_id' => $movie_id ,
-                    '$date' => $date ,
-                    '$theater_show_times' => $theater_show_times ,
-                ], true ) );
 
                 wp_send_json_success( $theater_show_times );
             } else {

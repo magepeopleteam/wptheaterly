@@ -9,8 +9,11 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
         public function __construct() {
 
-            add_action('wp_ajax_wtbp_insert_show_time_post', [ $this, 'wtbp_insert_show_time_post' ]);
-            add_action('wp_ajax_nopriv_wtbp_insert_show_time_post', [ $this, 'wtbp_insert_show_time_post' ]);
+            add_action('wp_ajax_wtbm_insert_show_time_post', [ $this, 'wtbm_insert_show_time_post' ]);
+            add_action('wp_ajax_nopriv_wtbm_insert_show_time_post', [ $this, 'wtbm_insert_show_time_post' ]);
+
+            add_action('wp_ajax_wtbm_update_show_time_post', [ $this, 'wtbm_update_show_time_post' ]);
+            add_action('wp_ajax_nopriv_wtbm_update_show_time_post', [ $this, 'wtbm_update_show_time_post' ]);
 
             add_action('wp_ajax_wtbm_add_edit_show_time_form', [ $this, 'wtbm_add_edit_show_time_form' ]);
             add_action('wp_ajax_nopriv_wtbm_add_edit_show_time_form', [ $this, 'wtbm_add_edit_show_time_form' ]);
@@ -19,10 +22,11 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
             add_action('wp_ajax_nopriv_wtbm_get_theater_categories', [ $this, 'wtbm_get_theater_categories' ]);
         }
 
-        function wtbp_insert_show_time_post() {
+        function wtbm_insert_show_time_post() {
 
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce' );
 
+            error_log( print_r( [ '$post' => $_POST ], true ) );
             $cpt = MPTRS_Function::get_show_time_cpt();
             $title          = sanitize_text_field( $_POST['title'] );
             $movieId        = sanitize_text_field( $_POST['movieId'] );
@@ -36,43 +40,78 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
             $showTimeId = isset( $_POST['showTimeId'] ) ? sanitize_text_field( $_POST['showTimeId'] ) : '';
 
-            if( $showTimeId ){
-                $post_data = [
-                    'post_title'   => $title,
-                    'post_type'    => $cpt,
-                    'post_status'  => 'publish',
-                    'post_content' => $description,
-                ];
-                $post_data['ID'] = $showTimeId;
-                $post_id = wp_update_post( $post_data );
-            }else {
-                $post_id = wp_insert_post([
-                    'post_title' => $title,
-                    'post_type' => $cpt,
-                    'post_status' => 'publish',
-                    'post_content' => $description,
-                ]);
-            }
+            $post_id = wp_insert_post([
+                'post_title' => $title,
+                'post_type' => $cpt,
+                'post_status' => 'publish',
+                'post_content' => $description,
+            ]);
             if ( $post_id ) {
                 // Save meta data
-                update_post_meta($post_id, 'wtbp_show_time_movieId', $movieId);
-                update_post_meta($post_id, 'wtbp_show_time_theaterId', $theaterId);
-                update_post_meta($post_id, 'wtbp_show_time_date', $date);
-                update_post_meta($post_id, 'wtbp_show_time_start_date', $startTime);
-                update_post_meta($post_id, 'wtbp_show_time_end_date', $endTime);
-                update_post_meta($post_id, 'wtbp_show_time_price', $price);
+                update_post_meta( $post_id, 'wtbp_show_time_movieId', $movieId );
+                update_post_meta( $post_id, 'wtbp_show_time_theaterId', $theaterId );
+                update_post_meta( $post_id, 'wtbp_show_time_date', $date );
+                update_post_meta( $post_id, 'wtbp_show_time_start_date', $startTime );
+                update_post_meta( $post_id, 'wtbp_show_time_end_date', $endTime );
+                update_post_meta( $post_id, 'wtbp_show_time_price', $price );
 
                 $new_show_time = array(
                     0=>WTBM_Layout_Functions::get_show_time_data_by_id( $post_id ),
                 );
                 $display_show_time = self::display_show_times_data( $new_show_time );
+
                 wp_send_json_success( $display_show_time );
-
-
             } else {
                 wp_send_json_error("Failed to insert post");
             }
         }
+
+        function wtbm_update_show_time_post() {
+            check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
+
+            $cpt = MPTRS_Function::get_show_time_cpt();
+            $title          = sanitize_text_field( $_POST['title'] );
+            $movieId        = sanitize_text_field( $_POST['movieId'] );
+            $theaterId      = sanitize_text_field( $_POST['theaterId'] );
+            $date           = sanitize_text_field( $_POST['date']);
+            $startTime      = sanitize_text_field( $_POST['startTime'] );
+            $endTime        = sanitize_text_field( $_POST['endTime'] );
+            $action_type       = sanitize_text_field( $_POST['action_type'] );
+            $price          = floatval( $_POST['price'] );
+            $description    = sanitize_textarea_field( $_POST['description'] );
+
+            $showTimeId = isset( $_POST['showTimeId'] ) ? sanitize_text_field( $_POST['showTimeId'] ) : '';
+            $post_data = [
+                'ID'           => $showTimeId,
+                'post_title'   => $title,
+                'post_type'    => $cpt,
+                'post_status'  => 'publish',
+                'post_content' => $description,
+            ];
+
+            $updated_post_id = wp_update_post( $post_data );
+
+            if ( $updated_post_id ) {
+
+                update_post_meta( $updated_post_id, 'wtbp_show_time_movieId', $movieId );
+                update_post_meta( $updated_post_id, 'wtbp_show_time_theaterId', $theaterId );
+                update_post_meta( $updated_post_id, 'wtbp_show_time_date', $date );
+                update_post_meta( $updated_post_id, 'wtbp_show_time_start_date', $startTime );
+                update_post_meta( $updated_post_id, 'wtbp_show_time_end_date', $endTime );
+                update_post_meta( $updated_post_id, 'wtbp_show_time_price', $price );
+
+                $new_show_time = array(
+                    0=>WTBM_Layout_Functions::get_show_time_data_by_id( $updated_post_id ),
+                );
+                $display_show_time = self::display_show_times_data( $new_show_time );
+
+                wp_send_json_success( $display_show_time );
+            } else {
+                wp_send_json_error("Failed to edit theater" );
+            }
+        }
+
+
         public function wtbm_add_edit_show_time_form(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
@@ -151,15 +190,18 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 $add_action = 'wtbm_edit_show_time';
                 $show_time_data = WTBM_Layout_Functions::get_show_time_data_by_id( absint( $showtime_id ) );
 
-                $show_time_id = isset( $show_time_data['theater_id'] ) ? $show_time_data['theater_id'] : '';
+//                $show_time_id = isset( $show_time_data['theater_id'] ) ? $show_time_data['theater_id'] : '';
                 $theater_id = isset( $show_time_data['theater_id'] ) ? $show_time_data['theater_id'] : '';
 
-                $categories_html = self::get_theater_categories_html( $theater_id );
+                if( $theater_id ){
+                    $categories_html = self::get_theater_categories_html( $theater_id );
+                }
+
 
             }
 
-            $movie_data = WTBM_Layout_Functions::get_and_display_movies( 10 );
-            $theater_data = WTBM_Layout_Functions::get_and_display_theater_date( 10 );
+            $movie_data = WTBM_Layout_Functions::get_and_display_movies( 30 );
+            $theater_data = WTBM_Layout_Functions::get_and_display_theater_date( 30 );
 
             ?>
             <h4 class="mb-4 font-semibold"><?php echo esc_html( $title ); ?></h4>
@@ -245,7 +287,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 </div>
 
                 <div class="flex gap-2">
-                    <button class="btn btn-success" id="<?php echo esc_attr( $add_action );?>" data-showTimeId="<?php echo esc_attr( $show_time_id );?>">
+                    <button class="btn btn-success" id="<?php echo esc_attr( $add_action );?>" data-showTimeId="<?php echo esc_attr( $showtime_id );?>">
                         <?php echo ( $action_type === 'edit' ) ? esc_html__( 'Update Showtime', 'wptheaterly' ) : esc_html__( 'Add Showtime', 'wptheaterly' ); ?>
                     </button>
                     <button class="btn btn-secondary" id="wtbm_clear_show_time_form"><?php esc_attr_e( 'Cancel', 'wptheaterly' )?></button>
