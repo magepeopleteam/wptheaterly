@@ -87,6 +87,7 @@
 				wp_enqueue_style('mptrs', MPTRS_PLUGIN_URL . '/assets/frontend/mptrs.css', [], time());
 				wp_enqueue_script('mptrs', MPTRS_PLUGIN_URL . '/assets/frontend/mptrs.js', ['jquery'], time(), true);
 				wp_enqueue_style('wtbm_registration', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_registration.css', [], time());
+				wp_enqueue_style('wtbm_seat_mapping', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_seat_mapping.css', [], time());
 				wp_enqueue_script('wtbm_registration', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_registration.js', ['jquery'], time(), true);
 				wp_localize_script('wtbm_registration', 'wtbm_ajax', array(
 					'ajax_url' => admin_url('admin-ajax.php'),

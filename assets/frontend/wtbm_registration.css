@@ -175,7 +175,7 @@ body {
     gap: 15px;
 }
 
-.hall-card {
+.wtbm_hallCard {
     background: rgba(51, 65, 85, 0.5);
     border-radius: 16px;
     padding: 24px;
@@ -184,26 +184,26 @@ body {
     backdrop-filter: blur(10px);
 }
 
-.hall-card:hover {
+.wtbm_hallCard:hover {
     box-shadow: 0 20px 25px -5px rgba(168, 85, 247, 0.3);
     border-color: rgba(168, 85, 247, 0.5);
     transform: translateY(-4px);
 }
 
-.hall-name {
+.wtbm_hallName {
     font-weight: 600;
     margin-bottom: 20px;
     font-size: 20px;
     color: #f8fafc;
 }
 
-.time-slots {
+.wtbm_timeSlots {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
 }
 
-.time-slot {
+.wtbm_timeSlot {
     background: rgba(71, 85, 105, 0.6);
     border: 1px solid rgba(148, 163, 184, 0.3);
     border-radius: 12px;
@@ -215,7 +215,7 @@ body {
     backdrop-filter: blur(10px);
 }
 
-.time-slot:hover {
+.wtbm_timeSlot:hover {
     background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
     color: white;
     border-color: transparent;
@@ -223,7 +223,7 @@ body {
     box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.3);
 }
 
-.time-slot.selected {
+.wtbm_timeSlot.selected {
     background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
     color: white;
     border-color: transparent;
@@ -231,7 +231,7 @@ body {
 }
 
 .seat-map {
-    background: rgba(51, 65, 85, 0.5);
+    background: #fff;
     border-radius: 20px;
     padding: 40px;
     text-align: center;
@@ -252,10 +252,11 @@ body {
 }
 
 .seats-grid {
-    display: grid;
+    display: flex;
     gap: 10px;
     justify-content: center;
     margin-bottom: 30px;
+    flex-direction: column;
 }
 
 .seat-row {
@@ -382,7 +383,7 @@ body {
 
 .form-input {
     width: 100%;
-    padding: 16px 20px;
+    padding: 16px 10px;
     border: 1px solid rgba(148, 163, 184, 0.3);
     border-radius: 12px;
     font-size: 16px;
@@ -435,4 +436,8 @@ body {
 
 .step-indicator {
     display: none;
+}
+
+.wtbm_movieActive{
+    border: 2px solid #fff;
 }

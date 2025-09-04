@@ -48,11 +48,11 @@
                         </div>
 
                         <!-- Seat Selection -->
-                        <div class="section hidden" id="seatSection">
+                        <div class="section" id="seatSection">
                             <h2 class="section-title">Select Seats</h2>
                             <div class="seat-map">
                                 <div class="screen">THEATER SCREEN</div>
-                                <div class="seats-grid" id="seatsGrid">
+                                <div class="seats-grid" id="wtbm_seatsGrid">
                                     <!-- Seats will be populated by JavaScript -->
                                 </div>
                                 <div class="seat-legend">

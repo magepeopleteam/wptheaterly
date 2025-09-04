@@ -1,0 +1,1226 @@
+
+/* Popup Styling */
+.mptrs_popUpDetails {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.mptrs_popupContent {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    text-align: center;
+    position: relative;
+    margin: auto;
+    top: 70px;
+}
+.mptrs_popupDetailsContent {
+    background: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+    margin: auto;
+    top: 70px;
+}
+
+.mptrs_fixed {
+    position: fixed;
+    top: 10px;
+    width: 100%;
+    background: #ff5733;
+    color: white;
+    padding: 15px;
+    z-index: 10;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mptrs_orderDetailsPopup{
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+.mptrs_orderDetails {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.mptrs_orderAddedTable {
+    width: 50%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.mptrs_orderAddedTable th, .mptrs_orderAddedTable td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+.mptrs_orderAddedTable th {
+    background-color: #f4f4f4;
+}
+
+.mptrs_popUpInfoHolder {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+
+.mptrs_seatMapDisplay {
+    flex-grow: 1;
+    max-width: 100%;
+    background-color: #f0f0f0;
+}
+
+.mptrs_orderInfoHolder {
+    display: flex;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#mptrs_seatGrid {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    margin: auto;
+    display: flex;
+    top: 10px;
+    overflow-y: scroll;
+}
+#mptrs_seatInfo{
+    display: block;
+    float: left;
+    position: relative;
+    font-size: 16px;
+    width: calc( 100% - 20px);
+    padding: 10px;
+}
+.mptrs_mappedSeat {
+    position: absolute;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+.mptrs_reservedMappedSeat {
+    position: absolute;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+.mptrs_mappedSeatInfo{
+    margin: 3px 3px 3px 3px;
+    font-size: 12px;
+    cursor: pointer;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.mptrs_reservedMappedSeatInfo{
+    margin: 3px 3px 3px 3px;
+    font-size: 12px;
+    cursor: pointer;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.mptrs_dynamicTextWrapper{
+    z-index: 99;
+}
+.box_selected{
+    background-color: #333333;
+}
+.mptrs_seatNumber{
+    position: absolute;
+    top: 10px;
+    left: 8px;
+    color: #e31818;
+    font-weight: bold;
+}
+.mptrs_dynamicShape {
+    position: absolute;
+    z-index: 99;
+    cursor: pointer;
+    /*border: 1px solid #000; !* Optional: for visibility *!*/
+}
+.mptrs_selectedDynamicShape {
+    position: absolute;
+    z-index: 99;
+    cursor: pointer;
+    /*border: 1px solid #000; !* Optional: for visibility *!*/
+}
+.mptrs_selectedSeatInfoHolder{
+    display: block;
+    float: left;
+    position: relative;
+    width: 100%;
+}
+
+.mptrs_checkoutManage{
+    display: block;
+    width: calc(100% - 20px);
+    text-align: center;
+    padding: 5px 10px;
+    border: 1px solid #666666;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.mptrs_checkoutManage:hover{
+    background-color: #0a7aff;
+    color: #fff;
+}
+
+.mptrs_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.mptrs_table thead {
+    background-color: #0073aa;
+    color: #fff;
+}
+
+.mptrs_table th, .mptrs_table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.mptrs_table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.mptrs_table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.mptrs_removeSelectedSeat:hover{
+    color: #990000;
+}
+
+.mptrs_removeSelectedSeat{
+    cursor: pointer;
+}
+
+.mptrs_DatePickerContainer {
+    position: relative;
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+    flex-direction: column;
+}
+
+#mptrs-datepicker, #mptrs_date, #mptrs_dalivery_date, #mptrs_takeaway_date {
+    padding: 10px;
+    font-size: 16px;
+    width: 180px;
+    padding-right: 40px; /* Space for icon */
+}
+#mptrs_dateDatepicker {
+    padding: 10px;
+    font-size: 16px;
+    /*width: calc(100% - 50px);*/
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.mptrs_calendarIcon{
+    position: absolute;
+    right: 2px;
+    top: 32px;
+
+}
+
+.mptrs_OrderTypeLocationsContainer{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.mptrs-calendar-icon, mptrs_calendarIcon  {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+}
+
+.mptrs_timePickerContainer {
+    position: relative;
+    display: inline-block;
+}
+
+#mptrs-timepicker {
+    padding: 10px;
+    font-size: 16px;
+    width: 180px;
+    padding-right: 40px;
+}
+
+.mptrs-clock-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+}
+
+
+.mptrs_openingHours{
+    display: block;
+    float: left;
+    border-radius: 5px;
+    padding: 10px 10px;
+    max-width: 350px;
+    margin: 15px 0px;
+}
+
+.mptrs_openingTitle {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #0073e6;
+    padding-bottom: 5px;
+}
+.mptrs_openingList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.mptrs_openingList li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #ccc;
+    font-size: 16px;
+    color: #555;
+}
+.mptrs_openingList li:last-child {
+    border-bottom: none;
+}
+.mptrs_day,
+.mptrs_time {
+    font-size: 14px;
+}
+
+.mptrs_restaurantDesHolder {
+    position: relative;
+    max-width: 100%
+}
+
+.mptrs_restaurantDes {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 6em;
+    transition: max-height 0.3s ease-in-out;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.mptrs_restaurantDes.expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: unset;
+    max-height: none;
+}
+
+.mptrs_toggleBtn {
+    color: #454242;
+    border: none;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.mptrs_toggleBtn:hover {
+    text-decoration: underline;
+}
+
+.mptrs_rightSidebar, .mptrs_orderHolder {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+}
+
+.mptrs_rightSidebarItem {
+    margin-bottom: 15px;
+}
+
+.mptrs_rightSidebarItem h4 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.mptrs_numberOfPerson{
+
+}
+
+.mptrs_rightSidebarItem p {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Address Styling */
+.mptrs_address {
+    font-size: 14px;
+    color: #444;
+    margin-top: 10px;
+}
+
+/* Open in Map Button */
+.mptrs_openMap {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #0073e6;
+    color: white;
+    font-size: 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.mptrs_openMap:hover {
+    background: #005bbd;
+}
+
+/* Social Media Button */
+.mptrs_socialMedia {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #444;
+    color: white;
+    font-size: 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.mptrs_socialMedia:hover {
+    background: #222;
+}
+
+
+.mptrs-menu-item-info{
+    width: 75%;
+
+}
+.mptrs-menu-item-thumbnail{
+    width: 30%;
+    position: relative;
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    border-radius:5px;
+    height:128px;
+    overflow: hidden;
+}
+.mptrs_addedMenuordered {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+.mptrs_addBtn {
+    background: var(--mptrs_color_theme_alter);
+    color: var(--mptrs_color_black);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 5px #666;
+    padding: 0;
+}
+
+.mptrs_increase, .mptrs_decrease{
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.mptrs_addBtn:hover,.mptrs_addBtn:focus {
+    background: var(--mptrs_color_light);
+    color: var(--mptrs_color_black);
+    box-shadow: 0 0 10px #333;
+}
+.mptrs_menuImage {
+    height:150px;
+    width:100%;
+
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.mptrs_menuPersion{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: var(--mptrs_color_theme);
+    background-color: #fff;
+    padding:5px 8px;
+    line-height: 5px;
+    border-radius: 50px;
+    box-shadow: 0 0 5px #333;
+}
+.mptrs_numberOfPerson {
+    font-weight: normal;
+    color: var(--mptrs_color_theme);
+    font-size: 12px;
+}
+/*.mptrs_menuImageHolder{
+    display: block;
+    float: left;
+    position: relative;
+    width: 85px;
+    margin-right: 8px;
+    margin-top: 2px;
+}*/
+
+/*.mptrs_menuImage{
+    width: 85px !important;
+    height: 80px !important;
+    margin: 2px;
+    border-radius: 3px;
+    cursor: pointer;
+}*/
+
+
+.mptrs_menuInfoHolder{
+    display: block;
+    float: left;
+    position: relative;
+    /*width: calc(100% - 130px);*/
+    width: 100%;
+}
+.mptrs_menuName{
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 42px;
+    font-weight: bold;
+}
+.mptrs_addedMenuName{
+    display: block;
+    font-size: 13px;
+    line-height: 14px;
+    display: -webkit-box;
+    text-align: left;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 42px;
+}
+.mptrs_BottomMenuInFo{
+}
+
+.mptrs_orderCardHolder,
+.mptrs_orderCardTakeawayHolder
+{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+
+}
+
+.mptrs_orderCardDeliveryHolder{
+    display: flex;
+    flex-direction: column;
+    background: white;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+}
+
+.mptrs_title {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+/* Form Group */
+.mptrs_form_group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Input Wrapper */
+.mptrs_input_wrapper {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+/* Inputs */
+.mptrs_input {
+    width: 100%;
+    font-size: 14px;
+    border: none;
+    background: transparent;
+    outline: none;
+}
+
+/* Button */
+.mptrs_button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #1d273b;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/*.mptrs_addedMenuordered{
+    display: flex;
+    margin-left: 5px;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+}*/
+
+
+.mptrs_button:hover {
+    background-color: #151d2e;
+}
+
+/* Time Container */
+.mptrs_time_container {
+    display: none;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 15px;
+    justify-content: center;
+}
+.mptrs_findSeatsButton{
+    display: none;
+}
+
+.mptrs_tableReserveTimeContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    justify-content: left;
+}
+
+/* Time Buttons */
+.mptrs_time_button, .mptrs_tableReserveTimeButton {
+    padding: 10px;
+    width: 80px;
+    font-size: 14px;
+    background-color: #e0e0e0;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.mptrs_findSeatsButton{
+    display: none;
+    padding: 10px;
+    margin: 10px;
+    background-color: #19bd3b;
+    border: 1px solid #cbc7c7;
+    border-radius: 3px;
+    color: #fff;
+    /*min-width: 120px;*/
+    cursor: pointer;
+    width: calc( 100% - 40px);
+}
+
+.mptrs_time_button:hover {
+    background-color: #d0d0d0;
+}
+.mptrs_tableReserveTimeButton:hover {
+    background-color: #d0d0d0;
+}
+
+/* Selected Time */
+.mptrs_time_button.active {
+    background-color: #1d273b;
+    color: white;
+}
+.mptrs_tableReserveTimeButton.active {
+    background-color: #1d273b;
+    color: white;
+}
+
+.mptrs_hidden_items {
+    display: none;
+    flex-wrap: wrap;
+    position: absolute;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    z-index: 10;
+}
+
+.mptrs-category-item {
+    background: #ededed;
+    color: #333333;
+    padding:8px 10px;
+    margin-right:10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    cursor: pointer;
+    &.mptrs-active{
+        background-color: var(--mptrs_color_theme);
+        color: #fff;
+    }
+}
+
+.mptrs_orderOptionsTab {
+    display: flex;
+    justify-content: space-around;
+    /*border-bottom: 2px solid #eee;*/
+    padding-bottom: 5px;
+}
+.mptrs_orderOptionTab {
+    cursor: pointer;
+    padding: 5px;
+}
+.mptrs_orderOptionTab.mptrs_orderTabActive {
+    border-bottom: 2px solid var(--mptrs_color_theme);
+}
+.mptrs_input-field {
+    width: calc( 100% - 25px );
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.mptrs_OrderPlaceBtn, .mptrs_dineInOrderPlaceBtn{
+    display: block;
+    padding:15px;
+    color: var(--mptrs_color_light);
+    background-color: var(--mptrs_color_theme);
+    cursor: pointer;
+    float: left;
+    /*margin-left: calc(50% - 80px);*/
+    border-radius: 5px;
+}
+
+
+
+.mptrs_menuContainer {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.mptrs_menuAddedCartItem {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.mptrs_menuAddedCartItem:last-child {
+    border-bottom: none;
+}
+.mptrs_menuItem {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.mptrs_menuItem:last-child {
+    border-bottom: none;
+}
+.mptrs_menuImg {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 15px;
+}
+.mptrs_menuDetails {
+    flex-grow: 1;
+    text-align: left;
+}
+.mptrs_menuPrice {
+    color: var(--mptrs_color_theme);
+}
+.mptrs_quantityControls {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d9d2d2;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 4px;
+    border-radius: 50px;
+    height: 30px;;
+    gap: 5px;
+}
+/*.mptrs_addedQuantityControls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    position: absolute;
+    right: 6px;
+    top: 38px;
+}*/
+.mptrs_addedQuantityControls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    height: 30px;
+    /*background-color: #f6f6f6;*/
+    background-color: #f6f6f6c2;
+    border: 1px solid #d7d5d5;
+    border-radius: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 2px;
+    /* position: absolute; */
+    /* right: 6px; */
+    /* top: 38px; */
+}
+
+.mptrs_quantityControls button {
+    border: none;
+    /*background: #e74c3c;*/
+    /*color: #fff;*/
+    padding: 0px 5px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+.mptrs_topMenuInFo{
+    max-height: 37px;
+    overflow: hidden;
+}
+
+.mptrs_quantity {
+    font-size: 18px;
+    padding:0px 5px;
+    display: inline-block;
+    margin-top: 5px;
+}
+/*.mptrs_addBtn {
+    background: #27ae60;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    margin-top: 18px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+}*/
+
+.mptrs_totalContainer {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.mptrs_totalInput {
+    width: 100px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.mptrs_foodMenuDetailsContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*margin: 0 auto;*/
+    margin: 20px;
+    border-radius: 10px;
+    background: #fff;
+    text-align: center;
+}
+.mptrsPopupCloseBtn{
+    display: block;
+    position: absolute;
+    font-size: 20px;
+    font-weight: bold;
+    width: 20px;
+    margin-right: 5px;
+    right: 0;
+    cursor: pointer;
+}
+.mptrs_menuDetailsImageHolder {
+    width: 550px;
+    height: 350px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.mptrs_popupDetailsContent{
+    display: flex;
+}
+
+.mptrs_menuDetailsImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image maintains aspect ratio */
+    border-radius: 10px;
+}
+.mptrs_menuDetailsInfoHolder {
+    width: 100%;
+    padding: 15px;
+}
+.mptrs_topDetailsMenuInFo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+}
+.mptrs_BottomDetailsMenuInFo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 18px;
+    color: #555;
+}
+.mptrs_menuDetailsPrice {
+    font-weight: bold;
+    color: #e44d26; /* Red color for price */
+}
+.mptrs_menuDetailsPersion {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.mptrs_totalPriceHolder {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0px;
+    border-top: 1px solid #ddd;
+}
+
+.mptrs_totalPricetext{
+    color: var(--mptrs_color_theme);
+}
+
+.mptrs_totalPrice {
+    text-align: right;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    color: #333;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+.mptrs_orderTypeDatesDisplay{
+    display: inline-block;
+    font-size: 14px;
+    padding: 5px 0px;
+}
+.mptrs_orderTypeDatesChange{
+    display: inline-block;
+    text-decoration: underline;
+    cursor: pointer;
+    color: red;
+}
+
+.mptrs_clearOrder{
+    font-size: 13px;
+    color: red;
+}
+.mptrs_clearOrder:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.mptrs_totalPrice::placeholder {
+    color: rgba(51, 51, 51, 0.5);
+    font-weight: normal;
+}
+
+.mptrs_totalPrice:focus {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 10px rgba(255, 51, 51, 0.2);
+    transform: scale(1.05);
+}
+
+
+
+.mptrs_popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+.mptrs_popupBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    max-width: 420px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+label[for="mptrs_dateDatepicker"] {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+    color: #7d7979;
+}
+
+label[for="mptrs_pickupTime"] {
+    font-size: 14px;
+    font-weight: 500;
+    display: block;
+    color: #7d7979;
+}
+
+label[for="mptrs_deliveryLocation"] {
+    font-size: 14px;
+    font-weight: 500;
+    display: block;
+    color:#7d7979;
+}
+
+.mptrs_closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.mptrs_popupTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.mptrs_toggleBtns {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+.mptrs_toggleBtns button {
+    flex: 1;
+    padding: 10px 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--mptrs_color_theme);
+    background-color: var(--mptrs_color_light);
+    border-radius: 5px;
+    transition: 0.3s;
+}
+.mptrs_toggleBtns button:hover {
+    background-color: var(--mptrs_color_theme);
+    color: var(--mptrs_color_theme_alter);
+}
+
+.mptrs_toggleBtns .active {
+    background: var(--mptrs_color_theme);
+    color: var(--mptrs_color_theme_alter);
+}
+.mptrs_dropdown {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.mptrs_deliveryLocations {
+    width: calc( 100% - 20px);
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.mptrs_updateBtn {
+    background: var(--mptrs_color_theme);
+    color: var(--mptrs_color_theme_alter);
+    border: none;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.mptrs_updateBtn:hover {
+    background: var(--mptrs_color_theme);
+}
+[type="button"]:focus, [type="button"]:hover, [type="submit"]:focus, [type="submit"]:hover, button:focus, button:hover,button{
+    color: var(--mptrs_color_theme_alter);
+    background-color: var(--mptrs_color_theme);
+    text-decoration:
+            none;
+}
+
+#mptrs_foodMenuAddedCart {
+    width: 250px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+#mptrs_foodMenuAddedCart i {
+    font-size: 48px;
+    margin-right: 10px;
+}
+
+.mptrs_seatReserveContainer {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.mptrs_seatReserveTitle {
+    color: #ff6600;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.mptrs_seatReserveLabel {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin: 10px 0 5px;
+    color: #333;
+}
+
+.mptrs_select,
+.mptrs_input {
+    width: calc( 100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.mptrs_tableReservationButton {
+    /*width: calc( 100% - 60px);*/
+    width: 100%;
+    padding: 10px;
+    background-color: #ff6600;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.mptrs_tableReservationButton:hover {
+    background-color: #e65c00;
+}
+
+.mptrs_tableReserveBtnHolder{
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+.mptrs_tableReservationBackButton{
+    width: 75px;
+    padding: 10px;
+    background-color: #47423e;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 600px) {
+
+    #mptrs_popupContainer{
+        width: calc( 100% - 20px);
+    }
+
+    .mptrs_restaurantDesHolder {
+        position: relative;
+        max-width: calc(100% - 20px);
+        padding: 10px;
+    }
+
+    .mptrs_orderCardHolder,
+    .mptrs_orderCardTakeawayHolder,
+    .mptrs_rightSidebar,
+    .mptrs_orderHolder
+    {
+        width: calc(100% - 20px);
+    }
+
+}
