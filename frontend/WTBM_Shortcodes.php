@@ -48,7 +48,7 @@
                         </div>
 
                         <!-- Seat Selection -->
-                        <div class="section" id="seatSection">
+                        <div class="section" id="wtbm_seatSection" style="display: none">
                             <h2 class="section-title">Select Seats</h2>
                             <div class="seat-map">
                                 <div class="screen">THEATER SCREEN</div>

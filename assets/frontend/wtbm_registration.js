@@ -30,6 +30,9 @@
     });
 
     $(document).on('click', '.wtbm_booking_movie_card', function () {
+
+        $("#wtbm_seatSection").fadeOut();
+
         $('.wtbm_booking_movie_card').removeClass('wtbm_movieActive');
         $(this).addClass('wtbm_movieActive');
         let movie_id = $(this).attr('data-movie-id').trim();
@@ -59,6 +62,9 @@
     });
 
     $(document).on('click', '.wtbm_timeSlot', function () {
+
+        $("#wtbm_seatSection").fadeOut();
+
         let theaterId = $(this).attr('data-wtbm-theater').trim();
         let movieTimeSlot = $(this).attr('data-time-slot').trim();
         let movieDate = $('#wtbm_bookingDateSelector .wtbm_booking_date_date_card.active').data('date');
@@ -79,6 +85,8 @@
                 }else{
                     $("#wtbm_seatsGrid").html( '<h6>No Movies Found</h6>');
                 }
+
+                $("#wtbm_seatSection").fadeIn();
                 $("#wtbm_hallSection").fadeIn();
                 console.log( response.data );
             },
