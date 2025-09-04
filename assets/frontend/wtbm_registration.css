@@ -47,11 +47,11 @@ body {
     top: 40px;
 }
 
-.section {
+.wtbm_booking_date_section {
     margin-bottom: 40px;
 }
 
-.section-title {
+.wtbm_booking_date_section_title {
     font-size: 28px;
     font-weight: 700;
     margin-bottom: 32px;
@@ -62,13 +62,13 @@ body {
     background-clip: text;
 }
 
-.date-selector {
+.wtbm_booking_date_date_selector {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
 }
 
-.date-card {
+.wtbm_booking_date_date_card {
     background: rgba(51, 65, 85, 0.5);
     border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 16px;
@@ -80,44 +80,44 @@ body {
     backdrop-filter: blur(10px);
 }
 
-.date-card:hover {
+.wtbm_booking_date_date_card:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 20px 25px -5px rgba(168, 85, 247, 0.4);
     border-color: rgba(168, 85, 247, 0.5);
 }
 
-.date-card.active {
+.wtbm_booking_date_date_card.active {
     background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
     color: white;
     border-color: transparent;
     box-shadow: 0 20px 25px -5px rgba(168, 85, 247, 0.4);
 }
 
-.date-card .day {
+.wtbm_booking_date_date_card .day {
     font-size: 14px;
     opacity: 0.8;
     font-weight: 500;
 }
 
-.date-card .date {
+.wtbm_booking_date_date_card .date {
     font-size: 24px;
     font-weight: 700;
     margin: 8px 0;
 }
 
-.date-card .month {
+.wtbm_booking_date_date_card .month {
     font-size: 14px;
     opacity: 0.8;
     font-weight: 500;
 }
 
-.movies-grid {
+.wtbm_booking_movies_grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
 }
 
-.movie-card {
+.wtbm_booking_movie_card {
     background: rgba(51, 65, 85, 0.6);
     border-radius: 20px;
     overflow: hidden;
@@ -128,19 +128,19 @@ body {
     backdrop-filter: blur(10px);
 }
 
-.movie-card:hover {
+.wtbm_booking_movie_card:hover {
     transform: translateY(-12px) scale(1.02);
     box-shadow: 0 25px 50px rgba(168, 85, 247, 0.3);
     border-color: rgba(168, 85, 247, 0.5);
 }
 
-.movie-card.selected {
+.wtbm_booking_movie_card.selected {
     border-color: #a855f7;
     transform: translateY(-8px);
     box-shadow: 0 25px 50px rgba(168, 85, 247, 0.4);
 }
 
-.movie-poster {
+.wtbm_booking_movies_poster {
     width: 100%;
     height: 220px;
     background: linear-gradient(135deg, #6366f1, #a855f7, #06b6d4);
@@ -153,19 +153,19 @@ body {
     font-size: 48px;
 }
 
-.movie-info {
+.wtbm_booking_movies_info {
     padding: 20px;
     text-align: center;
 }
 
-.movie-title {
+.wtbm_booking_movies_title {
     font-weight: 600;
     margin-bottom: 8px;
     color: #f8fafc;
     font-size: 16px;
 }
 
-.movie-details {
+.wtbm_booking_movies_details {
     font-size: 14px;
     color: #94a3b8;
 }
