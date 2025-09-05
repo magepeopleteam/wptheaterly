@@ -25,11 +25,10 @@
             }
 
             public function display_registration_data( $atts ){
-                ob_start();
 
-//                $date = new DateTime();
                 $today_date = date('M d, y');
 
+                ob_start();
                 ?>
                 <div class="wtbm_registrationContainer">
                     <div class="wtbm_registrationMainContent">
@@ -138,6 +137,7 @@
                     </div>
                 </div>
             <?php
+
                 return ob_get_clean();
             }
 

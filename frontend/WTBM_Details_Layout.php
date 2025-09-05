@@ -46,41 +46,37 @@
 
             public static function display_date_wise_movies( $date = '' ){
                 $movie_ids = self::get_wtbm_show_time_movie_ids_by_date( $date );
+                $output = '';
+
                 if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
                     $movie_data = self::get_movies_data_by_ids( $movie_ids );
                     $total_movie = count( $movie_data );
+
                     ob_start(); ?>
                     <h2 class="wtbm_booking_date_section_title">Select Movie (<?php echo esc_attr( $total_movie );?>)</h2>
                     <div class="wtbm_booking_movies_grid" id="wtbm_moviesGrid">
-                        <?php
-                        $i = 0;
-                        foreach ( $movie_data as $movie ){
-                            if( $i === 0 ){
-                                $active = 'wtbm_movieActive';
-                            }else{
-                                $active = '';
-                            }
-                            ?>
-                            <div class="wtbm_booking_movie_card"
+                        <?php foreach ( $movie_data as $i => $movie ): ?>
+                            <div class="wtbm_booking_movie_card <?php echo $i === 0 ? 'wtbm_movieActive' : ''; ?>"
                                  data-movie-name="<?php echo esc_attr( $movie['title'] );?>"
                                  data-movie-id="<?php echo esc_attr( $movie['movie_id'] );?>"
-                                 data-movie-duration="<?php echo esc_attr( $movie['movie_duration'] );?>"
-                            >
+                                 data-movie-duration="<?php echo esc_attr( $movie['movie_duration'] );?>">
                                 <div class="wtbm_booking_movies_poster">🎬</div>
                                 <div class="wtbm_booking_movies_info">
                                     <div class="wtbm_booking_movies_title"><?php echo esc_attr( $movie['title'] );?></div>
-                                    <div class="wtbm_booking_movies_details"><?php esc_attr_e( 'Duration', 'wptheaterly' );?> - <?php echo esc_attr( $movie['movie_duration'] );?></div>
+                                    <div class="wtbm_booking_movies_details">
+                                        <?php esc_html_e( 'Duration', 'wptheaterly' );?> - <?php echo esc_html( $movie['movie_duration'] );?>
+                                    </div>
                                 </div>
                             </div>
-                        <?php
-                            $i++;
-                        } ?>
+                        <?php endforeach; ?>
                     </div>
                     <?php
+                    $output = ob_get_clean();
                 }
 
-                return ob_get_clean();
+                return $output;
             }
+
 
             public static function display_theater_show_time( $movie_id, $date = ''  ){
                 $show_times = self::get_wtbm_show_time_by_date_and_movie_id( $movie_id, $date );
