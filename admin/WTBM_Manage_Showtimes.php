@@ -25,8 +25,6 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
         function wtbm_insert_show_time_post() {
 
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce' );
-
-            error_log( print_r( [ '$post' => $_POST ], true ) );
             $cpt = MPTRS_Function::get_show_time_cpt();
             $title          = sanitize_text_field( $_POST['title'] );
             $movieId        = sanitize_text_field( $_POST['movieId'] );

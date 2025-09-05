@@ -34,11 +34,11 @@
                 <div class="wtbm_registrationContainer">
                     <div class="wtbm_registrationMainContent">
                         <?php
-                            WTBM_Details_Layout::booking_date_display();
+                            echo WTBM_Details_Layout::booking_date_display();
                         ?>
 
                         <div class="section" id="wtbm_movieSection">
-                            <?php echo wp_kses_post( WTBM_Details_Layout::display_date_wise_movies() );?>
+                            <?php echo WTBM_Details_Layout::display_date_wise_movies() ;?>
                         </div>
 
                         <div class="section" id="wtbm_hallSection" style="display: none">
@@ -51,7 +51,7 @@
                             <h2 class="section-title"><?php esc_attr_e( 'Select Seats', 'wptheaterly' );?></h2>
                             <div class=" v seat-map">
                                 <div class="screen"><?php esc_attr_e( 'THEATER SCREEN', 'wptheaterly' );?></div>
-                                <div class="seats-grid" id="wtbm_seatsGrid"></div>
+                                <div class="wtbm_SeatsGrid" id="wtbm_seatsGrid"></div>
                                 <div class="seat-legend">
                                     <div class="legend-item">
                                         <div class="legend-color" style="background: #28a745;"></div>

@@ -13,6 +13,8 @@
 			}
 
             public static function booking_date_display() {
+
+                ob_start();
                 ?>
                 <div class="wtbm_booking_date_section" id="wtbm_bookingDateSection">
                     <h2 class="tbm_booking_date_section_title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
@@ -38,6 +40,8 @@
                     </div>
                 </div>
                 <?php
+
+                return ob_get_clean();
             }
 
             public static function display_date_wise_movies( $date = '' ){
@@ -325,7 +329,7 @@
                     $seat_grid_height = $leastTop + 1;
                     // Start building custom content
                     $custom_content = '
-                        <div id="mptrs_seatGrid" /*style="height: '.$height.'px"*/>
+                        <div id="wtbm_seatGrid" /*style="height: '.$height.'px"*/>
                             <div id="mptrs_seatMapHolder-'.$post_id.'" class="mptrs_seatMapHolder">';
                                 if( is_array( $plan_seat_texts ) && count( $plan_seat_texts ) > 0 ) {
                                     foreach ($plan_seat_texts as $plan_seat_text) {
@@ -361,13 +365,13 @@
                                         $seat_id = 'seat_'.$seat['id'];
                                     }
 
-                                    $parent_class_name = 'mptrs_mappedSeat';
-                                    $class_name = 'mptrs_mappedSeatInfo';
+                                    $parent_class_name = 'wtbm_mappedSeat';
+                                    $class_name = 'wtbm_mappedSeatInfo';
                                     $seat_bg_color = esc_attr( $seat['color']);
                                     if( in_array(  $seat_id, $not_available_seats ) ) {
                                         $seat_bg_color = '#333333';
-                                        $class_name = 'mptrs_reservedMappedSeatInfo';
-                                        $parent_class_name = 'mptrs_reservedMappedSeat';
+                                        $class_name = 'wtbm_reservedMappedSeatInfo';
+                                        $parent_class_name = 'wtbm_reservedMappedSeat';
                                     }
                                     $icon_url = '';
                                     $width = isset($seat['width']) ? (int)$seat['width'] : 0;

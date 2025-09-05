@@ -324,6 +324,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 'id'       => '',
                 'title'       => '',
                 'genre'       => '',
+                'active'       => '',
                 'duration'    => '',
                 'rating'      => '',
                 'releaseDate' => '',
@@ -333,6 +334,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             $data = wp_parse_args( $data, $defaults );
             $post_id = $data['id'];
             $nonce = wp_create_nonce( 'wtbp_movie_action' );
+
 
             ob_start();
             ?>
@@ -375,12 +377,21 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                value="<?php echo esc_attr( $data['releaseDate'] ); ?>">
                     </div>
 
+
                     <div class="form-group">
                         <label class="form-label"><?php esc_html_e( 'Poster URL', 'theaterly' ); ?></label>
                         <input type="url" id="movie-poster" class="form-input"
                                placeholder="https://..."
                                value="<?php echo esc_url( $data['poster'] ); ?>">
                     </div>
+                </div>
+
+                <!-- Active -->
+                <div class="form-group mb-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="pricing-active" class="mr-2" <?php echo $data['active']; ?>>
+                        <span><?php esc_html_e( 'Active', 'wptheaterly' ); ?></span>
+                    </label>
                 </div>
 
                 <div class="form-group mb-4">

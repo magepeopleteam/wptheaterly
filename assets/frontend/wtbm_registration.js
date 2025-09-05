@@ -82,7 +82,10 @@
 
     $(document).on('click', '.wtbm_timeSlot', function () {
 
+        let this_class = $(this);
         $("#wtbm_seatSection").fadeOut();
+        $(".wtbm_timeSlot").removeClass( 'selected' );
+        this_class.addClass('selected');
 
         let theaterId = $(this).attr('data-wtbm-theater').trim();
         let movieTimeSlot = $(this).attr('data-time-slot').trim();
@@ -112,10 +115,9 @@
                 }else{
                     $("#wtbm_seatsGrid").html( '<h6>No Movies Found</h6>');
                 }
-
                 $("#wtbm_seatSection").fadeIn();
                 $("#wtbm_hallSection").fadeIn();
-                console.log( response.data );
+
             },
             error: function(xhr, status, error) {
                 console.error('AJAX Error:', error);
