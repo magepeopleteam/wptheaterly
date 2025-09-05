@@ -24,7 +24,7 @@
 				$linked_id = MPTRS_Function::get_post_info($product_id, 'link_mptrs_id', $product_id);
 				$product_id = is_string(get_post_status($linked_id)) ? $linked_id : $product_id;
 				if (isset($_POST['nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'mptrs_nonce')) {
-					if (get_post_type($product_id) == MPTRS_Function::get_cpt()) {
+					if (get_post_type($product_id) == MPTRS_Function::get_theater_cpt()) {
 						$category = isset($_POST['mptrs_category']) ? sanitize_text_field(wp_unslash($_POST['mptrs_category'])) : '';
 						$sub_category = isset($_POST['mptrs_sub_category']) ? sanitize_text_field(wp_unslash($_POST['mptrs_sub_category'])) : '';
 						$services = isset($_POST['mptrs_service']) ? array_map('sanitize_text_field', wp_unslash($_POST['mptrs_service'])) : [];
@@ -58,7 +58,7 @@
 			public function before_calculate_totals($cart_object): void {
 				foreach ($cart_object->cart_contents as $value) {
 					$post_id = array_key_exists('mptrs_id', $value) ? $value['mptrs_id'] : 0;
-					if (get_post_type($post_id) == MPTRS_Function::get_cpt()) {
+					if (get_post_type($post_id) == MPTRS_Function::get_theater_cpt()) {
 						$total_price = $value['mptrs_tp'];
 						$value['data']->set_price($total_price);
 						$value['data']->set_regular_price($total_price);
@@ -70,7 +70,7 @@
 			}
 			public function cart_item_thumbnail($thumbnail, $cart_item) {
 				$post_id = array_key_exists('mptrs_id', $cart_item) ? $cart_item['mptrs_id'] : 0;
-				if (get_post_type($post_id) == MPTRS_Function::get_cpt()) {
+				if (get_post_type($post_id) == MPTRS_Function::get_theater_cpt()) {
 					$thumbnail = '<div class="bg_image_area" data-href="' . get_the_permalink($post_id) . '"><div data-bg-image="' . MPTRS_Function::get_image_url($post_id) . '"></div></div>';
 				}
 				return $thumbnail;
@@ -78,7 +78,7 @@
 			public function get_item_data($item_data, $cart_item) {
 				ob_start();
 				$post_id = array_key_exists('mptrs_id', $cart_item) ? $cart_item['mptrs_id'] : 0;
-				if (get_post_type($post_id) == MPTRS_Function::get_cpt()) {
+				if (get_post_type($post_id) == MPTRS_Function::get_theater_cpt()) {
 					$this->show_cart_item($cart_item, $post_id);
 					do_action('mptrs_show_cart_item', $cart_item, $post_id);
 				}
@@ -91,7 +91,7 @@
 				$items = $woocommerce->cart->get_cart();
 				foreach ($items as $values) {
 					$post_id = array_key_exists('mptrs_id', $values) ? $values['mptrs_id'] : 0;
-					if (get_post_type($post_id) == MPTRS_Function::get_cpt()) {
+					if (get_post_type($post_id) == MPTRS_Function::get_theater_cpt()) {
 						//wc_add_notice( __( "custom_notice", 'fake_error' ), 'error');
 						do_action('mptrs_validate_cart_item', $values, $post_id);
 					}
@@ -99,7 +99,7 @@
 			}
 			public function checkout_create_order_line_item($item, $cart_item_key, $values) {
 				$post_id = array_key_exists('mptrs_id', $values) ? $values['mptrs_id'] : 0;
-				if (get_post_type($post_id) == MPTRS_Function::get_cpt()) {
+				if (get_post_type($post_id) == MPTRS_Function::get_theater_cpt()) {
 					$category = $values['mptrs_category'] ?: '';
 					$sub_category = $values['mptrs_sub_category'] ?: '';
 					$services = $values['mpwpb_service'] ?: [];
@@ -149,7 +149,7 @@
 						//$item_id = current( array_keys( $order->get_items() ) );
 						foreach ($order->get_items() as $item_id => $item) {
 							$post_id = wc_get_order_item_meta($item_id, '_mpwpb_id');
-							if (get_post_type($post_id) == MPTRS_Function::get_cpt()) {
+							if (get_post_type($post_id) == MPTRS_Function::get_theater_cpt()) {
 								$date = wc_get_order_item_meta($item_id, '_mpwpb_date');
 								$date = $date ? MPTRS_Function::data_sanitize($date) : '';
 								$category = wc_get_order_item_meta($item_id, '_mpwpb_category');
@@ -211,7 +211,7 @@
 				$order_status = $order->get_status();
 				foreach ($order->get_items() as $item_id => $item_values) {
 					$post_id = wc_get_order_item_meta($item_id, '_mpwpb_id');
-					if (get_post_type($post_id) == MPTRS_Function::get_cpt()) {
+					if (get_post_type($post_id) == MPTRS_Function::get_theater_cpt()) {
 						$this->wc_order_status_change($order_status, $post_id, $order_id);
 					}
 				}

@@ -130,7 +130,7 @@
                                 <label class="form-label"><?php esc_attr_e( 'Mobile Number', 'wptheaterly' );?></label>
                                 <input type="tel" class="form-input" placeholder="Enter mobile number">
                             </div>
-                            <button class="purchase-btn" id="purchaseBtn" disabled=""><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
+                            <button class="purchase-btn" id="purchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
                             <div style="margin-top: 15px; font-size: 12px; color: #666; text-align: center;">
                                 <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>
                             </div>

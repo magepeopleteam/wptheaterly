@@ -70,6 +70,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
             $releaseDate = sanitize_text_field($_POST['release_date']);
             $poster      = esc_url_raw($_POST['poster']);
             $description = sanitize_textarea_field($_POST['description']);
+            $active = sanitize_textarea_field($_POST['active']);
 
             $post_id = wp_insert_post([
                 'post_title'   => $title,
@@ -85,6 +86,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 update_post_meta($post_id, 'wtbp_movie_rating', $rating);
                 update_post_meta($post_id, 'wtbp_movie_release_date', $releaseDate);
                 update_post_meta($post_id, 'wtbp_movie_poster', $poster);
+                update_post_meta($post_id, 'wtbp_movie_active', $active);
 
                 wp_send_json_success( get_post( $post_id ) );
             } else {
@@ -103,6 +105,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
             $poster      = esc_url_raw($_POST['poster']);
             $description = sanitize_textarea_field($_POST['description']);
             $post_id     = isset($_POST['post_id']) ? intval($_POST['post_id']) : '';
+            $active      = sanitize_textarea_field($_POST['active']);
             $post_data = [
                 'post_title'   => $title,
                 'post_type'    => $cpt,
@@ -119,6 +122,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 update_post_meta($post_id, 'wtbp_movie_rating', $rating);
                 update_post_meta($post_id, 'wtbp_movie_release_date', $releaseDate);
                 update_post_meta($post_id, 'wtbp_movie_poster', $poster);
+                update_post_meta($post_id, 'wtbp_movie_active', $active);
 
                 wp_send_json_success( get_post( $post_id ) );
             } else {
@@ -139,6 +143,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
             }else{
                 $type = 'edit';
                 $movie_data = WTBM_Layout_Functions::get_movies_data_by_id( $post_id );
+//                error_log( print_r( [ '$movie_data' => $movie_data ], true ) );
             }
             $add_form = WTBM_Layout_Functions::add_edit_new_movie_html( $type, $movie_data );
 

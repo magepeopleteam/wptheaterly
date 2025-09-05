@@ -219,10 +219,12 @@
 
     function addMovie( action_type, action, post_id, edited_movie ) {
 
-        let response_type = 'Added'
+        let response_type = 'Added';
+        const isChecked = $("#wtbm_movie_active").is(":checked");
         let movieData = {
             action: action,
             title: $("#movie-title").val(),
+            active: isChecked,
             genre: $("#movie-genre").val(),
             duration: $("#movie-duration").val(),
             rating: $("#movie-rating").val(),
@@ -232,6 +234,8 @@
             status: "publish",
             _ajax_nonce: mptrs_admin_ajax.nonce
         };
+
+        // console.log( movieData );
 
         if( action_type === 'edit' ){
             movieData.post_id = post_id;

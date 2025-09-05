@@ -79,7 +79,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     'rating'      => get_post_meta( get_the_ID(), 'wtbp_movie_rating', true ),
                     'releaseDate' => get_post_meta( get_the_ID(), 'wtbp_movie_release_date', true ),
                     'poster'      => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
-                    'status'      => get_post_meta( get_the_ID(), 'wtbm_status', true ) ?: 'active',
+                    'status'      => get_post_meta( get_the_ID(), 'wtbp_movie_active', true ) ?: false,
                 ];
             }
             wp_reset_postdata();
@@ -324,7 +324,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 'id'       => '',
                 'title'       => '',
                 'genre'       => '',
-                'active'       => '',
+                'status'       => false,
                 'duration'    => '',
                 'rating'      => '',
                 'releaseDate' => '',
@@ -334,6 +334,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             $data = wp_parse_args( $data, $defaults );
             $post_id = $data['id'];
             $nonce = wp_create_nonce( 'wtbp_movie_action' );
+//            error_log( print_r( [ '$data' => $data['status'] ], true ) );
 
 
             ob_start();
@@ -389,7 +390,10 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 <!-- Active -->
                 <div class="form-group mb-4">
                     <label class="flex items-center">
-                        <input type="checkbox" id="pricing-active" class="mr-2" <?php echo $data['active']; ?>>
+                        <input type="checkbox" id="wtbm_movie_active" class="mr-2"
+                            <?php
+                            checked( $data['status'], true );
+                            ?>>
                         <span><?php esc_html_e( 'Active', 'wptheaterly' ); ?></span>
                     </label>
                 </div>

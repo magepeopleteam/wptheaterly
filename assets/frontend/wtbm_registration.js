@@ -127,6 +127,72 @@
     });
 
 
+    let wtbm_seatBooked = [];
+    let wtbm_seatBookedName = [];
+    let wtbm_total_price = 0;
+    let wtbm_total_seat_count = 0;
+
+    $(document).on( 'click', '.wtbm_mappedSeat', function (e) {
+        e.preventDefault();
+        const seatId = $(this).attr('id');
+        const price = parseFloat($(this).data('price'));
+        const seatNum = $(this).attr('data-seat-num');
+
+        if (wtbm_seatBooked.includes( seatId ) ) {
+            wtbm_seatBooked = wtbm_seatBooked.filter(seat => seat !== seatId);
+            $("#"+seatId).children().css('background-color', '#2e8708');
+            wtbm_total_price = wtbm_total_price - price;
+            wtbm_total_seat_count--;
+        } else {
+            wtbm_seatBooked.push(seatId);
+            $("#"+seatId).children().css('background-color', '#667eea');
+            wtbm_total_price = wtbm_total_price + price;
+            wtbm_total_seat_count++;
+        }
+
+        if (wtbm_seatBookedName.includes(seatNum)) {
+            wtbm_seatBookedName = wtbm_seatBookedName.filter(seatName => seatName !== seatNum ); // Remove if exists
+        } else {
+            wtbm_seatBookedName.push( seatNum );
+        }
+
+        const seatSummary = wtbm_seatBookedName.join(", ");
+
+        $("#wtbm_summaryQuantity").text( wtbm_total_seat_count );
+        $("#wtbm_summaryTotal").text( wtbm_total_price );
+        $("#wtbm_summarySeats").text(seatSummary);
+
+
+        $("#wtbm_summeryTotalAmount").val( wtbm_total_price );
+
+        // console.log(`Seat ID: ${seatId}, Price: $${price}, Seat number: ${seatNum}`, wtbm_total_price, wtbm_total_seat_count );
+    });
+
+    $(document).on( 'click', '#purchaseBtn', function (e) {
+
+        let movieId = $("#wtbm_summeryMovieId").val().trim();
+        let theaterId = $("#wtbm_summeryTheaterId").val().trim();
+        let bookingDate = $("#wtbm_summeryDate").val().trim();
+        let bookingTime = $("#wtbm_summeryTime").val().trim();
+        let totalAmount = $("#wtbm_summeryTotalAmount").val().trim();
+
+        let action = 'wtbm_theater_booking_data';
+        const booking_data = {
+            action: action,
+            movie_id: movieId,
+            theater_id: theaterId,
+            booking_date: bookingDate,
+            booking_time: bookingTime,
+            total_amount: totalAmount,
+            seat_count: wtbm_total_seat_count,
+            seat_names: wtbm_seatBookedName,
+            booked_seat_ids: wtbm_seatBooked,
+            nonce: wtbm_ajax.nonce,
+        };
+        console.log( booking_data );
+
+    });
+
 
 
 
