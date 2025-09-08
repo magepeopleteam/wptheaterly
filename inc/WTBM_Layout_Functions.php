@@ -392,7 +392,9 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <label class="flex items-center">
                         <input type="checkbox" id="wtbm_movie_active" class="mr-2"
                             <?php
-                            checked( $data['status'], true );
+                            error_log( print_r( [ 'ddd' => $data['status'] ], true ) );
+
+                            checked( $data['status'] == 'true' );
                             ?>>
                         <span><?php esc_html_e( 'Active', 'wptheaterly' ); ?></span>
                     </label>

@@ -144,7 +144,6 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                         'key'   => 'wtbm_movie_id',
                         'value' => $movie_id,
                     ],
-
                     [
                         'key'   => 'wtbm_theater_id',
                         'value' => $theater_id,
@@ -173,8 +172,6 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                 }
             }
 
-            error_log( print_r( [ '$not_available' => $not_available ], true ) );
-            // Return unique values
             return array_unique( $not_available );
         }
 
