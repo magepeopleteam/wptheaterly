@@ -65,34 +65,21 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
             $seat_map = '';
 
             if ( isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wtbm_nonce') ) {
-                $orderPostId = isset( $_POST['theater_id']) ? sanitize_text_field( wp_unslash($_POST['theater_id'] ) ) : '';
+                $theater_id = isset( $_POST['theater_id']) ? sanitize_text_field( wp_unslash($_POST['theater_id'] ) ) : '';
+                $movie_id = isset( $_POST['theater_id']) ? sanitize_text_field( wp_unslash($_POST['activeMovieId'] ) ) : '';
                 $search_time = isset( $_POST['movie_time_slot']) ? sanitize_text_field( wp_unslash($_POST['movie_time_slot'] ) ) : '';
                 $get_date = isset( $_POST['movie_date']) ? sanitize_text_field( wp_unslash($_POST['movie_date'] ) ) : '';
-                $orderDateFormatted = gmdate('d_m_y', strtotime( $get_date ) );
 
-//                $orderPostId = get_post_meta( $orderPostId, 'link_wc_product', true ) ;
-                $seat_booking_data = get_post_meta( $orderPostId, '_mptrs_seat_booking', true );
-
-                if( !is_array( $seat_booking_data ) && empty( $seat_booking_data ) ){
-                    $seat_booking_data = [];
-                }
-
-                if( count( $seat_booking_data ) > 0 ){
-                    $not_available = self::getAvailableSeats( $seat_booking_data, $orderDateFormatted, $search_time);
+                if( $theater_id && $movie_id &&  $get_date && $search_time ){
+                    $not_available = self::getAvailableSeats( $theater_id, $movie_id, $get_date, $search_time );
                 }else{
                     $not_available = [];
                 }
 
-                if( $orderPostId ){
-                    $seat_map = WTBM_Details_Layout::display_theater_seat_mapping( $orderPostId, $not_available );
+                if( $theater_id ){
+                    $seat_map = WTBM_Details_Layout::display_theater_seat_mapping( $theater_id, $not_available );
                 }
-
             }
-
-            /*$get_food_menu = get_option( '_mptrs_food_menu' );
-            if( !is_array( $get_food_menu ) && empty( $get_food_menu ) ){
-                $get_food_menu = [];
-            }*/
 
             wp_send_json_success([
                 'message' => 'Categories Data getting successfully.!',
@@ -144,18 +131,53 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
 
         }
 
-        public static function getAvailableSeats( $seatData, $dateKey, $searchTime ) {
+        public static function getAvailableSeats( $theater_id, $movie_id, $get_date, $search_time ) {
+            global $wpdb;
             $not_available = [];
-            foreach ($seatData as $seat => $dates ) {
-                if( isset( $dates[$dateKey] ) ) {
-                    if( in_array( $searchTime, $dates[$dateKey] ) ) {
-                        $not_available[] = $seat;
+            $bookings = get_posts([
+                'post_type'      => 'wtbm_booking',
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'meta_query'     => [
+                    'relation' => 'AND',
+                    [
+                        'key'   => 'wtbm_movie_id',
+                        'value' => $movie_id,
+                    ],
+
+                    [
+                        'key'   => 'wtbm_theater_id',
+                        'value' => $theater_id,
+                    ],
+                    [
+                        'key'   => 'wtbm_order_date',
+                        'value' => $get_date,
+                    ],
+                    [
+                        'key'   => 'wtbm_order_time',
+                        'value' => $search_time,
+                    ],
+                ]
+            ]);
+
+            if ( !empty($bookings) ) {
+                foreach ( $bookings as $booking ) {
+                    $seat_ids = get_post_meta( $booking->ID, 'wtbm_seat_ids', true );
+                    if ( !empty($seat_ids) && is_serialized($seat_ids) ) {
+                        $seat_ids = maybe_unserialize($seat_ids);
+                    }
+
+                    if ( is_array($seat_ids) ) {
+                        $not_available = array_merge( $not_available, $seat_ids );
                     }
                 }
             }
 
-            return $not_available;
+            error_log( print_r( [ '$not_available' => $not_available ], true ) );
+            // Return unique values
+            return array_unique( $not_available );
         }
+
 
 
     }

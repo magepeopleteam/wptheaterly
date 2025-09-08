@@ -142,6 +142,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    color:#fff !important;
 }
 .mptrs_dynamicTextWrapper{
     z-index: 99;

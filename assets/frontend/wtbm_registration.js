@@ -97,12 +97,15 @@
         $("#wtbm_summaryTheaterName").text(theaterName);
         $("#wtbm_summaryTimeSlot").text(timeSlotDisplay);
 
+        let activeMovieId = $(".wtbm_booking_movie_card.wtbm_movieActive").data("movie-id");
+
         $.ajax({
             url: wtbm_ajax.ajax_url,
             type: 'POST',
             data: {
                 action: 'wtbm_get_theater_seat_map_data',
                 theater_id: theaterId,
+                activeMovieId: activeMovieId,
                 movie_time_slot: movieTimeSlot,
                 movie_date: movieDate,
                 nonce: wtbm_ajax.nonce,

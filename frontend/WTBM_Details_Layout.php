@@ -365,7 +365,7 @@
                                     $class_name = 'wtbm_mappedSeatInfo';
                                     $seat_bg_color = esc_attr( $seat['color']);
                                     if( in_array(  $seat_id, $not_available_seats ) ) {
-                                        $seat_bg_color = '#333333';
+                                        $seat_bg_color = '#dc3545';
                                         $class_name = 'wtbm_reservedMappedSeatInfo';
                                         $parent_class_name = 'wtbm_reservedMappedSeat';
                                     }
