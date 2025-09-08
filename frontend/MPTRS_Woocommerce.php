@@ -146,7 +146,7 @@
 								$data['wtbm_billing_address'] = $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 
 								$booking_data = apply_filters('add_mpwpb_booking_data', $data, $post_id);
-								self::add_cpt_data('wtbm_booking', $booking_data['mpwpb_billing_name'], $booking_data);
+								self::add_cpt_data('wtbm_booking', $booking_data['wtbm_billing_name'], $booking_data);
 							}
 						}
 					}
@@ -261,6 +261,8 @@
 			}
 			//**********************//
 			public static function add_cpt_data( $cpt_name, $title, $meta_data = array(), $status = 'publish', $cat = array() ) {
+
+                error_log( print_r( [ '$meta_data' => $meta_data ], true));
 				$new_post = array(
 					'post_title' => $title,
 					'post_content' => '',
@@ -277,7 +279,7 @@
 					}
 				}
 				if ($cpt_name == 'wtbm_booking') {
-					$pin = $meta_data['wtbm_user_id'] . $meta_data['wtbm_order_id'] . $meta_data['wtbm_id'] . $post_id;
+					$pin = $meta_data['wtbm_user_id'] . $meta_data['wtbm_order_id'] . $meta_data['wtbm_theater_id'] . $post_id;
 					update_post_meta($post_id, 'wtbm_pin', $pin);
 				}
 				wp_reset_postdata();
