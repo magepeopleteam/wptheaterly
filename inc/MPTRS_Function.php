@@ -146,7 +146,7 @@
 				</script>
 				<?php
 			}
-			public static function date_format($date, $format = 'date') {
+			public static function date_format( $date, $format = 'date' ) {
 				$date_format = get_option('date_format');
 				$time_format = get_option('time_format');
 				$wp_settings = $date_format . '  ' . $time_format;

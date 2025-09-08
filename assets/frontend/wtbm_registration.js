@@ -10,7 +10,7 @@
         let options = { month: 'short', day: '2-digit' };
         let wtbm_formatted = wtbm_dateFormated.toLocaleDateString('en-US', options) + ", " + wtbm_dateFormated.getFullYear().toString().slice(-2);
         $("#wtbm_summaryDateDisplay").text(wtbm_formatted);
-        $("#wtbm_summeryDate").text(date);
+        $("#wtbm_summeryDate").val(date);
 
         $.ajax({
             url: wtbm_ajax.ajax_url,
@@ -27,7 +27,6 @@
                 }else{
                     $("#wtbm_movieSection").html( '<h6>No Movies Found</h6>');
                 }
-                console.log(response);
             },
             error: function(xhr, status, error) {
                 console.error('AJAX Error:', error);
@@ -72,7 +71,6 @@
                     $("#wtbm_displayHallsList").html( '<h6>No Movies Found</h6>');
                 }
                 $("#wtbm_hallSection").fadeIn();
-                console.log( response.data );
             },
             error: function(xhr, status, error) {
                 console.error('AJAX Error:', error);
@@ -168,15 +166,18 @@
         // console.log(`Seat ID: ${seatId}, Price: $${price}, Seat number: ${seatNum}`, wtbm_total_price, wtbm_total_seat_count );
     });
 
-    $(document).on( 'click', '#purchaseBtn', function (e) {
+    $(document).on( 'click', '#wtbm_ticketPurchaseBtn', function (e) {
 
         let movieId = $("#wtbm_summeryMovieId").val().trim();
         let theaterId = $("#wtbm_summeryTheaterId").val().trim();
         let bookingDate = $("#wtbm_summeryDate").val().trim();
         let bookingTime = $("#wtbm_summeryTime").val().trim();
         let totalAmount = $("#wtbm_summeryTotalAmount").val().trim();
+        let userName = $("#wtbm_getUserName").val().trim();
+        let userPhoneNum = $("#wtbm_getUserPhone").val().trim();
 
-        let action = 'wtbm_theater_booking_data';
+        let button = $(this);
+        let action = 'wtbm_theater_ticket_booking';
         const booking_data = {
             action: action,
             movie_id: movieId,
@@ -187,9 +188,38 @@
             seat_count: wtbm_total_seat_count,
             seat_names: wtbm_seatBookedName,
             booked_seat_ids: wtbm_seatBooked,
+            userName: userName,
+            userPhoneNum: userPhoneNum,
             nonce: wtbm_ajax.nonce,
         };
         console.log( booking_data );
+        $.ajax({
+            type: 'POST',
+            url: wtbm_ajax.ajax_url,
+            data: booking_data,
+            beforeSend: function () {
+                button.text('Adding...');
+            },
+            success: function (response) {
+                if (response.success) {
+                    button.text('Added to Cart ✅');
+                    setTimeout(  function () {
+                        button.text('Process Checkout')
+                    },1000);
+
+                    wtbm_seatBooked = [];
+                    wtbm_seatBookedName = [];
+                    wtbm_total_price = 0;
+                    wtbm_total_seat_count = 0;
+
+                    window.location.href = wtbm_ajax.site_url+'/checkout/';
+                } else {
+                    alert(response.data);
+                    button.text('Add to Cart');
+                }
+            }
+        });
+
 
     });
 

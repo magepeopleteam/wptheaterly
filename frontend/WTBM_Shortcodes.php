@@ -124,13 +124,13 @@
                             <h3 style="margin-bottom: 15px;"><?php esc_attr_e( 'Ticket For', 'wptheaterly' );?></h3>
                             <div class="form-group">
                                 <label class="form-label"><?php esc_attr_e( 'Full Name', 'wptheaterly' );?></label>
-                                <input type="text" class="form-input" placeholder="Enter your name">
+                                <input type="text" class="form-input" id="wtbm_getUserName" placeholder="Enter your name">
                             </div>
                             <div class="form-group">
                                 <label class="form-label"><?php esc_attr_e( 'Mobile Number', 'wptheaterly' );?></label>
-                                <input type="tel" class="form-input" placeholder="Enter mobile number">
+                                <input type="tel" class="form-input" id="wtbm_getUserPhone" placeholder="Enter mobile number">
                             </div>
-                            <button class="purchase-btn" id="purchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
+                            <button class="purchase-btn" id="wtbm_ticketPurchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
                             <div style="margin-top: 15px; font-size: 12px; color: #666; text-align: center;">
                                 <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>
                             </div>

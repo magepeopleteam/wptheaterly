@@ -91,7 +91,8 @@
 				wp_enqueue_script('wtbm_registration', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_registration.js', ['jquery'], time(), true);
 				wp_localize_script('wtbm_registration', 'wtbm_ajax', array(
 					'ajax_url' => admin_url('admin-ajax.php'),
-					'nonce'    => wp_create_nonce('wtbm_nonce')
+					'nonce'    => wp_create_nonce('wtbm_nonce'),
+                    'site_url' => get_site_url(),
 				));
 				do_action('add_mptrs_frontend_script');
 			}

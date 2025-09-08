@@ -21,29 +21,29 @@
 					'singular_name' => $label,
 					'menu_name' => $label,
 					'name_admin_bar' => $label,
-					'archives' => $label . ' ' . esc_html__(' List', 'theaterly'),
-					'attributes' => $label . ' ' . esc_html__(' List', 'theaterly'),
-					'parent_item_colon' => $label . ' ' . esc_html__(' Item:', 'theaterly'),
-					'all_items' => esc_html__('All ', 'theaterly') . ' ' . $label,
-					'add_new_item' => esc_html__('Add New ', 'theaterly') . ' ' . $label,
-					'add_new' => esc_html__('Add New ', 'theaterly') . ' ' . $label,
-					'new_item' => esc_html__('New ', 'theaterly') . ' ' . $label,
-					'edit_item' => esc_html__('Edit ', 'theaterly') . ' ' . $label,
-					'update_item' => esc_html__('Update ', 'theaterly') . ' ' . $label,
-					'view_item' => esc_html__('View ', 'theaterly') . ' ' . $label,
-					'view_items' => esc_html__('View ', 'theaterly') . ' ' . $label,
-					'search_items' => esc_html__('Search ', 'theaterly') . ' ' . $label,
-					'not_found' => $label . ' ' . esc_html__(' Not found', 'theaterly'),
-					'not_found_in_trash' => $label . ' ' . esc_html__(' Not found in Trash', 'theaterly'),
-					'featured_image' => $label . ' ' . esc_html__(' Feature Image', 'theaterly'),
-					'set_featured_image' => esc_html__('Set ', 'theaterly') . ' ' . $label . ' ' . esc_html__(' featured image', 'theaterly'),
-					'remove_featured_image' => esc_html__('Remove ', 'theaterly') . ' ' . $label . ' ' . esc_html__(' featured image', 'theaterly'),
-					'use_featured_image' => esc_html__('Use as', 'theaterly') . ' ' . $label . ' ' . esc_html__(' featured image', 'theaterly') . ' ' . $label . ' ' . esc_html__(' featured image', 'theaterly'),
-					'insert_into_item' => esc_html__('Insert into', 'theaterly') . ' ' . $label,
-					'uploaded_to_this_item' => esc_html__('Uploaded to this ', 'theaterly') . ' ' . $label,
-					'items_list' => $label . ' ' . esc_html__(' list', 'theaterly'),
-					'items_list_navigation' => $label . ' ' . esc_html__(' list navigation', 'theaterly'),
-					'filter_items_list' => esc_html__('Filter ', 'theaterly') . ' ' . $label . ' ' . esc_html__(' list', 'theaterly')
+					'archives' => $label . ' ' . esc_html__(' List', 'wptheaterly'),
+					'attributes' => $label . ' ' . esc_html__(' List', 'wptheaterly'),
+					'parent_item_colon' => $label . ' ' . esc_html__(' Item:', 'wptheaterly'),
+					'all_items' => esc_html__('All ', 'wptheaterly') . ' ' . $label,
+					'add_new_item' => esc_html__('Add New ', 'wptheaterly') . ' ' . $label,
+					'add_new' => esc_html__('Add New ', 'wptheaterly') . ' ' . $label,
+					'new_item' => esc_html__('New ', 'wptheaterly') . ' ' . $label,
+					'edit_item' => esc_html__('Edit ', 'wptheaterly') . ' ' . $label,
+					'update_item' => esc_html__('Update ', 'wptheaterly') . ' ' . $label,
+					'view_item' => esc_html__('View ', 'wptheaterly') . ' ' . $label,
+					'view_items' => esc_html__('View ', 'wptheaterly') . ' ' . $label,
+					'search_items' => esc_html__('Search ', 'wptheaterly') . ' ' . $label,
+					'not_found' => $label . ' ' . esc_html__(' Not found', 'wptheaterly'),
+					'not_found_in_trash' => $label . ' ' . esc_html__(' Not found in Trash', 'wptheaterly'),
+					'featured_image' => $label . ' ' . esc_html__(' Feature Image', 'wptheaterly'),
+					'set_featured_image' => esc_html__('Set ', 'wptheaterly') . ' ' . $label . ' ' . esc_html__(' featured image', 'wptheaterly'),
+					'remove_featured_image' => esc_html__('Remove ', 'wptheaterly') . ' ' . $label . ' ' . esc_html__(' featured image', 'wptheaterly'),
+					'use_featured_image' => esc_html__('Use as', 'wptheaterly') . ' ' . $label . ' ' . esc_html__(' featured image', 'wptheaterly') . ' ' . $label . ' ' . esc_html__(' featured image', 'wptheaterly'),
+					'insert_into_item' => esc_html__('Insert into', 'wptheaterly') . ' ' . $label,
+					'uploaded_to_this_item' => esc_html__('Uploaded to this ', 'wptheaterly') . ' ' . $label,
+					'items_list' => $label . ' ' . esc_html__(' list', 'wptheaterly'),
+					'items_list_navigation' => $label . ' ' . esc_html__(' list navigation', 'wptheaterly'),
+					'filter_items_list' => esc_html__('Filter ', 'wptheaterly') . ' ' . $label . ' ' . esc_html__(' list', 'wptheaterly')
 				];
 				$args = [
 					'public' => true,
@@ -64,7 +64,7 @@
 
                 $args = [
                     'public' => true,
-                    'label' => esc_html__('Theater', 'theaterly'),
+                    'label' => esc_html__('Theater', 'wptheaterly'),
                     'supports' => ['title', 'thumbnail', 'editor'],
                     'show_in_menu' => false,
                     'capability_type' => 'post',
@@ -73,7 +73,7 @@
 
                 $args = [
                     'public' => true,
-                    'label' => esc_html__('Show Time', 'theaterly'),
+                    'label' => esc_html__('Show Time', 'wptheaterly'),
                     'supports' => ['title', 'thumbnail', 'editor'],
                     'show_in_menu' => false,
                     'capability_type' => 'post',
@@ -82,12 +82,21 @@
 
                 $args = [
                     'public' => true,
-                    'label' => esc_html__('Pricing Rules', 'theaterly'),
+                    'label' => esc_html__('Pricing Rules', 'wptheaterly'),
                     'supports' => ['title', 'thumbnail', 'editor'],
                     'show_in_menu' => false,
                     'capability_type' => 'post',
                 ];
                 register_post_type('wtbm_pricing', $args);
+
+                $args = [
+                    'public' => true,
+                    'label' => esc_html__('Seat Booking', 'wptheaterly'),
+                    'supports' => ['title', 'thumbnail', 'editor'],
+                    'show_in_menu' => false,
+                    'capability_type' => 'post',
+                ];
+                register_post_type('wtbm_booking', $args);
 
 			}
 		}

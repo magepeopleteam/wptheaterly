@@ -143,7 +143,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
             }else{
                 $type = 'edit';
                 $movie_data = WTBM_Layout_Functions::get_movies_data_by_id( $post_id );
-//                error_log( print_r( [ '$movie_data' => $movie_data ], true ) );
+
             }
             $add_form = WTBM_Layout_Functions::add_edit_new_movie_html( $type, $movie_data );
 
