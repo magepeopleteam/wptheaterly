@@ -153,7 +153,7 @@
                 if ( empty( $date ) ) {
                     $date = current_time( 'Y-m-d' );
                 }
-                $args = array(
+                /*$args = array(
                     'post_type'      => 'wtbm_show_time',
                     'post_status'    => 'publish',
                     'posts_per_page' => -1,
@@ -165,7 +165,27 @@
                             'type'    => 'DATE',
                         ),
                     ),
+                );*/
+                $args = array(
+                    'post_type'      => 'wtbm_show_time',
+                    'post_status'    => 'publish',
+                    'posts_per_page' => -1,
+                    'meta_query'     => array(
+                        array(
+                            'key'     => 'wtbp_showtime_start_date',
+                            'value'   => $date,
+                            'compare' => '<=',
+                            'type'    => 'DATE',
+                        ),
+                        array(
+                            'key'     => 'wtbp_showtime_end_date',
+                            'value'   => $date,
+                            'compare' => '>=',
+                            'type'    => 'DATE',
+                        ),
+                    ),
                 );
+
 
                 $query = new WP_Query( $args );
 
@@ -194,7 +214,7 @@
                 if ( empty( $date ) ) {
                     $date = current_time( 'Y-m-d' );
                 }
-                $args = array(
+                /*$args = array(
                     'post_type'      => 'wtbm_show_time',
                     'post_status'    => 'publish',
                     'posts_per_page' => -1,
@@ -206,7 +226,27 @@
                             'type'    => 'DATE',
                         ),
                     ),
+                );*/
+                $args = array(
+                    'post_type'      => 'wtbm_show_time',
+                    'post_status'    => 'publish',
+                    'posts_per_page' => -1,
+                    'meta_query'     => array(
+                        array(
+                            'key'     => 'wtbp_showtime_start_date',
+                            'value'   => $date,
+                            'compare' => '<=',
+                            'type'    => 'DATE',
+                        ),
+                        array(
+                            'key'     => 'wtbp_showtime_end_date',
+                            'value'   => $date,
+                            'compare' => '>=',
+                            'type'    => 'DATE',
+                        ),
+                    ),
                 );
+
 
                 $query = new WP_Query( $args );
                 $showtimes = array();
@@ -216,6 +256,9 @@
                         $current_movie_id = get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true );
                         $theater_id = get_post_meta( get_the_ID(), 'wtbp_show_time_theaterId', true );
                         $show_time_start = get_post_meta( get_the_ID(), 'wtbp_show_time_start_date', true );
+                        $showtime_off_days = get_post_meta( get_the_ID(), 'wtbp_showtime_off_days', true );
+
+
 
                         if ( empty( $current_movie_id ) || empty( $theater_id ) || empty( $show_time_start ) ) {
                             continue;
@@ -224,10 +267,17 @@
                         $current_movie_id = intval( $current_movie_id );
                         $theater_id = intval( $theater_id );
                         if ( $current_movie_id === intval( $movie_id ) ) {
+
+                            $dayName = strtolower( date( 'l', strtotime($date ) ) );
+                            error_log( print_r( [ '$current_movie_id' => $current_movie_id ,'$show_time_start' =>$show_time_start ,'$showtime_off_days' => $showtime_off_days, '$dayName' =>$dayName ], true ) );
+
                             if ( ! isset( $showtimes[ $theater_id ] ) ) {
                                 $showtimes[ $theater_id ] = array();
                             }
-                            $showtimes[ $theater_id ][] = $show_time_start;
+                            if( !in_array( $dayName, $showtime_off_days ) ){
+                                $showtimes[ $theater_id ][] = $show_time_start;
+                            }
+
                         }
                     }
                 }

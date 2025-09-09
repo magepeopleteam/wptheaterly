@@ -26,20 +26,28 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce' );
             $cpt = MPTRS_Function::get_show_time_cpt();
-            $title          = sanitize_text_field( $_POST['title'] );
-            $movieId        = sanitize_text_field( $_POST['movieId'] );
-            $theaterId      = sanitize_text_field( $_POST['theaterId'] );
-            $date           = sanitize_text_field( $_POST['date']);
-            $startTime      = sanitize_text_field( $_POST['startTime'] );
-            $endTime        = sanitize_text_field( $_POST['endTime'] );
-            $action_type       = sanitize_text_field( $_POST['action_type'] );
-            $price          = floatval( $_POST['price'] );
-            $description    = sanitize_textarea_field( $_POST['description'] );
+            $movieId            = isset( $_POST['movieId'] ) ? sanitize_text_field( $_POST['movieId'] ) : '';
+            $movie_title = get_the_title( $movieId );
+            $theaterId          = isset( $_POST['theaterId'] ) ? sanitize_text_field( $_POST['theaterId'] ) : '';
+            $date               = isset( $_POST['date'] ) ? sanitize_text_field( $_POST['date']) : '';
+            $start_date         = isset( $_POST['start_date'] ) ? sanitize_text_field( $_POST['start_date']) : '';
+            $end_date           = isset( $_POST['start_date'] ) ? sanitize_text_field( $_POST['end_date']) : '';
+            $startTime          = isset( $_POST['startTime'] ) ? sanitize_text_field( $_POST['startTime'] ) : '';
+            $endTime            = isset( $_POST['endTime'] ) ? sanitize_text_field( $_POST['endTime'] ) : '';
+            $showtime_off_days  = isset( $_POST['showtime_off_days'] ) ? sanitize_text_field( $_POST['showtime_off_days'] ) : '';
+            $action_type        = isset( $_POST['action_type'] ) ? sanitize_text_field( $_POST['action_type'] ) : '';
+            $price              = isset( $_POST['price'] ) ? floatval( $_POST['price'] ) : '';
+            $description        = isset( $_POST['description'] ) ? sanitize_textarea_field( $_POST['description'] ) : '';
+            $showtime_off_days_ary = [];
+            if( $showtime_off_days ){
+                $showtime_off_days_ary = explode( ',', $showtime_off_days );
+            }
 
-            $showTimeId = isset( $_POST['showTimeId'] ) ? sanitize_text_field( $_POST['showTimeId'] ) : '';
-
+            if( $end_date === '' ){
+                $end_date = $start_date;
+            }
             $post_id = wp_insert_post([
-                'post_title' => $title,
+                'post_title' => $movie_title,
                 'post_type' => $cpt,
                 'post_status' => 'publish',
                 'post_content' => $description,
@@ -52,6 +60,9 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 update_post_meta( $post_id, 'wtbp_show_time_start_date', $startTime );
                 update_post_meta( $post_id, 'wtbp_show_time_end_date', $endTime );
                 update_post_meta( $post_id, 'wtbp_show_time_price', $price );
+                update_post_meta( $post_id, 'wtbp_showtime_start_date', $start_date );
+                update_post_meta( $post_id, 'wtbp_showtime_end_date', $end_date );
+                update_post_meta( $post_id, 'wtbp_showtime_off_days', $showtime_off_days_ary );
 
                 $new_show_time = array(
                     0=>WTBM_Layout_Functions::get_show_time_data_by_id( $post_id ),
@@ -68,20 +79,30 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
             $cpt = MPTRS_Function::get_show_time_cpt();
-            $title          = sanitize_text_field( $_POST['title'] );
-            $movieId        = sanitize_text_field( $_POST['movieId'] );
-            $theaterId      = sanitize_text_field( $_POST['theaterId'] );
-            $date           = sanitize_text_field( $_POST['date']);
-            $startTime      = sanitize_text_field( $_POST['startTime'] );
-            $endTime        = sanitize_text_field( $_POST['endTime'] );
-            $action_type       = sanitize_text_field( $_POST['action_type'] );
-            $price          = floatval( $_POST['price'] );
-            $description    = sanitize_textarea_field( $_POST['description'] );
 
+            $movieId            = isset( $_POST['movieId'] ) ? sanitize_text_field( $_POST['movieId'] ) : '';
+            $movie_title = get_the_title( $movieId );
+            $theaterId          = isset( $_POST['theaterId'] ) ? sanitize_text_field( $_POST['theaterId'] ) : '';
+            $start_date         = isset( $_POST['start_date'] ) ? sanitize_text_field( $_POST['start_date']) : '';
+            $end_date           = isset( $_POST['end_date'] ) ? sanitize_text_field( $_POST['end_date']) : '';
+            $date               = isset( $_POST['date'] ) ? sanitize_text_field( $_POST['date']) : '';
+            $startTime          = isset( $_POST['startTime'] ) ? sanitize_text_field( $_POST['startTime'] ) : '';
+            $endTime            = isset( $_POST['endTime'] ) ? sanitize_text_field( $_POST['endTime'] ) : '';
+            $action_type        = isset( $_POST['action_type'] ) ? sanitize_text_field( $_POST['action_type'] ) : '';
+            $price              = isset( $_POST['price'] ) ? floatval( $_POST['price'] ) : '';
+            $description        = isset( $_POST['description'] ) ? sanitize_textarea_field( $_POST['description'] ) : '';
+            $showtime_off_days  = isset( $_POST['showtime_off_days'] ) ? sanitize_text_field( $_POST['showtime_off_days'] ) : '';
+            $showtime_off_days_ary = [];
+            if( $showtime_off_days ){
+                $showtime_off_days_ary = explode( ',', $showtime_off_days );
+            }
+            if( $end_date === '' ){
+                $end_date = $start_date;
+            }
             $showTimeId = isset( $_POST['showTimeId'] ) ? sanitize_text_field( $_POST['showTimeId'] ) : '';
             $post_data = [
                 'ID'           => $showTimeId,
-                'post_title'   => $title,
+                'post_title'   => $movie_title,
                 'post_type'    => $cpt,
                 'post_status'  => 'publish',
                 'post_content' => $description,
@@ -97,6 +118,9 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 update_post_meta( $updated_post_id, 'wtbp_show_time_start_date', $startTime );
                 update_post_meta( $updated_post_id, 'wtbp_show_time_end_date', $endTime );
                 update_post_meta( $updated_post_id, 'wtbp_show_time_price', $price );
+                update_post_meta( $updated_post_id, 'wtbp_showtime_start_date', $start_date );
+                update_post_meta( $updated_post_id, 'wtbp_showtime_end_date', $end_date );
+                update_post_meta( $updated_post_id, 'wtbp_showtime_off_days', $showtime_off_days_ary );
 
                 $new_show_time = array(
                     0=>WTBM_Layout_Functions::get_show_time_data_by_id( $updated_post_id ),
@@ -187,7 +211,6 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
             if ( $action_type === 'edit' && $showtime_id ) {
                 $add_action = 'wtbm_edit_show_time';
                 $show_time_data = WTBM_Layout_Functions::get_show_time_data_by_id( absint( $showtime_id ) );
-
 //                $show_time_id = isset( $show_time_data['theater_id'] ) ? $show_time_data['theater_id'] : '';
                 $theater_id = isset( $show_time_data['theater_id'] ) ? $show_time_data['theater_id'] : '';
 
@@ -195,11 +218,21 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                     $categories_html = self::get_theater_categories_html( $theater_id );
                 }
 
-
             }
 
             $movie_data = WTBM_Layout_Functions::get_and_display_movies( 30 );
             $theater_data = WTBM_Layout_Functions::get_and_display_theater_date( 30 );
+            $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+            if ( $action_type === 'edit' && $showtime_id ) {
+                $checked_days = get_post_meta( $showtime_id, 'wtbp_showtime_off_days', true );
+                if( $checked_days === '' ){
+                    $checked_days = [];
+                }
+            }else{
+                $checked_days = [];
+            }
+            $checked_days_str = implode( ',', $checked_days);
+//            error_log( print_r( [ '$checked_days_str' => $checked_days_str ], true ) );
 
             ?>
             <h4 class="mb-4 font-semibold"><?php echo esc_html( $title ); ?></h4>
@@ -210,12 +243,12 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 <input type="hidden" name="action_type" value="<?php echo esc_attr( $action_type ); ?>">
                 <input type="hidden" name="showtime_id" value="<?php echo esc_attr( $showtime_id ); ?>">
 
-                <div class="form-group">
-                    <label class="form-label"><?php esc_html_e( 'Showtime Name', 'wptheaterly' ); ?></label>
+                <!--<div class="form-group">
+                    <label class="form-label"><?php /*esc_html_e( 'Showtime Name', 'wptheaterly' ); */?></label>
                     <input type="text" name="showtime_name" id="showTimeName" class="form-input"
-                           value="<?php echo isset( $show_time_data['name'] ) ? esc_attr( $show_time_data['name'] ) : ''; ?>"
-                           placeholder="<?php esc_attr_e( 'Show time 1', 'wptheaterly' ); ?>">
-                </div>
+                           value="<?php /*echo isset( $show_time_data['name'] ) ? esc_attr( $show_time_data['name'] ) : ''; */?>"
+                           placeholder="<?php /*esc_attr_e( 'Show time 1', 'wptheaterly' ); */?>">
+                </div>-->
 
                 <div class="grid grid-cols-3 mb-4">
                     <div class="form-group">
@@ -250,16 +283,24 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                     </div>
 
                     <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'Start Date', 'wptheaterly' ); ?></label>
+                        <input type="date" id="showtime_date_start" name="showtime_date_start" class="form-input"
+                               value="<?php echo isset( $show_time_data['showtime_start_date'] ) ? esc_attr( $show_time_data['showtime_start_date'] ) : ''; ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'End Date', 'wptheaterly' ); ?></label>
+                        <input type="date" id="showtime_date_end" name="showtime_date_end" class="form-input"
+                               value="<?php echo isset( $show_time_data['showtime_end_date'] ) ? esc_attr( $show_time_data['showtime_end_date'] ) : ''; ?>">
+                    </div>
+
+                    <div class="form-group">
                         <label class="form-label"><?php esc_html_e( 'Start Time', 'wptheaterly' ); ?></label>
                         <input type="time" id="showtime-time-start" name="showtime_time_start" class="form-input"
                                value="<?php echo isset( $show_time_data['show_time_start'] ) ? esc_attr( $show_time_data['show_time_start'] ) : ''; ?>">
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'End Time', 'wptheaterly' ); ?></label>
-                        <input type="time" id="showtime-time-end" name="showtime_time_end" class="form-input"
-                               value="<?php echo isset( $show_time_data['show_time_end'] ) ? esc_attr( $show_time_data['show_time_end'] ) : ''; ?>">
-                    </div>
+
 
                     <div class="form-group">
                         <label class="form-label"><?php esc_html_e( 'Price ($)', 'wptheaterly' ); ?></label>
@@ -284,12 +325,40 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                               placeholder="<?php esc_attr_e( 'Show time description', 'wptheaterly' ); ?>"><?php echo isset( $show_time_data['description'] ) ? esc_textarea( $show_time_data['description'] ) : ''; ?></textarea>
                 </div>
 
+
+
+                <div data-collapse="#mp_repeated" class="form-group mb-4" style="">
+                    <div class="wtbm_showTimeOffDaysTitle">
+                        <h2>Off Day</h2>
+                        <span class="desc">Select checkbox for off day</span>
+                    </div>
+                    <div class="wtbm_showTimeOffDaysTitle">
+                        <div class="wtbm_groupCheckBox">
+                            <input type="hidden" name="wtbm_showtime_off_days" id="wtbm_showtime_off_days" value="<?php echo esc_attr( $checked_days_str );?>">
+                            <?php
+                            foreach ( $days as $day ) : ?>
+                                <label class="customCheckboxLabel">
+                                    <input type="checkbox" data-checked="<?php echo esc_attr( $day ) ?>"
+                                        <?php
+                                        if ( is_array( $checked_days ) && !empty( $checked_days ) && in_array( $day, $checked_days ) ) {
+                                            echo 'checked';
+                                        }
+                                        ?>>
+                                    <span class="customCheckbox me-1"><?php echo esc_attr( ucfirst( $day ) ); ?></span>
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="flex gap-2">
                     <button class="btn btn-success" id="<?php echo esc_attr( $add_action );?>" data-showTimeId="<?php echo esc_attr( $showtime_id );?>">
                         <?php echo ( $action_type === 'edit' ) ? esc_html__( 'Update Showtime', 'wptheaterly' ) : esc_html__( 'Add Showtime', 'wptheaterly' ); ?>
                     </button>
                     <button class="btn btn-secondary" id="wtbm_clear_show_time_form"><?php esc_attr_e( 'Cancel', 'wptheaterly' )?></button>
                 </div>
+
 
             </form>
             <?php
@@ -312,11 +381,21 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                             </div>
                         </td>
                         <td class="text-sm text-gray-900">
-                            <?php echo 'Screen ' . esc_html( $showtime['theater_id'] ); ?>
+                            <?php echo 'Screen ' . esc_html( get_the_title( $showtime['theater_id'] ) ); ?>
                         </td>
-                        <td class="text-sm text-gray-900">
-                            <?php echo esc_html( $showtime['show_time_date'] ); ?>
-                        </td>
+                        <?php if( $showtime['showtime_end_date'] ){
+
+                            $start_date_formatted = date('d M, y', strtotime( $showtime['showtime_start_date'] ));
+                            $end_date_formatted = date('d M, y', strtotime( $showtime['showtime_end_date'] ));
+                            ?>
+                            <td class="text-sm text-gray-900">
+                                <?php echo esc_html( $start_date_formatted ).' - '. $end_date_formatted; ?>
+                            </td>
+                        <?php }else{?>
+                            <td class="text-sm text-gray-900">
+                                <?php echo esc_html( $start_date_formatted ); ?>
+                            </td>
+                        <?php }?>
                         <td class="text-sm text-gray-900">
                             <?php echo esc_html( $showtime['show_time_start'] . ' - ' . $showtime['show_time_end'] ); ?>
                         </td>

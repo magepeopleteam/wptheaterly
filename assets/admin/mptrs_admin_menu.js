@@ -445,10 +445,13 @@
             movieId: parseInt($('#showtime-movie').val(), 10),
             theaterId: parseInt($('#wtbm_showtime_theater').val(), 10),
             date: $('#showtime-date').val(),
+            start_date: $('#showtime_date_start').val(),
+            end_date: $('#showtime_date_end').val(),
             startTime: $('#showtime-time-start').val(),
             endTime: $('#showtime-time-end').val(),
             price: parseFloat($('#showtime-price').val()),
             description: $('#showTime-description').val(),
+            showtime_off_days: $('#wtbm_showtime_off_days').val(),
             _ajax_nonce: mptrs_admin_ajax.nonce,
         };
         $.ajax({
@@ -481,6 +484,22 @@
         });
 
     }
+
+    $(document).on('change', ".wtbm_groupCheckBox input[type=checkbox]", function (e) {
+        let hiddenInput = $("#wtbm_showtime_off_days");
+        let selected = hiddenInput.val() ? hiddenInput.val().split(",") : [];
+        let day = $(this).data("checked");
+        if ($(this).is(":checked")) {
+            if ($.inArray(day, selected) === -1) {
+                selected.push(day);
+            }
+        } else {
+            selected = selected.filter(function(value) {
+                return value !== day;
+            });
+        }
+        hiddenInput.val(selected.join(","));
+    });
 
     function addPricingRule( post_id, action_type ) {
         const name = $('#pricing-name').val();

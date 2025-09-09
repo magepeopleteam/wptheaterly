@@ -117,8 +117,6 @@
 						//$item_id = current( array_keys( $order->get_items() ) );
 						foreach ( $order->get_items() as $item_id => $item ) {
 							$post_id = wc_get_order_item_meta( $item_id, '_wtbm_id');
-                            error_log( print_r( [ '$post_id' => $post_id ], true ) );
-
 							if (get_post_type( $post_id ) == MPTRS_Function::get_movie_cpt() ) {
 								$date = wc_get_order_item_meta($item_id, '_wtbm_date');
                                 $time = wc_get_order_item_meta($item_id, '_wtbm_time');
@@ -261,8 +259,6 @@
 			}
 			//**********************//
 			public static function add_cpt_data( $cpt_name, $title, $meta_data = array(), $status = 'publish', $cat = array() ) {
-
-                error_log( print_r( [ '$meta_data' => $meta_data ], true));
 				$new_post = array(
 					'post_title' => $title,
 					'post_content' => '',

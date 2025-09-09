@@ -1,16 +1,24 @@
 (function ($) {
 
+    function wtbm_loader( text ){
+        return `<h5>${text}</h5>`
+    }
 
     $(document).on('click', '.wtbm_booking_date_date_card', function () {
         $('#wtbm_bookingDateSelector .wtbm_booking_date_date_card').removeClass('active');
         $(this).addClass('active');
 
+        let wtbm_movieSection = $("#wtbm_movieSection");
         let date = $(this).data('date').trim();
         let wtbm_dateFormated = new Date(date);
         let options = { month: 'short', day: '2-digit' };
         let wtbm_formatted = wtbm_dateFormated.toLocaleDateString('en-US', options) + ", " + wtbm_dateFormated.getFullYear().toString().slice(-2);
         $("#wtbm_summaryDateDisplay").text(wtbm_formatted);
         $("#wtbm_summeryDate").val(date);
+        wtbm_movieSection.empty();
+        $("#wtbm_hallSection").fadeOut();
+        $("#wtbm_seatSection").fadeOut();
+        wtbm_movieSection.append( wtbm_loader( 'Movie Loading...' ) );
 
         $.ajax({
             url: wtbm_ajax.ajax_url,
@@ -23,9 +31,9 @@
             success: function(response) {
 
                 if( response.data  ) {
-                    $("#wtbm_movieSection").html(response.data);
+                    wtbm_movieSection.html(response.data);
                 }else{
-                    $("#wtbm_movieSection").html( '<h6>No Movies Found</h6>');
+                    wtbm_movieSection.html( '<h6>No Movies Found</h6>');
                 }
             },
             error: function(xhr, status, error) {
@@ -53,6 +61,12 @@
 
         $("#wtbm_summeryMovieId").val(movie_id);
 
+        $("#wtbm_hallSection").fadeIn();
+
+        let wtbm_displayHallsList = $("#wtbm_displayHallsList");
+        wtbm_displayHallsList.empty();
+        wtbm_displayHallsList.append( wtbm_loader( 'Show Time Loading...' ) );
+
         let activeDate = $('#wtbm_bookingDateSelector .wtbm_booking_date_date_card.active').data('date');
         $.ajax({
             url: wtbm_ajax.ajax_url,
@@ -65,10 +79,10 @@
             },
             success: function(response) {
                 if( response.data  ) {
-                    $("#wtbm_displayHallsList").html(response.data);
+                    wtbm_displayHallsList.html(response.data);
                     $("#wtbm_selectedMovieDisplay").html( selectedMovie );
                 }else{
-                    $("#wtbm_displayHallsList").html( '<h6>No Movies Found</h6>');
+                    wtbm_displayHallsList.html( '<h6>No Movies Found</h6>');
                 }
                 $("#wtbm_hallSection").fadeIn();
             },
@@ -97,6 +111,10 @@
         $("#wtbm_summaryTheaterName").text(theaterName);
         $("#wtbm_summaryTimeSlot").text(timeSlotDisplay);
 
+        $("#wtbm_seat_loader").fadeIn();
+        $("#wtbm_seat_loader").empty();
+        $("#wtbm_seat_loader").append( wtbm_loader( 'Seat Map Loading...' ) );
+
         let activeMovieId = $(".wtbm_booking_movie_card.wtbm_movieActive").data("movie-id");
 
         $.ajax({
@@ -111,6 +129,7 @@
                 nonce: wtbm_ajax.nonce,
             },
             success: function(response) {
+                $("#wtbm_seat_loader").fadeOut();
                 if( response.data  ) {
                     $("#wtbm_seatsGrid").html(response.data.wtbm_seatMaps);
                 }else{
@@ -118,7 +137,6 @@
                 }
                 $("#wtbm_seatSection").fadeIn();
                 $("#wtbm_hallSection").fadeIn();
-
             },
             error: function(xhr, status, error) {
                 console.error('AJAX Error:', error);

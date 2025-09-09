@@ -181,15 +181,17 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $query->the_post();
 
                 $show_time_data[] = [
-                    'id'                => get_the_ID(),
-                    'name'              => get_the_title(),
-                    'description'       => get_the_content(),
-                    'price'             => get_post_meta( get_the_ID(), 'wtbp_show_time_price', true ),
-                    'show_time_end'     => get_post_meta( get_the_ID(), 'wtbp_show_time_end_date', true ),
-                    'show_time_start'   => get_post_meta( get_the_ID(), 'wtbp_show_time_start_date', true ),
-                    'theater_id'        => get_post_meta( get_the_ID(), 'wtbp_show_time_theaterId', true ),
-                    'movie_id'          => get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true ),
-                    'show_time_date'    => get_post_meta( get_the_ID(), 'wtbp_show_time_date', true ),
+                    'id'                    => get_the_ID(),
+                    'name'                  => get_the_title(),
+                    'description'           => get_the_content(),
+                    'price'                 => get_post_meta( get_the_ID(), 'wtbp_show_time_price', true ),
+                    'show_time_end'         => get_post_meta( get_the_ID(), 'wtbp_show_time_end_date', true ),
+                    'show_time_start'       => get_post_meta( get_the_ID(), 'wtbp_show_time_start_date', true ),
+                    'theater_id'            => get_post_meta( get_the_ID(), 'wtbp_show_time_theaterId', true ),
+                    'movie_id'              => get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true ),
+                    'show_time_date'        => get_post_meta( get_the_ID(), 'wtbp_show_time_date', true ),
+                    'showtime_start_date'   => get_post_meta( get_the_ID(), 'wtbp_showtime_start_date', true ),
+                    'showtime_end_date'     => get_post_meta( get_the_ID(), 'wtbp_showtime_end_date', true ),
                 ];
             }
             wp_reset_postdata();
@@ -218,15 +220,17 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $query->the_post();
 
                 $movie_data = [
-                    'id'                => get_the_ID(),
-                    'name'              => get_the_title(),
-                    'description'       => get_the_content(),
-                    'price'             => get_post_meta( get_the_ID(), 'wtbp_show_time_price', true ),
-                    'show_time_end'     => get_post_meta( get_the_ID(), 'wtbp_show_time_end_date', true ),
-                    'show_time_start'   => get_post_meta( get_the_ID(), 'wtbp_show_time_start_date', true ),
-                    'theater_id'        => get_post_meta( get_the_ID(), 'wtbp_show_time_theaterId', true ),
-                    'movie_id'          => get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true ),
-                    'show_time_date'    => get_post_meta( get_the_ID(), 'wtbp_show_time_date', true ),
+                    'id'                    => get_the_ID(),
+                    'name'                  => get_the_title(),
+                    'description'           => get_the_content(),
+                    'price'                 => get_post_meta( get_the_ID(), 'wtbp_show_time_price', true ),
+                    'show_time_end'         => get_post_meta( get_the_ID(), 'wtbp_show_time_end_date', true ),
+                    'show_time_start'       => get_post_meta( get_the_ID(), 'wtbp_show_time_start_date', true ),
+                    'theater_id'            => get_post_meta( get_the_ID(), 'wtbp_show_time_theaterId', true ),
+                    'movie_id'              => get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true ),
+                    'show_time_date'        => get_post_meta( get_the_ID(), 'wtbp_show_time_date', true ),
+                    'showtime_start_date'   => get_post_meta( get_the_ID(), 'wtbp_showtime_start_date', true ),
+                    'showtime_end_date'     => get_post_meta( get_the_ID(), 'wtbp_showtime_end_date', true ),
                 ];
             }
             wp_reset_postdata();
@@ -392,8 +396,6 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <label class="flex items-center">
                         <input type="checkbox" id="wtbm_movie_active" class="mr-2"
                             <?php
-                            error_log( print_r( [ 'ddd' => $data['status'] ], true ) );
-
                             checked( $data['status'] == 'true' );
                             ?>>
                         <span><?php esc_html_e( 'Active', 'wptheaterly' ); ?></span>
