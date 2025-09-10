@@ -64,7 +64,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                         <button class="nav-item" data-tab="wtbm_pricing">
                             💰 <?php esc_attr_e( 'Pricing', 'wptheaterly' ); ?>
                         </button>
-                        <button class="nav-item" data-tab="wtbm_bookings" style="display: none">
+                        <button class="nav-item" data-tab="wtbm_bookings">
                             👥 <?php esc_attr_e( 'Bookings', 'wptheaterly' ); ?>
                         </button>
                     </nav>

@@ -117,7 +117,7 @@
                             </div>
                             <div class="wtbm_registrationSummaryItem">
                                 <span><?php esc_attr_e( 'Total Amount:', 'wptheaterly' );?></span>
-                                <span id="wtbm_summaryTotal">0 BDT</span>
+                                <span id="wtbm_summaryTotal">0 <?php echo esc_attr( get_woocommerce_currency_symbol());?></span>
                             </div>
                         </div>
 

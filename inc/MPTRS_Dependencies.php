@@ -84,6 +84,7 @@
 			}
 			public function frontend_script() {
 				$this->global_enqueue();
+                $currency_symbol = get_woocommerce_currency_symbol();
 				wp_enqueue_style('mptrs', MPTRS_PLUGIN_URL . '/assets/frontend/mptrs.css', [], time());
 				wp_enqueue_script('mptrs', MPTRS_PLUGIN_URL . '/assets/frontend/mptrs.js', ['jquery'], time(), true);
 				wp_enqueue_style('wtbm_registration', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_registration.css', [], time());
@@ -93,6 +94,7 @@
 					'ajax_url' => admin_url('admin-ajax.php'),
 					'nonce'    => wp_create_nonce('wtbm_nonce'),
                     'site_url' => get_site_url(),
+                    'wc_currency_symbol' => $currency_symbol,
 				));
 				do_action('add_mptrs_frontend_script');
 			}

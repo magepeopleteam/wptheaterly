@@ -111,9 +111,10 @@
         $("#wtbm_summaryTheaterName").text(theaterName);
         $("#wtbm_summaryTimeSlot").text(timeSlotDisplay);
 
-        $("#wtbm_seat_loader").fadeIn();
-        $("#wtbm_seat_loader").empty();
-        $("#wtbm_seat_loader").append( wtbm_loader( 'Seat Map Loading...' ) );
+        let wtbm_seat_loader = $("#wtbm_seat_loader");
+        wtbm_seat_loader.fadeIn();
+        wtbm_seat_loader.empty();
+        wtbm_seat_loader.append( wtbm_loader( 'Seat Map Loading...' ) );
 
         let activeMovieId = $(".wtbm_booking_movie_card.wtbm_movieActive").data("movie-id");
 
@@ -129,7 +130,7 @@
                 nonce: wtbm_ajax.nonce,
             },
             success: function(response) {
-                $("#wtbm_seat_loader").fadeOut();
+                wtbm_seat_loader.fadeOut();
                 if( response.data  ) {
                     $("#wtbm_seatsGrid").html(response.data.wtbm_seatMaps);
                 }else{
@@ -178,7 +179,7 @@
         const seatSummary = wtbm_seatBookedName.join(", ");
 
         $("#wtbm_summaryQuantity").text( wtbm_total_seat_count );
-        $("#wtbm_summaryTotal").text( wtbm_total_price );
+        $("#wtbm_summaryTotal").text( wtbm_total_price+''+wtbm_ajax.wc_currency_symbol );
         $("#wtbm_summarySeats").text(seatSummary);
 
 
