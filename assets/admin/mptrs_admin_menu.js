@@ -992,5 +992,47 @@
         }
     });
 
+    // Load More Booking
+    $(document).on("click", "#wtbm_booking_load_more_btn", function(){
+        let alreadyLoadedBookingIds = [];
+        let wtbm_showing_count =  parseInt($("#wtbm_showing_count").text(), 10);
+
+        jQuery("#wtbm_bookings_table_body tr").each(function () {
+            alreadyLoadedBookingIds.push(jQuery(this).data("order-id"));
+        });
+
+        if( alreadyLoadedBookingIds ) {
+            const load_more_rule = {
+                action: "wtbm_get_load_more_booking_data",
+                already_loaded_booking_ids: JSON.stringify( alreadyLoadedBookingIds ),
+                display_limit: 10,
+                _ajax_nonce: mptrs_admin_ajax.nonce,
+            };
+            $.ajax({
+                url: mptrs_admin_ajax.ajax_url,
+                type: "POST",
+                data: load_more_rule,
+                success: function (response) {
+                    if (response.success) {
+
+                        let total_show = wtbm_showing_count + response.data.booking_count;
+                        $('#wtbm_bookings_table_body').append(response.data.booking_data);
+                        $("#wtbm_showing_count").text( total_show );
+                        if( response.data.booking_count < 10 ){
+                            $("#wtbm_booking_load_more_btn").fadeOut();
+                        }
+                    } else {
+                        alert("Error: " + response.data);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Something went wrong!");
+                }
+            });
+        }else{
+            $('#wtbm_pricing_categories').empty();
+        }
+    });
+
 
 }(jQuery));
