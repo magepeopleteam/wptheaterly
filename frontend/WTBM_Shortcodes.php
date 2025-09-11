@@ -80,6 +80,7 @@
                             <input type="hidden" name="wtbm_summeryTime" id="wtbm_summeryTime" value="">
                             <input type="hidden" name="wtbm_summerySeatType" id="wtbm_summerySeatType" value="">
                             <input type="hidden" name="wtbm_summerySeatNumber" id="wtbm_summerySeatNumber" value="">
+                            <input type="hidden" name="wtbm_summerySeatIds" id="wtbm_summerySeatIds" value="">
                             <input type="hidden" name="wtbm_summeryTotalAmount" id="wtbm_summeryTotalAmount" value="">
 
                             <div id="wtbm_selectedMovieDisplay">

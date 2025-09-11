@@ -110,7 +110,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                                 <tbody id="movies-table-body">
                                     <?php
                                     $movie_data = WTBM_Layout_Functions::get_and_display_movies();
-                                    echo WTBM_Layout_Functions::display_movies_data( $movie_data );
+                                    WTBM_Layout_Functions::display_movies_data( $movie_data );
                                     ?>
 
                                 </tbody>
@@ -208,9 +208,9 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                     <div id="wtbm_pricing_content" class="tab-content">
                         <div class="section">
                             <div class="section-header">
-                                <h3 class="section-title">Pricing Rules</h3>
+                                <h3 class="section-title"><?php esc_attr_e( 'Pricing Rules', 'wptheaterly' ); ?></h3>
                                 <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpPricingAddForm">
-                                    ➕ Add Pricing Rule
+                                    ➕ <?php esc_attr_e( 'Add Pricing Rule', 'wptheaterly' ); ?>
                                 </button>
                             </div>
                         </div>

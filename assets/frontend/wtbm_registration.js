@@ -7,6 +7,8 @@
     $(document).on('click', '.wtbm_booking_date_date_card', function () {
         $('#wtbm_bookingDateSelector .wtbm_booking_date_date_card').removeClass('active');
         $(this).addClass('active');
+        wtbm_time_slot_click_make_empty( 'wtbm_date' );
+
 
         let wtbm_movieSection = $("#wtbm_movieSection");
         let date = $(this).data('date').trim();
@@ -46,13 +48,16 @@
 
         $("#wtbm_seatSection").fadeOut();
 
+        let click_btn = 'wtbm_movie';
+        wtbm_time_slot_click_make_empty( click_btn );
+
         let movie_name = $(this).attr('data-movie-name').trim();
         let movie_duration = $(this).attr('data-movie-duration').trim();
         let movie_poster = '';
         let selectedMovie = `
                     <div style="width: 60px; height: 80px; background: linear-gradient(45deg, #ff6b6b, #4ecdc4); border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; font-size: 24px;">${movie_poster}</div>
-                    <div style="font-weight: bold;">${movie_name}</div>
-                    <div style="color: #666; font-size: 12px;">${movie_duration}</div>
+                    <div id="wtbm_movieName" style="font-weight: bold;">${movie_name}</div>
+                    <div id="wtbm_movieDuration" style="color: #666; font-size: 12px;">${movie_duration}</div>
                 `;
 
         $('.wtbm_booking_movie_card').removeClass('wtbm_movieActive');
@@ -93,8 +98,10 @@
     });
 
     $(document).on('click', '.wtbm_timeSlot', function () {
-
         let this_class = $(this);
+        let click_btn = 'time_slot'
+        wtbm_time_slot_click_make_empty( click_btn );
+
         $("#wtbm_seatSection").fadeOut();
         $(".wtbm_timeSlot").removeClass( 'selected' );
         this_class.addClass('selected');
@@ -177,6 +184,7 @@
         }
 
         const seatSummary = wtbm_seatBookedName.join(", ");
+        const seatSummaryIds = wtbm_seatBooked.join(", ");
 
         $("#wtbm_summaryQuantity").text( wtbm_total_seat_count );
         $("#wtbm_summaryTotal").text( wtbm_total_price+''+wtbm_ajax.wc_currency_symbol );
@@ -184,9 +192,39 @@
 
 
         $("#wtbm_summeryTotalAmount").val( wtbm_total_price );
+        $("#wtbm_summerySeatNumber").val( seatSummary );
+        $("#wtbm_summerySeatIds").val( seatSummaryIds );
 
         // console.log(`Seat ID: ${seatId}, Price: $${price}, Seat number: ${seatNum}`, wtbm_total_price, wtbm_total_seat_count );
     });
+
+    function wtbm_time_slot_click_make_empty( click_btn ){
+
+        if(  click_btn === 'wtbm_date' ){
+            $("#wtbm_movieName").text('');
+            $("#wtbm_movieDuration").text('Select a movie');
+        }
+
+        if( click_btn === 'wtbm_movie' || click_btn === 'wtbm_date' ){
+            $("#wtbm_summaryTheaterName").text( '--' );
+            $("#wtbm_summaryTimeSlot").text('--');
+
+            $("#wtbm_summeryTheaterId").val( '' );
+            $("#wtbm_summeryTime").val( '' );
+        }
+
+        $("#wtbm_summaryQuantity").text( 0 );
+        $("#wtbm_summaryTotal").text( 0+''+wtbm_ajax.wc_currency_symbol );
+        $("#wtbm_summarySeats").text('--' );
+        $("#wtbm_summeryTotalAmount").val( 0 );
+        $("#wtbm_summerySeatNumber").val( "" );
+        $("#wtbm_summerySeatIds").val( "" );
+        wtbm_seatBooked = [];
+        wtbm_seatBookedName = [];
+        wtbm_total_price = 0;
+        wtbm_total_seat_count = 0;
+
+    }
 
     $(document).on( 'click', '#wtbm_ticketPurchaseBtn', function (e) {
 
@@ -198,6 +236,12 @@
         let userName = $("#wtbm_getUserName").val().trim();
         let userPhoneNum = $("#wtbm_getUserPhone").val().trim();
 
+        // let wtbm_seatBookedNameStr = $("#wtbm_summerySeatNumber").val().trim();
+        let wtbm_seatBookedNameStr = JSON.stringify( wtbm_seatBookedName );
+        let wtbm_seatBookedIds = JSON.stringify( wtbm_seatBooked );
+        let wtbm_summerySeatIds = $("#wtbm_summerySeatIds").val().trim();
+        // console.log( wtbm_summerySeatNumber, wtbm_summerySeatIds );
+
         let button = $(this);
         let action = 'wtbm_theater_ticket_booking';
         const booking_data = {
@@ -208,8 +252,8 @@
             booking_time: bookingTime,
             total_amount: totalAmount,
             seat_count: wtbm_total_seat_count,
-            seat_names: wtbm_seatBookedName,
-            booked_seat_ids: wtbm_seatBooked,
+            seat_names: wtbm_seatBookedNameStr,
+            booked_seat_ids: wtbm_seatBookedIds,
             userName: userName,
             userPhoneNum: userPhoneNum,
             nonce: wtbm_ajax.nonce,

@@ -106,12 +106,14 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                     'booking_date' => sanitize_text_field( $_POST['booking_date'] ),
                     'booking_time' => sanitize_text_field( $_POST['booking_time'] ),
                     'seat_count' => intval($_POST['seat_count']),
-                    'seat_names' => $_POST['seat_names'],
-                    'booked_seat_ids' => $_POST['booked_seat_ids'],
+                    'seat_names' => json_decode( sanitize_text_field( wp_unslash( $_POST['seat_names'] ) ) ),
+                    'booked_seat_ids' => json_decode( sanitize_text_field( wp_unslash( $_POST['booked_seat_ids'] ) )),
                     'wtbm_price' => floatval($_POST['total_amount']),
                     'user_name' => sanitize_text_field($_POST['userName']),
                     'user_phone_num' => sanitize_text_field($_POST['userPhoneNum']),
                 ];
+
+                error_log( print_r( [ '$cart_item_data' => $cart_item_data ], true ) );
 
                 if (!class_exists('WC_Cart')) {
                     wp_send_json_error('WooCommerce is not active.');

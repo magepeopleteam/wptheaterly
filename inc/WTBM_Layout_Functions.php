@@ -42,7 +42,8 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     'rating'      => get_post_meta( get_the_ID(), 'wtbp_movie_rating', true ),
                     'releaseDate' => get_post_meta( get_the_ID(), 'wtbp_movie_release_date', true ),
                     'poster'      => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
-                    'status'      => get_post_meta( get_the_ID(), 'wtbm_status', true ) ?: 'inactive',
+                    'status' => get_post_meta( get_the_ID(), 'wtbp_movie_active', true ) == 'true' ? 'active' : 'inactive',
+
                 ];
             }
 
@@ -449,6 +450,8 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $releaseDate = esc_html( $movie['releaseDate'] );
                 $poster      = esc_url( $movie['poster'] );
                 $status      = esc_html( $movie['status'] );
+
+                error_log( print_r( [ '$movie' => $movie ], true ) );
                 ?>
                 <tr class="wtbm_movie_content" id="movie_content_<?php echo esc_attr( $id );?>" date-movie-id="<?php echo esc_attr( $id );?>">
                     <td>
