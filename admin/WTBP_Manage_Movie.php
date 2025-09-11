@@ -69,6 +69,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
             $rating      = floatval($_POST['rating']);
             $releaseDate = sanitize_text_field($_POST['release_date']);
             $poster      = esc_url_raw($_POST['poster']);
+            $poster_id      = sanitize_textarea_field($_POST['poster_id']);
             $description = sanitize_textarea_field($_POST['description']);
             $active = sanitize_textarea_field($_POST['active']);
 
@@ -87,6 +88,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 update_post_meta($post_id, 'wtbp_movie_release_date', $releaseDate);
                 update_post_meta($post_id, 'wtbp_movie_poster', $poster);
                 update_post_meta($post_id, 'wtbp_movie_active', $active);
+                update_post_meta($post_id, 'wtbp_movie_poster_id', $poster_id);
 
                 wp_send_json_success( get_post( $post_id ) );
             } else {
@@ -103,6 +105,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
             $rating      = floatval($_POST['rating']);
             $releaseDate = sanitize_text_field($_POST['release_date']);
             $poster      = esc_url_raw($_POST['poster']);
+            $poster_id      = sanitize_textarea_field($_POST['poster_id']);
             $description = sanitize_textarea_field($_POST['description']);
             $post_id     = isset($_POST['post_id']) ? intval($_POST['post_id']) : '';
             $active      = sanitize_textarea_field($_POST['active']);
@@ -123,6 +126,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 update_post_meta($post_id, 'wtbp_movie_release_date', $releaseDate);
                 update_post_meta($post_id, 'wtbp_movie_poster', $poster);
                 update_post_meta($post_id, 'wtbp_movie_active', $active);
+                update_post_meta($post_id, 'wtbp_movie_poster_id', $poster_id);
 
                 wp_send_json_success( get_post( $post_id ) );
             } else {

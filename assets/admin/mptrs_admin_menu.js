@@ -1,4 +1,39 @@
 (function ($) {
+
+    let frame;
+
+    $(document).on( 'click' ,'#wtbm_upload_movie_poster', function (e) {
+        e.preventDefault();
+        if (frame) {
+            frame.open();
+            return;
+        }
+        frame = wp.media({
+            title: 'Select or Upload Poster',
+            button: {
+                text: 'Use this image'
+            },
+            multiple: false
+        });
+        frame.on('select', function () {
+            const attachment = frame.state().get('selection').first().toJSON();
+            $('#wtbm_movie_poster_id').val(attachment.id);
+            $('#wtbm_movie_poste_preview').html(
+                '<img src="' + attachment.url + '" style="max-width:150px;height:auto;" />'
+            );
+            $('#wtbm_remove_movie_poster').show();
+        });
+        frame.open();
+    });
+
+    // Remove poster
+    $(document).on( 'click', '#wtbm_remove_movie_poster', function () {
+        $('#wtbm_movie_poster_id').val('');
+        $('#wtbm_movie_poste_preview').html('');
+        $(this).hide();
+    });
+
+
     $(document).on('click', '.nav-item', function (e) {
 
         $('.nav-item').removeClass('active');
@@ -10,12 +45,14 @@
 
     });
     $(document).on('click', '#mptrs_add_new_movie', function (e) {
-        addMovie( 'add', 'mptrs_insert_movie_post', '' );
+        let clickedId = $(this);
+        addMovie( 'add', 'mptrs_insert_movie_post', clickedId, '' );
     });
 
     $(document).on('click', '#mptrs_edit_movie', function (e) {
+        let clickedId = $(this);
         let post_id = $(this).attr('data-edited-post-id');
-        addMovie( 'edit', 'wtbm_update_movie_post', post_id );
+        addMovie( 'edit', 'wtbm_update_movie_post', clickedId, post_id );
     });
 
     $(document).on('click', '#wtbp_add_new_theater', function (e) {
@@ -29,16 +66,20 @@
 
     $(document).on('click', '#wtbm_add_new_show_time', function (e) {
         e.preventDefault();
+        let clickBtn = $(this);
+        clickBtn.text('Show Time Adding...');
         let showTimeId = '';
         let action = 'add';
-        addShowtime( action ,showTimeId );
+        addShowtime( action ,showTimeId, clickBtn );
     });
 
     $(document).on('click', '#wtbm_edit_show_time', function (e) {
         e.preventDefault();
+        let clickBtn = $(this);
+        clickBtn.text('Show Time Updating...');
         let showTimeId = $(this).attr( 'data-showTimeId' );
         let action = 'edit';
-        addShowtime( action ,showTimeId );
+        addShowtime( action ,showTimeId, clickBtn );
     });
 
     $(document).on('click', '.wtbpShowHideAddForm', function (e) {
@@ -55,15 +96,22 @@
     });
 
     $(document).on('click', '#wtbp_add_new_pricing_rule', function (e) {
-        addPricingRule( '', 'add' );
+        let clickedBtn = $(this);
+        addPricingRule( 'add', clickedBtn, '' );
     });
 
     $(document).on('click', '#wtbm_edit_pricing_rule', function (e) {
         let pricingId = $(this).attr('data-edit-pricing');
-        addPricingRule( pricingId, 'edit' );
+        let clickedBtn = $(this);
+        addPricingRule('edit', clickedBtn, pricingId );
     });
 
     $(document).on('click', '.wtbm_edit_theater', function (e) {
+        let addEditTheaterForm = $('#wtbmAddTheaterForm');
+        addEditTheaterForm.fadeIn();
+        addEditTheaterForm.empty();
+        let theaterEditLoader = wtbm_add_edit_loader( 'Theater' )
+        addEditTheaterForm.html( theaterEditLoader );
 
         let theaterId = $(this).attr('data-theater-id');
         const theater_rule = {
@@ -77,8 +125,7 @@
             data: theater_rule,
             success: function( response ) {
                 if ( response.success ) {
-                    $('#wtbmAddTheaterForm').html( response.data );
-                    $('#wtbmAddTheaterForm').fadeIn();
+                    addEditTheaterForm.html( response.data );
                 } else {
                     alert("Error: " + response.data);
                 }
@@ -141,6 +188,13 @@
     // });
 
     $(document).on('click', '.wtbm_edit_pricing_rules', function (e) {
+
+        let addPricingForm = $('#wtbm_AddPricingForm');
+        addPricingForm.fadeIn();
+        addPricingForm.empty();
+        let loader = wtbm_add_edit_loader( 'Pricing' );
+        addPricingForm.html( loader );
+
         const show_pricing_rule = {
             action: "wtbm_add_edit_pricing_form",
             post_id: $(this).attr('data-pricing-id'),
@@ -153,7 +207,6 @@
             success: function( response ) {
                 if ( response.success ) {
                     $('#wtbm_AddPricingForm').html( response.data );
-                    $('#wtbm_AddPricingForm').fadeIn();
                 } else {
                     alert("Error: " + response.data);
                 }
@@ -166,6 +219,12 @@
 
     $(document).on('click', '.editwtbm_edit_show_time', function (e) {
         let showTimeId = $(this).attr('data-editShowtime');
+        let addShowtimeForm= $('#wtbm_add-showtime-form');
+        addShowtimeForm.fadeIn();
+        addShowtimeForm.empty();
+        let loader = wtbm_add_edit_loader( 'Showtime' )
+        addShowtimeForm.html( loader );
+
         const show_time_rule = {
             action: "wtbm_add_edit_show_time_form",
             post_id: showTimeId,
@@ -177,8 +236,7 @@
             data: show_time_rule,
             success: function( response ) {
                 if ( response.success ) {
-                    $('#wtbm_add-showtime-form').html( response.data );
-                    $('#wtbm_add-showtime-form').fadeIn();
+                    addShowtimeForm.html( response.data );
                 } else {
                     alert("Error: " + response.data);
                 }
@@ -190,7 +248,22 @@
 
     });
 
+    function wtbm_add_edit_loader( titleText = '' ){
+        return `<div class="wtbm_add_edit_loader_holder">
+                    <h2>${titleText} Editor Loading ...</h2>
+                </div>`;
+    }
+
     $(document).on('click', '.wtbm_edit_movie', function (e) {
+        let wtbm_novieAddForm = $('#add-movie-form');
+        let addEditMovieForm = $('#wtbm_add_edit_movie_form_holder');
+        addEditMovieForm.empty();
+
+        let loader = wtbm_add_edit_loader( 'Movie' )
+        addEditMovieForm.html( loader );
+
+
+        wtbm_novieAddForm.fadeIn();
 
         let postId = $(this).attr('data-edit-movie-id');
         const sent_data = {
@@ -204,8 +277,8 @@
             data: sent_data,
             success: function( response ) {
                 if ( response.success ) {
-                    $('#wtbm_add_edit_movie_form_holder').html( response.data );
-                    $('#add-movie-form').fadeIn();
+                    addEditMovieForm.html( response.data );
+                    // $('#add-movie-form').fadeIn();
                 } else {
                     alert("Error: " + response.data);
                 }
@@ -217,7 +290,18 @@
 
     });
 
-    function addMovie( action_type, action, post_id, edited_movie ) {
+    function addMovie( action_type, action, clickedId, post_id ) {
+
+        let afterClickBtnText = '';
+        let beforeClickBtnText = '';
+        if( action_type === 'add' ){
+            afterClickBtnText = 'Adding New Movie...';
+            beforeClickBtnText = 'Add Movie';
+        }else{
+            afterClickBtnText = 'Movie Updating...';
+            beforeClickBtnText = 'Update Movie';
+        }
+        clickedId.text( afterClickBtnText );
 
         let response_type = 'Added';
         const isChecked = $("#wtbm_movie_active").is(":checked");
@@ -230,6 +314,7 @@
             rating: $("#movie-rating").val(),
             release_date: $("#movie-release-date").val(),
             poster: $("#movie-poster").val(),
+            poster_id: $("#wtbm_movie_poster_id").val(),
             description: $("#movie-description").val(),
             status: "publish",
             _ajax_nonce: mptrs_admin_ajax.nonce
@@ -237,6 +322,7 @@
 
         // console.log( movieData );
 
+        let edited_movie = '';
         if( action_type === 'edit' ){
             movieData.post_id = post_id;
             response_type = 'Edited';
@@ -251,6 +337,7 @@
                 if (response.success) {
                     let movie_id = response.data.ID;
                     $("#"+edited_movie).hide();
+                    clickedId.text( beforeClickBtnText );
                     alert("Movie : "+response_type+' '+ response.data.post_title);
                     renderMoviesTable( movieData, movie_id );
 
@@ -427,7 +514,7 @@
         return hash.slice(0, length);
     }
 
-    function addShowtime( action_type, showTimeId ) {
+    function addShowtime( action_type, showTimeId, clickBtn ) {
 
         let action = '';
         if( showTimeId ){
@@ -463,11 +550,13 @@
                     if( action_type === 'add' ){
                         alert(" Show Time Added ");
                         $("#showtimes-table-body").prepend( response.data );
+                        clickBtn.text('Add Showtime');
                     }else{
                         let edited_show_time = 'show_time_content_'+showTimeId;
                         $( "#"+edited_show_time ).fadeOut();
 
                         $("#showtimes-table-body").prepend( response.data );
+                        clickBtn.text('Update Showtime');
                         alert(" Show Time Updated ");
                     }
                     clearForm( "#wtbm_add-showtime-form" );
@@ -501,10 +590,23 @@
         hiddenInput.val(selected.join(","));
     });
 
-    function addPricingRule( post_id, action_type ) {
+    function addPricingRule( action_type, clickedBtn, post_id ) {
         const name = $('#pricing-name').val();
         const type = $('#pricing-type').val();
         const multiplier = parseFloat($('#pricing-multiplier').val());
+
+        let afterClickBtnText = '';
+        let beforeClickBtnText = '';
+        let btnText = '';
+        if( action_type === 'add' ){
+            afterClickBtnText = 'Pricing Rules Adding...';
+            beforeClickBtnText = 'Add Rule';
+        }else{
+            afterClickBtnText = 'Pricing Rules Updating...';
+            beforeClickBtnText = 'Update Rule';
+        }
+
+        clickedBtn.text( afterClickBtnText );
 
         if ( !name || !multiplier ) {
             alert('Please fill in required fields: Name and Price Multiplier');
@@ -575,6 +677,8 @@
                         alert("Pricing Rules Updated: " );
                         $("#pricing-table-body").prepend( response.data );
                     }
+
+                    clickedBtn.text( beforeClickBtnText );
                     clearForm( "#wtbm_AddPricingForm" );
 
 
@@ -586,12 +690,19 @@
                 alert("Something went wrong!");
             }
         });
-
-        alert(`Pricing rule "${name}" added successfully!`);
     }
     function showAddMovieForm( clickedId ) {
         if( clickedId === 'wtbpAddedMovieForm' ){
-            // let aaa = $(this).closest('#wtbm_movies_content').find('#mptrs_add_new_movie').length;
+
+            let wtbm_novieAddForm = $('#add-movie-form');
+            wtbm_novieAddForm.fadeIn();
+            let addEditMovieForm = $('#wtbm_add_edit_movie_form_holder');
+
+            addEditMovieForm.empty();
+            let movieFormLoader = wtbm_add_edit_loader( 'Movie' )
+            addEditMovieForm.html( movieFormLoader );
+
+
             const rule = {
                 action: "wtbp_add_edit_movie_form",
                 _ajax_nonce: mptrs_admin_ajax.nonce,
@@ -602,8 +713,7 @@
                 data: rule,
                 success: function( response ) {
                     if ( response.success ) {
-                        $('#wtbm_add_edit_movie_form_holder').html( response.data );
-                        $('#add-movie-form').fadeIn();
+                        addEditMovieForm.html( response.data );
                     } else {
                         alert("Error: " + response.data);
                     }
@@ -613,6 +723,13 @@
                 }
             });
         }else if( clickedId === 'wtbpTheaterAddForm' ){
+            let wtbm_theaterAddForm = $('#wtbmAddTheaterForm');
+            wtbm_theaterAddForm.fadeIn();
+
+            wtbm_theaterAddForm.empty();
+            let movieFormLoader = wtbm_add_edit_loader( 'Theater' );
+            wtbm_theaterAddForm.html( movieFormLoader );
+
 
             const theater_rule = {
                 action: "wtbp_add_edit_theater_form",
@@ -625,8 +742,7 @@
                 data: theater_rule,
                 success: function( response ) {
                     if ( response.success ) {
-                        $('#wtbmAddTheaterForm').html( response.data );
-                        $('#wtbmAddTheaterForm').fadeIn();
+                        wtbm_theaterAddForm.html( response.data );
                     } else {
                         alert("Error: " + response.data);
                     }
@@ -637,6 +753,13 @@
             });
 
         }else if( clickedId === 'wtbpShowtimeAddForm' ){
+
+            let wtbm_showTimeAddForm = $('#wtbm_add-showtime-form');
+            wtbm_showTimeAddForm.fadeIn();
+
+            wtbm_showTimeAddForm.empty();
+            let wtbm_showTimeLoader = wtbm_add_edit_loader( 'Showtime' );
+            wtbm_showTimeAddForm.html( wtbm_showTimeLoader );
 
             const show_time_rule = {
                 action: "wtbm_add_edit_show_time_form",
@@ -649,8 +772,7 @@
                 data: show_time_rule,
                 success: function( response ) {
                     if ( response.success ) {
-                        $('#wtbm_add-showtime-form').html( response.data );
-                        $('#wtbm_add-showtime-form').fadeIn();
+                        wtbm_showTimeAddForm.html( response.data );
                     } else {
                         alert("Error: " + response.data);
                     }
@@ -662,6 +784,13 @@
 
 
         }else if( clickedId === 'wtbpPricingAddForm' ){
+            let wtbm_pricingAddForm = $('#wtbm_AddPricingForm');
+            wtbm_pricingAddForm.fadeIn();
+
+            wtbm_pricingAddForm.empty();
+            let wtbm_pricingLoader = wtbm_add_edit_loader( 'Pricing' );
+            wtbm_pricingAddForm.html( wtbm_pricingLoader );
+
 
             const show_pricing_rule = {
                 action: "wtbm_add_edit_pricing_form",
@@ -674,8 +803,7 @@
                 data: show_pricing_rule,
                 success: function( response ) {
                     if ( response.success ) {
-                        $('#wtbm_AddPricingForm').html( response.data );
-                        $('#wtbm_AddPricingForm').fadeIn();
+                        wtbm_pricingAddForm.html( response.data );
                     } else {
                         alert("Error: " + response.data);
                     }

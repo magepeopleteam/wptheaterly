@@ -80,6 +80,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     'rating'      => get_post_meta( get_the_ID(), 'wtbp_movie_rating', true ),
                     'releaseDate' => get_post_meta( get_the_ID(), 'wtbp_movie_release_date', true ),
                     'poster'      => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
+                    'poster_id'   => get_post_meta( get_the_ID(), 'wtbp_movie_poster_id', true ),
                     'status'      => get_post_meta( get_the_ID(), 'wtbp_movie_active', true ) ?: false,
                 ];
             }
@@ -326,14 +327,15 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
         public static function add_edit_new_movie_html( $add, $data = [] ) {
             $defaults = [
-                'id'       => '',
+                'id'          => '',
                 'title'       => '',
                 'genre'       => '',
-                'status'       => false,
+                'status'      => false,
                 'duration'    => '',
                 'rating'      => '',
                 'releaseDate' => '',
                 'poster'      => '',
+                'poster_id'   => '',
                 'description' => '',
             ];
             $data = wp_parse_args( $data, $defaults );
@@ -383,13 +385,22 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                value="<?php echo esc_attr( $data['releaseDate'] ); ?>">
                     </div>
 
-
-                    <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'Poster URL', 'theaterly' ); ?></label>
-                        <input type="url" id="movie-poster" class="form-input"
-                               placeholder="https://..."
-                               value="<?php echo esc_url( $data['poster'] ); ?>">
+                    <input type="hidden" id="wtbm_movie_poster_id" name="wtbm_movie_poster_id"
+                           value="<?php echo esc_attr( $data['poster'] ); ?>">
+                    <div id="wtbm_movie_poste_preview" style="margin-bottom:10px;">
+                        <?php if ( ! empty( $data['poster_id'] ) ) : ?>
+                            <img src="<?php echo esc_url( wp_get_attachment_url( $data['poster_id'] ) ); ?>"
+                                 style="max-width:150px; height:auto;" />
+                        <?php endif; ?>
                     </div>
+                    <button type="button" class="button" id="wtbm_upload_movie_poster">
+                        <?php esc_html_e( 'Upload Poster', 'theaterly' ); ?>
+                    </button>
+                    <button type="button" class="button" id="wtbm_remove_movie_poster"
+                            style="<?php echo empty( $data['poster_id'] ) ? 'display:none;' : ''; ?>">
+                        <?php esc_html_e( 'Remove', 'theaterly' ); ?>
+                    </button>
+
                 </div>
 
                 <!-- Active -->
@@ -450,8 +461,6 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $releaseDate = esc_html( $movie['releaseDate'] );
                 $poster      = esc_url( $movie['poster'] );
                 $status      = esc_html( $movie['status'] );
-
-                error_log( print_r( [ '$movie' => $movie ], true ) );
                 ?>
                 <tr class="wtbm_movie_content" id="movie_content_<?php echo esc_attr( $id );?>" date-movie-id="<?php echo esc_attr( $id );?>">
                     <td>

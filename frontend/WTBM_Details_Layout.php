@@ -267,10 +267,7 @@
                         $current_movie_id = intval( $current_movie_id );
                         $theater_id = intval( $theater_id );
                         if ( $current_movie_id === intval( $movie_id ) ) {
-
                             $dayName = strtolower( date( 'l', strtotime($date ) ) );
-                            error_log( print_r( [ '$current_movie_id' => $current_movie_id ,'$show_time_start' =>$show_time_start ,'$showtime_off_days' => $showtime_off_days, '$dayName' =>$dayName ], true ) );
-
                             if ( ! isset( $showtimes[ $theater_id ] ) ) {
                                 $showtimes[ $theater_id ] = array();
                             }

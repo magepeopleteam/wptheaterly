@@ -201,21 +201,22 @@
     function wtbm_time_slot_click_make_empty( click_btn ){
 
         if(  click_btn === 'wtbm_date' ){
-            $("#wtbm_movieName").text('');
-            $("#wtbm_movieDuration").text('Select a movie');
+            let selectMovie = `<div id="wtbm_movieName" style="width: 60px; height: 80px; background: #ddd; border-radius: 8px; margin-bottom: 15px;"></div>
+                                <div id="wtbm_movieDuration" style="color: #666;">Select a movie</div>`;
+            $("#wtbm_selectedMovieDisplay").html( selectMovie );
         }
 
         if( click_btn === 'wtbm_movie' || click_btn === 'wtbm_date' ){
-            $("#wtbm_summaryTheaterName").text( '--' );
-            $("#wtbm_summaryTimeSlot").text('--');
-
+            $("#wtbm_summaryTheaterName").text( '—' );
+            $("#wtbm_summaryTimeSlot").text('—');
             $("#wtbm_summeryTheaterId").val( '' );
             $("#wtbm_summeryTime").val( '' );
         }
 
         $("#wtbm_summaryQuantity").text( 0 );
         $("#wtbm_summaryTotal").text( 0+''+wtbm_ajax.wc_currency_symbol );
-        $("#wtbm_summarySeats").text('--' );
+        $("#wtbm_summarySeats").text('—' );
+
         $("#wtbm_summeryTotalAmount").val( 0 );
         $("#wtbm_summerySeatNumber").val( "" );
         $("#wtbm_summerySeatIds").val( "" );
