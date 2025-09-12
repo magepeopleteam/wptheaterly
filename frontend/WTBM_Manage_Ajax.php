@@ -113,8 +113,6 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                     'user_phone_num' => sanitize_text_field($_POST['userPhoneNum']),
                 ];
 
-                error_log( print_r( [ '$cart_item_data' => $cart_item_data ], true ) );
-
                 if (!class_exists('WC_Cart')) {
                     wp_send_json_error('WooCommerce is not active.');
                 }

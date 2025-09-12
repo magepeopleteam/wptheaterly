@@ -50,7 +50,6 @@
 
                 if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
                     $movie_data = self::get_movies_data_by_ids( $movie_ids );
-                    error_log( print_r( [ '$movie_data' => $movie_data ], true ) );
 
                     $total_movie = count( $movie_data );
 
