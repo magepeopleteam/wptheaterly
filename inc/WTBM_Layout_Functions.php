@@ -33,16 +33,18 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
             while ( $query->have_posts() ) {
                 $query->the_post();
-
+                $poster_id   = get_post_meta( get_the_ID(), 'wtbp_movie_poster_id', true );
                 $movie_data[] = [
-                    'id'          => get_the_ID(),
-                    'title'       => get_the_title(),
-                    'genre'       => get_post_meta( get_the_ID(), 'wtbp_movie_genre', true ),
-                    'duration'    => get_post_meta( get_the_ID(), 'wtbp_movie_duration', true ),
-                    'rating'      => get_post_meta( get_the_ID(), 'wtbp_movie_rating', true ),
-                    'releaseDate' => get_post_meta( get_the_ID(), 'wtbp_movie_release_date', true ),
-                    'poster'      => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
-                    'status' => get_post_meta( get_the_ID(), 'wtbp_movie_active', true ) == 'true' ? 'active' : 'inactive',
+                    'id'                => get_the_ID(),
+                    'title'             => get_the_title(),
+                    'genre'             => get_post_meta( get_the_ID(), 'wtbp_movie_genre', true ),
+                    'duration'          => get_post_meta( get_the_ID(), 'wtbp_movie_duration', true ),
+                    'rating'            => get_post_meta( get_the_ID(), 'wtbp_movie_rating', true ),
+                    'releaseDate'       => get_post_meta( get_the_ID(), 'wtbp_movie_release_date', true ),
+                    'poster'            => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
+                    'poster_image_url'  => esc_url( wp_get_attachment_url( $poster_id ) ),
+                    'poster_id'         => get_post_meta( get_the_ID(), 'wtbp_movie_poster_id', true ),
+                    'status'            => get_post_meta( get_the_ID(), 'wtbp_movie_active', true ) == 'true' ? 'active' : 'inactive',
 
                 ];
             }
@@ -441,31 +443,37 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
             foreach ( $movie_data as $movie ) {
                 $defaults = [
-                    'id'       => '',
-                    'title'       => '',
-                    'genre'       => '',
-                    'duration'    => '',
-                    'rating'      => '',
-                    'releaseDate' => '',
-                    'poster'      => 'https://via.placeholder.com/200x300/4A90E2/ffffff?text=No+Poster',
-                    'status'      => 'active',
+                    'id'                => '',
+                    'title'             => '',
+                    'genre'             => '',
+                    'duration'          => '',
+                    'rating'            => '',
+                    'releaseDate'       => '',
+                    'poster_image_url'  => '',
+                    'poster'            => 'https://via.placeholder.com/200x300/4A90E2/ffffff?text=No+Poster',
+                    'status'            => 'active',
                 ];
                 $movie = wp_parse_args( $movie, $defaults );
 
                 // Escape outputs
-                $id          = esc_html( $movie['id'] );
-                $title       = esc_html( $movie['title'] );
-                $genre       = esc_html( $movie['genre'] );
-                $duration    = esc_html( $movie['duration'] );
-                $rating      = esc_html( $movie['rating'] );
-                $releaseDate = esc_html( $movie['releaseDate'] );
-                $poster      = esc_url( $movie['poster'] );
-                $status      = esc_html( $movie['status'] );
+                $id             = esc_html( $movie['id'] );
+                $title          = esc_html( $movie['title'] );
+                $genre          = esc_html( $movie['genre'] );
+                $duration       = esc_html( $movie['duration'] );
+                $rating         = esc_html( $movie['rating'] );
+                $releaseDate    = esc_html( $movie['releaseDate'] );
+                $poster         = esc_url( $movie['poster'] );
+                $poster_img_url = esc_url( $movie['poster_image_url'] );
+                $status         = esc_html( $movie['status'] );
+
+                if( $poster_img_url === '' ){
+                    $poster_img_url = $poster;
+                }
                 ?>
                 <tr class="wtbm_movie_content" id="movie_content_<?php echo esc_attr( $id );?>" date-movie-id="<?php echo esc_attr( $id );?>">
                     <td>
                         <div class="flex items-center">
-                            <img src="<?php echo $poster; ?>"
+                            <img src="<?php echo $poster_img_url; ?>"
                                  alt="<?php echo $title; ?>"
                                  class="movie-poster" loading="lazy">
                             <div>

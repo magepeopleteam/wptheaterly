@@ -338,8 +338,8 @@
                     let movie_id = response.data.ID;
                     $("#"+edited_movie).hide();
                     clickedId.text( beforeClickBtnText );
-                    alert("Movie : "+response_type+' '+ response.data.post_title);
-                    renderMoviesTable( movieData, movie_id );
+                    alert("Movie : "+response_type+' '+ response.data.title);
+                    renderMoviesTable( response.data, movie_id );
 
                     clearForm( "#add-movie-form" );
                 } else {
@@ -823,7 +823,7 @@
                         <tr class="wtbm_movie_content" id="movie_content_${movie_id}" data-movie-id="${movie_id}">
                             <td>
                                 <div class="flex items-center">
-                                    <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" loading="lazy">
+                                    <img src="${movie.poster_image_url}" alt="${movie.title}" class="movie-poster" loading="lazy">
                                     <div>
                                         <div class="font-medium text-gray-900">${movie.title}</div>
                                         ${movie.release_date ? `<div class="text-sm text-gray-500">Released: ${movie.release_date}</div>` : ''}

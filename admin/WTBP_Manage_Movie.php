@@ -99,16 +99,16 @@ if (!class_exists('WTBP_Manage_Movie')) {
         function wtbm_update_movie_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
             $cpt = MPTRS_Function::get_movie_cpt();
-            $title       = sanitize_text_field( $_POST['title']);
-            $genre       = sanitize_text_field( $_POST['genre']);
-            $duration    = sanitize_text_field( $_POST['duration']);
-            $rating      = floatval($_POST['rating']);
-            $releaseDate = sanitize_text_field($_POST['release_date']);
-            $poster      = esc_url_raw($_POST['poster']);
+            $title          = sanitize_text_field( $_POST['title']);
+            $genre          = sanitize_text_field( $_POST['genre']);
+            $duration       = sanitize_text_field( $_POST['duration']);
+            $rating         = floatval($_POST['rating']);
+            $releaseDate    = sanitize_text_field($_POST['release_date']);
+            $poster         = isset( $_POST['poster'] ) ? esc_url_raw( $_POST['poster'] ) : '';
             $poster_id      = sanitize_textarea_field($_POST['poster_id']);
-            $description = sanitize_textarea_field($_POST['description']);
-            $post_id     = isset($_POST['post_id']) ? intval($_POST['post_id']) : '';
-            $active      = sanitize_textarea_field($_POST['active']);
+            $description    = sanitize_textarea_field($_POST['description']);
+            $post_id        = isset($_POST['post_id']) ? intval($_POST['post_id']) : '';
+            $active         = sanitize_textarea_field($_POST['active']);
             $post_data = [
                 'post_title'   => $title,
                 'post_type'    => $cpt,
@@ -120,15 +120,28 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 $post_data['ID'] = $post_id;
                 $updated_post_id = wp_update_post( $post_data );
                 // Save meta data
-                update_post_meta($post_id, 'wtbp_movie_genre', $genre);
-                update_post_meta($post_id, 'wtbp_movie_duration', $duration);
-                update_post_meta($post_id, 'wtbp_movie_rating', $rating);
-                update_post_meta($post_id, 'wtbp_movie_release_date', $releaseDate);
-                update_post_meta($post_id, 'wtbp_movie_poster', $poster);
-                update_post_meta($post_id, 'wtbp_movie_active', $active);
-                update_post_meta($post_id, 'wtbp_movie_poster_id', $poster_id);
+                update_post_meta( $post_id, 'wtbp_movie_genre', $genre );
+                update_post_meta( $post_id, 'wtbp_movie_duration', $duration );
+                update_post_meta( $post_id, 'wtbp_movie_rating', $rating );
+                update_post_meta( $post_id, 'wtbp_movie_release_date', $releaseDate );
+                update_post_meta( $post_id, 'wtbp_movie_poster', $poster );
+                update_post_meta( $post_id, 'wtbp_movie_active', $active );
+                update_post_meta( $post_id, 'wtbp_movie_poster_id', $poster_id );
 
-                wp_send_json_success( get_post( $post_id ) );
+                $new_movie = array(
+                    'movie_id'          => $post_id,
+                    'title'             => $title,
+                    'active'            => $active,
+                    'genre'             => $genre,
+                    'duration'          => $duration,
+                    'rating'            => $rating,
+                    'release_date'      => $releaseDate,
+                    'poster_image_url'  => esc_url( wp_get_attachment_url( $poster_id ) ),
+                    'description'       => $title,
+                    'status'            => 'publish',
+                );
+
+                wp_send_json_success( $new_movie );
             } else {
                 wp_send_json_error("Failed to Edit post");
             }

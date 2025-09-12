@@ -50,6 +50,8 @@
 
                 if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
                     $movie_data = self::get_movies_data_by_ids( $movie_ids );
+                    error_log( print_r( [ '$movie_data' => $movie_data ], true ) );
+
                     $total_movie = count( $movie_data );
 
                     ob_start(); ?>
@@ -60,7 +62,11 @@
                                  data-movie-name="<?php echo esc_attr( $movie['title'] );?>"
                                  data-movie-id="<?php echo esc_attr( $movie['movie_id'] );?>"
                                  data-movie-duration="<?php echo esc_attr( $movie['movie_duration'] );?>">
-                                <div class="wtbm_booking_movies_poster">🎬</div>
+                                <?php if( $movie['poster_image_url'] ){?>
+                                    <div class="wtbm_booking_movies_poster"><img src="<?php echo esc_attr( $movie['poster_image_url'] );?>" alt="<?php echo esc_attr( $movie['title'] );?>" style="width: 100%;height: 100%"></div>
+                                <?php }else{?>
+                                    <div class="wtbm_booking_movies_poster">🎬</div>
+                                <?php }?>
                                 <div class="wtbm_booking_movies_info">
                                     <div class="wtbm_booking_movies_title"><?php echo esc_attr( $movie['title'] );?></div>
                                     <div class="wtbm_booking_movies_details">
@@ -129,6 +135,7 @@
                         $query->the_post();
                         $post_id = get_the_ID();
 
+                        $poster_id = get_post_meta( $post_id, 'wtbp_movie_poster_id', true );
                         $movies_data[] = array(
                             'movie_id'          => $post_id,
                             'movie_description' => get_the_content(),
@@ -140,6 +147,7 @@
                             'movie_duration'    => get_post_meta( $post_id, 'wtbp_movie_duration', true ),
                             'movie_genre'       => get_post_meta( $post_id, 'wtbp_movie_genre', true ),
                             'link_product_id'   => get_post_meta( $post_id, 'link_wc_product', true ),
+                            'poster_image_url'  => esc_url( wp_get_attachment_url( $poster_id ) ),
                         );
                     }
                 }
