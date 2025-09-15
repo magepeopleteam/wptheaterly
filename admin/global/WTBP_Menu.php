@@ -45,10 +45,10 @@ if( !class_exists( 'WTBP_Menu' ) ) {
          */
         public function main_menu_page() {?>
 
-            <div class="container">
+            <div class="container mptrs-admin">
                 <div class="sidebar">
                     <div class="sidebar-header">
-                        <h1 class="sidebar-title">⚙️ <?php esc_attr_e( 'CineMax Admin', 'wptheaterly' ); ?></h1>
+                        <h1 class="sidebar-title"><i class="mi mi-settings"></i> <?php esc_attr_e( 'Theaterly', 'wptheaterly' ); ?></h1>
                     </div>
 
                     <nav class="nav-menu">

@@ -47,6 +47,7 @@
 				wp_enqueue_style('mptrs_global', MPTRS_PLUGIN_URL . '/assets/mp_style/mptrs_global.css', array(), time());
 				wp_enqueue_script('mptrs_global', MPTRS_PLUGIN_URL . '/assets/mp_style/mptrs_global.js',  ['jquery'], time());
 				do_action('add_mptrs_global_enqueue');
+				wp_enqueue_style('mage-icons', MPTRS_PLUGIN_URL . '/assets/mage-icon/css/mage-icon.css', array(), time());
 			}
 			public function admin_scripts() {
 				$this->global_enqueue();
