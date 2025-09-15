@@ -57,10 +57,10 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                     <div class="section-header">
                         <div>
                             <h3 class="section-title"><?php echo esc_attr( $header_title );?></h3>
-                            <p class="text-sm text-gray-500" id="bookings-count">Total: <?php echo esc_attr( $total_booking );?> bookings</p>
+                            <p class="text-sm text-gray-500" id="bookings-count">Total: <?php echo esc_attr( $total_booking );?> <?php esc_attr_e( 'bookings', 'wptheaterly' ); ?></p>
                         </div>
                         <button class="btn btn-secondary" onclick="toggleFilters()">
-                            🔍 Filters
+                            🔍 <?php esc_attr_e( 'Filters', 'wptheaterly' ); ?>
                         </button>
                     </div>
                 </div>

@@ -46,6 +46,16 @@
 				wp_enqueue_script('mp_owl_carousel', MPTRS_PLUGIN_URL . '/assets/owl_carousel/owl.carousel.min.js', array(), '2.3.4',true);
 				wp_enqueue_style('mptrs_global', MPTRS_PLUGIN_URL . '/assets/mp_style/mptrs_global.css', array(), time());
 				wp_enqueue_script('mptrs_global', MPTRS_PLUGIN_URL . '/assets/mp_style/mptrs_global.js',  ['jquery'], time());
+
+                wp_enqueue_style('wtbm_registration', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_registration.css', [], time());
+                wp_enqueue_style('wtbm_seat_mapping', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_seat_mapping.css', [], time());
+                wp_enqueue_script('wtbm_registration', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_registration.js', ['jquery'], time(), true);
+                wp_localize_script('wtbm_registration', 'wtbm_ajax', array(
+                    'ajax_url' => admin_url('admin-ajax.php'),
+                    'nonce'    => wp_create_nonce('wtbm_nonce'),
+                    'site_url' => get_site_url(),
+                    'wc_currency_symbol' => '',
+                ));
 				do_action('add_mptrs_global_enqueue');
 			}
 			public function admin_scripts() {
@@ -87,15 +97,7 @@
                 $currency_symbol = get_woocommerce_currency_symbol();
 				wp_enqueue_style('mptrs', MPTRS_PLUGIN_URL . '/assets/frontend/mptrs.css', [], time());
 				wp_enqueue_script('mptrs', MPTRS_PLUGIN_URL . '/assets/frontend/mptrs.js', ['jquery'], time(), true);
-				wp_enqueue_style('wtbm_registration', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_registration.css', [], time());
-				wp_enqueue_style('wtbm_seat_mapping', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_seat_mapping.css', [], time());
-				wp_enqueue_script('wtbm_registration', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_registration.js', ['jquery'], time(), true);
-				wp_localize_script('wtbm_registration', 'wtbm_ajax', array(
-					'ajax_url' => admin_url('admin-ajax.php'),
-					'nonce'    => wp_create_nonce('wtbm_nonce'),
-                    'site_url' => get_site_url(),
-                    'wc_currency_symbol' => $currency_symbol,
-				));
+
 				do_action('add_mptrs_frontend_script');
 			}
 			public function add_admin_head() {

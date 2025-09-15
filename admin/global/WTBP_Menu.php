@@ -67,6 +67,9 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                         <button class="nav-item" data-tab="wtbm_bookings">
                             👥 <?php esc_attr_e( 'Bookings', 'wptheaterly' ); ?>
                         </button>
+                        <button class="nav-item" data-tab="wtbm_new_ticket_sale">
+                            👥 <?php esc_attr_e( 'New Ticket Sale', 'wptheaterly' ); ?>
+                        </button>
                     </nav>
                 </div>
 
@@ -242,6 +245,10 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                     <!-- Bookings Tab -->
                     <?php
                         do_action( 'wtbm_bookings_content', 'Booking Management' );
+                    ?>
+
+                    <?php
+                        do_action( 'wtbm_new_ticket_booking', 'New Ticket Booking' );
                     ?>
 
                 </div>
