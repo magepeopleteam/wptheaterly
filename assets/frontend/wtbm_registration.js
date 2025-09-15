@@ -319,6 +319,8 @@
             userPhoneNum: userPhoneNum,
             nonce: wtbm_ajax.nonce,
         };
+
+        $("#wtbm_seatsGrid").empty();
         $.ajax({
             type: 'POST',
             url: wtbm_ajax.ajax_url,
@@ -337,6 +339,13 @@
                     wtbm_seatBookedName = [];
                     wtbm_total_price = 0;
                     wtbm_total_seat_count = 0;
+
+                    if( response.data.seat_map  ) {
+                        $("#wtbm_seatsGrid").html(response.data.seat_map);
+                    }else{
+                        $("#wtbm_seatsGrid").html( '<h6>No Movies Found</h6>');
+                    }
+
                 } else {
                     alert(response.data);
                     button.text('Add to Cart');

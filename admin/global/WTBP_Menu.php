@@ -68,7 +68,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                             👥 <?php esc_attr_e( 'Bookings', 'wptheaterly' ); ?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_new_ticket_sale">
-                            👥 <?php esc_attr_e( 'New Ticket Sale', 'wptheaterly' ); ?>
+                            🎟️ <?php esc_attr_e( 'New Ticket Sale', 'wptheaterly' ); ?>
                         </button>
                     </nav>
                 </div>

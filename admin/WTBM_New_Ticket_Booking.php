@@ -30,7 +30,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                 wp_send_json_error('Invalid movie or product.');
             }
 
-//            error_log( print_r( [ '$_POST' => $_POST ], true ) );
+            $seat_map = '';
 
             $quantity = 1;
             $wtbm_movie_id = $original_post_id;
@@ -94,11 +94,26 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
 
                 MPTRS_Woocommerce::add_cpt_data('wtbm_booking', $booking_data['wtbm_billing_name'], $booking_data );
 
+
+                if( $theater_id && $wtbm_movie_id &&  $booking_date && $booking_time ){
+                    $not_available = WTBM_Manage_Ajax::getAvailableSeats( $theater_id, $wtbm_movie_id, $booking_date, $booking_time );
+                }else{
+                    $not_available = [];
+                }
+
+                if( $theater_id ){
+                    $seat_map = WTBM_Details_Layout::display_theater_seat_mapping( $theater_id, $not_available );
+                }
+
+//                error_log( print_r( [ '$seat_map' => $seat_map ], true ) );
+
+
             }
 
             wp_send_json_success(array(
                 'message' => 'Order placed successfully!',
-                'order_id' => $order->get_id()
+                'order_id' => $order->get_id(),
+                'seat_map' => $seat_map,
             ));
         }
 
