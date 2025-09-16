@@ -53,19 +53,19 @@ if( !class_exists( 'WTBP_Menu' ) ) {
 
                     <nav class="nav-menu">
                         <button class="nav-item active" data-tab="wtbm_movies">
-                            🎬 <?php esc_attr_e( 'Movies', 'wptheaterly' ); ?>
+                            <i class="mi mi-films"></i> <?php esc_attr_e( 'Movies', 'wptheaterly' ); ?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_theaters">
-                            🏛️ <?php esc_attr_e( 'Theaters', 'wptheaterly' ); ?>
+                            <i class="mi mi-bank"></i> <?php esc_attr_e( 'Theaters', 'wptheaterly' ); ?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_showtimes">
-                            📅 <?php esc_attr_e( 'Showtimes', 'wptheaterly' ); ?>
+                            <i class="mi mi-calendar-clock"></i> <?php esc_attr_e( 'Showtimes', 'wptheaterly' ); ?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_pricing">
-                            💰 <?php esc_attr_e( 'Pricing', 'wptheaterly' ); ?>
+                            <i class="mi mi-coins"></i> <?php esc_attr_e( 'Pricing', 'wptheaterly' ); ?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_bookings">
-                            👥 <?php esc_attr_e( 'Bookings', 'wptheaterly' ); ?>
+                            <i class="mi mi-calendar-check"></i> <?php esc_attr_e( 'Bookings', 'wptheaterly' ); ?>
                         </button>
                     </nav>
                 </div>
@@ -84,7 +84,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                             <div class="section-header">
                                 <h3 class="section-title"><?php esc_attr_e( 'Movies Management', 'wptheaterly' ); ?></h3>
                                 <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpAddedMovieForm">
-                                    ➕ <?php esc_attr_e( 'Add Movie', 'wptheaterly' ); ?>
+                                    <i class="mi mi-plus"></i> <?php esc_attr_e( 'Add Movie', 'wptheaterly' ); ?>
                                 </button>
                             </div>
                         </div>
@@ -124,7 +124,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                             <div class="section-header">
                                 <h3 class="section-title"><?php esc_attr_e( 'Theater Management', 'wptheaterly' ); ?></h3>
                                 <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpTheaterAddForm">
-                                    ➕ <?php esc_attr_e( 'Add Theater', 'wptheaterly' ); ?>
+                                    <i class="mi mi-plus"></i> <?php esc_attr_e( 'Add Theater', 'wptheaterly' ); ?>
                                 </button>
                             </div>
                         </div>
@@ -168,7 +168,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                             <div class="section-header">
                                 <h3 class="section-title"><?php esc_attr_e( 'Showtimes Management', 'wptheaterly' ); ?></h3>
                                 <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpShowtimeAddForm">
-                                    ➕ <?php esc_attr_e( 'Add Showtime', 'wptheaterly' ); ?>
+                                    <i class="mi mi-plus"></i> <?php esc_attr_e( 'Add Showtime', 'wptheaterly' ); ?>
                                 </button>
                             </div>
                         </div>
@@ -210,7 +210,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                             <div class="section-header">
                                 <h3 class="section-title"><?php esc_attr_e( 'Pricing Rules', 'wptheaterly' ); ?></h3>
                                 <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpPricingAddForm">
-                                    ➕ <?php esc_attr_e( 'Add Pricing Rule', 'wptheaterly' ); ?>
+                                    <i class="mi mi-plus"></i> <?php esc_attr_e( 'Add Pricing Rule', 'wptheaterly' ); ?>
                                 </button>
                             </div>
                         </div>
