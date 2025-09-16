@@ -320,7 +320,7 @@
             _ajax_nonce: mptrs_admin_ajax.nonce
         };
 
-        // console.log( movieData );
+        console.log( movieData );
 
         let edited_movie = '';
         if( action_type === 'edit' ){
@@ -338,8 +338,10 @@
                     let movie_id = response.data.ID;
                     $("#"+edited_movie).hide();
                     clickedId.text( beforeClickBtnText );
-                    alert("Movie : "+response_type+' '+ response.data.title);
-                    renderMoviesTable( response.data, movie_id );
+                    alert("Movie : "+response_type+' '+ response.data.movie_title);
+
+                    $("#movies-table-body").prepend( response.data.updated_movie );
+                    // renderMoviesTable( response.data, movie_id );
 
                     clearForm( "#add-movie-form" );
                 } else {
@@ -819,6 +821,9 @@
 
     }
     function renderMoviesTable( movie, movie_id ) {
+
+        // console.log( movie );
+
             let movie_html  =  `
                         <tr class="wtbm_movie_content" id="movie_content_${movie_id}" data-movie-id="${movie_id}">
                             <td>
