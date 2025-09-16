@@ -126,7 +126,7 @@
 .wtbm_mappedSeatInfo{
     display: flex;
     flex-wrap: wrap;
-    line-height: 10px;
+    /*line-height: 10px;*/
     margin: 3px 3px 3px 3px;
     font-size: 12px;
     cursor: pointer;
@@ -150,12 +150,12 @@
 .box_selected{
     background-color: #333333;
 }
-.mptrs_seatNumber{
-    position: absolute;
-    top: 10px;
-    left: 8px;
-    color: #e31818;
-    font-weight: bold;
+.mptrs_seatNumberShow{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    padding-top: 25%;
 }
 .mptrs_dynamicShape {
     position: absolute;

@@ -57,7 +57,7 @@
                     <h2 class="wtbm_booking_date_section_title">Select Movie (<?php echo esc_attr( $total_movie );?>)</h2>
                     <div class="wtbm_booking_movies_grid" id="wtbm_moviesGrid">
                         <?php foreach ( $movie_data as $i => $movie ): ?>
-                            <div class="wtbm_booking_movie_card <?php echo $i === 0 ? 'wtbm_movieActive' : ''; ?>"
+                            <div class="wtbm_booking_movie_card"
                                  data-movie-name="<?php echo esc_attr( $movie['title'] );?>"
                                  data-movie-id="<?php echo esc_attr( $movie['movie_id'] );?>"
                                  data-movie-duration="<?php echo esc_attr( $movie['movie_duration'] );?>">
@@ -454,7 +454,7 @@
                                                                         background-image: url('.$icon_url.');
                                                                         width: ' . $width . 'px;
                                                                         height: ' . $height . 'px;">
-                                                                    <span class="mptrs_seatNumber">' . esc_html($seat['seat_number'] ?? '') . '</span>
+                                                                    <span class="mptrs_seatNumberShow">' . esc_html($seat['seat_number'] ?? '') . '</span>
                                                                 </div>
                                                             </div>';
                                     }
