@@ -372,6 +372,7 @@
     border-radius: 0.5rem;
     border: 1px solid #e5e7eb;
     text-align: center;
+    width: 100%;
 }
 
 .stat-value {

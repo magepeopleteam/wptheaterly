@@ -1121,9 +1121,7 @@ label[for="mptrs_deliveryLocation"] {
 }
 [type="button"]:focus, [type="button"]:hover, [type="submit"]:focus, [type="submit"]:hover, button:focus, button:hover,button{
     color: var(--mptrs_color_theme_alter);
-    background-color: var(--mptrs_color_theme);
-    text-decoration:
-            none;
+    text-decoration: none;
 }
 
 #mptrs_foodMenuAddedCart {
