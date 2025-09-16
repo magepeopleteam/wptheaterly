@@ -109,7 +109,7 @@
                                 <span id="wtbm_summarySeatType"><?php esc_attr_e( '--', 'wptheaterly' );?></span>
                             </div>
                             <div class="swtbm_registrationSummaryItem">
-                                <span><?php esc_attr_e( 'Ticket Quantity:', 'wptheaterly' );?></span>
+                                <span style="color:#fff;font-weight:bold"><?php esc_attr_e( 'Ticket Quantity:', 'wptheaterly' );?></span>
                                 <span id="wtbm_summaryQuantity">0</span>
                             </div>
                             <div class="wtbm_registrationSummaryItem">
