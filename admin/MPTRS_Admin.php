@@ -30,6 +30,7 @@
 				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Theater_Seat_Mapping.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Booking_Content.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_New_Ticket_Booking.php';
+				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Sales_Report.php';
 				//*************Global Settings*****************//
 				require_once MPTRS_PLUGIN_DIR . '/admin/global/MPTRS_Setting_API.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/global/MPTRS_Settings_Global.php';

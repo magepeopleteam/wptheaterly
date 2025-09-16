@@ -42,6 +42,43 @@
         let nav_container = nav_name+'_content';
         $("#"+nav_container).fadeIn();
         $(this).addClass('active');
+        let alreadyLoadedBookingIds = [];
+
+        if( nav_name === 'wtbm_bookings' ){
+            let bookingHolder =  $("#wtbm_bookings_table_body");
+            bookingHolder.empty();
+            bookingHolder.html( '<div class="wtbm_booking_loader"><span class="">Booking Data Loading...</span></div>' );
+
+
+            const load_more_rule = {
+                action: "wtbm_get_load_more_booking_data",
+                already_loaded_booking_ids: JSON.stringify( alreadyLoadedBookingIds ),
+                display_limit: 10,
+                _ajax_nonce: mptrs_admin_ajax.nonce,
+            };
+            $.ajax({
+                url: mptrs_admin_ajax.ajax_url,
+                type: "POST",
+                data: load_more_rule,
+                success: function (response) {
+                    if (response.success) {
+
+                        $("#wtbm_showing_number_of_booking").fadeIn();
+                        let total_show = response.data.booking_count;
+                        bookingHolder.html(response.data.booking_data);
+                        $("#wtbm_showing_count").text( total_show );
+                        if( response.data.booking_count > 9 ){
+                            $("#wtbm_booking_load_more_btn").fadeIn();
+                        }
+                    } else {
+                        alert("Error: " + response.data);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Something went wrong!");
+                }
+            });
+        }
 
     });
     $(document).on('click', '#mptrs_add_new_movie', function (e) {
