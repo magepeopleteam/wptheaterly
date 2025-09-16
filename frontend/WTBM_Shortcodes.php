@@ -84,14 +84,14 @@
                             <input type="hidden" name="wtbm_summeryTotalAmount" id="wtbm_summeryTotalAmount" value="">
 
                             <div id="wtbm_selectedMovieDisplay">
-                                <div id="wtbm_movieName" style="width: 60px; height: 80px; background: #ddd; border-radius: 8px; margin-bottom: 15px;"></div>
-                                <div id="wtbm_movieDuration" style="color: #666;"><?php esc_attr_e( 'Select a movie', 'wptheaterly' );?></div>
+                                <div id="wtbm_movieName"></div>
+                                <div id="wtbm_movieDuration"><?php esc_attr_e( 'Select a movie', 'wptheaterly' );?></div>
                             </div>
 
-                            <div class="wtbm_registrationSummaryItem">
+                            <!-- <div class="wtbm_registrationSummaryItem">
                                 <span><?php esc_attr_e( 'Location', 'wptheaterly' );?>:</span>
-                                <span><?php esc_attr_e( 'BSC', 'wptheaterly' );?></span>
-                            </div>
+                                <span><?php esc_attr_e( '--', 'wptheaterly' );?></span>
+                            </div> -->
                             <div class="wtbm_registrationSummaryItem">
                                 <span>Show Date:</span>
                                 <span id="wtbm_summaryDateDisplay"><?php echo esc_attr( $today_date );?></span>
@@ -106,7 +106,7 @@
                             </div>
                             <div class="wtbm_registrationSummaryItem">
                                 <span>Seat Type:</span>
-                                <span id="wtbm_summarySeatType"><?php esc_attr_e( 'Premium', 'wptheaterly' );?></span>
+                                <span id="wtbm_summarySeatType"><?php esc_attr_e( '--', 'wptheaterly' );?></span>
                             </div>
                             <div class="swtbm_registrationSummaryItem">
                                 <span><?php esc_attr_e( 'Ticket Quantity:', 'wptheaterly' );?></span>
@@ -133,7 +133,7 @@
                                 <input type="tel" class="form-input" id="wtbm_getUserPhone" placeholder="Enter mobile number">
                             </div>
                             <button class="purchase-btn" id="wtbm_ticketPurchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
-                            <div style="margin-top: 15px; font-size: 12px; color: #666; text-align: center;">
+                            <div class="purchase-info">
                                 <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>
                             </div>
                         </div>
