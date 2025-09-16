@@ -50,12 +50,12 @@
 
         let click_btn = 'wtbm_movie';
         wtbm_time_slot_click_make_empty( click_btn );
-
+        let movi_poster_url = $(this).find('.wtbm_booking_movies_poster img').attr("src");
         let movie_name = $(this).attr('data-movie-name').trim();
         let movie_duration = $(this).attr('data-movie-duration').trim();
-        let movie_poster = '';
+        let movie_poster = movi_poster_url;
         let selectedMovie = `
-                    <div style="width: 60px; height: 80px; background: linear-gradient(45deg, #ff6b6b, #4ecdc4); border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; font-size: 24px;">${movie_poster}</div>
+                    <div class="selected-movie" style="background-image:url('${movi_poster_url}')"></div>
                     <div id="wtbm_movieName" style="font-weight: bold;">${movie_name}</div>
                     <div id="wtbm_movieDuration" style="color: #666; font-size: 12px;">${movie_duration}</div>
                 `;
@@ -201,8 +201,8 @@
     function wtbm_time_slot_click_make_empty( click_btn ){
 
         if(  click_btn === 'wtbm_date' ){
-            let selectMovie = `<div id="wtbm_movieName" style="width: 60px; height: 80px; background: #ddd; border-radius: 8px; margin-bottom: 15px;"></div>
-                                <div id="wtbm_movieDuration" style="color: #666;">Select a movie</div>`;
+            let selectMovie = `<div id="wtbm_movieName" ></div>
+                                <div id="wtbm_movieDuration">Select a movie</div>`;
             $("#wtbm_selectedMovieDisplay").html( selectMovie );
         }
 

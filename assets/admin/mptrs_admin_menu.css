@@ -1,14 +1,3 @@
-{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: system-ui, -apple-system, sans-serif;
-    background-color: #f9fafb;
-    line-height: 1.6;
-}
 
 .container {
     display: flex;
@@ -26,69 +15,83 @@ body {
 }
 
 .sidebar-header {
-    padding: 1.5rem;
+    padding:10px 15px;
     border-bottom: 1px solid #e5e7eb;
 }
 
 .sidebar-title {
-    font-size: 1.25rem;
     font-weight: bold;
     color: #111827;
 }
 
-.nav-menu {
-    padding: 1rem;
+.mptrs-admin .nav-menu {
+    margin: 10px;
 }
 
-.nav-item {
+.mptrs-admin .nav-item {
     width: 100%;
-    padding: 0.75rem 1rem;
-    margin-bottom: 0.25rem;
+    padding: 15px;
+    margin-bottom:5px;
     background: none;
     border: none;
-    border-radius: 0.5rem;
-    color: #6b7280;
-    font-weight: 500;
+    color: #4e525c;
     cursor: pointer;
     transition: all 0.2s;
     text-align: left;
     display: flex;
     align-items: center;
+    font-size: 16px;
 }
 
-.nav-item:hover {
+.mptrs-admin .nav-item:hover {
     background-color: #f3f4f6;
-    color: #111827;
+    color: var(--mage-primary);
 }
 
-.nav-item.active {
-    background-color: #dbeafe;
-    color: #1d4ed8;
-    border-right: 2px solid #2563eb;
+.mptrs-admin .nav-item.active {
+    color: #fff;
+    background-color: var(--mage-primary);
+    position: relative;
 }
 
-.main-content {
+.mptrs-admin .nav-item.active::after{
+    content: '\f20e';
+    font-family: mageicon;
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    right:-17px;
+    color: var(--mage-primary);
+    font-size:28px;
+}
+
+.mptrs-admin .nav-item i{
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+.mptrs-admin .main-content {
     flex: 1;
     padding: 2rem;
     overflow-y: auto;
 }
 
-.header {
+.mptrs-admin .header {
     margin-bottom: 2rem;
 }
 
-.header h2 {
+.mptrs-admin .header h2 {
     font-size: 1.5rem;
     font-weight: bold;
     color: #111827;
     margin-bottom: 0.25rem;
 }
 
-.header p {
+.mptrs-admin .header p {
     color: #6b7280;
 }
 
-.tab-content {
+.mptrs-admin .tab-content {
     display: none;
 }
 
@@ -96,14 +99,14 @@ body {
     display: block;
 }
 
-.section {
+.mptrs-admin .section {
     background: white;
     border-radius: 0.5rem;
     border: 1px solid #e5e7eb;
     margin-bottom: 1.5rem;
 }
 
-.section-header {
+.mptrs-admin .section-header {
     padding: 1.5rem;
     border-bottom: 1px solid #e5e7eb;
     display: flex;
@@ -118,16 +121,16 @@ body {
     justify-content: flex-start;
 }
 
-.section-title {
+.mptrs-admin .section-title {
     font-size: 1.125rem;
     font-weight: 600;
     color: #111827;
 }
 
-.btn {
-    padding: 0.5rem 1rem;
+.mptrs-admin .btn {
+    padding: 10px;
     border: none;
-    border-radius: 0.5rem;
+    border-radius:5px;
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
@@ -137,64 +140,66 @@ body {
     gap: 0.5rem;
 }
 
-.btn-primary {
-    background-color: #2563eb;
+.mptrs-admin .btn-primary {
+    background-color: var(--mage-primary);
     color: white;
 }
 
-.btn-primary:hover {
-    background-color: #1d4ed8;
+.mptrs-admin .btn-primary:hover {
+    background-color: var(--mage-primary);
+    opacity: .8;
 }
 
-.btn-success {
+.mptrs-admin .btn-success {
     background-color: #059669;
     color: white;
 }
 
-.btn-success:hover {
+.mptrs-admin .btn-success:hover {
     background-color: #047857;
 }
 
-.btn-danger {
+.mptrs-admin .btn-danger {
     background-color: #dc2626;
     color: white;
 }
 
-.btn-danger:hover {
+.mptrs-admin .btn-danger:hover {
     background-color: #b91c1c;
 }
 
-.btn-secondary {
+.mptrs-admin .btn-secondary {
     background-color: #6b7280;
     color: white;
 }
 
-.btn-secondary:hover {
+.mptrs-admin .btn-secondary:hover {
     background-color: #4b5563;
 }
 
-.btn-icon {
+.mptrs-admin .btn-icon {
     background: none;
     border: none;
     padding: 0.25rem;
     border-radius: 0.25rem;
     cursor: pointer;
     color: #6b7280;
+    font-size: 18px;
 }
 
-.btn-icon:hover {
+.mptrs-admin .btn-icon:hover {
     background-color: #f3f4f6;
 }
 
-.btn-icon.edit {
+.mptrs-admin .btn-icon.edit {
     color: #2563eb;
 }
 
-.btn-icon.delete {
+.mptrs-admin .btn-icon.delete {
     color: #dc2626;
 }
 
-.table {
+.mptrs-admin .table {
     width: 100%;
     border-collapse: collapse;
 }
@@ -374,6 +379,7 @@ body {
     border-radius: 0.5rem;
     border: 1px solid #e5e7eb;
     text-align: center;
+    width: 100%;
 }
 
 .stat-value {

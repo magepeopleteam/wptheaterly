@@ -57,6 +57,7 @@
                     'wc_currency_symbol' => '',
                 ));
 				do_action('add_mptrs_global_enqueue');
+				wp_enqueue_style('mage-icons', MPTRS_PLUGIN_URL . '/assets/mage-icon/css/mage-icon.css', array(), time());
 			}
 			public function admin_scripts() {
 				$this->global_enqueue();

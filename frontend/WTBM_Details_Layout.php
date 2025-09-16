@@ -62,7 +62,7 @@
                                  data-movie-id="<?php echo esc_attr( $movie['movie_id'] );?>"
                                  data-movie-duration="<?php echo esc_attr( $movie['movie_duration'] );?>">
                                 <?php if( $movie['poster_image_url'] ){?>
-                                    <div class="wtbm_booking_movies_poster"><img src="<?php echo esc_attr( $movie['poster_image_url'] );?>" alt="<?php echo esc_attr( $movie['title'] );?>" style="width: 100%;height: 100%"></div>
+                                    <div class="wtbm_booking_movies_poster"><img src="<?php echo esc_attr( $movie['poster_image_url'] );?>" alt="<?php echo esc_attr( $movie['title'] );?>" ></div>
                                 <?php }else{?>
                                     <div class="wtbm_booking_movies_poster">🎬</div>
                                 <?php }?>

@@ -319,8 +319,8 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                     </td>
                     <td>
                         <div class="flex gap-2">
-                            <button class="btn-icon edit wtbm_edit_pricing_rules" data-pricing-id="<?php echo intval( $rule['id'] ); ?>" title="Edit Rule">✏️</button>
-                            <button class="btn-icon delete wtbm_delete_pricing_rules" data-pricing-rules-id="<?php echo intval( $rule['id'] ); ?>" title="Delete Rule">🗑️</button>
+                            <button class="btn-icon edit wtbm_edit_pricing_rules" data-pricing-id="<?php echo intval( $rule['id'] ); ?>" title="Edit Rule"><i class="mi mi-pencil"></i></button>
+                            <button class="btn-icon delete wtbm_delete_pricing_rules" data-pricing-rules-id="<?php echo intval( $rule['id'] ); ?>" title="Delete Rule"><i class="mi mi-trash"></i></button>
                         </div>
                     </td>
                 </tr>

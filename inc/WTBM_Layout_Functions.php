@@ -498,9 +498,9 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <td>
                         <div class="flex gap-2">
                             <button class="btn-icon edit wtbm_edit_movie" data-edit-movie-id="<?php echo esc_attr( $id );?>" id="wrbm_edit_<?php echo esc_attr( $id );?>"
-                                    title="<?php esc_attr_e( 'Edit Movie', 'theaterly' ); ?>">✏️</button>
+                                    title="<?php esc_attr_e( 'Edit Movie', 'theaterly' ); ?>"><i class="mi mi-pencil"></i></button>
                             <button class="btn-icon delete wtbm_delete_movie" id="wrbm_delete_<?php echo esc_attr( $id );?>"
-                                    title="<?php esc_attr_e( 'Delete Movie', 'theaterly' ); ?>" data-delete-movie-id="<?php echo esc_attr( $id );?>">🗑️</button>
+                                    title="<?php esc_attr_e( 'Delete Movie', 'theaterly' ); ?>" data-delete-movie-id="<?php echo esc_attr( $id );?>"><i class="mi mi-trash"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -786,13 +786,13 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                     class="btn-icon edit wtbm_edit_theater"
                                     data-theater-id="<?php echo esc_attr( $id ); ?>"
                                     title="<?php esc_attr_e( 'Edit Theater', 'text-domain' ); ?>">
-                                ✏️
+                                <i class="mi mi-pencil"></i>
                             </button>
                             <button
                                     class="btn-icon delete wtbm_delete_theater"
                                     data-delete-theater-id="<?php echo esc_attr( $id ); ?>"
                                     title="<?php esc_attr_e( 'Delete Theater', 'text-domain' ); ?>">
-                                🗑️
+                                <i class="mi mi-trash"></i>
                             </button>
                         </div>
                     </td>

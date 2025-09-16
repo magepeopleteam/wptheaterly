@@ -129,11 +129,11 @@
     /*line-height: 10px;*/
     margin: 3px 3px 3px 3px;
     font-size: 12px;
+
     cursor: pointer;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     border-radius: 5px;
+    padding: 5px;
+    box-sizing: border-box;
 }
 .wtbm_reservedMappedSeatInfo{
     margin: 3px 3px 3px 3px;
@@ -149,6 +149,14 @@
 }
 .box_selected{
     background-color: #333333;
+}
+.mptrs_seatNumber{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    color: #fff;
+    font-weight: bold;
+    transform: translate(-50%,-50%);
 }
 .mptrs_seatNumberShow{
     display: flex;
@@ -1121,9 +1129,7 @@ label[for="mptrs_deliveryLocation"] {
 }
 [type="button"]:focus, [type="button"]:hover, [type="submit"]:focus, [type="submit"]:hover, button:focus, button:hover,button{
     color: var(--mptrs_color_theme_alter);
-    background-color: var(--mptrs_color_theme);
-    text-decoration:
-            none;
+    text-decoration: none;
 }
 
 #mptrs_foodMenuAddedCart {

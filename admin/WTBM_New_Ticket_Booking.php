@@ -194,13 +194,13 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                         <input type="hidden" name="wtbm_summeryTotalAmount" id="wtbm_summeryTotalAmount" value="">
 
                         <div id="wtbm_selectedMovieDisplay">
-                            <div id="wtbm_movieName" style="width: 60px; height: 80px; background: #ddd; border-radius: 8px; margin-bottom: 15px;"></div>
-                            <div id="wtbm_movieDuration" style="color: #666;"><?php esc_attr_e( 'Select a movie', 'wptheaterly' );?></div>
+                            <div id="wtbm_movieName"></div>
+                            <div id="wtbm_movieDuration"><?php esc_attr_e( 'Select a movie', 'wptheaterly' );?></div>
                         </div>
 
                         <div class="wtbm_registrationSummaryItem">
                             <span><?php esc_attr_e( 'Location', 'wptheaterly' );?>:</span>
-                            <span><?php esc_attr_e( 'BSC', 'wptheaterly' );?></span>
+                            <span><?php esc_attr_e( '--', 'wptheaterly' );?></span>
                         </div>
                         <div class="wtbm_registrationSummaryItem">
                             <span>Show Date:</span>
@@ -219,7 +219,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                             <span id="wtbm_summarySeatType"><?php esc_attr_e( 'Premium', 'wptheaterly' );?></span>
                         </div>
                         <div class="swtbm_registrationSummaryItem">
-                            <span><?php esc_attr_e( 'Ticket Quantity:', 'wptheaterly' );?></span>
+                            <span style="color:#fff;font-weight:bold"><?php esc_attr_e( 'Ticket Quantity:', 'wptheaterly' );?></span>
                             <span id="wtbm_summaryQuantity">0</span>
                         </div>
                         <div class="wtbm_registrationSummaryItem">
