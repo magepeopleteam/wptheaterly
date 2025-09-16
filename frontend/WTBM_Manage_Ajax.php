@@ -23,6 +23,9 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
             add_action( 'wp_ajax_wtbm_theater_ticket_booking', [ $this, 'wtbm_theater_ticket_booking' ] );
             add_action( 'wp_ajax_nopriv_wtbm_theater_ticket_booking', [ $this, 'wtbm_theater_ticket_booking' ] );
 
+            add_action( 'wp_ajax_wtbm_theater_ticket_booking_admin', [ $this, 'wtbm_theater_ticket_booking_admin' ] );
+            add_action( 'wp_ajax_nopriv_wtbm_theater_ticket_booking_admin', [ $this, 'wtbm_theater_ticket_booking_admin' ] );
+
 //            $lay_outs = new WTBM_Details_Layout();
 
         }
@@ -126,6 +129,69 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                 } else {
                     wp_send_json_error('Failed to add to cart.');
                 }
+            }
+
+            wp_send_json_success([
+                'message' => 'Add Cart Failed.!',
+                'wtbm_seatMaps' => '',
+            ]);
+
+        }
+
+        function wtbm_theater_ticket_booking_admin(){
+
+            if ( isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wtbm_nonce') ) {
+
+                $original_post_id = intval($_POST['movie_id']);
+                $product_id = intval(get_post_meta($original_post_id, 'link_wc_product', true));
+                $quantity = 1;
+
+                $wtbm_movie_id = $original_post_id;
+                $wtbm_product_id = $product_id;
+                $theater_id = intval($_POST['theater_id']);
+                $booking_date = sanitize_text_field( $_POST['booking_date'] );
+                $booking_time = sanitize_text_field( $_POST['booking_time'] );
+                $seat_count = intval($_POST['seat_count']);
+                $seat_names = json_decode( sanitize_text_field( wp_unslash( $_POST['seat_names'] ) ) );
+                $booked_seat_ids = json_decode( sanitize_text_field( wp_unslash( $_POST['booked_seat_ids'] ) ) );
+                $wtbm_price = floatval($_POST['total_amount']);
+                $user_name = sanitize_text_field($_POST['userName']);
+                $user_phone_num = sanitize_text_field($_POST['userPhoneNum']);
+
+
+                if( !is_user_logged_in() ){
+                    wp_send_json_error('Please login to place an order.');
+                }
+
+                $price      = floatval($_POST['total_amount']);
+                $user_id    = get_current_user_id();
+
+                $order = wc_create_order(array('customer_id' => $user_id));
+
+                $item = new WC_Order_Item_Product();
+                $item->set_product(wc_get_product($product_id));
+                $item->set_quantity(1);
+                $item->set_total($price); // front-end price set
+
+
+                $item->add_meta_data('_wtbm_id',  $wtbm_movie_id );
+                $item->add_meta_data('_theater_id', $theater_id );
+                $item->add_meta_data('_movie_id', $wtbm_movie_id );
+                $item->add_meta_data('_wtbm_date', $booking_date );
+                $item->add_meta_data('_wtbm_time', $booking_time );
+                $item->add_meta_data('_wtbm_tp', $wtbm_price );
+                $item->add_meta_data('_wtbm_selected_seats', $seat_names );
+                $item->add_meta_data('_wtbm_selected_seat_ids', $booked_seat_ids );
+
+                $order->add_item($item);
+
+                $order->calculate_totals();
+                $order->update_status('completed');
+
+                wp_send_json_success(array(
+                    'message'  => 'Order placed successfully!',
+                    'order_id' => $order->get_id() // Order ID return
+                ));
             }
 
             wp_send_json_success([

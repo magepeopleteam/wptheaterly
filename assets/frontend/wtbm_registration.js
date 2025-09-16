@@ -287,6 +287,71 @@
             }
         });
 
+    });
+
+
+    $(document).on( 'click', '#wtbm_adminTicketPurchaseBtn', function (e) {
+
+        let movieId = $("#wtbm_summeryMovieId").val().trim();
+        let theaterId = $("#wtbm_summeryTheaterId").val().trim();
+        let bookingDate = $("#wtbm_summeryDate").val().trim();
+        let bookingTime = $("#wtbm_summeryTime").val().trim();
+        let totalAmount = $("#wtbm_summeryTotalAmount").val().trim();
+        let userName = $("#wtbm_getUserName").val().trim();
+        let userPhoneNum = $("#wtbm_getUserPhone").val().trim();
+
+        let wtbm_seatBookedNameStr = JSON.stringify( wtbm_seatBookedName );
+        let wtbm_seatBookedIds = JSON.stringify( wtbm_seatBooked );
+
+        let button = $(this);
+        let action = 'wtbm_theater_ticket_booking_admin';
+        const booking_data = {
+            action: action,
+            movie_id: movieId,
+            theater_id: theaterId,
+            booking_date: bookingDate,
+            booking_time: bookingTime,
+            total_amount: totalAmount,
+            seat_count: wtbm_total_seat_count,
+            seat_names: wtbm_seatBookedNameStr,
+            booked_seat_ids: wtbm_seatBookedIds,
+            userName: userName,
+            userPhoneNum: userPhoneNum,
+            nonce: wtbm_ajax.nonce,
+        };
+
+        $("#wtbm_seatsGrid").empty();
+        $.ajax({
+            type: 'POST',
+            url: wtbm_ajax.ajax_url,
+            data: booking_data,
+            beforeSend: function () {
+                button.text('Adding...');
+            },
+            success: function (response) {
+                if (response.success) {
+                    button.text('Added to Cart ✅');
+                    setTimeout(  function () {
+                        button.text('Order Complete')
+                    },1000);
+
+                    wtbm_seatBooked = [];
+                    wtbm_seatBookedName = [];
+                    wtbm_total_price = 0;
+                    wtbm_total_seat_count = 0;
+
+                    if( response.data.seat_map  ) {
+                        $("#wtbm_seatsGrid").html(response.data.seat_map);
+                    }else{
+                        $("#wtbm_seatsGrid").html( '<h6>No Movies Found</h6>');
+                    }
+
+                } else {
+                    alert(response.data);
+                    button.text('Add to Cart');
+                }
+            }
+        });
 
     });
 

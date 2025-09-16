@@ -126,7 +126,7 @@
                                 $time = $time ? MPTRS_Function::data_sanitize($time) : '';
 								$total_price = wc_get_order_item_meta($item_id, '_wtbm_tp');
 								$total_price = $total_price ? MPTRS_Function::data_sanitize($total_price) : '';
-								$data['wtbm_theater_id'] = wc_get_order_item_meta($item_id, '_theater_id');;
+								$data['wtbm_theater_id'] = wc_get_order_item_meta($item_id, '_theater_id');
 								$data['wtbm_movie_id'] = $post_id;
 
 								$data['wtbm_tp'] = $total_price;
@@ -143,7 +143,7 @@
 								$data['wtbm_billing_phone'] = $order->get_billing_phone();
 								$data['wtbm_billing_address'] = $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 
-								$booking_data = apply_filters('add_mpwpb_booking_data', $data, $post_id);
+								$booking_data = apply_filters( 'add_wtbm_booking_data', $data, $post_id );
 								self::add_cpt_data('wtbm_booking', $booking_data['wtbm_billing_name'], $booking_data);
 							}
 						}

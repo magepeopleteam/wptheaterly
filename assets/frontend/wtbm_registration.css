@@ -9,6 +9,16 @@
     min-height: 100vh;
 }
 
+.wtbm_registrationContainerAdmin {
+    display: flex;
+    flex-direction: column;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    gap: 40px;
+    min-height: 100vh;
+}
+
 .wtbm_registrationMainContent {
     flex: 1;
     /*background: rgba(30, 41, 59, 0.8);*/
@@ -57,7 +67,8 @@
     background: rgba(51, 65, 85, 0.5);
     border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 16px;
-    padding: 20px 24px;
+    /*padding: 20px 24px;*/
+    padding: 5px 0px;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
