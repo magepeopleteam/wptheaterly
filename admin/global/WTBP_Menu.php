@@ -70,15 +70,14 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                         <button class="nav-item" data-tab="wtbm_new_ticket_sale">
                             🎟️ <?php esc_attr_e( 'New Ticket Sale', 'wptheaterly' ); ?>
                         </button>
+                        <button class="nav-item" data-tab="wtbm_sales_report">
+                            🎟️ <?php esc_attr_e( 'Sales Report', 'wptheaterly' ); ?>
+                        </button>
                     </nav>
                 </div>
 
                 <!-- Main Content -->
                 <div class="main-content">
-                    <div class="header">
-                        <h2><?php esc_attr_e( 'Backend Configuration', 'wptheaterly' ); ?></h2>
-                        <p><?php esc_attr_e( 'Manage your cinema booking system settings', 'wptheaterly' ); ?></p>
-                    </div>
 
                     <?php do_action( 'movie_content');?>
                     <!-- Movies Tab -->
@@ -247,6 +246,8 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                         do_action( 'wtbm_bookings_content', 'Booking Management' );
 
                         do_action( 'wtbm_new_ticket_booking', 'New Ticket Booking' );
+
+                        do_action( 'wtbm_sales_report', 'Sales Report' );
                     ?>
 
                 </div>

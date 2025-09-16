@@ -9,11 +9,15 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
             add_action( 'wtbm_bookings_content', [$this, 'my_bookings_content_handler'], 10, 1 );
             add_action( 'wtbm_booking_header', [$this, 'wtbm_booking_header_display'], 10, 1 );
             add_action( 'wtbm_booking_filter', [$this, 'wtbm_booking_filter_display'], 10, 1 );
+
             add_action( 'wtbm_booking_content', [$this, 'wtbm_booking_data_display'], 10, 2 );
 
 
             add_action('wp_ajax_wtbm_get_load_more_booking_data', [ $this, 'wtbm_get_load_more_booking_data' ]);
             add_action('wp_ajax_nopriv_wtbm_get_load_more_booking_data', [ $this, 'wtbm_get_load_more_booking_data' ]);
+
+//            add_action('wp_ajax_wtbm_bookings_data_display', [ $this, 'wtbm_bookings_data_display' ]);
+//            add_action('wp_ajax_nopriv_wtbm_bookings_data_display', [ $this, 'wtbm_bookings_data_display' ]);
         }
 
         public function my_bookings_content_handler( $header_title ){
@@ -69,6 +73,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                 <?php
                 do_action('wtbm_booking_header', $header_data );
                 do_action('wtbm_booking_filter', $filter_data );
+
                 do_action( 'wtbm_booking_content', $booking_data, $total_booking );
                 ?>
 
@@ -98,23 +103,21 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                         </thead>
                         <tbody id="wtbm_bookings_table_body">
                         <?php
-                        echo self::movie_booking_data( $booking_date, $display_count );
+//                        echo self::movie_booking_data( $booking_date, $display_count );
                         ?>
                         </tbody>
                     </table>
 
                         <div id="load-more-section" class="text-center py-4 border-t border-gray-200">
-                            <div class="mb-3">
-                                <span class="text-sm text-gray-600" id="showing-info" data-shoing-info ="<?php echo esc_attr( $total_booking );?>"><?php esc_attr_e( 'Showing 1', 'wptheaterly' ); ?>-<span id="wtbm_showing_count"><?php echo esc_attr( $display_count );?></span> of <?php echo esc_attr( $total_booking );?> bookings</span>
+                            <div class="mb-3" id="wtbm_showing_number_of_booking" style="display: none">
+                                <span class="text-sm text-gray-600" id="showing-info" data-shoing-info =""><?php esc_attr_e( 'Showing 1', 'wptheaterly' ); ?>-<span id="wtbm_showing_count"></span> <?php esc_attr_e( 'of ', 'wptheaterly' ); ?> <?php echo esc_attr( $total_booking );?> <?php esc_attr_e( 'Bookings', 'wptheaterly' ); ?></span>
                             </div>
-                            <?php if( $display_count > 9 ){?>
-                                <button id="wtbm_booking_load_more_btn" class="btn btn-primary">
-                                    📄 <?php esc_attr_e( 'Load More Bookings (+10)', 'wptheaterly' ); ?>
-                                </button>
-                            <?php }?>
-                            <div id="no-more-data" class="text-sm text-gray-500 hidden">
-                                ✅ <?php esc_attr_e( 'All bookings loaded', 'wptheaterly' ); ?>
-                            </div>
+                            <button id="wtbm_booking_load_more_btn" class="btn btn-primary" style="display: none">
+                                📄 <?php esc_attr_e( 'Load More Bookings (+10)', 'wptheaterly' ); ?>
+                            </button>
+                            <!--<div id="no-more-data" class="text-sm text-gray-500 hidden">
+                                ✅ <?php /*esc_attr_e( 'All bookings loaded', 'wptheaterly' ); */?>
+                            </div>-->
                         </div>
 
                 <?php }else{ ?>
@@ -122,6 +125,11 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                 <?php }?>
             </div>
         <?php }
+
+        public function wtbm_bookings_data_display(){
+
+        }
+
         public static function movie_booking_data( $booking_dates, $display_count ) {
             ob_start();
 
@@ -272,7 +280,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
 
             $loaded_booking_id = isset( $_POST['already_loaded_booking_ids'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['already_loaded_booking_ids'] ) ) ) : [];
             $display_limit = isset( $_POST['display_limit'] ) ? sanitize_text_field( wp_unslash( $_POST['display_limit'] ) ) : [];
-            if( $loaded_booking_id ){
+//            if( $loaded_booking_id ){
                 $args = array(
                     'post_type'      => 'wtbm_booking',
                     'post_status'    => 'publish',
@@ -298,15 +306,16 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                 wp_reset_postdata();
 
                 $booking_count  = count( $booking_data );
+
                 $booking_html = self::movie_booking_data( $booking_data, $booking_count );
                 $result = array(
                         'booking_count' => $booking_count,
                         'booking_data' => $booking_html,
                 );
                 wp_send_json_success(  $result );
-            }else{
+            /*}else{
                 wp_send_json_error("Invalid ction");
-            }
+            }*/
 
 
         }

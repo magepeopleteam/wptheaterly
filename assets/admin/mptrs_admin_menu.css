@@ -110,6 +110,13 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+.wtbm_section_header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
 
 .section-title {
     font-size: 1.125rem;
