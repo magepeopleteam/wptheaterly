@@ -343,8 +343,6 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             $data = wp_parse_args( $data, $defaults );
             $post_id = $data['id'];
             $nonce = wp_create_nonce( 'wtbp_movie_action' );
-//            error_log( print_r( [ '$data' => $data['status'] ], true ) );
-
 
             ob_start();
             ?>
@@ -388,7 +386,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     </div>
 
                     <input type="hidden" id="wtbm_movie_poster_id" name="wtbm_movie_poster_id"
-                           value="<?php echo esc_attr( $data['poster'] ); ?>">
+                           value="<?php echo esc_attr( $data['poster_id'] ); ?>">
                     <div id="wtbm_movie_poste_preview" style="margin-bottom:10px;">
                         <?php if ( ! empty( $data['poster_id'] ) ) : ?>
                             <img src="<?php echo esc_url( wp_get_attachment_url( $data['poster_id'] ) ); ?>"
@@ -437,6 +435,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             return ob_get_clean();
         }
         public static function display_movies_data( $movie_data = [] ) {
+
             if ( empty( $movie_data ) || ! is_array( $movie_data ) ) {
                 return;
             }
@@ -469,6 +468,8 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 if( $poster_img_url === '' ){
                     $poster_img_url = $poster;
                 }
+
+                ob_start();
                 ?>
                 <tr class="wtbm_movie_content" id="movie_content_<?php echo esc_attr( $id );?>" date-movie-id="<?php echo esc_attr( $id );?>">
                     <td>
@@ -505,6 +506,8 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 </tr>
                 <?php
             }
+
+            return ob_get_clean();
         }
 
         public static function add_category( $action, $category_data, $default_color ){

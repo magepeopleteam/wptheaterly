@@ -113,7 +113,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                                 <tbody id="movies-table-body">
                                     <?php
                                     $movie_data = WTBM_Layout_Functions::get_and_display_movies();
-                                    WTBM_Layout_Functions::display_movies_data( $movie_data );
+                                    echo WTBM_Layout_Functions::display_movies_data( $movie_data );
                                     ?>
 
                                 </tbody>
@@ -245,9 +245,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                     <!-- Bookings Tab -->
                     <?php
                         do_action( 'wtbm_bookings_content', 'Booking Management' );
-                    ?>
 
-                    <?php
                         do_action( 'wtbm_new_ticket_booking', 'New Ticket Booking' );
                     ?>
 
