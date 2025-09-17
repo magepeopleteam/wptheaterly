@@ -9,15 +9,7 @@
     min-height: 100vh;
 }
 
-.wtbm_registrationContainerAdmin {
-    display: flex;
-    flex-direction: column;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    gap: 40px;
-    min-height: 100vh;
-}
+
 
 .wtbm_registrationMainContent {
     flex: 1;

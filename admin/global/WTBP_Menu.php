@@ -71,7 +71,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                             <i class="mi mi-ticket"></i> <?php esc_attr_e( 'New Ticket Sale', 'wptheaterly' ); ?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_sales_report">
-                            🎟️ <?php esc_attr_e( 'Sales Report', 'wptheaterly' ); ?>
+                            <i class="mi mi-chart-histogram"></i> <?php esc_attr_e( 'Sales Report', 'wptheaterly' ); ?>
                         </button>
                     </nav>
                 </div>
