@@ -19,9 +19,9 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                         <h2 class="section-title"><?php /*esc_attr_e( 'Sales Report', 'wptheaterly' ); */?></h2>
                         <p class="">View sales analytics and generate detailed reports</p>
                     </div>-->
-                    <div class="header">
+                    <div class="section-header">
                         <h2><?php esc_attr_e( 'Sales Report', 'wptheaterly' ); ?></h2>
-                        <p><?php esc_attr_e( 'View sales analytics and generate detailed reports', 'wptheaterly' ); ?></p>
+                        <!-- <p><?php esc_attr_e( 'View sales analytics and generate detailed reports', 'wptheaterly' ); ?></p> -->
                     </div>
                 </div>
             </div>

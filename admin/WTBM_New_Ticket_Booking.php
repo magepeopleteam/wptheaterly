@@ -252,7 +252,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                             <input type="tel" class="form-input" id="wtbm_getUserPhone" placeholder="Enter mobile number">
                         </div>
                         <button class="purchase-btn" id="wtbm_adminTicketPurchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
-                        <div style="margin-top: 15px; font-size: 12px; color: #666; text-align: center;">
+                        <div class="admin-ticket-note">
                             <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>
                         </div>
                     </div>
