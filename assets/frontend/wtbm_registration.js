@@ -346,6 +346,8 @@
                         $("#wtbm_seatsGrid").html( '<h6>No Movies Found</h6>');
                     }
 
+                    $("#wtbm_summaryTotal").text( response.data.wtbm_total_price );
+
                 } else {
                     alert(response.data);
                     button.text('Add to Cart');

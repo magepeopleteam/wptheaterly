@@ -51,6 +51,11 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                 wp_send_json_error('Failed to create order.');
             }
 
+            $day_of_week = strtolower( date('l', strtotime( $booking_date ) ) );
+            $wtbm_price = WTBM_Set_Pricing_Sules::calculate_price_by_rules(  $wtbm_price, $day_of_week, $booking_date, $theater_id, $booking_time, $seat_count  );
+
+            error_log( print_r( [ '$total_amount' => $wtbm_price, '$wtbm_price' => $wtbm_price ], true ) );
+
             $item = new WC_Order_Item_Product();
             $item->set_product( wc_get_product( $product_id ) );
             $item->set_quantity( $quantity );
@@ -111,9 +116,10 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
             }
 
             wp_send_json_success(array(
-                'message' => 'Order placed successfully!',
-                'order_id' => $order->get_id(),
-                'seat_map' => $seat_map,
+                'message'   => 'Order placed successfully!',
+                'order_id'  => $order->get_id(),
+                'seat_map'  => $seat_map,
+                'wtbm_total_price' => $wtbm_price,
             ));
         }
 
@@ -228,7 +234,10 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                         </div>
                         <div class="wtbm_registrationSummaryItem">
                             <span><?php esc_attr_e( 'Total Amount:', 'wptheaterly' );?></span>
-                            <span id="wtbm_summaryTotal">0 <?php echo esc_attr( get_woocommerce_currency_symbol());?></span>
+                            <div class="wtbm_totalPriceSymbol">
+                                <span id="wtbm_summaryTotal">0 </span>
+                                <span class="wtbm_currency"><?php echo esc_attr( get_woocommerce_currency_symbol());?></span>
+                            </div>
                         </div>
                     </div>
 
