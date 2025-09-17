@@ -9,7 +9,6 @@
     background: white;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     height: 100vh;
-    overflow-y: auto;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
 }
@@ -125,6 +124,7 @@
     font-size: 1.125rem;
     font-weight: 600;
     color: #111827;
+    margin: 0;
 }
 
 .mptrs-admin .btn {
@@ -204,6 +204,65 @@
     border-collapse: collapse;
 }
 
+.mptrs-admin .wtbm_adminRegistrationSidebar{
+    width: 400px;
+    left: 20px;
+    padding: 10px;
+}
+
+.mptrs-admin .wtbm_registrationMainContent{
+    box-shadow: none;
+    border: 0;
+    padding: 20px;
+}
+
+.mptrs-admin .wtbm_registrationMainContent .section{
+    border: 0;
+}
+
+.mptrs-admin .wtbm_registrationMainContent .section-title{
+    margin-bottom: 10px;
+}
+.mptrs-admin .wtbm_seat_map{
+    padding: 10px;
+}
+.mptrs-admin .screen{
+    margin-bottom: 0;
+    
+}
+.mptrs-admin #wtbm_seatGrid{
+    height: 250px;
+}
+
+.mptrs-admin .wtbm_booking_movies_grid{
+    flex-direction: row;
+}
+
+.mptrs-admin .wtbm_empty_booking{
+    padding: 15px;
+}
+.mptrs-admin #wtbm_movieSection{
+    border: none;
+    background-color: #fff;
+}
+.mptrs-admin .wtbm_booking_date_section_title{
+    padding:5px 0;
+    margin: 0;
+    margin-bottom: 15px;
+}
+.mptrs-admin .wtbm_booking_movie_card{
+    background-color: #047857;
+    width:47%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-radius: 12px;
+}
+.mptrs-admin .wtbm_booking_movies_poster{
+    width:120px;
+    height: 80px;
+}
+
 .table th,
 .table td {
     text-align: left;
@@ -232,7 +291,15 @@
     font-weight: 500;
     color: #374151;
 }
-
+.mptrs-admin .booking-form .form-label{
+    color: #fff;
+}
+.mptrs-admin .booking-form .form-input{
+    padding:8px;
+}
+.mptrs-admin .booking-form .admin-ticket-note{
+    margin-top: 15px; font-size: 12px; color: #fff; text-align: center;
+}
 .form-input {
     width: 100%;
     padding: 0.5rem 0.75rem;
