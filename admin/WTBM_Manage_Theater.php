@@ -55,13 +55,13 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
 
             $cpt = MPTRS_Function::get_theater_cpt();
 
-            $title       = sanitize_text_field( $_POST['name']);
-            $type      = sanitize_text_field( $_POST['type']);
-            $rows    = sanitize_text_field( $_POST['rows']);
-            $seatsPerRow     = sanitize_text_field($_POST['seatsPerRow']);
-            $soundSystem = sanitize_text_field($_POST['soundSystem']);
-            $status      = sanitize_text_field($_POST['status']);
-            $description = sanitize_textarea_field($_POST['description']);
+            $title          = sanitize_text_field( $_POST['name']);
+            $type           = sanitize_text_field( $_POST['type']);
+            $rows           = sanitize_text_field( $_POST['rows']);
+            $seatsPerRow    = sanitize_text_field($_POST['seatsPerRow']);
+            $soundSystem    = sanitize_text_field($_POST['soundSystem']);
+            $status         = sanitize_text_field($_POST['status']);
+            $description    = sanitize_textarea_field($_POST['description']);
 
             $categories = isset( $_POST['wtbm_categories'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['wtbm_categories'] ) ), true ) : '';
 

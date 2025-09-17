@@ -35,6 +35,7 @@
 				require_once MPTRS_PLUGIN_DIR . '/admin/global/MPTRS_Setting_API.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/global/MPTRS_Settings_Global.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/global/WTBP_Menu.php';
+				require_once MPTRS_PLUGIN_DIR . '/admin/global/WTBM_Set_Pricing_Sules.php';
 				//*************Service Settings*****************//
 				require_once MPTRS_PLUGIN_DIR . '/admin/settings/MPTRS_Settings.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/settings/MPTRS_General_Settings.php';

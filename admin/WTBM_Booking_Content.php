@@ -12,7 +12,6 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
 
             add_action( 'wtbm_booking_content', [$this, 'wtbm_booking_data_display'], 10, 2 );
 
-
             add_action('wp_ajax_wtbm_get_load_more_booking_data', [ $this, 'wtbm_get_load_more_booking_data' ]);
             add_action('wp_ajax_nopriv_wtbm_get_load_more_booking_data', [ $this, 'wtbm_get_load_more_booking_data' ]);
 
@@ -61,9 +60,9 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                     <div class="section-header">
                         <div>
                             <h3 class="section-title"><?php echo esc_attr( $header_title );?></h3>
-                            <p class="text-sm text-gray-500" id="bookings-count">Total: <?php echo esc_attr( $total_booking );?> <?php esc_attr_e( 'bookings', 'wptheaterly' ); ?></p>
+                            <p class="text-sm text-gray-500" id="bookings-count"><?php esc_attr_e( 'Total:', 'wptheaterly' ); ?> <?php echo esc_attr( $total_booking );?> <?php esc_attr_e( 'bookings', 'wptheaterly' ); ?></p>
                         </div>
-                        <button class="btn btn-secondary" onclick="toggleFilters()">
+                        <button class="btn btn-secondary">
                             🔍 <?php esc_attr_e( 'Filters', 'wptheaterly' ); ?>
                         </button>
                     </div>
@@ -97,7 +96,6 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                             <th><?php esc_attr_e( 'Seats', 'wptheaterly' ); ?></th>
                             <th><?php esc_attr_e( 'Amount', 'wptheaterly' ); ?></th>
                             <th><?php esc_attr_e( 'Payment Status', 'wptheaterly' ); ?></th>
-                            <!--                            <th>Status</th>-->
                             <th><?php esc_attr_e( 'Actions', 'wptheaterly' ); ?></th>
                         </tr>
                         </thead>
@@ -121,7 +119,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                         </div>
 
                 <?php }else{ ?>
-                    <div class="wtbm_empty_booking">No Booking Data Found</div>
+                    <div class="wtbm_empty_booking"><?php esc_attr_e( 'No Booking Data Found', 'wptheaterly' ); ?></div>
                 <?php }?>
             </div>
         <?php }
@@ -142,17 +140,17 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                     $status = wc_get_order_status_name( $order->get_status() );
                 }
                 // Example meta keys, adjust to match your actual saved meta keys
-                $booking_code  = 'BK' . str_pad(  $meta['wtbm_order_id'], 6, '0', STR_PAD_LEFT );
-                $customer_name = $meta['wtbm_billing_name'] ?? 'N/A';
-                $customer_email= $meta['wtbm_billing_email'] ?? 'N/A';
-                $customer_phone= $meta['wtbm_billing_phone'] ?? 'N/A';
-                $movie_name    = get_the_title( $meta['wtbm_movie_id'] ) ?? 'N/A';
-                $movie_genre   = $meta['_movie_genre'] ?? '';
-                $screen        = get_the_title( $meta['wtbm_theater_id'] ) ?? 'N/A';
-                $date          = $meta['wtbm_order_date'] ?? 'N/A';
-                $time          = $meta['wtbm_order_time'] ?? '';
-                $seats         = is_array( $meta['wtbm_seats'] ?? '' ) ? implode(', ', $meta['wtbm_seats']) : ( $meta['wtbm_seats'] ?? 'N/A' );
-                $price         = $meta['wtbm_tp'] ?? '0.00';
+                $booking_code   = 'BK' . str_pad(  $meta['wtbm_order_id'], 6, '0', STR_PAD_LEFT );
+                $customer_name  = $meta['wtbm_billing_name'] ?? 'N/A';
+                $customer_email = $meta['wtbm_billing_email'] ?? 'N/A';
+                $customer_phone = $meta['wtbm_billing_phone'] ?? 'N/A';
+                $movie_name     = get_the_title( $meta['wtbm_movie_id'] ) ?? 'N/A';
+                $movie_genre    = $meta['_movie_genre'] ?? '';
+                $screen         = get_the_title( $meta['wtbm_theater_id'] ) ?? 'N/A';
+                $date           = $meta['wtbm_order_date'] ?? 'N/A';
+                $time           = $meta['wtbm_order_time'] ?? '';
+                $seats          = is_array( $meta['wtbm_seats'] ?? '' ) ? implode(', ', $meta['wtbm_seats']) : ( $meta['wtbm_seats'] ?? 'N/A' );
+                $price          = $meta['wtbm_tp'] ?? '0.00';
 
 
                 ?>
@@ -285,7 +283,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                     'post_type'      => 'wtbm_booking',
                     'post_status'    => 'publish',
                     'posts_per_page' => $display_limit,
-                    'post__not_in'   => $loaded_booking_id, // বাদ দিবে already loaded bookings
+                    'post__not_in'   => $loaded_booking_id,
                     'orderby'        => 'date',
                     'order'          => 'DESC',
                 );
@@ -316,8 +314,6 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
             /*}else{
                 wp_send_json_error("Invalid ction");
             }*/
-
-
         }
 
     }

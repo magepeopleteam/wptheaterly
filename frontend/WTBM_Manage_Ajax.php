@@ -102,18 +102,29 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                 $product_id = intval(get_post_meta($original_post_id, 'link_wc_product', true));
                 $quantity = 1;
 
+                $theater_id     = intval( $_POST['theater_id'] );
+                $booking_data   = sanitize_text_field( $_POST['booking_date'] );
+                $booking_time   = sanitize_text_field( $_POST['booking_time'] );
+                $total_amount   = floatval( $_POST['total_amount'] );
+                $seat_count     = intval($_POST['seat_count']);
+
+
+
+                $day_of_week = strtolower( date('l', strtotime( $booking_data ) ) );
+                $total_amount = WTBM_Set_Pricing_Sules::calculate_price_by_rules(  $total_amount, $day_of_week, $booking_data, $theater_id, $booking_time, $seat_count  );
+
                 $cart_item_data = [
-                    'wtbm_movie_id' => $original_post_id,
-                    'wtbm_product_id' => $product_id,
-                    'theater_id' => intval($_POST['theater_id']),
-                    'booking_date' => sanitize_text_field( $_POST['booking_date'] ),
-                    'booking_time' => sanitize_text_field( $_POST['booking_time'] ),
-                    'seat_count' => intval($_POST['seat_count']),
-                    'seat_names' => json_decode( sanitize_text_field( wp_unslash( $_POST['seat_names'] ) ) ),
-                    'booked_seat_ids' => json_decode( sanitize_text_field( wp_unslash( $_POST['booked_seat_ids'] ) )),
-                    'wtbm_price' => floatval($_POST['total_amount']),
-                    'user_name' => sanitize_text_field($_POST['userName']),
-                    'user_phone_num' => sanitize_text_field($_POST['userPhoneNum']),
+                    'wtbm_movie_id'     => $original_post_id,
+                    'wtbm_product_id'   => $product_id,
+                    'theater_id'        => $theater_id,
+                    'booking_date'      => $booking_data,
+                    'booking_time'      => $booking_time,
+                    'seat_count'        => $seat_count,
+                    'seat_names'        => json_decode( sanitize_text_field( wp_unslash( $_POST['seat_names'] ) ) ),
+                    'booked_seat_ids'   => json_decode( sanitize_text_field( wp_unslash( $_POST['booked_seat_ids'] ) )),
+                    'wtbm_price'        => $total_amount,
+                    'user_name'         => sanitize_text_field($_POST['userName']),
+                    'user_phone_num'    => sanitize_text_field($_POST['userPhoneNum']),
                 ];
 
                 if (!class_exists('WC_Cart')) {

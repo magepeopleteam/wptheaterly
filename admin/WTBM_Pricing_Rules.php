@@ -10,8 +10,8 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
             add_action('wp_ajax_wtbm_insert_pricing_rules_post', [ $this, 'wtbm_insert_pricing_rules_post' ]);
             add_action('wp_ajax_nopriv_wtbm_insert_pricing_rules_post', [ $this, 'wtbm_insert_pricing_rules_post' ]);
 
-            add_action('wp_ajax_wtbm_add_edit_pricing_rules_form', [ $this, 'wtbm_add_edit_pricing_rules_form' ]);
-            add_action('wp_ajax_nopriv_wtbm_add_edit_pricing_rules_form', [ $this, 'wtbm_add_edit_pricing_rules_form' ]);
+            /*add_action('wp_ajax_wtbm_add_edit_pricing_rules_form', [ $this, 'wtbm_add_edit_pricing_rules_form' ]);
+            add_action('wp_ajax_nopriv_wtbm_add_edit_pricing_rules_form', [ $this, 'wtbm_add_edit_pricing_rules_form' ]);*/
 
             add_action('wp_ajax_wtbm_add_edit_pricing_form', [ $this, 'wtbm_add_edit_pricing_form' ]);
             add_action('wp_ajax_nopriv_wtbm_add_edit_pricing_form', [ $this, 'wtbm_add_edit_pricing_form' ]);
@@ -37,23 +37,21 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
             $cpt = MPTRS_Function::get_pricing_cpt();
 
-//            error_log( print_r( [ '$_POST' => $_POST ], true ) );
+            $name           =  isset( $_POST['description'] ) ? sanitize_text_field( wp_unslash( $_POST['description'] ) ) : '';
+            $description    =  isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
 
-            $name           = sanitize_text_field( $_POST['name'] );
-            $description    = sanitize_textarea_field( $_POST['description'] );
-
-            $type           = sanitize_text_field( $_POST['type']);
-            $multiplier     = sanitize_text_field( $_POST['multiplier']);
-            $active         = sanitize_text_field( $_POST['active']);
-            $priority       = sanitize_text_field($_POST['priority']);
-            $min_seats       = sanitize_text_field($_POST['minSeats']);
-            $combinable     = sanitize_text_field($_POST['combinable']);
-            $timeRange      = sanitize_text_field($_POST['timeRange']);
-            $days           = $_POST['days'];
-            $startDate      = sanitize_text_field($_POST['startDate']);
-            $endDate        = sanitize_text_field($_POST['endDate']);
-            $dateRange      = sanitize_text_field($_POST['dateRange']);
-            $theaterType    = sanitize_text_field($_POST['theaterType']);
+            $type           = isset( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : '';
+            $multiplier     = isset( $_POST['multiplier'] ) ? sanitize_text_field( wp_unslash( $_POST['multiplier'] ) ) : 1;
+            $active         = isset( $_POST['active'] ) ? sanitize_text_field( wp_unslash( $_POST['active'] ) )  : false;
+            $priority       = isset( $_POST['priority'] ) ? sanitize_text_field( wp_unslash( $_POST['priority'] ) )  : '';
+            $min_seats      = isset( $_POST['minSeats'] ) ? sanitize_text_field( wp_unslash( $_POST['minSeats'] ) ) : 1;
+            $combinable     = isset( $_POST['combinable'] ) ? sanitize_text_field( wp_unslash( $_POST['combinable'] ) ) : '';
+            $timeRange      = isset( $_POST['timeRange'] ) ? sanitize_text_field( wp_unslash( $_POST['timeRange'] ) ) : '';
+            $days           = isset( $_POST['days'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['days'] ) ) ) : [];
+            $startDate      = isset( $_POST['startDate'] ) ? sanitize_text_field( wp_unslash( $_POST['startDate'] ) ) : '';
+            $endDate        = isset( $_POST['endDate'] ) ? sanitize_text_field( wp_unslash( $_POST['endDate'] ) ) : '';
+            $dateRange      = isset( $_POST['dateRange'] ) ? sanitize_text_field( wp_unslash( $_POST['dateRange'] ) ) : '';
+            $theaterType    = isset( $_POST['theaterType'] ) ? sanitize_text_field( wp_unslash( $_POST['theaterType'] ) ) : '';
 
             $action_type = isset( $_POST['action_type'] ) ? sanitize_text_field( $_POST['action_type'] ) : '';
 
@@ -74,22 +72,23 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                     'post_status'  => 'publish',
                     'post_content' => $description,
                 ]);
+
             }
 
             if ( $post_id ) {
 
-                update_post_meta($post_id, 'wtbp_pricing_rules_type', $type);
-                update_post_meta($post_id, 'wtbp_pricing_rules_multiplier', $multiplier);
-                update_post_meta($post_id, 'wtbp_pricing_rules_active', $active);
-                update_post_meta($post_id, 'wtbp_pricing_rules_priority', $priority);
-                update_post_meta($post_id, 'wtbp_pricing_rules_minSeats', $min_seats);
-                update_post_meta($post_id, 'wtbp_pricing_rules_combinable', $combinable);
-                update_post_meta($post_id, 'wtbp_pricing_rules_timeRange', $timeRange);
-                update_post_meta($post_id, 'wtbp_pricing_rules_days', $days);
-                update_post_meta($post_id, 'wtbp_pricing_rules_startDate', $startDate);
-                update_post_meta($post_id, 'wtbp_pricing_rules_endDate', $endDate);
-                update_post_meta($post_id, 'wtbp_pricing_rules_dateRange', $dateRange);
-                update_post_meta($post_id, 'wtbp_pricing_rules_theaterType', $theaterType);
+                update_post_meta( $post_id, 'wtbp_pricing_rules_type', $type );
+                update_post_meta( $post_id, 'wtbp_pricing_rules_multiplier', $multiplier );
+                update_post_meta( $post_id, 'wtbp_pricing_rules_active', $active );
+                update_post_meta( $post_id, 'wtbp_pricing_rules_priority', $priority );
+                update_post_meta( $post_id, 'wtbp_pricing_rules_minSeats', $min_seats );
+                update_post_meta( $post_id, 'wtbp_pricing_rules_combinable', $combinable );
+                update_post_meta( $post_id, 'wtbp_pricing_rules_timeRange', $timeRange );
+                update_post_meta( $post_id, 'wtbp_pricing_rules_days', $days );
+                update_post_meta( $post_id, 'wtbp_pricing_rules_startDate', $startDate );
+                update_post_meta( $post_id, 'wtbp_pricing_rules_endDate', $endDate );
+                update_post_meta( $post_id, 'wtbp_pricing_rules_dateRange', $dateRange );
+                update_post_meta( $post_id, 'wtbp_pricing_rules_theaterType', $theaterType );
 
 
                 $new_pricing_rules = array(
@@ -148,10 +147,10 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                 <div class="form-group">
                     <label class="form-label"><?php esc_html_e( 'Rule Type', 'wptheaterly' ); ?></label>
                     <select id="pricing-type" class="form-input">
-                        <option value="day" <?php selected( $rules_type, 'day' ); ?>>Day-based</option>
-                        <option value="date" <?php selected( $rules_type, 'date_range' ); ?>>Date-based</option>
-                        <option value="time" <?php selected( $rules_type, 'time_range' ); ?>>Time-based</option>
-                        <option value="theater" <?php selected( $rules_type, 'theater' ); ?>>Theater-based</option>
+                        <option value="day" <?php selected( $rules_type, 'day' ); ?>><?php esc_html_e( 'Day-based', 'wptheaterly' ); ?></option>
+                        <option value="date" <?php selected( $rules_type, 'date_range' ); ?>><?php esc_html_e( 'Date-based', 'wptheaterly' ); ?></option>
+                        <option value="time" <?php selected( $rules_type, 'time_range' ); ?>><?php esc_html_e( 'Time-based', 'wptheaterly' ); ?></option>
+                        <option value="theater" <?php selected( $rules_type, 'theater' ); ?>><?php esc_html_e( 'Theater-based', 'wptheaterly' ); ?></option>
                     </select>
                 </div>
 
@@ -189,11 +188,11 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                 <div class="form-group" id="theater-group" style="<?php echo ( $rules_type === 'theater' ) ? '' : 'display:none;'; ?>">
                     <label class="form-label"><?php esc_html_e( 'Theater Type', 'wptheaterly' ); ?></label>
                     <select id="pricing-theater-type" class="form-input">
-                        <option value="" <?php selected( $rules_theater_type, '' ); ?>>All Theaters</option>
-                        <option value="Standard" <?php selected( $rules_theater_type, 'Standard' ); ?>>Standard</option>
-                        <option value="Premium" <?php selected( $rules_theater_type, 'Premium' ); ?>>Premium</option>
-                        <option value="IMAX" <?php selected( $rules_theater_type, 'IMAX' ); ?>>IMAX</option>
-                        <option value="VIP" <?php selected( $rules_theater_type, 'VIP' ); ?>>VIP</option>
+                        <option value="" <?php selected( $rules_theater_type, '' ); ?>><?php esc_html_e( 'All Theaters', 'wptheaterly' ); ?></option>
+                        <option value="Standard" <?php selected( $rules_theater_type, 'Standard' ); ?>><?php esc_html_e( 'Standard', 'wptheaterly' ); ?></option>
+                        <option value="Premium" <?php selected( $rules_theater_type, 'Premium' ); ?>><?php esc_html_e( 'Premium', 'wptheaterly' ); ?></option>
+                        <option value="IMAX" <?php selected( $rules_theater_type, 'IMAX' ); ?>><?php esc_html_e( 'IMAX', 'wptheaterly' ); ?></option>
+                        <option value="VIP" <?php selected( $rules_theater_type, 'VIP' ); ?>><?php esc_html_e( 'VIP', 'wptheaterly' ); ?></option>
                     </select>
                 </div>
 

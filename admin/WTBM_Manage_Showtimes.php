@@ -275,7 +275,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="display: none">
                         <label class="form-label"><?php esc_html_e( 'Date', 'wptheaterly' ); ?></label>
                         <input id="showtime-date" type="date" name="showtime_date" class="form-input"
                                value="<?php echo isset( $show_time_data['show_time_date'] ) ? esc_attr( $show_time_data['show_time_date'] ) : ''; ?>"
@@ -302,7 +302,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
 
 
-                    <div class="form-group">
+                    <div class="form-group" style="display: none">
                         <label class="form-label"><?php esc_html_e( 'Price ($)', 'wptheaterly' ); ?></label>
                         <input type="number" id="showtime-price" name="showtime_price" class="form-input" step="0.01"
                                value="<?php echo isset( $show_time_data['price'] ) ? esc_attr( $show_time_data['price'] ) : ''; ?>"

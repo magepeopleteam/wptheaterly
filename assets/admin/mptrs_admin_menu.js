@@ -660,7 +660,7 @@
             multiplier: multiplier,
             post_id: post_id,
             action_type: action_type,
-            active: $('#pricing-status').val() === 'true',
+            active: $('#pricing-active').is(':checked'),
             priority: parseInt($('#pricing-priority').val()) || 10,
             description: $('#pricing-description').val(),
             minSeats: parseInt($('#pricing-min-seats').val()) || 1,
@@ -686,7 +686,7 @@
                 const selectedDays = $('input[name="pricing-days[]"]:checked').map(function() {
                     return $(this).val();
                 }).get();
-                rule.days = selectedDays;
+                rule.days = JSON.stringify( selectedDays );
 
                 console.log( rule.days  );
                 break;

@@ -415,6 +415,8 @@
                                         $seat_id = 'seat_'.$seat['id'];
                                     }
 
+                                    $price = isset( $seat['price'] ) ? $seat['price'] : 0;
+
                                     $parent_class_name = 'wtbm_mappedSeat';
                                     $class_name = 'wtbm_mappedSeatInfo';
                                     $seat_bg_color = esc_attr( $seat['color']);
@@ -437,7 +439,7 @@
 
                                     $custom_content .= '<div class="'.esc_attr( $parent_class_name ).'" 
                                                                 id="' . esc_attr($uniqueId) . '" 
-                                                                data-price="' . esc_attr($seat['price']) . '" 
+                                                                data-price="' . esc_attr( $price ) . '" 
                                                                 data-seat-num="' . esc_attr($seat['seat_number']) . '" 
                                                                 data-tableBind="' . esc_attr( $tableBind ) . '"
                                                                 style="
