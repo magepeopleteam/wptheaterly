@@ -19,6 +19,9 @@
 				add_action('woocommerce_checkout_order_processed', array($this, 'checkout_order_processed'), 90, 3);
 				add_action('woocommerce_store_api_checkout_order_processed', array($this, 'checkout_order_processed'), 90, 3);
 				add_filter('woocommerce_order_status_changed', array($this, 'order_status_changed'), 10, 4);
+
+//                add_action( 'woocommerce_before_thankyou', [ $this, 'pa_show_welcome_message' ], 10, 1 );
+                add_action( 'woocommerce_thankyou', [ $this, 'pa_show_welcome_message' ], 10, 1 );
 			}
 			public function add_cart_item_data( $cart_item_data, $product_id ) {
 
@@ -280,6 +283,99 @@
 				}
 				wp_reset_postdata();
 			}
+
+            /**
+             * Get booking data (post + meta) by WooCommerce order ID
+             *
+             * @param int $order_id WooCommerce order ID
+             * @return array|false Array of booking data with meta values or false if none
+             */
+            public static function wtbm_get_booking_data_by_order( $order_id ) {
+                if ( empty( $order_id ) ) {
+                    return false;
+                }
+
+                $args = array(
+                    'post_type'      => 'wtbm_booking',
+                    'posts_per_page' => -1,
+                    'post_status'    => 'any',
+                    'meta_query'     => array(
+                        array(
+                            'key'   => 'wtbm_order_id',
+                            'value' => $order_id,
+                        ),
+                    ),
+                );
+
+                $query = new WP_Query( $args );
+                $results = array();
+
+                if ( $query->have_posts() ) {
+                    foreach ( $query->posts as $post ) {
+
+                        $theater_id = get_post_meta( $post->ID, 'wtbm_theater_id', true );
+                        $movie_id = get_post_meta( $post->ID, 'wtbm_movie_id', true );
+
+                        $results = array(
+                            'id'                => $post->ID,
+                            'title'             => $post->post_title,
+                            'theater_name'      => get_the_title( $theater_id ),
+                            'movie_name'        => get_the_title( $movie_id ),
+                            'total_price'       => get_post_meta( $post->ID, 'wtbm_tp', true ),
+                            'order_date'        => get_post_meta( $post->ID, 'wtbm_order_date', true ),
+                            'order_time'        => get_post_meta( $post->ID, 'wtbm_order_time', true ),
+                            'selected_seats'    => get_post_meta( $post->ID, 'wtbm_seats', true ),
+                            'billing_name'      => get_post_meta( $post->ID, 'wtbm_billing_name', true ),
+                        );
+                    }
+                    return $results;
+                }
+
+                return false;
+            }
+
+
+            function pa_show_welcome_message( $order_id ) {
+                if ( ! $order_id ) return;
+
+                $order = wc_get_order( $order_id );
+
+                if ( $order ) {
+
+                    $booking = self::wtbm_get_booking_data_by_order($order_id);
+                    $order_datetime = DateTime::createFromFormat('Y-m-d H:i', $booking['order_date'].' '.$booking['order_time']);
+                    $formatted_datetime = $order_datetime->format('j M, Y | h:i A');
+                    ?>
+                    <div id="wtbm_pa-welcome-popup" class="wtbm_welcome_popup">
+                        <div class="wtbm_welcome_popup_content">
+                            <div class="wtbm_pa_close">&times;</div>
+                            <h2>🎉 Welcome to our family!</h2>
+                            <div class="wtbm_welcome_card">
+                                <h3 class="wtbm_welcome_header">🎬 Booking Summary</h3>
+                                <div class="wtbm_welcome_content">
+                                    <h3 class="wtbm_welcome_movie"><strong>Movie:</strong><?php echo esc_html($booking['movie_name']); ?></h3>
+                                    <p class="wtbm_welcome_theater"><strong>Theater:</strong> <?php echo esc_html($booking['theater_name']); ?></p>
+                                    <p class="wtbm_welcome_datetime"><strong>Date & Time:</strong> <?php echo esc_html($formatted_datetime); ?></p>
+                                    <p class="wtbm_welcome_seats"><strong>Seats:</strong>
+                                        <?php foreach ($booking['selected_seats'] as $seat): ?>
+                                            <span class="wtbm_welcome_seat"><?php echo esc_html($seat); ?></span>
+                                        <?php endforeach; ?>
+                                    </p>
+                                    <p class="wtbm_welcome_total"><strong>Total Price:</strong> BDT <?php echo esc_html($booking['total_price']); ?></p>
+                                </div>
+                            </div>
+
+                            <p>Thank you for your order, <strong><?php echo esc_html( $order->get_billing_first_name() ); ?></strong>.
+                                We’re excited to have you with us!</p>
+
+                        </div>
+
+                    </div>
+                    <?php
+                }
+            }
+
 		}
+
 		new MPTRS_Woocommerce();
 	}

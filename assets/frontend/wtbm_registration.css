@@ -478,3 +478,91 @@
 .wtbm_movieActive{
     border: 2px solid #fff;
 }
+
+/* Popup background */
+.wtbm_welcome_popup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+}
+/* Popup box */
+.wtbm_welcome_popup_content {
+    display: block;
+    position: relative;
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: fadeIn 0.3s ease-in-out;
+}
+/* Close button */
+.wtbm_pa_close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+.wtbm_pa_close:hover {
+    color: #0073aa;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.wtbm_welcome_card {
+    background: #fff;
+    border-radius: 15px;
+    max-width: 450px;
+    font-family: 'Arial', sans-serif;
+}
+.wtbm_welcome_header {
+    text-align: center;
+    color: #0073aa;
+    margin-top: 0;
+}
+.wtbm_welcome_movie {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #ff6600;
+}
+.wtbm_welcome_theater,
+.wtbm_welcome_datetime,
+.wtbm_welcome_total {
+    margin: 5px 0;
+    font-size: 16px;
+}
+.wtbm_welcome_seats {
+    margin: 10px 0;
+}
+.wtbm_welcome_seat {
+    display: inline-block;
+    background: #0073aa;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.wtbm_welcome_total {
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+    color: #28a745;
+}
+

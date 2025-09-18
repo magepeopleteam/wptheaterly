@@ -70,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="wtbm_registrationSidebar" id="wtbm_registrationSidebar">
+                    <div class="wtbm_registrationSidebar" id="wtbm_registrationSidebar" style="display: none">
                         <h2 class="summary-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
 
                         <div class="wtbm_registrationSummaryCard">
