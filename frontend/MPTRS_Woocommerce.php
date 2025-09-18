@@ -349,24 +349,24 @@
                     <div id="wtbm_pa-welcome-popup" class="wtbm_welcome_popup">
                         <div class="wtbm_welcome_popup_content">
                             <div class="wtbm_pa_close">&times;</div>
-                            <h2>🎉 Welcome to our family!</h2>
+                            <h2>🎉 <?php esc_attr_e( 'Welcome to our family!', 'wptheaterly' )?></h2>
                             <div class="wtbm_welcome_card">
-                                <h3 class="wtbm_welcome_header">🎬 Booking Summary</h3>
+                                <h3 class="wtbm_welcome_header">🎬 <?php esc_attr_e( 'Booking Summary', 'wptheaterly' )?></h3>
                                 <div class="wtbm_welcome_content">
-                                    <h3 class="wtbm_welcome_movie"><strong>Movie:</strong><?php echo esc_html($booking['movie_name']); ?></h3>
-                                    <p class="wtbm_welcome_theater"><strong>Theater:</strong> <?php echo esc_html($booking['theater_name']); ?></p>
-                                    <p class="wtbm_welcome_datetime"><strong>Date & Time:</strong> <?php echo esc_html($formatted_datetime); ?></p>
-                                    <p class="wtbm_welcome_seats"><strong>Seats:</strong>
+                                    <h3 class="wtbm_welcome_movie"><strong><?php esc_attr_e( 'Movie:', 'wptheaterly' )?></strong><?php echo esc_html($booking['movie_name']); ?></h3>
+                                    <p class="wtbm_welcome_theater"><strong><?php esc_attr_e( 'Theater:', 'wptheaterly' )?></strong> <?php echo esc_html($booking['theater_name']); ?></p>
+                                    <p class="wtbm_welcome_datetime"><strong><?php esc_attr_e( 'Date & Time:', 'wptheaterly' )?></strong> <?php echo esc_html($formatted_datetime); ?></p>
+                                    <p class="wtbm_welcome_seats"><strong><?php esc_attr_e( 'Seats:', 'wptheaterly' )?></strong>
                                         <?php foreach ($booking['selected_seats'] as $seat): ?>
                                             <span class="wtbm_welcome_seat"><?php echo esc_html($seat); ?></span>
                                         <?php endforeach; ?>
                                     </p>
-                                    <p class="wtbm_welcome_total"><strong>Total Price:</strong> BDT <?php echo esc_html($booking['total_price']); ?></p>
+                                    <p class="wtbm_welcome_total"><strong><?php esc_attr_e( 'Total Price:', 'wptheaterly' )?></strong> <?php echo get_woocommerce_currency();?> <?php echo esc_html($booking['total_price']); ?></p>
                                 </div>
                             </div>
 
-                            <p>Thank you for your order, <strong><?php echo esc_html( $order->get_billing_first_name() ); ?></strong>.
-                                We’re excited to have you with us!</p>
+                            <p style="font-size: 14px"><?php esc_attr_e( 'Thank you for your order,', 'wptheaterly' );?> <strong><?php echo esc_html( $booking['billing_name'] ); ?></strong>.
+                                <?php esc_attr_e( 'We’re excited to have you with us!', 'wptheaterly' )?></p>
 
                         </div>
 

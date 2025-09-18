@@ -365,12 +365,10 @@
     if ( wtbmWelcomepopup.length ) {
         wtbmWelcomepopup.fadeIn(300); // Show popup with animation
 
-        // Close on X button
         wtbmWelcomepopup.find('.wtbm_pa_close').on('click', function() {
             wtbmWelcomepopup.fadeOut(200);
         });
 
-        // Close on background click
         wtbmWelcomepopup.on('click', function(e) {
             if ($(e.target).is(wtbmWelcomepopup)) {
                 wtbmWelcomepopup.fadeOut(200);
