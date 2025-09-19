@@ -54,8 +54,6 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
             $day_of_week = strtolower( date('l', strtotime( $booking_date ) ) );
             $wtbm_price = WTBM_Set_Pricing_Sules::calculate_price_by_rules(  $wtbm_price, $day_of_week, $booking_date, $theater_id, $booking_time, $seat_count  );
 
-            error_log( print_r( [ '$total_amount' => $wtbm_price, '$wtbm_price' => $wtbm_price ], true ) );
-
             $item = new WC_Order_Item_Product();
             $item->set_product( wc_get_product( $product_id ) );
             $item->set_quantity( $quantity );
@@ -80,21 +78,23 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
             $order->update_status('completed');
 
             if( $order->get_id() ){
-                $data['wtbm_movie_id'] = $wtbm_movie_id;
-                $data['wtbm_theater_id'] = $theater_id;
-                $data['wtbm_tp'] = $wtbm_price;
-                $data['wtbm_order_date'] = $booking_date;
-                $data['wtbm_order_time'] = $booking_time;
-                $data['wtbm_order_id'] = $order->get_id();
-                $data['wtbm_order_status'] =  $order->get_payment_method();
-                $data['wtbm_seats'] = $seat_names;
-                $data['wtbm_seat_ids'] = $booked_seat_ids;
-                $data['wtbm_payment_method'] = $order->get_payment_method();
-                $data['wtbm_user_id'] = $order->get_user_id() ?? '';
-                $data['wtbm_billing_name'] = $user_name;
-                $data['wtbm_billing_email'] = '';
-                $data['wtbm_billing_phone'] = $user_phone_num;
-                $data['wtbm_billing_address'] = '';
+                $data['wtbm_movie_id']          = $wtbm_movie_id;
+                $data['wtbm_theater_id']        = $theater_id;
+                $data['wtbm_tp']                = $wtbm_price;
+                $data['wtbm_order_date']        = $booking_date;
+                $data['wtbm_order_time']        = $booking_time;
+                $data['wtbm_order_id']          = $order->get_id();
+                $data['wtbm_order_status']      =  $order->get_payment_method();
+                $data['wtbm_seats']             = $seat_names;
+                $data['wtbm_seat_ids']          = $booked_seat_ids;
+                $data['wtbm_number_of_seats']   = $seat_count;
+                $data['wtbm_payment_method']    = $order->get_payment_method();
+                $data['wtbm_user_id']           = $order->get_user_id() ?? '';
+                $data['wtbm_billing_name']      = $user_name;
+                $data['wtbm_billing_email']     = '';
+                $data['wtbm_billing_phone']     = $user_phone_num;
+                $data['wtbm_billing_address']   = '';
+
                 $booking_data = apply_filters( 'add_wtbm_booking_data', $data, $wtbm_movie_id );
 
                 MPTRS_Woocommerce::add_cpt_data('wtbm_booking', $booking_data['wtbm_billing_name'], $booking_data );

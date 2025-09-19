@@ -86,6 +86,220 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
             );
         }
 
+        public static function pa_get_wtbm_booking_movie_report( $date, $type = 'today' ) {
+            $results = array();
+
+            // Convert date string to DateTime
+            try {
+                $dt = new DateTime( $date );
+            } catch ( Exception $e ) {
+                return $results;
+            }
+
+            // Prepare date range
+            if ( $type === 'today' ) {
+                $start_date = $dt->format( 'Y-m-d' );
+                $end_date   = $dt->format( 'Y-m-d' );
+            } elseif ( $type === 'week' ) {
+                // Monday of current week
+                $week_start = clone $dt;
+                $week_start->modify( 'monday this week' );
+
+                // Sunday of current week
+                $week_end = clone $dt;
+                $week_end->modify( 'sunday this week' );
+
+                $start_date = $week_start->format( 'Y-m-d' );
+                $end_date   = $week_end->format( 'Y-m-d' );
+            } else {
+                return $results;
+            }
+
+            // Query bookings
+            $args = array(
+                'post_type'      => 'wtbm_booking',
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'fields'         => 'ids',
+                'meta_query'     => array(
+                    array(
+                        'key'     => 'wtbm_order_date',
+                        'value'   => array( $start_date, $end_date ),
+                        'compare' => 'BETWEEN',
+                        'type'    => 'DATE',
+                    ),
+                ),
+            );
+
+            $query = new WP_Query( $args );
+
+            $report_data = array();
+
+            if ( $query->have_posts() ) {
+                foreach ( $query->posts as $post_id ) {
+                    $movie_id = get_post_meta( $post_id, 'wtbm_movie_id', true );
+                    $movie_name  = get_the_title( $movie_id );
+                    $ticket_qty  = (int) get_post_meta( $post_id, 'wtbm_number_of_seats', true );
+                    $total_price = (float) get_post_meta( $post_id, 'wtbm_tp', true );
+
+                    if ( ! $movie_name ) {
+                        $movie_name = __( 'Unknown Movie', 'wptheaterly' );
+                    }
+
+                    if ( ! isset( $report_data[ $movie_name ] ) ) {
+                        $report_data[ $movie_name ] = array(
+                            'tickets' => 0,
+                            'revenue' => 0,
+                        );
+                    }
+
+                    $report_data[ $movie_name ]['tickets'] += $ticket_qty;
+                    $report_data[ $movie_name ]['revenue'] += $total_price;
+                }
+            }
+
+            wp_reset_postdata();
+
+            // Format output like: "Movie Name (10 tickets - $1000)"
+            $output = array();
+            foreach ( $report_data as $movie => $data ) {
+                $output[] = sprintf(
+                    '%s (%d tickets - $%0.2f)',
+                    esc_html( $movie ),
+                    $data['tickets'],
+                    $data['revenue']
+                );
+            }
+
+            return $output;
+        }
+
+        public static function pa_get_showtimes_by_theater( $date ) {
+            $results = array();
+            error_log( print_r( [ '$date' => $date ], true ) );
+            $args = array(
+                'post_type'      => 'wtbm_show_time',
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'fields'         => 'ids',
+                'meta_query'     => array(
+                    'relation' => 'AND',
+                    array(
+                        'key'     => 'wtbp_showtime_start_date',
+                        'value'   => $date,
+                        'compare' => '<=',
+                        'type'    => 'DATE',
+                    ),
+                    array(
+                        'key'     => 'wtbp_showtime_end_date',
+                        'value'   => $date,
+                        'compare' => '>=',
+                        'type'    => 'DATE',
+                    ),
+                ),
+            );
+
+            $query = new WP_Query( $args );
+
+            if ( $query->have_posts() ) {
+                foreach ( $query->posts as $post_id ) {
+
+                    $theater_id = get_post_meta( $post_id, 'wtbp_show_time_theaterId', true );
+                    $movie_id   = get_post_meta( $post_id, 'wtbp_show_time_movieId', true );
+                    $start_time = get_post_meta( $post_id, 'wtbp_show_time_start_date', true );
+
+                    $theater_seats = get_post_meta( $theater_id, 'wtbp_theater_seat_map', array() );
+
+                    $theater_seats = isset( $theater_seats[0]['seat_data'] )
+                        ? count( $theater_seats[0]['seat_data'] )
+                        : 0;
+
+                    if ( ! $theater_id ) {
+                        $theater_id = 'unknown';
+                    }
+
+                    if ( ! isset( $results[ $theater_id ] ) ) {
+                        $results[ $theater_id ] = array();
+                    }
+
+                    $results[ $theater_id ][] = array(
+                        'theater_id'            => $theater_id,
+                        'theater_seat_count'    => $theater_seats,
+                        'movie_id'              => $movie_id,
+                        'start_time'            => $start_time,
+                    );
+                }
+            }
+
+            wp_reset_postdata();
+
+            return $results;
+        }
+
+        public static function pa_get_theater_performance( $date, $showtimes_by_theater ) {
+            $results = $showtimes_by_theater;
+            foreach ( $results as $theater_id => &$showtimes ) {
+                foreach ( $showtimes as &$showtime ) {
+                    $showtime['booked_seats'] = 0;
+                    $showtime['revenue']      = 0;
+                }
+            }
+
+
+            // Query all bookings for this date
+            $args = array(
+                'post_type'      => 'wtbm_booking',
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'fields'         => 'ids',
+                'meta_query'     => array(
+                    array(
+                        'key'     => 'wtbm_order_date',
+                        'value'   => $date,
+                        'compare' => '=',
+                        'type'    => 'DATE',
+                    ),
+                ),
+            );
+
+            $bookings = new WP_Query( $args );
+
+            if ( $bookings->have_posts() ) {
+                foreach ( $bookings->posts as $booking_id ) {
+                    $theater_id  = get_post_meta( $booking_id, 'wtbm_theater_id', true );
+                    $movie_id    = get_post_meta( $booking_id, 'wtbm_movie_id', true );
+                    $order_time  = get_post_meta( $booking_id, 'wtbm_order_time', true ); // ex: 15:36
+                    $seat_count  = intval( get_post_meta( $booking_id, 'wtbm_number_of_seats', true ) );
+                    $total_price = floatval( get_post_meta( $booking_id, 'wtbm_tp', true ) );
+
+                    if ( isset( $results[ $theater_id ] ) ) {
+                        foreach ( $results[ $theater_id ] as &$showtime ) {
+                            if (
+                                $showtime['movie_id'] == $movie_id &&
+                                $showtime['start_time'] == $order_time
+                            ) {
+                                if ( ! isset( $showtime['booked_seats'] ) ) {
+                                    $showtime['booked_seats'] = 0;
+                                }
+                                if ( ! isset( $showtime['revenue'] ) ) {
+                                    $showtime['revenue'] = 0;
+                                }
+
+                                $showtime['booked_seats'] += $seat_count;
+                                $showtime['revenue']      += $total_price;
+                            }
+                        }
+                    }
+                }
+            }
+
+            wp_reset_postdata();
+
+            return $results;
+        }
+
+
+
 
         public function sales_report_display(){
             $today = 'today';
@@ -93,6 +307,18 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
             $date = date( 'Y-m-d' );
             $today_sales_report = self::pa_get_wtbm_booking_report( $date, $today );
             $weekly_sales_report = self::pa_get_wtbm_booking_report( $date, $week );
+
+
+            $movie_report = self::pa_get_wtbm_booking_movie_report( $date, $type = 'today' );
+
+            $showtimes_by_theater = self::pa_get_showtimes_by_theater( $date );
+
+            $sale_by_theater = self::pa_get_theater_performance( $date, $showtimes_by_theater );
+            error_log( print_r( [ '$sale_by_theater' => $sale_by_theater ], true ) );
+
+
+
+//            error_log( print_r( [ '$showtimes_by_theater' => $showtimes_by_theater ], true ) );
             ?>
 
             <div id="wtbm_sales_report_content" class="tab-content">
