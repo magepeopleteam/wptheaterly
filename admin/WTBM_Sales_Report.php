@@ -93,7 +93,6 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
             $date = date( 'Y-m-d' );
             $today_sales_report = self::pa_get_wtbm_booking_report( $date, $today );
             $weekly_sales_report = self::pa_get_wtbm_booking_report( $date, $week );
-            error_log( print_r( ['$sales_report' => $weekly_sales_report] , true ) );
             ?>
 
             <div id="wtbm_sales_report_content" class="tab-content">
