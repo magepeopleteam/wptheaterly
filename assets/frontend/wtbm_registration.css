@@ -64,7 +64,7 @@
 
 .wtbm_booking_date_date_selector {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 

@@ -176,7 +176,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                         </div>
 
                         <!-- Add Showtime Form -->
-                        <div id="wtbm_add-showtime-form" class="form-section hidden" style="display: none">
+                        <div id="wtbm_add-showtime-form" class="form-section" style="display: none">
                            <?php
                            $action_type = 'add';
 //                            echo WTBM_Manage_Showtimes::add_edit_show_time_html();
@@ -218,7 +218,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                         </div>
 
                         <!-- Add Pricing Form -->
-                        <div id="wtbm_AddPricingForm" class="form-section hidden" style="display: none"></div>
+                        <div id="wtbm_AddPricingForm" class="form-section" style="display: none"></div>
 
                         <div class="section">
                             <table class="table">

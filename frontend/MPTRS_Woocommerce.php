@@ -139,6 +139,7 @@
 								$data['wtbm_order_status'] = $order_status;
 								$data['wtbm_seats'] = $selected_seats;
 								$data['wtbm_seat_ids'] = $selected_seat_ids;
+								$data['wtbm_number_of_seats'] = count( $selected_seat_ids );
 								$data['wtbm_payment_method'] = $order->get_payment_method();
 								$data['wtbm_user_id'] = $order->get_user_id() ?? '';
 								$data['wtbm_billing_name'] = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
