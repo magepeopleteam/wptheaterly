@@ -389,9 +389,13 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
             $top_selling_times = self::get_top_selling_times( $theater_performance );
 
             $movies_performance = self::get_shows_grouped_by_movie( $theater_performance );
-//            error_log( print_r( [ '$shows_grouped_by_movie' => $movies_performance ], true ) );
 
             $wc_currency = get_woocommerce_currency();
+
+            $today_order = $today_sales_report['orders'];
+            if( $today_order === 0 ) {
+                $today_order = 1;
+            }
 
             ?>
 
@@ -463,7 +467,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                                                     <h3><?php esc_attr_e( 'REVENUE SUMMERY', 'wptheaterly' );?> </h3>
                                                     <span class=""><?php esc_attr_e( 'Today Sales', 'wptheaterly' );?> <?php echo esc_attr( $today_sales_report['orders']  )?></span>
                                                     <span class=""><?php esc_attr_e( 'today Revenue', 'wptheaterly' );?><?php echo esc_attr( $today_sales_report['revenue'] );?></span>
-                                                    <span class=""><?php esc_attr_e( 'Average Ticket Price', 'wptheaterly' );?><?php echo esc_attr( $today_sales_report['revenue']/$today_sales_report['orders'] );?></span>
+                                                    <span class=""><?php esc_attr_e( 'Average Ticket Price', 'wptheaterly' );?><?php echo esc_attr( $today_sales_report['revenue']/$today_order );?></span>
                                                 </div>
 
                                                 <div class="wtbm_pick_hours">
