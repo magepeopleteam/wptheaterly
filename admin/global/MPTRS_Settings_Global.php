@@ -35,7 +35,7 @@
 				$label = MPTRS_Function::get_name();
 				?>
                 <div class="mptrs_area mptrs_global_settings">
-                    <div class="_dShadow_6 mpPanel">
+                    <div class="mpPanel">
                         <div class="mpPanelHeader"><?php echo esc_html($label . esc_html__(' Global Settings', 'theaterly')); ?></div>
                         <div class="mpPanelBody mp_zero">
                             <div class="mptrs_tab leftTabs">
@@ -66,27 +66,32 @@
 				$sections = array(
 					array(
 						'id' => 'mptrs_general_settings',
-						'icon' => 'fas fa-sliders-h',
+						'icon' => 'mi mi-settings',
 						'title' => esc_html__('General Settings', 'theaterly')
 					),
 					array(
 						'id' => 'mptrs_global_settings',
+						'icon' => 'mi mi-settings-sliders',
 						'title' => esc_html__('Global Settings', 'theaterly')
 					),
 					array(
 						'id' => 'mptrs_slider_settings',
+						'icon' => 'mi mi-images',
 						'title' => esc_html__('Slider Settings', 'theaterly')
 					),
 					array(
 						'id' => 'mptrs_style_settings',
+						'icon' => 'mi mi-palette',
 						'title' => esc_html__('Style Settings', 'theaterly')
 					),
 					array(
 						'id' => 'mptrs_add_custom_css',
+						'icon' => 'mi mi-file-code',
 						'title' => esc_html__('Custom CSS', 'theaterly')
 					),
 					array(
 						'id' => 'mptrs_license_settings',
+						'icon' => 'mi mi-badget-check-alt',
 						'title' => esc_html__('Mage-People License', 'theaterly')
 					)
 				);
