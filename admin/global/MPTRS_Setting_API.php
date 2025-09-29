@@ -72,7 +72,7 @@
 							'max' => isset($option['max']) ? $option['max'] : '',
 							'step' => isset($option['step']) ? $option['step'] : '',
 						);
-						$label .= $this->get_field_description($args);
+						// $label .= $this->get_field_description($args);
 						add_settings_field("{$section}[{$name}]", $label, $callback, $section, $section, $args);
 					}
 				}
@@ -83,7 +83,7 @@
 			}
 			public function get_field_description($args) {
 				if (!empty($args['desc'])) {
-					$desc = sprintf('<br/><i class="info_text"><span class="fas fa-info-circle"></span>%s</i>', $args['desc']);
+					$desc = sprintf('<p class="description">%s</p>', $args['desc']);
 				} else {
 					$desc = '';
 				}
@@ -97,7 +97,10 @@
                 <label>
                     <input type="text" name="<?php echo esc_attr($name); ?>" class="formControl" value="<?php echo esc_attr($value); ?>" placeholder="<?php echo esc_attr($placeholder); ?>"/>
                 </label>
+				
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_datepicker($args) {
 				$date_format = MPTRS_Function::date_picker_format();
@@ -111,7 +114,10 @@
                     <input type="hidden" name="<?php echo esc_attr($name); ?>" value="<?php echo esc_attr($hidden_date); ?>"/>
                     <input type="text" readonly name="" class="formControl date_type" value="<?php echo esc_attr($visible_date); ?>" placeholder="<?php echo esc_attr($now); ?>"/>
                 </label>
+				
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_mp_select2($args) {
 				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
@@ -125,6 +131,8 @@
                     </select>
                 </label>
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_mp_select2_role($args) {
 				global $wp_roles;
@@ -140,6 +148,8 @@
                     </select>
                 </label>
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_url($args) {
 				$this->callback_text($args);
@@ -157,6 +167,8 @@
                     />
                 </label>
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_checkbox($args) {
 				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
@@ -171,6 +183,8 @@
                     </label>
                 </fieldset>
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_multicheck($args) {
 				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
@@ -191,6 +205,8 @@
 					<?php } ?>
                 </fieldset>
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_radio($args) {
 				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
@@ -206,6 +222,8 @@
 					<?php } ?>
                 </fieldset>
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_select($args) {
 				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
@@ -219,6 +237,8 @@
                     </select>
                 </label>
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_textarea($args) {
 				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
@@ -229,6 +249,8 @@
                     <textarea name="<?php echo esc_attr($name); ?>" rows="5" cols="55" class="formControl" placeholder="<?php echo esc_attr($placeholder); ?>"><?php echo esc_html($value); ?></textarea>
                 </label>
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_html($args) {
 				if (!empty($args['desc'])) {
@@ -257,6 +279,8 @@
 					?>
                 </div>
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_file($args) {
 				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
@@ -274,6 +298,8 @@
                     <input type="password" name="<?php echo esc_attr($name); ?>" class="formControl" value="<?php echo esc_attr($value); ?>" placeholder="<?php echo esc_attr($placeholder); ?>"/>
                 </label>
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_color($args) {
 				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
@@ -281,8 +307,12 @@
 				?>
                 <label>
                     <input type="text" name="<?php echo esc_attr($name); ?>" class="formControl wp-color-picker-field" value="<?php echo esc_attr($value); ?>" data-default-color="<?php echo esc_attr($args['std']); ?>"/>
-                </label>
+					
+				</label>
+				<br>
 				<?php
+				$html  = $this->get_field_description( $args );
+				echo wp_kses_post($html);
 			}
 			function callback_pages($args) {
 				$dropdown_args = array(

@@ -73,6 +73,9 @@
 		vertical-align: middle;
 		color:#333;
 	}
+	div.mptrs_global_settings label{
+		font-weight: normal;
+	}
 
 	div.mptrs_global_settings table th label{
 		font-weight: normal;

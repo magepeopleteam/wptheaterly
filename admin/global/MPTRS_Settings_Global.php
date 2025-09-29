@@ -469,10 +469,9 @@
 			public function license_settings() {
 				?>
                 <div class="mptrs_license_settings">
-                    <h3><?php esc_html_e('Mage-People License', 'theaterly'); ?></h3>
+                    <h4><?php esc_html_e('Mage-People License', 'theaterly'); ?></h4>
                     <div class="_dFlex">
-                        <span class="fas fa-info-circle _mR_xs"></span>
-                        <i><?php esc_html_e('Thanking you for using our Mage-People plugin. Our some plugin  free and no license is required. We have some Additional addon to enhance feature of this plugin functionality. If you have any addon you need to enter a valid license for that plugin below.', 'theaterly'); ?>                    </i>
+                        <i><?php esc_html_e('Thanking you for using our Mage-People plugin. Our some plugin  free and no license is required. We have some Additional addon to enhance feature of this plugin functionality. If you have any addon you need to enter a valid license for that plugin below.', 'theaterly'); ?></i>
                     </div>
                     <div class="divider"></div>
                     <div class="dLayout mp_basic_license_area">
