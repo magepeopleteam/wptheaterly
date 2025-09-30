@@ -1,15 +1,95 @@
 @charset "utf-8";
 /******************************************************************** Global settings ************************************************/
 @media only screen and (min-width: 10px) {
-	div.mptrs_global_settings {max-width: 1700px; margin: 30px 30px 30px 15px; width: calc(100% - 30px);}
+	div.mptrs_global_settings {max-width: 1700px; margin: 50px 30px 30px 15px; width: calc(100% - 30px);box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);}
 	div.mptrs_global_settings .button-primary {min-width: 200px;font-size: var(--mptrs_fs_h5);font-weight: var(--mptrs_fw-medium);padding: var(--mptrs_dmp_xs); }
-	div.mptrs_global_settings .mpPanelHeader {background: #161B37; color: #FFF;padding: var(--mptrs_dmp);font-size: var(--mptrs_fs_h2);text-align: center;}
-	div.mptrs_global_settings .tabLists {border-right: 1px solid var(--mptrs_color_border);}
+	div.mptrs_global_settings .mpPanelHeader {
+		background-color: var(--mptrs_color_theme);
+		padding: 15px;
+		font-size: 18px;
+		font-weight: 700;
+		color: #fff;
+		border: none;
+	}
+	.mptrs_area.mptrs_global_settings .mpPanelBody{
+		background-color: #fff;
+	}
+	div.mptrs_global_settings ul.tabLists {
+		padding: 25px 0 25px 25px;
+		background-color:#f2f2f2;
+		min-width: 300px;
+		max-width: 320px;
+		overflow: hidden;
+	}
+
+	div.mptrs_global_settings .tabLists li{
+		display: flex;
+		align-items: center;
+		padding:15px;
+		margin: 0;
+		cursor: pointer;
+		color: var(--mpev-dark);
+		position: relative;
+		font-size: 16px;
+		font-weight: normal;
+		border-left: 2px solid transparent;
+		transition: all 350ms ease-in-out;
+		position: relative;
+	}
+	div.mptrs_global_settings .tabLists li .mi{
+		color: var(--mptrs_color_theme);
+	}
+	div.mptrs_global_settings .tabLists li.active{
+		background-color: #fff;
+		font-weight: normal;
+		color: #333;
+		border-left: 2px solid var(--mptrs_color_theme);
+	}
+	div.mptrs_global_settings .tabLists li:hover{
+		background-color: #fff;
+		font-weight: normal;
+		border:none;
+		border-left: 2px solid var(--mptrs_color_theme);
+		border-bottom: 1px solid var(--mptrs_color_border);
+		color: var(--mptrs_color_theme);
+	}
+	div.mptrs_global_settings .formControl{
+		font-weight: normal;
+	}
+	div.mptrs_global_settings .tabsContent{
+		background-color: #fff;
+	}
+	div.mptrs_global_settings table{
+		border: 1px solid #ddd;
+	}
+	div.mptrs_global_settings table th{
+		table-layout: fixed;
+		margin: 0;
+		width: 50%;
+		padding: 10px 10px;
+		font-size: 16px;
+		text-align: left;
+		font-weight: normal;
+		vertical-align: middle;
+		color:#333;
+	}
+	div.mptrs_global_settings label{
+		font-weight: normal;
+	}
+
+	div.mptrs_global_settings table th label{
+		font-weight: normal;
+	}
+
+	div.mptrs_global_settings table th,div.mptrs_global_settings table td{
+		border: none;
+	}
+
+
 	div.mptrs_global_settings form > h2 {display: none;}
-	div.mptrs_global_settings table {table-layout: fixed;margin: 0;}
-	div.mptrs_global_settings table tr:nth-child(even) { background-color: #0CB32612;}
+	div.mptrs_global_settings table tr:nth-child(even) { background-color: #f8f8f8;}
 	div.mptrs_global_settings table tr:nth-child(odd) { background-color: #FFF;}
-	div.mptrs_global_settings table th {width: 40%;min-width: 300px;}
+	
 	div.mptrs_global_settings th label {-webkit-flex-wrap: wrap;flex-wrap: wrap;}
 	div.mptrs_global_settings label .info_text {width: 100%;margin: 5px 0 0 0;font-size: 11px;}
 	div.mptrs_license_settings table th{width:inherit;min-width:inherit; }

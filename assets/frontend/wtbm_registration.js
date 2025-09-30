@@ -57,7 +57,7 @@
         let selectedMovie = `
                     <div class="selected-movie" style="background-image:url('${movi_poster_url}')"></div>
                     <div id="wtbm_movieName" style="font-weight: bold;">${movie_name}</div>
-                    <div id="wtbm_movieDuration" style="color: #666; font-size: 12px;">${movie_duration}</div>
+                    <div id="wtbm_movieDuration">${movie_duration}</div>
                 `;
 
         $('.wtbm_booking_movie_card').removeClass('wtbm_movieActive');

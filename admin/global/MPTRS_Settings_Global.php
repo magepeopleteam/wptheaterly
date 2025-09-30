@@ -35,7 +35,7 @@
 				$label = MPTRS_Function::get_name();
 				?>
                 <div class="mptrs_area mptrs_global_settings">
-                    <div class="_dShadow_6 mpPanel">
+                    <div class="mpPanel">
                         <div class="mpPanelHeader"><?php echo esc_html($label . esc_html__(' Global Settings', 'theaterly')); ?></div>
                         <div class="mpPanelBody mp_zero">
                             <div class="mptrs_tab leftTabs">
@@ -66,27 +66,32 @@
 				$sections = array(
 					array(
 						'id' => 'mptrs_general_settings',
-						'icon' => 'fas fa-sliders-h',
+						'icon' => 'mi mi-settings',
 						'title' => esc_html__('General Settings', 'theaterly')
 					),
 					array(
 						'id' => 'mptrs_global_settings',
+						'icon' => 'mi mi-settings-sliders',
 						'title' => esc_html__('Global Settings', 'theaterly')
 					),
 					array(
 						'id' => 'mptrs_slider_settings',
+						'icon' => 'mi mi-images',
 						'title' => esc_html__('Slider Settings', 'theaterly')
 					),
 					array(
 						'id' => 'mptrs_style_settings',
+						'icon' => 'mi mi-palette',
 						'title' => esc_html__('Style Settings', 'theaterly')
 					),
 					array(
 						'id' => 'mptrs_add_custom_css',
+						'icon' => 'mi mi-file-code',
 						'title' => esc_html__('Custom CSS', 'theaterly')
 					),
 					array(
 						'id' => 'mptrs_license_settings',
+						'icon' => 'mi mi-badget-check-alt',
 						'title' => esc_html__('Mage-People License', 'theaterly')
 					)
 				);
@@ -455,6 +460,7 @@
 							'name' => 'custom_css',
 							'label' => esc_html__('Custom CSS', 'theaterly'),
 							'desc' => esc_html__('Write Your Custom CSS Code Here', 'theaterly'),
+							'class' => 'mptrs_custom_css',
 							'type' => 'textarea',
 						)
 					))
@@ -464,10 +470,9 @@
 			public function license_settings() {
 				?>
                 <div class="mptrs_license_settings">
-                    <h3><?php esc_html_e('Mage-People License', 'theaterly'); ?></h3>
+                    <h4><?php esc_html_e('Mage-People License', 'theaterly'); ?></h4>
                     <div class="_dFlex">
-                        <span class="fas fa-info-circle _mR_xs"></span>
-                        <i><?php esc_html_e('Thanking you for using our Mage-People plugin. Our some plugin  free and no license is required. We have some Additional addon to enhance feature of this plugin functionality. If you have any addon you need to enter a valid license for that plugin below.', 'theaterly'); ?>                    </i>
+                        <i><?php esc_html_e('Thanking you for using our Mage-People plugin. Our some plugin  free and no license is required. We have some Additional addon to enhance feature of this plugin functionality. If you have any addon you need to enter a valid license for that plugin below.', 'theaterly'); ?></i>
                     </div>
                     <div class="divider"></div>
                     <div class="dLayout mp_basic_license_area">

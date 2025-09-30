@@ -23,6 +23,9 @@
     color: #111827;
 }
 
+/* ==========mptrs admin========= */
+
+
 .mptrs-admin .nav-menu {
     margin: 10px;
 }
@@ -251,18 +254,113 @@
     margin-bottom: 15px;
 }
 .mptrs-admin .wtbm_booking_movie_card{
-    background-color: #047857;
-    width:47%;
+    background-color: #ddd;
+    width:23.5%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     border-radius: 12px;
+    box-shadow: none;
+    border: 2px solid transparent;
 }
+.mptrs-admin .wtbm_booking_movie_card:hover{
+transform: translateY(0) scale(1);
+border: 2px solid #047857;
+}
+.mptrs-admin .wtbm_booking_movie_card.wtbm_movieActive{
+    background-color: #047857;
+}
+.mptrs-admin .wtbm_booking_movie_card.wtbm_movieActive .wtbm_booking_movies_title{
+    color:#fff;
+}
+.mptrs-admin .wtbm_booking_movie_card.wtbm_movieActive .wtbm_booking_movies_details{
+    color:#fff;
+}
+.mptrs-admin .wtbm_booking_movies_title,.wtbm_booking_movies_details{
+    color:#047857;
+}
+
+.mptrs-admin .wtbm_hallCard  {
+  box-shadow: none;
+  border-color: none;
+  transform: translateY(0);
+  background: #dddddd;
+  border: none;
+}
+.mptrs-admin  .screen {
+  background: #047857;
+}
+.mptrs-admin .wtbm_hallName{
+    color: #047857;
+}
+.mptrs-admin .wtbm_timeSlot {
+  background: #8d9da3;
+  border:none;
+  border-radius:5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: none;
+  font-weight: 500;
+  color: #fff;
+  backdrop-filter: none;
+}
+.mptrs-admin .wtbm_timeSlot:hover,.mptrs-admin .wtbm_timeSlot.selected{
+    transform: none;
+    box-shadow: none;
+    background-color: #047857;
+    color: #fff;
+}
+
 .mptrs-admin .wtbm_booking_movies_poster{
     width:120px;
     height: 80px;
 }
 
+.mptrs-admin .wtbm_booking_date_date_card{
+    padding:10px 5px;
+    color: #fff;
+}
+.mptrs-admin .wtbm_booking_date_date_card.active,.mptrs-admin .wtbm_booking_date_date_card:hover{
+    background:#047857;
+    color: #fff;
+    box-shadow: none;
+    transform: translateY(0) scale(1);
+}
+
+.mptrs-admin .wtbm_booking_date_section_title{
+    color: #333;
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset ;
+    background-clip: unset;
+}
+.mptrs-admin .wtbm_registrationContainerAdmin{
+    position: relative;
+    position: relative;
+    height: 1550px;
+    overflow: auto;
+}
+.mptrs-admin .wtbm_adminRegistrationSidebar{
+    position: absolute;
+    right:20px;
+    top: 500px;
+    left: auto;
+}
+.mptrs-admin #wtbm_seatSection{
+    width: 64%;
+}
+
+.mptrs-admin .summary-title, .mptrs-admin .booking-form h3{
+    margin: 10px 0;
+    line-height: 1.5;
+    background: none;
+    background-clip:unset;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    color: #fff;
+}
+
+/* =========end admin====== */
 .table th,
 .table td {
     text-align: left;
