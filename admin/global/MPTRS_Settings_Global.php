@@ -460,6 +460,7 @@
 							'name' => 'custom_css',
 							'label' => esc_html__('Custom CSS', 'theaterly'),
 							'desc' => esc_html__('Write Your Custom CSS Code Here', 'theaterly'),
+							'class' => 'mptrs_custom_css',
 							'type' => 'textarea',
 						)
 					))

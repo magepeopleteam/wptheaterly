@@ -246,7 +246,7 @@
 				$placeholder = empty($args['placeholder']) ? '' : $args['placeholder'];
 				?>
                 <label>
-                    <textarea name="<?php echo esc_attr($name); ?>" rows="5" cols="55" class="formControl" placeholder="<?php echo esc_attr($placeholder); ?>"><?php echo esc_html($value); ?></textarea>
+                    <textarea name="<?php echo esc_attr($name); ?>" rows="5" cols="55" class="formControl <?php echo esc_attr($args['class']); ?>" placeholder="<?php echo esc_attr($placeholder); ?>"><?php echo esc_html($value); ?></textarea>
                 </label>
 				<?php
 				$html  = $this->get_field_description( $args );

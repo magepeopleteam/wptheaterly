@@ -15,6 +15,8 @@
 				add_action('admin_enqueue_scripts', [$this, 'admin_scripts'], 90);
 				add_action('admin_head', array($this, 'add_admin_head'), 5);
 				add_action('wp_head', array($this, 'add_frontend_head'), 5);
+				add_action('wp_enqueue_scripts', array($this, 'custom_css'), 5);
+				// add_action('admin_enqueue_scripts',[$this,'code_mirror']);
 			}
 			public function language_load(): void {
 				$plugin_dir = basename(dirname(__DIR__)) . "/languages/";
@@ -135,14 +137,36 @@
 			}
 			public function custom_css() {
 				$custom_css = MPTRS_Function::get_settings('mptrs_add_custom_css', 'custom_css');
-				ob_start();
-				?>
-				<style>
-					<?php echo wp_kses_post($custom_css); ?>
-				</style>
-				<?php
-				echo wp_kses_post(ob_get_clean());
+				wp_add_inline_style('mptrs', $custom_css);
 			}
+			
+			public function code_mirror( $hook ) {
+				wp_enqueue_code_editor( [ 'type' => 'text/css' ] );
+				wp_enqueue_script( 'wp-theme-plugin-editor' );
+				wp_enqueue_style( 'wp-codemirror' );
+
+				// Properly initialize the editor after script is ready
+				add_action( 'admin_footer', function() {
+					?>
+					<script>
+					jQuery(document).ready(function($){
+						if ( typeof wp !== 'undefined' && wp.codeEditor ) {
+							var settings = wp.codeEditor.defaultSettings ? _.clone( wp.codeEditor.defaultSettings ) : {};
+							settings.codemirror = settings.codemirror || {};
+							settings.codemirror.mode = 'css';
+
+							var $textarea = $('.mptrs_custom_css');
+							if ( $textarea.length && !$textarea.data('codeEditor') ) {
+								wp.codeEditor.initialize($textarea, settings);
+							}
+						}
+					});
+					</script>
+					<?php
+				});
+			}
+
+
 		}
 		new MPTRS_Dependencies();
 	}
