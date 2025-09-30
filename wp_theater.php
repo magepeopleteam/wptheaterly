@@ -30,7 +30,7 @@
 					define('MPTRS_PLUGIN_URL', plugins_url() . '/' . plugin_basename(dirname(__FILE__)));
 				}
 				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Dependencies.php';
-				if (MPTRS_Function::check_woocommerce() == 1) {
+				if (MPTRS_Function::check_woocommerce() == 1 ) {
 					add_action('activated_plugin', array($this, 'activation_redirect'), 90, 1);
 				} else {
 					require_once MPTRS_PLUGIN_DIR . '/Admin/MPTRS_Quick_Setup.php';
@@ -42,13 +42,15 @@
 			public function activation_redirect($plugin) {
 				if ($plugin == plugin_basename(__FILE__)) {
 					flush_rewrite_rules();
-					exit(esc_url_raw(wp_redirect(admin_url('edit.php?post_type=mptrs_item&page=mptrs_quick_setup'))));
+//					exit(esc_url_raw(wp_redirect(admin_url('edit.php?post_type=mptrs_item&page=mptrs_quick_setup'))));
+                    exit(esc_url_raw(wp_redirect(admin_url('admin.php?page=mptrs_main_menu'))));
 				}
 			}
 
 			public function activation_redirect_setup($plugin) {
 				if ($plugin == plugin_basename(__FILE__)) {
-					exit(esc_url_raw(wp_redirect(admin_url('admin.php?post_type=mptrs_item&page=mptrs_quick_setup'))));
+//					exit(esc_url_raw(wp_redirect(admin_url('admin.php?post_type=mptrs_item&page=mptrs_quick_setup'))));
+                    exit(esc_url_raw(wp_redirect(admin_url('admin.php?page=mptrs_quick_setup'))));
 				}
 			}
 
