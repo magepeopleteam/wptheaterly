@@ -22,7 +22,7 @@
 				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Dummy_Import.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Hidden_Product.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/WTBP_CPT.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Quick_Setup.php';
+				//require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Quick_Setup.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Manage_Theater.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Manage_Showtimes.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Pricing_Rules.php';

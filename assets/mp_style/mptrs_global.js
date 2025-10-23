@@ -432,34 +432,34 @@ function mptrs_sticky_management() {
             });
         });
     }
-    $(document).on('click', '.mptrs_area .mptrs_tab_next .mptrs_tab_prev_link', function () {
-        let parent = $(this).closest('.mptrs_tab_next');
+    $(document).on('click', '.mptrs_area .mptrs_next_tab .mptrs_tab_prev_link', function () {
+        let parent = $(this).closest('.mptrs_next_tab');
         if (parent.find('[data-tabs-target-next].active').length > 1) {
             parent.find('.mptrs_tab_prev').trigger('click');
         }
     });
-    $(document).on('click', '.mptrs_area .mptrs_tab_next .mptrs_tab_next', function () {
-        let parent = $(this).closest('.mptrs_tab_next');
+    $(document).on('click', '.mptrs_area .mptrs_next_tab .mptrs_tab_next', function () {
+        let parent = $(this).closest('.mptrs_next_tab');
         let target = parent.find('.tabListsNext:first');
         let num_of_tab = target.children('[data-tabs-target-next].active').length + 1;
         let targetTab = target.children('[data-tabs-target-next]:nth-child(' + num_of_tab + ')').data('tabs-target-next');
         active_next_tab(parent, targetTab);
     });
-    $(document).on('click', '.mptrs_area .mptrs_tab_next .mptrs_tab_prev', function () {
-        let parent = $(this).closest('.mptrs_tab_next');
+    $(document).on('click', '.mptrs_area .mptrs_next_tab .mptrs_tab_prev', function () {
+        let parent = $(this).closest('.mptrs_next_tab');
         let target = parent.find('.tabListsNext:first');
         let num_of_tab = target.children('[data-tabs-target-next].active').length - 1;
         let targetTab = target.children('[data-tabs-target-next]:nth-child(' + num_of_tab + ')').data('tabs-target-next');
         active_next_tab(parent, targetTab);
     });
     $(document).ready(function () {
-        $('.mptrs_area .mptrs_tab').each(function () {
+        $('.mptrs_area .mptrs_next_tab').each(function () {
             let tabLists = $(this).find('.tabLists:first');
             let activeTab = tabLists.find('[data-tabs-target].active');
             let targetTab = activeTab.length > 0 ? activeTab : tabLists.find('[data-tabs-target]').first();
             targetTab.trigger('click');
         });
-        $('.mptrs_area .mptrs_tab_next').each(function () {
+        $('.mptrs_area .mptrs_next_tab').each(function () {
             let parent = $(this);
             if (parent.find('[data-tabs-target-next].active').length < 1) {
                 mptrs_loader(parent);

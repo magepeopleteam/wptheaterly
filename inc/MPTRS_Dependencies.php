@@ -24,40 +24,43 @@
 			}
 			private function load_file(): void {
 				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Function.php';
+
 				require_once MPTRS_PLUGIN_DIR . '/inc/WTBM_Layout_Functions.php';
 				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Slider.php';
 				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Style.php';
 				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Select_Icon_image.php';
 				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Query.php';
 				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Layout.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Admin.php';
-				require_once MPTRS_PLUGIN_DIR . '/frontend/MPTRS_Frontend.php';
+				if (MPTRS_Function::check_woocommerce() == 1) {
+					require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Admin.php';
+					require_once MPTRS_PLUGIN_DIR . '/frontend/MPTRS_Frontend.php';
+				}
+				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Quick_Setup.php';
 			}
 			public function global_enqueue() {
-                wp_enqueue_script( 'jquery' );
-                wp_enqueue_script( 'jquery-ui-core' );
-                wp_enqueue_script( 'jquery-ui-datepicker' );
-                wp_enqueue_script('jquery-ui-mouse');
-                wp_enqueue_script('jquery-ui-sortable');
-                wp_enqueue_script('jquery-ui-dialog');
+				wp_enqueue_script('jquery');
+				wp_enqueue_script('jquery-ui-core');
+				wp_enqueue_script('jquery-ui-datepicker');
+				wp_enqueue_script('jquery-ui-mouse');
+				wp_enqueue_script('jquery-ui-sortable');
+				wp_enqueue_script('jquery-ui-dialog');
 				wp_enqueue_style('mp_jquery_ui', MPTRS_PLUGIN_URL . '/assets/jquery-ui.min.css', array(), '1.13.2');
 				wp_enqueue_style('mp_font_awesome', MPTRS_PLUGIN_URL . '/assets/admin/all.min.css', array(), '5.15.3');
 				wp_enqueue_style('mp_select_2', MPTRS_PLUGIN_URL . '/assets/select_2/select2.min.css', array(), '4.0.13');
-				wp_enqueue_script('mp_select_2', MPTRS_PLUGIN_URL . '/assets/select_2/select2.min.js', array(), '4.0.13',true);
+				wp_enqueue_script('mp_select_2', MPTRS_PLUGIN_URL . '/assets/select_2/select2.min.js', array(), '4.0.13', true);
 				wp_enqueue_style('mp_owl_carousel', MPTRS_PLUGIN_URL . '/assets/owl_carousel/owl.carousel.min.css', array(), '2.3.4');
-				wp_enqueue_script('mp_owl_carousel', MPTRS_PLUGIN_URL . '/assets/owl_carousel/owl.carousel.min.js', array(), '2.3.4',true);
+				wp_enqueue_script('mp_owl_carousel', MPTRS_PLUGIN_URL . '/assets/owl_carousel/owl.carousel.min.js', array(), '2.3.4', true);
 				wp_enqueue_style('mptrs_global', MPTRS_PLUGIN_URL . '/assets/mp_style/mptrs_global.css', array(), time());
-				wp_enqueue_script('mptrs_global', MPTRS_PLUGIN_URL . '/assets/mp_style/mptrs_global.js',  ['jquery'], time());
-
-                wp_enqueue_style('wtbm_registration', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_registration.css', [], time());
-                wp_enqueue_style('wtbm_seat_mapping', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_seat_mapping.css', [], time());
-                wp_enqueue_script('wtbm_registration', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_registration.js', ['jquery'], time(), true);
-                wp_localize_script('wtbm_registration', 'wtbm_ajax', array(
-                    'ajax_url' => admin_url('admin-ajax.php'),
-                    'nonce'    => wp_create_nonce('wtbm_nonce'),
-                    'site_url' => get_site_url(),
-                    'wc_currency_symbol' => '',
-                ));
+				wp_enqueue_script('mptrs_global', MPTRS_PLUGIN_URL . '/assets/mp_style/mptrs_global.js', ['jquery'], time());
+				wp_enqueue_style('wtbm_registration', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_registration.css', [], time());
+				wp_enqueue_style('wtbm_seat_mapping', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_seat_mapping.css', [], time());
+				wp_enqueue_script('wtbm_registration', MPTRS_PLUGIN_URL . '/assets/frontend/wtbm_registration.js', ['jquery'], time(), true);
+				wp_localize_script('wtbm_registration', 'wtbm_ajax', array(
+					'ajax_url' => admin_url('admin-ajax.php'),
+					'nonce' => wp_create_nonce('wtbm_nonce'),
+					'site_url' => get_site_url(),
+					'wc_currency_symbol' => '',
+				));
 				do_action('add_mptrs_global_enqueue');
 				wp_enqueue_style('mage-icons', MPTRS_PLUGIN_URL . '/assets/mage-icon/css/mage-icon.css', array(), time());
 			}
@@ -86,23 +89,19 @@
 				// ****custom************//
 				wp_enqueue_style('mptrs_admin', MPTRS_PLUGIN_URL . '/assets/admin/mptrs_admin.css', [], time());
 				wp_enqueue_script('mptrs_admin', MPTRS_PLUGIN_URL . '/assets/admin/mptrs_admin.js', ['jquery'], time(), true);
-
-
-                wp_enqueue_script('create_seat_plan', MPTRS_PLUGIN_URL . '/assets/admin/create_seat_plan.js', ['jquery'], time(), true);
-                wp_enqueue_style('create_seat_plan', MPTRS_PLUGIN_URL . '/assets/admin/create_seat_plan.css', array(), time());
-
+				wp_enqueue_script('create_seat_plan', MPTRS_PLUGIN_URL . '/assets/admin/create_seat_plan.js', ['jquery'], time(), true);
+				wp_enqueue_style('create_seat_plan', MPTRS_PLUGIN_URL . '/assets/admin/create_seat_plan.css', array(), time());
 				wp_localize_script('mptrs_admin', 'mptrs_admin_ajax', array(
 					'ajax_url' => admin_url('admin-ajax.php'),
-					'nonce'    => wp_create_nonce('mptrs_admin_nonce')
+					'nonce' => wp_create_nonce('mptrs_admin_nonce')
 				));
 				do_action('add_mptrs_admin_script');
 			}
 			public function frontend_script() {
 				$this->global_enqueue();
-                $currency_symbol = get_woocommerce_currency_symbol();
+				$currency_symbol = get_woocommerce_currency_symbol();
 				wp_enqueue_style('mptrs', MPTRS_PLUGIN_URL . '/assets/frontend/mptrs.css', [], time());
 				wp_enqueue_script('mptrs', MPTRS_PLUGIN_URL . '/assets/frontend/mptrs.js', ['jquery'], time(), true);
-
 				do_action('add_mptrs_frontend_script');
 			}
 			public function add_admin_head() {
@@ -114,7 +113,7 @@
 			}
 			public function js_constant() {
 				?>
-				<script type="text/javascript">
+                <script type="text/javascript">
                     let mptrs_currency_symbol = "";
                     let mptrs_currency_position = "";
                     let mptrs_currency_decimal = "";
@@ -123,17 +122,17 @@
                     let mptrs_empty_image_url = "<?php echo esc_js(MPTRS_PLUGIN_URL . '/assets/images/no_image.png'); ?>";
                     let mptrs_date_format = "<?php echo esc_js(MPTRS_Function::get_settings('mptrs_global_settings', 'date_format', 'D d M , yy')); ?>";
                     let mptrs_date_format_without_year = "<?php echo esc_js(MPTRS_Function::get_settings('mptrs_global_settings', 'date_format_without_year', 'D d M')); ?>";
-				</script>
+                </script>
 				<?php
 				if (MPTRS_Function::check_woocommerce() == 1) {
 					?>
-					<script type="text/javascript">
+                    <script type="text/javascript">
                         mptrs_currency_symbol = "<?php echo esc_js(get_woocommerce_currency_symbol()); ?>";
                         mptrs_currency_position = "<?php echo esc_js(get_option('woocommerce_currency_pos')); ?>";
                         mptrs_currency_decimal = "<?php echo esc_js(wc_get_price_decimal_separator()); ?>";
                         mptrs_currency_thousands_separator = "<?php echo esc_js(wc_get_price_thousand_separator()); ?>";
                         mptrs_num_of_decimal = "<?php echo esc_js(get_option('woocommerce_price_num_decimals', 2)); ?>";
-					</script>
+                    </script>
 					<?php
 				}
 			}
@@ -141,34 +140,29 @@
 				$custom_css = MPTRS_Function::get_settings('mptrs_add_custom_css', 'custom_css');
 				wp_add_inline_style('mptrs', $custom_css);
 			}
-			
-			public function code_mirror( $hook ) {
-				wp_enqueue_code_editor( [ 'type' => 'text/css' ] );
-				wp_enqueue_script( 'wp-theme-plugin-editor' );
-				wp_enqueue_style( 'wp-codemirror' );
-
+			public function code_mirror($hook) {
+				wp_enqueue_code_editor(['type' => 'text/css']);
+				wp_enqueue_script('wp-theme-plugin-editor');
+				wp_enqueue_style('wp-codemirror');
 				// Properly initialize the editor after script is ready
-				add_action( 'admin_footer', function() {
+				add_action('admin_footer', function () {
 					?>
-					<script>
-					jQuery(document).ready(function($){
-						if ( typeof wp !== 'undefined' && wp.codeEditor ) {
-							var settings = wp.codeEditor.defaultSettings ? _.clone( wp.codeEditor.defaultSettings ) : {};
-							settings.codemirror = settings.codemirror || {};
-							settings.codemirror.mode = 'css';
-
-							var $textarea = $('.mptrs_custom_css');
-							if ( $textarea.length && !$textarea.data('codeEditor') ) {
-								wp.codeEditor.initialize($textarea, settings);
-							}
-						}
-					});
-					</script>
+                    <script>
+                        jQuery(document).ready(function ($) {
+                            if (typeof wp !== 'undefined' && wp.codeEditor) {
+                                var settings = wp.codeEditor.defaultSettings ? _.clone(wp.codeEditor.defaultSettings) : {};
+                                settings.codemirror = settings.codemirror || {};
+                                settings.codemirror.mode = 'css';
+                                var $textarea = $('.mptrs_custom_css');
+                                if ($textarea.length && !$textarea.data('codeEditor')) {
+                                    wp.codeEditor.initialize($textarea, settings);
+                                }
+                            }
+                        });
+                    </script>
 					<?php
 				});
 			}
-
-
 		}
 		new MPTRS_Dependencies();
 	}
