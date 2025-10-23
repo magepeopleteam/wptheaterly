@@ -13,12 +13,12 @@
 			}
 			public function quick_setup_menu() {
 				$status = MPTRS_Function::check_woocommerce();
+                $label=MPTRS_Function::get_name();
 				if ($status == 1) {
-					add_submenu_page('edit.php?post_type=mptrs_item', esc_html__('Quick Setup', 'theaterly'), '<span style="color:#10dd10">' . esc_html__('Quick Setup', 'theaterly') . '</span>', 'manage_options', 'mptrs_quick_setup', array($this, 'quick_setup'));
-					add_submenu_page('mptrs_item', esc_html__('Quick Setup', 'theaterly'), '<span style="color:#10dd10">' . esc_html__('Quick Setup', 'theaterly') . '</span>', 'manage_options', 'mptrs_quick_setup', array($this, 'quick_setup'));
+					add_submenu_page('mptrs_main_menu', __('Quick Setup', 'theaterly'), '<span style="color:#10dd10">' . __('Quick Setup', 'theaterly') . '</span>', 'manage_options', 'mptrs_quick_setup', array($this, 'quick_setup'));
 				} else {
-					add_menu_page(esc_html__('Tablely', 'theaterly'), esc_html__('Tablely', 'theaterly'), 'manage_options', 'mptrs_item', array($this, 'quick_setup'), 'dashicons-admin-site-alt2', 6);
-					add_submenu_page('mptrs_item', esc_html__('Quick Setup', 'theaterly'), '<span style="color:#10dd17">' . esc_html__('Quick Setup', 'theaterly') . '</span>', 'manage_options', 'mptrs_quick_setup', array($this, 'quick_setup'));
+					add_menu_page($label, $label, 'manage_options', 'mptrs_main_menu', array($this, 'quick_setup'), 'dashicons-admin-site-alt2', 6);
+					add_submenu_page('mptrs_item', __('Quick Setup', 'theaterly'), '<span style="color:#10dd17">' . __('Quick Setup', 'theaterly') . '</span>', 'manage_options', 'mptrs_quick_setup', array($this, 'quick_setup'));
 				}
 			}
 			public function quick_setup() {
@@ -37,9 +37,8 @@
                                 "use strict";
                                 $(document).ready(function () {
                                     let mptrs_admin_location = window.location.href;
-                                    mptrs_admin_location = mptrs_admin_location.replace('admin.php?post_type=mptrs_item&page=mptrs_quick_setup', 'edit.php?post_type=mptrs_item&page=mptrs_quick_setup');
-                                    mptrs_admin_location = mptrs_admin_location.replace('admin.php?page=mptrs_item', 'edit.php?post_type=mptrs_item&page=mptrs_quick_setup');
-                                    mptrs_admin_location = mptrs_admin_location.replace('admin.php?page=mptrs_quick_setup', 'edit.php?post_type=mptrs_item&page=mptrs_quick_setup');
+                                    mptrs_admin_location = mptrs_admin_location.replace('admin.php?page=mptrs_main_menu', 'admin.php?page=mptrs_quick_setup');
+                                    //mptrs_admin_location = mptrs_admin_location.replace('admin.php?page=mptrs_item', 'admin.php?page=mptrs_quick_setup);
                                     window.location.href = mptrs_admin_location;
                                 });
                             }(jQuery));
@@ -83,9 +82,7 @@
                                 "use strict";
                                 $(document).ready(function () {
                                     let mptrs_admin_location = window.location.href;
-                                    mptrs_admin_location = mptrs_admin_location.replace('admin.php?post_type=mptrs_item&page=mptrs_quick_setup', 'edit.php?post_type=mptrs_item&page=mptrs_quick_setup');
-                                    mptrs_admin_location = mptrs_admin_location.replace('admin.php?page=mptrs_item', 'edit.php?post_type=mptrs_item&page=mptrs_quick_setup');
-                                    mptrs_admin_location = mptrs_admin_location.replace('admin.php?page=mptrs_quick_setup', 'edit.php?post_type=mptrs_item&page=mptrs_quick_setup');
+                                    mptrs_admin_location = mptrs_admin_location.replace('admin.php?page=mptrs_main_menu', 'admin.php?page=mptrs_quick_setup');;
                                     window.location.href = mptrs_admin_location;
                                 });
                             }(jQuery));
@@ -103,7 +100,7 @@
 						$new_general_settings_data = is_array($general_settings_data) ? array_replace($general_settings_data, $update_general_settings_arr) : $update_general_settings_arr;
 						update_option('mptrs_general_settings', $new_general_settings_data);
 						flush_rewrite_rules();
-						wp_redirect(admin_url('edit.php?post_type=mptrs_item'));
+						wp_redirect(admin_url('admin.php?page=mptrs_main_menu'));
 					}
 				}
 				?>
@@ -111,7 +108,7 @@
                     <div class=_dShadow_6_adminLayout">
                         <form method="post" action="">
 							<?php wp_nonce_field('mptrs_quick_setup_nonce', 'mptrs_quick_setup_nonce'); ?>
-                            <div class="mptrs_tab_next">
+                            <div class="mptrs_next_tab">
                                 <div class="tabListsNext _max_700_mAuto">
                                     <div data-tabs-target-next="#mptrs_qs_welcome" class="tabItemNext" data-open-text="1" data-close-text=" " data-open-icon="" data-close-icon="fas fa-check" data-add-class="success">
                                         <h4 class="circleIcon" data-class>
@@ -163,8 +160,8 @@
 				$status = MPTRS_Function::check_woocommerce();
 				?>
                 <div data-tabs-next="#mptrs_qs_welcome">
-                    <h2><?php esc_html_e('Tablely Manager For Woocommerce Plugin', 'theaterly'); ?></h2>
-                    <p class="mTB_xs"><?php esc_html_e('Tablely Manager Plugin for WooCommerce for your site, Please go step by step and choose some options to get started.', 'theaterly'); ?></p>
+                    <h2><?php esc_html_e('Theaterly Manager For Woocommerce Plugin', 'theaterly'); ?></h2>
+                    <p class="mTB_xs"><?php esc_html_e('Theaterly Manager Plugin for WooCommerce for your site, Please go step by step and choose some options to get started.', 'theaterly'); ?></p>
                     <div class="_dLayout_mT_alignCenter justifyBetween">
                         <h5>
 							<?php if ($status == 1) {
@@ -187,8 +184,8 @@
 				<?php
 			}
 			public function setup_general_content() {
-				$label = MPTRS_Function::get_settings('mptrs_general_settings', 'label', 'Tablely');
-				$slug = MPTRS_Function::get_settings('mptrs_general_settings', 'slug', 'service-booking');
+				$label = MPTRS_Function::get_settings('mptrs_general_settings', 'label', 'Theaterly');
+				$slug = MPTRS_Function::get_settings('mptrs_general_settings', 'slug', 'theaterly');
 				?>
                 <div data-tabs-next="#mptrs_qs_general">
                     <div class="section">
@@ -196,22 +193,22 @@
                         <p class="mTB_xs"><?php esc_html_e('Choose some general option.', 'theaterly'); ?></p>
                         <div class="_dLayout_mT">
                             <label class="fullWidth">
-                                <span class="min_300"><?php esc_html_e('Tablely Manager Label:', 'theaterly'); ?></span>
+                                <span class="min_300"><?php esc_html_e('Theaterly Manager Label:', 'theaterly'); ?></span>
                                 <input type="text" class="formControl" name="mptrs_label" value='<?php echo esc_attr($label); ?>'/>
                             </label>
                             <i class="info_text">
                                 <span class="fas fa-info-circle"></span>
-								<?php esc_html_e('It will change the Tablely Manager post type label on the entire plugin.', 'theaterly'); ?>
+								<?php esc_html_e('It will change the Theaterly Manager post type label on the entire plugin.', 'theaterly'); ?>
                             </i>
                             <div class="divider"></div>
                             <label class="fullWidth">
                             <span
-                                class="min_300"><?php esc_html_e('Tablely Manager Slug:', 'theaterly'); ?></span>
+                                class="min_300"><?php esc_html_e('Theaterly Manager Slug:', 'theaterly'); ?></span>
                                 <input type="text" class="formControl" name="mptrs_slug" value='<?php echo esc_attr($slug); ?>'/>
                             </label>
                             <i class="info_text">
                                 <span class="fas fa-info-circle"></span>
-								<?php esc_html_e('It will change the Tablely Manager slug on the entire plugin. Remember after changing this slug you need to flush permalinks. Just go to Settings->Permalinks hit the Save Settings button', 'theaterly'); ?>
+								<?php esc_html_e('It will change the Theaterly Manager slug on the entire plugin. Remember after changing this slug you need to flush permalinks. Just go to Settings->Permalinks hit the Save Settings button', 'theaterly'); ?>
                             </i>
                         </div>
                     </div>
