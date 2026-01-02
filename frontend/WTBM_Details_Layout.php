@@ -31,8 +31,10 @@
                             ?>
                             <div class="wtbm_booking_date_date_card <?php echo $i === 0 ? 'active' : ''; ?>" data-date="<?php echo esc_attr($full); ?>">
                                 <div class="day"><?php echo esc_html($day); ?></div>
-                                <div class="date"><?php echo esc_html($dayNo); ?></div>
-                                <div class="month"><?php echo esc_html($month); ?></div>
+                                <div>
+                                    <span class="date"><?php echo esc_html($dayNo); ?></span>
+                                    <span class="month"><?php echo esc_html($month); ?></span>
+                                </div>
                             </div>
                             <?php
                         }
