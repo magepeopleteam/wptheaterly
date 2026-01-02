@@ -423,7 +423,7 @@
     border-color: var(--primary);
 }
 div#load-more-section{padding:20px;}
-span#showing-info {
+div#wtbm_showing_number_of_booking {
     margin-bottom: 10px;
 }
 /* Responsive */
