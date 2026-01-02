@@ -643,8 +643,9 @@ border: 2px solid #047857;
     border-radius: 0.5rem;
     padding: 1.5rem;
     margin-top: 1.5rem;
+    margin-bottom:20px;
 }
-
+#wtbm-showtime-form .form-input{background:#f1efef; }
 .wtbm_pricing-section h5 {
     margin-bottom: 1.5rem;
 }
