@@ -422,7 +422,7 @@
     background: var(--gray-50);
     border-color: var(--primary);
 }
-
+div#load-more-section{padding:20px;}
 /* Responsive */
 @media (max-width: 768px) {
     #wtbm_sales_report_content  .container {
