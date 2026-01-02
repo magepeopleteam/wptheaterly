@@ -90,7 +90,7 @@
 .wtbm_booking_date_date_card.active {
     background: #fffafa;
     color: white;
-    border-color: transparent;
+    border: 2px solid  #5f1a89;
     box-shadow: 0 20px 25px -5px rgba(168, 85, 247, 0.4);
 }
 
