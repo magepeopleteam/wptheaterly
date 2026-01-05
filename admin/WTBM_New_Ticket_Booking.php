@@ -187,7 +187,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                     </div>
                 </div>
                 <div class="wtbm_adminRegistrationSidebar" id="wtbm_registrationSidebar">
-                    <h2 class="summary-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
+                    <h2 class="section-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
 
                     <div class="wtbm_registrationSummaryCard">
                         <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="">

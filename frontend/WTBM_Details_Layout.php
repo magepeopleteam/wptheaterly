@@ -17,7 +17,7 @@
                 ob_start();
                 ?>
                 <div class="wtbm_booking_date_section" id="wtbm_bookingDateSection">
-                    <h2 class="tbm_booking_date_section_title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
+                    <h2 class="section-title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
                     <div class="wtbm_booking_date_date_selector" id="wtbm_bookingDateSelector">
                         <?php
                         for ( $i = 0; $i < 7; $i++ ) {
@@ -56,24 +56,30 @@
                     $total_movie = count( $movie_data );
 
                     ob_start(); ?>
-                    <h2 class="wtbm_booking_date_section_title">Select Movie (<?php echo esc_attr( $total_movie );?>)</h2>
+                    <h2 class="section-title">Select Movie (<?php echo esc_attr( $total_movie );?>)</h2>
                     <div class="wtbm_booking_movies_grid" id="wtbm_moviesGrid">
                         <?php foreach ( $movie_data as $i => $movie ): ?>
                             <div class="wtbm_booking_movie_card"
                                  data-movie-name="<?php echo esc_attr( $movie['title'] );?>"
                                  data-movie-id="<?php echo esc_attr( $movie['movie_id'] );?>"
                                  data-movie-duration="<?php echo esc_attr( $movie['movie_duration'] );?>">
-                                <?php if( $movie['poster_image_url'] ){?>
-                                    <div class="wtbm_booking_movies_poster"><img src="<?php echo esc_attr( $movie['poster_image_url'] );?>" alt="<?php echo esc_attr( $movie['title'] );?>" ></div>
-                                <?php }else{?>
-                                    <div class="wtbm_booking_movies_poster">🎬</div>
-                                <?php }?>
+                                <div class="wtbm_booking_movies_poster">
+                                    <?php if( $movie['poster_image_url'] ){?>
+                                        <img src="<?php echo esc_attr( $movie['poster_image_url'] );?>" alt="<?php echo esc_attr( $movie['title'] );?>" >
+                                    <?php }else{?>
+                                        🎬
+                                    <?php }?>
+                                    <span class="slected-moive">
+                                        <i class="mi mi-check"></i>
+                                    </span>
+                                </div>
                                 <div class="wtbm_booking_movies_info">
                                     <div class="wtbm_booking_movies_title"><?php echo esc_attr( $movie['title'] );?></div>
                                     <div class="wtbm_booking_movies_details">
                                         <?php esc_html_e( 'Duration', 'wptheaterly' );?> - <?php echo esc_html( $movie['movie_duration'] );?>
                                     </div>
                                 </div>
+                                
                             </div>
                         <?php endforeach; ?>
                     </div>

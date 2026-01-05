@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="wtbm_registrationSidebar" id="wtbm_registrationSidebar">
-                        <h2 class="summary-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
+                        <h2 class="section-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
 
                         <div class="wtbm_registrationSummaryCard">
                             <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="">
@@ -124,7 +124,7 @@
                         </div>
 
                         <div class="booking-form">
-                            <h2 class="summary-title"><?php esc_attr_e( 'Ticket For', 'wptheaterly' );?></h2>
+                            <h2 class="section-title"><?php esc_attr_e( 'Ticket For', 'wptheaterly' );?></h2>
                             <div class="form-group">
                                 <label class="form-label"><?php esc_attr_e( 'Full Name', 'wptheaterly' );?></label>
                                 <input type="text" class="form-input" id="wtbm_getUserName" placeholder="Enter your name">
