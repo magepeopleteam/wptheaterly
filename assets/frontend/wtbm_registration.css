@@ -1,32 +1,35 @@
+body{
+    color: var(--mptrs_color_d);
+}
 .wtbm_registrationContainer {
     display: flex;
-    max-width: 1600px;
+    gap:10px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 40px 20px;
-    gap: 40px;
     min-height: 100vh;
 }
 
 .wtbm_registrationMainContent {
-    flex: 1;
-    /*background: rgba(30, 41, 59, 0.8);*/
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(148, 163, 184, 0.1);
-    border-radius: 24px;
-    padding: 40px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    background-color: #fff;
+    border-radius: 10px;
+    padding:15px;
+    width: calc(100% - 320px);
 }
-.wtbm_registrationMainContent h2 {font-size: 20px; margin-top:30px; }
-.wtbm_registrationMainContent .section-title{margin-top:30px;}
-.wtbm_booking_date_section_title{font-size: 20px;}
+
+.section-title{
+    margin-top:30px;
+    font-size: 20px; 
+    margin:15px 0; 
+    color: var(--mptrs_color_d);
+}
+
 .wtbm_registrationSidebar {
-    width: 420px;
-    background: #f5e5ff;
+    width: 320px;
+    background: #fefdff;
     backdrop-filter: blur(20px);
-    border: solid 2px #5f1a89;
-    border-radius: 24px;
-    padding: 32px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid #fefdff;
+    border-radius:10px;
+    padding:15px;
     height: fit-content;
     position: sticky;
     top: 40px;
@@ -46,13 +49,10 @@
 }
 
 .wtbm_booking_date_section {
-    margin-bottom: 40px;
+    margin-bottom:20px;
 }
 
-.wtbm_booking_date_section_title {
-    font-size: 20px;
-    margin-bottom: 32px;
-}
+
 
 .wtbm_booking_date_date_selector {
     display: flex;
@@ -61,119 +61,120 @@
 }
 
 .wtbm_booking_date_date_card {
-    background: #f5e5ff;
-    border: solid 2px #5f1a89;
-    border-radius: 16px;
-    padding: 15px 0px;
+    background:var(--mptrs_color_theme_22);
+    border: 1px solid  transparent;
+    border-radius: 4px;
+    padding:5px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    text-align: center;
-    min-width: 90px;
-    backdrop-filter: blur(10px);
-    width: 12%;
+    width: 80px;
+    box-shadow: 0 2px 0px #ddd;
 }
 
 .wtbm_booking_date_date_card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 25px -5px rgba(168, 85, 247, 0.4);
-    border-color: rgba(168, 85, 247, 0.5);
+    border: 1px solid  var(--mptrs_color_theme);
+    box-shadow: 0 2px 5px var(--mptrs_color_theme_66);
 }
 
 .wtbm_booking_date_date_card.active {
-    background: #fffafa;
-    border: 2px solid  #5f1a89;
-    box-shadow: 0 20px 25px -5px rgba(168, 85, 247, 0.4);
+    background: var(--mptrs_color_theme);
+    border: 1px solid  var(--mptrs_color_theme);
+    color: var(--mptrs_color_theme_alter);
+    box-shadow: 0 3px 6px var(--mptrs_color_theme_ee);
 }
 
 .wtbm_booking_date_date_card .day {
     font-size: 14px;
-    opacity: 0.8;
-    font-weight: 500;
+    text-align: left;
 }
 
 .wtbm_booking_date_date_card .date {
-    font-size: 24px;
-    font-weight: 700;
-    margin: 8px 0;
+    font-size:18px;
+    font-weight: 500;
 }
 
 .wtbm_booking_date_date_card .month {
     font-size: 14px;
     opacity: 0.8;
-    font-weight: 500;
 }
 
 .wtbm_booking_movies_grid {
     display: flex;
     justify-content: start;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 5px;
 }
 
 .wtbm_booking_movie_card {
-    background: rgba(51, 65, 85, 0.6);
-    border-radius: 20px;
+    border-radius:5px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    border: 2px solid rgba(148, 163, 184, 0.2);
     backdrop-filter: blur(10px);
-    width: calc(33% - 20px);
+    width:140px;
 }
 
 .wtbm_booking_movie_card:hover {
-    transform: translateY(1px) scale(1.02);
-    box-shadow: 0 25px 50px rgba(168, 85, 247, 0.3);
-    border-color: rgba(168, 85, 247, 0.5);
-}
-
-.wtbm_booking_movie_card.selected {
-    border-color: #a855f7;
-    transform: translateY(-3px);
-    box-shadow: 0 25px 50px rgba(168, 85, 247, 0.4);
+    border: 2px solid var(--mptrs_color_theme);
 }
 
 .wtbm_booking_movies_poster {
     width: 100%;
-    height: 220px;
+    height:160px;
     object-fit: cover;
-    background: linear-gradient(135deg, #6366f1, #a855f7, #06b6d4);
+    background: var(--mptrs_color_theme_44);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-weight: bold;
+    color: var(--mptrs_color_theme);
     position: relative;
-    font-size: 48px;
+    
 }
 .wtbm_booking_movies_poster img{
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
+.wtbm_booking_movies_poster .slected-moive{
+    display: none;
+}
+.wtbm_movieActive .wtbm_booking_movies_poster .slected-moive{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    color: var(--mptrs_color_theme_alter);
+    background: var(--mptrs_color_theme);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .wtbm_booking_movies_info {
-    padding:10px;
+    padding:5px;
     text-align: left;
 }
 
 .wtbm_booking_movies_title {
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #f8fafc;
-    font-size: 16px;
+    font-weight: normal;
+    margin-bottom:3px;
+    color: var(--mptrs_color_d);
+    font-size: 14px;
+    line-height: 1.15;
 }
 
 .wtbm_booking_movies_details {
-    font-size: 14px;
-    color: #fff;
+    font-size: 12px;
+    color: var(--mptrs_color_d);
 }
 
 .purchase-info{
     margin-top: 15px; 
     font-size: 12px; 
-    color: #302c2c; 
+    color: var(--mptrs_color_d);
     text-align: center;
 }
 
@@ -183,27 +184,19 @@
 }
 
 .wtbm_hallCard {
-    background: #f5e5ff;
-    border-radius:10px;
+    background: var(--mptrs_color_theme_22);
+    border-radius:5px;
     padding: 10px;
-    border: 2px solid  #5f1a89;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.wtbm_hallCard:hover {
-    box-shadow: 0 20px 25px -5px rgba(168, 85, 247, 0.3);
-    border-color: rgba(168, 85, 247, 0.5);
-    transform: translateY(-4px);
-}
 
 .wtbm_hallName {
     font-weight: 600;
-    font-size: 20px;
-    color: #3f4346;
+    font-size: 16px;
+    color: var(--mptrs_color_d);
 }
 
 .wtbm_timeSlots {
@@ -213,50 +206,44 @@
 }
 
 .wtbm_timeSlot {
-    background: rgba(71, 85, 105, 0.6);
-    border: 1px solid rgba(148, 163, 184, 0.3);
-    border-radius: 10px;
-    padding: 10px 15px;
+    background:var(--mptrs_color_theme_alter);
+    border: 1px solid var(--mptrs_color_theme_77);
+    border-radius:5px;
+    padding:5px 15px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-weight: 500;
-    color: #e2e8f0;
+    color: var(--mptrs_color_d);
     backdrop-filter: blur(10px);
 }
 
 .wtbm_timeSlot:hover {
-    background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
-    color: white;
+    background:var(--mptrs_color_theme);
+    color: var(--mptrs_color_theme_alter);
     border-color: transparent;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.3);
+    box-shadow: 0 2px 15px var(--mptrs_color_theme_77);
 }
 
 .wtbm_timeSlot.selected {
-    background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
-    color: white;
+    background:var(--mptrs_color_theme);
+    color: var(--mptrs_color_theme_alter);
     border-color: transparent;
-    box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.4);
+    box-shadow: 0 2px 15px var(--mptrs_color_theme_77);
 }
 
 .wtbm_seat_map {
-    background: #fff;
-    border-radius: 20px;
+    background: var(--mptrs_color_theme_alter);
+    border-radius:5px;
     text-align: center;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    border: 1px solid var(--mptrs_color_theme_77);
 }
 
 .screen {
-    background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
-    color: white;
-    padding: 16px;
-    border-radius: 12px;
+    background: var(--mptrs_color_theme_44);
+    color: var(--mptrs_color_theme);
+    padding:5px;
+    border-radius:5px;
     margin-bottom: 40px;
-    font-weight: 600;
-    font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
 }
 
 .wtbm_SeatsGrid {
@@ -341,84 +328,86 @@
 }
 
 .wtbm_registrationSummaryCard {
-    background: rgba(51, 65, 85, 0.5);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 24px;
+
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    color:#333;
 }
 
 .summary-title {
     font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #f8fafc;
+    margin-bottom:10px;
+    color: #151515;
 }
 
 .wtbm_registrationSummaryItem {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
-    padding: 6px 0;
-    color: #e2e8f0;
+    font-size: 14px;
+    padding:5px 0;
+    margin: 10px 0;
+    color: var(--mptrs_color_d);
 }
-
-.wtbm_registrationSummaryItem:last-child {
-    border-top: 1px solid rgba(148, 163, 184, 0.3);
-    padding-top: 20px;
-    margin-top: 20px;
+.wtbm_registrationSummaryItem i{
+    color: var(--mptrs_color_theme);
+    font-size: 18px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.wtbm_registrationSummaryItem span:last-child{
+    color: var(--mptrs_color_theme);
     font-weight: 600;
-    font-size: 20px;
-    color: #f8fafc;
 }
-
 .booking-form {
     margin-top: 24px;
 }
-.booking-form h3,.summary-title{
-    font-size: 30px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-#wtbm_selectedMovieDisplay{
-    background-color: #059669;
-    padding:10px;
-    border-radius: 5px;
+
+.wtbm_totalPriceSymbol{
+    color: var(--mptrs_color_theme);
+    font-weight: 600;
 }
 .selected-movie{
-    background-size: cover;
-    background-position: center center;
-    padding: 50px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--mptrs_color_theme_33);
+    padding:5px;
+    border-radius: 8px;
+    margin: 10px 0;
 }
-#wtbm_movieName,#wtbm_movieDuration{
-    color:#fff;
+.selected-movie img{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+#wtbm_movieName,
+#wtbm_movieDuration{
+    color:var(--mptrs_color_d);
 }
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 10px;
 }
 
 .form-label {
     display: block;
-    margin-bottom: 10px;
-    font-weight: 500;
-    color: #e2e8f0;
+    margin-bottom:5px;
+    font-weight: normal;
+    color: var(--mptrs_color_d);
     font-size: 14px;
 }
 
 .form-input {
     width: 100%;
-    padding: 16px 10px;
-    border: 1px solid rgba(148, 163, 184, 0.3);
-    border-radius: 12px;
-    font-size: 16px;
+    padding:10px;
+    border: 1px solid var(--mptrs_color_theme_66);
+    border-radius:5px;
+    font-size:14px;
     transition: all 0.3s ease;
-    background: rgba(71, 85, 105, 0.5);
-    color: #e2e8f0;
+    color: var(--mptrs_color_d);
     backdrop-filter: blur(10px);
+    box-sizing: border-box;
 }
 
 .form-input::placeholder {
@@ -427,19 +416,18 @@
 
 .form-input:focus {
     outline: none;
-    border-color: #a855f7;
-    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+    border-color: var(--mptrs_color_theme);
+    box-shadow: 0 0 0 3px var(--mptrs_color_theme_33);
 }
 
 .purchase-btn {
     width: 100%;
-    background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
-    color: white;
+    background: var(--mptrs_color_theme);
+    color: var(--mptrs_color_theme_alter);
     border: none;
-    padding: 18px;
-    border-radius: 12px;
+    padding:10px;
+    border-radius:5px;
     font-size: 16px;
-    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-transform: uppercase;
@@ -448,7 +436,7 @@
 
 .purchase-btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
+    box-shadow: 0 10px 25px var(--mptrs_color_theme_33);
 }
 
 .purchase-btn:disabled {
@@ -466,8 +454,8 @@
     display: none;
 }
 
-.wtbm_movieActive{
-    border: 2px solid #fff;
+.wtbm_booking_movie_card.wtbm_movieActive{
+    border: 2px solid var(--mptrs_color_theme);
 }
 
 /* Popup background */

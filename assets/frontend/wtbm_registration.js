@@ -55,9 +55,13 @@
         let movie_duration = $(this).attr('data-movie-duration').trim();
         let movie_poster = movi_poster_url;
         let selectedMovie = `
-                    <div class="selected-movie" style="background-image:url('${movi_poster_url}')"></div>
-                    <div id="wtbm_movieName" style="font-weight: bold;">${movie_name}</div>
-                    <div id="wtbm_movieDuration">${movie_duration}</div>
+                    <div class="selected-movie">
+                        <img src="${movi_poster_url}" alt="${movie_name}" />
+                        <div class="selected-movie-info">
+                            <div id="wtbm_movieName">${movie_name}</div>
+                            <div id="wtbm_movieDuration">${movie_duration}</div>
+                        </div>
+                    </div>
                 `;
 
         $('.wtbm_booking_movie_card').removeClass('wtbm_movieActive');
