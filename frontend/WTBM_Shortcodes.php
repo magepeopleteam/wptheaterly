@@ -84,8 +84,6 @@
                             <input type="hidden" name="wtbm_summeryTotalAmount" id="wtbm_summeryTotalAmount" value="">
 
                             <div id="wtbm_selectedMovieDisplay">
-                                <div id="wtbm_movieName"></div>
-                                <div id="wtbm_movieDuration"><?php esc_attr_e( 'Select a movie', 'wptheaterly' );?></div>
                             </div>
 
                             <!-- <div class="wtbm_registrationSummaryItem">
@@ -93,31 +91,31 @@
                                 <span><?php esc_attr_e( '--', 'wptheaterly' );?></span>
                             </div> -->
                             <div class="wtbm_registrationSummaryItem">
-                                <span>Show Date:</span>
-                                <span id="wtbm_summaryDateDisplay"><?php echo esc_attr( $today_date );?></span>
-                            </div>
-                            <div class="wtbm_registrationSummaryItem">
-                                <span><?php esc_attr_e( 'Hall Name:', 'wptheaterly' );?></span>
+                                <span><i class="mi mi-stage-theatre"></i> <?php esc_attr_e( 'Hall Name:', 'wptheaterly' );?></span>
                                 <span id="wtbm_summaryTheaterName">--</span>
                             </div>
                             <div class="wtbm_registrationSummaryItem">
-                                <span><?php esc_attr_e( 'Show Time:', 'wptheaterly' );?></span>
+                                <span><i class="mi mi-calendar"></i> <?php esc_attr_e( 'Show Date:', 'wptheaterly' );?></span>
+                                <span id="wtbm_summaryDateDisplay"><?php echo esc_attr( $today_date );?></span>
+                            </div>
+                            <div class="wtbm_registrationSummaryItem">
+                                <span><i class="mi mi-clock-three"></i> <?php esc_attr_e( 'Show Time:', 'wptheaterly' );?></span>
                                 <span id="wtbm_summaryTimeSlot">--</span>
                             </div>
                             <div class="wtbm_registrationSummaryItem">
-                                <span>Seat Type:</span>
+                                <span><i class="mi mi-loveseat"></i> <?php esc_attr_e( 'Seat Type:', 'wptheaterly' );?></span>
                                 <span id="wtbm_summarySeatType"><?php esc_attr_e( '--', 'wptheaterly' );?></span>
                             </div>
-                            <div class="swtbm_registrationSummaryItem">
-                                <span style="color:#fff;font-weight:bold"><?php esc_attr_e( 'Ticket Quantity:', 'wptheaterly' );?></span>
+                            <div class="wtbm_registrationSummaryItem">
+                                <span><i class="mi mi-ticket"></i> <?php esc_attr_e( 'Ticket Quantity:', 'wptheaterly' );?></span>
                                 <span id="wtbm_summaryQuantity">0</span>
                             </div>
                             <div class="wtbm_registrationSummaryItem">
-                                <span><?php esc_attr_e( 'Selected Seat:', 'wptheaterly' );?></span>
+                                <span><i class="mi mi-loveseat"></i> <?php esc_attr_e( 'Selected Seat:', 'wptheaterly' );?></span>
                                 <span id="wtbm_summarySeats">--</span>
                             </div>
                             <div class="wtbm_registrationSummaryItem">
-                                <span><?php esc_attr_e( 'Total Amount:', 'wptheaterly' );?></span>
+                                <span><i class="mi mi-coins"></i> <?php esc_attr_e( 'Total Amount:', 'wptheaterly' );?></span>
                                 <div class="wtbm_totalPriceSymbol">
                                     <span id="wtbm_summaryTotal">0 </span>
                                     <span class="wtbm_currency"><?php echo esc_attr( get_woocommerce_currency_symbol());?></span>
@@ -126,7 +124,7 @@
                         </div>
 
                         <div class="booking-form">
-                            <h3 style="margin-bottom: 15px;"><?php esc_attr_e( 'Ticket For', 'wptheaterly' );?></h3>
+                            <h2 class="summary-title"><?php esc_attr_e( 'Ticket For', 'wptheaterly' );?></h2>
                             <div class="form-group">
                                 <label class="form-label"><?php esc_attr_e( 'Full Name', 'wptheaterly' );?></label>
                                 <input type="text" class="form-input" id="wtbm_getUserName" placeholder="Enter your name">

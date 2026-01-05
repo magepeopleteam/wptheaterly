@@ -7,15 +7,15 @@
 }
 
 .wtbm_registrationMainContent {
-    flex: 1;
     background-color: #fff;
     border: 1px solid rgba(148, 163, 184, 0.1);
     border-radius: 10px;
-    padding:20px;
+    padding:15px;
+    width: calc(100% - 320px);
 }
 .wtbm_registrationMainContent h2 {
     font-size: 20px; 
-    margin:10px 0; 
+    margin:15px 0; 
 }
 .wtbm_registrationMainContent .section-title{
     margin-top:30px;
@@ -24,12 +24,12 @@
     font-size: 20px;
 }
 .wtbm_registrationSidebar {
-    width: 420px;
+    width: 320px;
     background: #fefdff;
     backdrop-filter: blur(20px);
     border: 1px solid #fefdff;
     border-radius:10px;
-    padding:10px;
+    padding:15px;
     height: fit-content;
     position: sticky;
     top: 40px;
@@ -109,13 +109,13 @@
     overflow: hidden;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    border: 2px solid rgba(148, 163, 184, 0.2);
     backdrop-filter: blur(10px);
-    width:150px;
+    width:140px;
 }
 
 .wtbm_booking_movie_card:hover {
-    border: 1px solid #a855f7;
+    border: 2px solid #a855f7;
 }
 
 .wtbm_booking_movie_card.selected {
@@ -128,14 +128,12 @@
     width: 100%;
     height:160px;
     object-fit: cover;
-    background: linear-gradient(135deg, #6366f1, #a855f7, #06b6d4);
+    background: #ddd;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-weight: bold;
+    color: #333;
     position: relative;
-    font-size: 48px;
 }
 .wtbm_booking_movies_poster img{
     width: 100%;
@@ -175,26 +173,18 @@
 
 .wtbm_hallCard {
     background: #f5e5ff;
-    border-radius:10px;
+    border-radius:5px;
     padding: 10px;
-    border: 2px solid  #5f1a89;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.wtbm_hallCard:hover {
-    box-shadow: 0 20px 25px -5px rgba(168, 85, 247, 0.3);
-    border-color: rgba(168, 85, 247, 0.5);
-    transform: translateY(-4px);
-}
 
 .wtbm_hallName {
     font-weight: 600;
-    font-size: 20px;
-    color: #3f4346;
+    font-size: 16px;
+    color: #333;
 }
 
 .wtbm_timeSlots {
@@ -204,30 +194,28 @@
 }
 
 .wtbm_timeSlot {
-    background: rgba(71, 85, 105, 0.6);
-    border: 1px solid rgba(148, 163, 184, 0.3);
-    border-radius: 10px;
-    padding: 10px 15px;
+    background:#fff;
+    border: 1px solid #333;
+    border-radius:5px;
+    padding:5px 15px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-weight: 500;
-    color: #e2e8f0;
+    color: #333;
     backdrop-filter: blur(10px);
 }
 
 .wtbm_timeSlot:hover {
-    background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
+    background:#a855f7;
     color: white;
     border-color: transparent;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.3);
+    box-shadow: 0 2px 15px #ddd;
 }
 
 .wtbm_timeSlot.selected {
-    background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
+    background:#a855f7;
     color: white;
     border-color: transparent;
-    box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.4);
+    box-shadow: 0 2px 15px #ddd;
 }
 
 .wtbm_seat_map {
@@ -239,15 +227,11 @@
 }
 
 .screen {
-    background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
+    background: #333;
     color: white;
-    padding: 16px;
-    border-radius: 12px;
+    padding:5px;
+    border-radius:5px;
     margin-bottom: 40px;
-    font-weight: 600;
-    font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
 }
 
 .wtbm_SeatsGrid {
@@ -332,84 +316,92 @@
 }
 
 .wtbm_registrationSummaryCard {
-    background: rgba(51, 65, 85, 0.5);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 24px;
+
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    color:#333;
 }
 
 .summary-title {
     font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #f8fafc;
+    margin-bottom:10px;
+    color: #151515;
 }
 
 .wtbm_registrationSummaryItem {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
-    padding: 6px 0;
-    color: #e2e8f0;
+    font-size: 14px;
+    padding:5px 0;
+    margin: 10px 0;
+    color: #202020;
 }
-
-.wtbm_registrationSummaryItem:last-child {
-    border-top: 1px solid rgba(148, 163, 184, 0.3);
-    padding-top: 20px;
-    margin-top: 20px;
+.wtbm_registrationSummaryItem i{
+    color: #a855f7;
+    font-size: 18px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.wtbm_registrationSummaryItem span:last-child{
+    color: #5f1a89;
     font-weight: 600;
-    font-size: 20px;
-    color: #f8fafc;
 }
-
 .booking-form {
     margin-top: 24px;
 }
-.booking-form h3,.summary-title{
+.booking-form h3{
     font-size: 30px;
     font-weight: 700;
     background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-#wtbm_selectedMovieDisplay{
-    background-color: #059669;
-    padding:10px;
-    border-radius: 5px;
+.wtbm_totalPriceSymbol{
+    color: #5f1a89;
+    font-weight: 600;
 }
 .selected-movie{
-    background-size: cover;
-    background-position: center center;
-    padding: 50px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    background-color: #d5d5d5;
+    padding:5px;
+    border-radius: 8px;
+    margin: 10px 0;
 }
-#wtbm_movieName,#wtbm_movieDuration{
-    color:#fff;
+.selected-movie img{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+#wtbm_movieName,
+#wtbm_movieDuration{
+    color:#333;
 }
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 10px;
 }
 
 .form-label {
     display: block;
-    margin-bottom: 10px;
-    font-weight: 500;
-    color: #e2e8f0;
+    margin-bottom:5px;
+    font-weight: normal;
+    color: #333;
     font-size: 14px;
 }
 
 .form-input {
     width: 100%;
-    padding: 16px 10px;
+    padding:10px;
     border: 1px solid rgba(148, 163, 184, 0.3);
-    border-radius: 12px;
-    font-size: 16px;
+    border-radius:5px;
+    font-size:14px;
     transition: all 0.3s ease;
-    background: rgba(71, 85, 105, 0.5);
     color: #e2e8f0;
     backdrop-filter: blur(10px);
+    box-sizing: border-box;
 }
 
 .form-input::placeholder {
@@ -424,13 +416,12 @@
 
 .purchase-btn {
     width: 100%;
-    background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
+    background: #a855f7;
     color: white;
     border: none;
-    padding: 18px;
-    border-radius: 12px;
+    padding:10px;
+    border-radius:5px;
     font-size: 16px;
-    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-transform: uppercase;
@@ -457,8 +448,8 @@
     display: none;
 }
 
-.wtbm_movieActive{
-    border: 2px solid #fff;
+.wtbm_booking_movie_card.wtbm_movieActive{
+    border: 2px solid #a855f7;
 }
 
 /* Popup background */
