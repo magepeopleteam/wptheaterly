@@ -146,7 +146,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
 
             ob_start();
             ?>
-            <div class="wtbm_registrationContainerAdmin">
+            <div class="wtbm_registrationContainer">
                 <div class="wtbm_registrationMainContent">
                     <?php
                     echo WTBM_Details_Layout::booking_date_display();
@@ -167,7 +167,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                     <div class="section" id="wtbm_seatSection" style="display: none">
                         <h2 class="section-title"><?php esc_attr_e( 'Select Seats', 'wptheaterly' );?></h2>
                         <div class="wtbm_seat_map" id="wtbm_seat_map">
-                            <div class="screen"><?php esc_attr_e( 'THEATER SCREEN', 'wptheaterly' );?></div>
+                            <div class="screen"><?php esc_attr_e( 'Theater Screen', 'wptheaterly' );?></div>
                             <div class="wtbm_SeatsGrid" id="wtbm_seatsGrid"></div>
                             <div class="seat-legend">
                                 <div class="legend-item">
@@ -186,7 +186,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                         </div>
                     </div>
                 </div>
-                <div class="wtbm_adminRegistrationSidebar" id="wtbm_registrationSidebar">
+                <div class="wtbm_registrationSidebar" id="wtbm_registrationSidebar">
                     <h2 class="section-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
 
                     <div class="wtbm_registrationSummaryCard">

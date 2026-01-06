@@ -25,9 +25,8 @@ body{
 
 .wtbm_registrationSidebar {
     width: 320px;
-    background: #fefdff;
-    backdrop-filter: blur(20px);
-    border: 1px solid #fefdff;
+    background: var(--mptrs_color_theme_11);
+    border: 1px solid var(--mptrs_color_theme);
     border-radius:10px;
     padding:15px;
     height: fit-content;
@@ -35,18 +34,6 @@ body{
     top: 40px;
 }
 
-.wtbm_adminRegistrationSidebar {
-    width: 100%;
-    background: rgba(30, 41, 59, 0.8);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(148, 163, 184, 0.1);
-    border-radius: 24px;
-    padding: 32px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    height: fit-content;
-    position: sticky;
-    top: 40px;
-}
 
 .wtbm_booking_date_section {
     margin-bottom:20px;
@@ -211,9 +198,8 @@ body{
     border-radius:5px;
     padding:5px 15px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--mptrs_color_d);
-    backdrop-filter: blur(10px);
+    font-size: 14px;
 }
 
 .wtbm_timeSlot:hover {
@@ -242,8 +228,8 @@ body{
     background: var(--mptrs_color_theme_44);
     color: var(--mptrs_color_theme);
     padding:5px;
-    border-radius:5px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+    font-size: 16px;
 }
 
 .wtbm_SeatsGrid {
@@ -313,6 +299,8 @@ body{
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
+    font-size: 14px;
+    padding-bottom: 10px;
 }
 
 .legend-item {
@@ -382,10 +370,19 @@ body{
     object-fit: cover;
     border-radius: 5px;
 }
+#wtbm_movieName{
+    font-weight: 400;
+    font-size: 16px;
+}
 #wtbm_movieName,
 #wtbm_movieDuration{
     color:var(--mptrs_color_d);
 }
+
+#wtbm_movieDuration{
+    font-size: 14px;
+}
+
 .form-group {
     margin-bottom: 10px;
 }
