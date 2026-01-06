@@ -207,15 +207,13 @@
     border-collapse: collapse;
 }
 
-.mptrs-admin .wtbm_adminRegistrationSidebar{
-    width: 400px;
-    left: 20px;
-    padding: 10px;
+.mptrs-admin .wtbm_registrationSidebar{
+    margin:15px 0;
+
 }
 
 .mptrs-admin .wtbm_registrationMainContent{
-    box-shadow: none;
-    border: 0;
+
     padding: 20px;
 }
 
@@ -226,13 +224,8 @@
 .mptrs-admin .wtbm_registrationMainContent .section-title{
     margin-bottom: 10px;
 }
-.mptrs-admin .wtbm_seat_map{
-    padding: 10px;
-}
-.mptrs-admin .screen{
-    margin-bottom: 0;
-    
-}
+
+
 .mptrs-admin #wtbm_seatGrid{
     height: 250px;
 }
@@ -253,78 +246,20 @@
     margin: 0;
     margin-bottom: 15px;
 }
-.mptrs-admin .wtbm_booking_movie_card{
-    background-color: #ddd;
-    width:23.5%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    border-radius: 12px;
-    box-shadow: none;
-    border: 2px solid transparent;
-}
-.mptrs-admin .wtbm_booking_movie_card:hover{
-transform: translateY(0) scale(1);
-border: 2px solid #047857;
-}
-.mptrs-admin .wtbm_booking_movie_card.wtbm_movieActive{
-    background-color: #047857;
-}
-.mptrs-admin .wtbm_booking_movie_card.wtbm_movieActive .wtbm_booking_movies_title{
-    color:#fff;
-}
-.mptrs-admin .wtbm_booking_movie_card.wtbm_movieActive .wtbm_booking_movies_details{
-    color:#fff;
-}
-.mptrs-admin .wtbm_booking_movies_title,.wtbm_booking_movies_details{
-    color:#047857;
-}
 
-.mptrs-admin .wtbm_hallCard  {
-  box-shadow: none;
-  border-color: none;
-  transform: translateY(0);
-  background: #dddddd;
-  border: none;
-}
-.mptrs-admin  .screen {
-  background: #047857;
-}
-.mptrs-admin .wtbm_hallName{
-    color: #047857;
-}
-.mptrs-admin .wtbm_timeSlot {
-  background: #8d9da3;
-  border:none;
-  border-radius:5px;
-  padding: 10px 15px;
-  cursor: pointer;
-  transition: none;
-  font-weight: 500;
-  color: #fff;
-  backdrop-filter: none;
-}
-.mptrs-admin .wtbm_timeSlot:hover,.mptrs-admin .wtbm_timeSlot.selected{
-    transform: none;
-    box-shadow: none;
-    background-color: #047857;
-    color: #fff;
-}
-
-.mptrs-admin .wtbm_booking_movies_poster{
-    width:120px;
-    height: 80px;
-}
 
 .mptrs-admin .wtbm_booking_date_date_card{
     padding:10px 5px;
-    color: #fff;
+    color: var(--mptrs_color_d)
 }
-.mptrs-admin .wtbm_booking_date_date_card.active,.mptrs-admin .wtbm_booking_date_date_card:hover{
-    background:#047857;
-    color: #fff;
-    box-shadow: none;
-    transform: translateY(0) scale(1);
+
+.mptrs-admin .wtbm_booking_date_date_card:hover{
+    border:1px solid var(--mptrs_color_theme);
+}
+
+.mptrs-admin .wtbm_booking_date_date_card.active{
+    background:var(--mptrs_color_theme);
+    color: var(--mptrs_color_theme_alter);
 }
 
 .mptrs-admin .wtbm_booking_date_section_title{
@@ -335,31 +270,11 @@ border: 2px solid #047857;
     background-clip: unset;
 }
 .mptrs-admin .wtbm_registrationContainerAdmin{
-    position: relative;
-    position: relative;
-    height: 1550px;
-    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 10px;
 }
-.mptrs-admin .wtbm_adminRegistrationSidebar{
-    position: absolute;
-    right:20px;
-    top: 500px;
-    left: auto;
-}
-.mptrs-admin #wtbm_seatSection{
-    width: 64%;
-}
-
-.mptrs-admin .summary-title, .mptrs-admin .booking-form h3{
-    margin: 10px 0;
-    line-height: 1.5;
-    background: none;
-    background-clip:unset;
-    -webkit-background-clip: unset;
-    -webkit-text-fill-color: unset;
-    color: #fff;
-}
-
 /* =========end admin====== */
 .table th,
 .table td {
@@ -389,14 +304,10 @@ border: 2px solid #047857;
     font-weight: 500;
     color: #374151;
 }
-.mptrs-admin .booking-form .form-label{
-    color: #fff;
-}
-.mptrs-admin .booking-form .form-input{
-    padding:8px;
-}
+
 .mptrs-admin .booking-form .admin-ticket-note{
-    margin-top: 15px; font-size: 12px; color: #fff; text-align: center;
+    margin-top: 15px; 
+    text-align: center;
 }
 .form-input {
     width: 100%;
@@ -408,7 +319,7 @@ border: 2px solid #047857;
 
 .form-input:focus {
     outline: none;
-    border-color: #2563eb;
+    border-color: var(--mptrs_color_theme);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 

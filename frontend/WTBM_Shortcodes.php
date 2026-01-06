@@ -51,7 +51,7 @@
                         <div class="section" id="wtbm_seatSection" style="display: none">
                             <h2 class="section-title"><?php esc_attr_e( 'Select Seats', 'wptheaterly' );?></h2>
                             <div class="wtbm_seat_map" id="wtbm_seat_map">
-                                <div class="screen"><?php esc_attr_e( 'THEATER SCREEN', 'wptheaterly' );?></div>
+                                <div class="screen"><?php esc_attr_e( 'Theater Screen', 'wptheaterly' );?></div>
                                 <div class="wtbm_SeatsGrid" id="wtbm_seatsGrid"></div>
                                 <div class="seat-legend">
                                     <div class="legend-item">
