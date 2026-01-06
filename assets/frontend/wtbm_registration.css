@@ -143,19 +143,21 @@ body{
 .wtbm_booking_movies_info {
     padding:5px;
     text-align: left;
+    color: var(--mptrs_color_d);
 }
-
+.wtbm_movieActive .wtbm_booking_movies_info {
+    background-color: var(--mptrs_color_theme);
+    color: var(--mptrs_color_theme_alter);
+}
 .wtbm_booking_movies_title {
     font-weight: normal;
     margin-bottom:3px;
-    color: var(--mptrs_color_d);
     font-size: 14px;
     line-height: 1.15;
 }
 
 .wtbm_booking_movies_details {
     font-size: 12px;
-    color: var(--mptrs_color_d);
 }
 
 .purchase-info{
