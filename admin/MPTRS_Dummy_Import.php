@@ -15,6 +15,7 @@
 				$dummy_post = get_option('mptrs_dummy_already_inserted');
 				$all_post = MPTRS_Function::query_post_type('mptrs_item');
 				if ($all_post->post_count == 0 && $dummy_post != 'yes') {
+					$this->create_dummy_page();
 					$dummy_data = $this->dummy_data();
 					foreach ($dummy_data as $type => $dummy) {
 						if ($type == 'taxonomy') {
@@ -89,6 +90,36 @@
 						]
 					]
 				];
+			}
+			public function create_dummy_page() {
+				$pages_to_create = [
+					'find' => [
+						'slug' => 'booking',
+						'title' => 'Booking Ticket',
+						'content' => '[wtbm_ticket_booking]',
+						'option_key' => 'mptrs_booking_page_created',
+					]
+				];
+				foreach ($pages_to_create as $page_data) {
+					$existing_page = get_page_by_path( $page_data['slug'], OBJECT, 'page' );
+					if ( $existing_page ) {
+						return;
+					}
+					$page = [
+						'post_type' => 'page',
+						'post_name' => $page_data['slug'],
+						'post_title' => $page_data['title'],
+						'post_content' => $page_data['content'],
+						'post_status' => 'publish',
+					];
+					$page_id = wp_insert_post($page);
+					if (is_wp_error($page_id)) {
+						printf('<div class="notice notice-error"><p>%s</p></div>', esc_html($page_id->get_error_message()));
+					} else {
+						update_option($page_data['option_key'], true);
+					}
+					
+				}
 			}
 		}
 	}
