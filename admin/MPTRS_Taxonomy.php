@@ -12,9 +12,9 @@
 				//add_action( 'init', [ $this, 'taxonomy' ] );
 			}
 			public function taxonomy() {
-				$label = MPTRS_Function::get_name();
-				$cat_label = MPTRS_Function::get_category_label();
-				$cat_slug = MPTRS_Function::get_category_slug();
+				$label = WTBM_Function::get_name();
+				$cat_label = WTBM_Function::get_category_label();
+				$cat_slug = WTBM_Function::get_category_slug();
 				$labels = [
 					'name' => $label . ' ' . $cat_label,
 					'singular_name' => $label . ' ' . $cat_label,

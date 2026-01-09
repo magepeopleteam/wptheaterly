@@ -6,8 +6,8 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Dependencies')) {
-		class MPTRS_Dependencies {
+	if (!class_exists('WTBM_Dependencies')) {
+		class WTBM_Dependencies {
 			public function __construct() {
 				add_action('init', [$this, 'language_load']);
 				$this->load_file();
@@ -23,17 +23,17 @@
 				load_plugin_textdomain('theaterly', false, $plugin_dir);
 			}
 			private function load_file(): void {
-				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Function.php';
+				require_once MPTRS_PLUGIN_DIR . '/inc/WTBM_Function.php';
 
 				require_once MPTRS_PLUGIN_DIR . '/inc/WTBM_Layout_Functions.php';
-				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Slider.php';
-				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Style.php';
-				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Select_Icon_image.php';
-				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Query.php';
-				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Layout.php';
-				if (MPTRS_Function::check_woocommerce() == 1) {
+				require_once MPTRS_PLUGIN_DIR . '/inc/WTBM_Slider.php';
+				require_once MPTRS_PLUGIN_DIR . '/inc/WTBM_Style.php';
+				require_once MPTRS_PLUGIN_DIR . '/inc/WTBM_Select_Icon_image.php';
+				require_once MPTRS_PLUGIN_DIR . '/inc/WTBM_Query.php';
+				require_once MPTRS_PLUGIN_DIR . '/inc/WTBM_Layout.php';
+				if (WTBM_Function::check_woocommerce() == 1) {
 					require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Admin.php';
-					require_once MPTRS_PLUGIN_DIR . '/frontend/MPTRS_Frontend.php';
+					require_once MPTRS_PLUGIN_DIR . '/frontend/WTBM_Frontend.php';
 				}
 				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Quick_Setup.php';
 			}
@@ -120,11 +120,11 @@
                     let mptrs_currency_thousands_separator = "";
                     let mptrs_num_of_decimal = "";
                     let mptrs_empty_image_url = "<?php echo esc_js(MPTRS_PLUGIN_URL . '/assets/images/no_image.png'); ?>";
-                    let mptrs_date_format = "<?php echo esc_js(MPTRS_Function::get_settings('mptrs_global_settings', 'date_format', 'D d M , yy')); ?>";
-                    let mptrs_date_format_without_year = "<?php echo esc_js(MPTRS_Function::get_settings('mptrs_global_settings', 'date_format_without_year', 'D d M')); ?>";
+                    let mptrs_date_format = "<?php echo esc_js(WTBM_Function::get_settings('mptrs_global_settings', 'date_format', 'D d M , yy')); ?>";
+                    let mptrs_date_format_without_year = "<?php echo esc_js(WTBM_Function::get_settings('mptrs_global_settings', 'date_format_without_year', 'D d M')); ?>";
                 </script>
 				<?php
-				if (MPTRS_Function::check_woocommerce() == 1) {
+				if (WTBM_Function::check_woocommerce() == 1) {
 					?>
                     <script type="text/javascript">
                         mptrs_currency_symbol = "<?php echo esc_js(get_woocommerce_currency_symbol()); ?>";
@@ -137,7 +137,7 @@
 				}
 			}
 			public function custom_css() {
-				$custom_css = MPTRS_Function::get_settings('mptrs_add_custom_css', 'custom_css');
+				$custom_css = WTBM_Function::get_settings('mptrs_add_custom_css', 'custom_css');
 				wp_add_inline_style('mptrs', $custom_css);
 			}
 			public function code_mirror($hook) {
@@ -164,5 +164,5 @@
 				});
 			}
 		}
-		new MPTRS_Dependencies();
+		new WTBM_Dependencies();
 	}

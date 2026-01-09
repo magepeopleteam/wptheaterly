@@ -62,7 +62,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
         function mptrs_insert_movie_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
-            $cpt = MPTRS_Function::get_movie_cpt();
+            $cpt = WTBM_Function::get_movie_cpt();
             $title       = sanitize_text_field( $_POST['title']);
             $genre       = sanitize_text_field( $_POST['genre']);
             $duration    = sanitize_text_field( $_POST['duration']);
@@ -98,7 +98,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
 
         function wtbm_update_movie_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
-            $cpt = MPTRS_Function::get_movie_cpt();
+            $cpt = WTBM_Function::get_movie_cpt();
             $title          = sanitize_text_field( $_POST['title']);
             $genre          = sanitize_text_field( $_POST['genre']);
             $duration       = sanitize_text_field( $_POST['duration']);

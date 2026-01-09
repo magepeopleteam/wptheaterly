@@ -90,7 +90,7 @@
 				return $desc;
 			}
 			function callback_text($args) {
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . ']';
 				$placeholder = empty($args['placeholder']) ? '' : $args['placeholder'];
 				?>
@@ -103,9 +103,9 @@
 				echo wp_kses_post($html);
 			}
 			function callback_datepicker($args) {
-				$date_format = MPTRS_Function::date_picker_format();
+				$date_format = WTBM_Function::date_picker_format();
 				$now = date_i18n($date_format, strtotime(current_time('Y-m-d')));
-				$date = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$date = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$hidden_date = $date ? date_i18n('Y-m-d', strtotime($date)) : '';
 				$visible_date = $date ? date_i18n($date_format, strtotime($date)) : '';
 				$name = $args['section'] . '[' . $args['id'] . ']';
@@ -120,7 +120,7 @@
 				echo wp_kses_post($html);
 			}
 			function callback_mp_select2($args) {
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . ']';
 				?>
                 <label>
@@ -136,7 +136,7 @@
 			}
 			function callback_mp_select2_role($args) {
 				global $wp_roles;
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . '][]';
 				$value = is_array($value) ? $value : [$value];
 				?>
@@ -155,7 +155,7 @@
 				$this->callback_text($args);
 			}
 			function callback_number($args) {
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . ']';
 				$placeholder = empty($args['placeholder']) ? '' : $args['placeholder'];
 				?>
@@ -171,7 +171,7 @@
 				echo wp_kses_post($html);
 			}
 			function callback_checkbox($args) {
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . ']';
 				$checked = checked($value, 'on', false);
 				?>
@@ -187,7 +187,7 @@
 				echo wp_kses_post($html);
 			}
 			function callback_multicheck($args) {
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . ']';
 				?>
                 <fieldset>
@@ -209,7 +209,7 @@
 				echo wp_kses_post($html);
 			}
 			function callback_radio($args) {
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . ']';
 				?>
                 <fieldset>
@@ -226,7 +226,7 @@
 				echo wp_kses_post($html);
 			}
 			function callback_select($args) {
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . ']';
 				?>
                 <label>
@@ -241,7 +241,7 @@
 				echo wp_kses_post($html);
 			}
 			function callback_textarea($args) {
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . ']';
 				$placeholder = empty($args['placeholder']) ? '' : $args['placeholder'];
 				?>
@@ -263,7 +263,7 @@
 				}
 			}
 			function callback_wysiwyg($args) {
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				?>
                 <div>
 					<?php
@@ -283,14 +283,14 @@
 				echo wp_kses_post($html);
 			}
 			function callback_file($args) {
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . ']';
 				$placeholder = empty($args['placeholder']) ? '' : $args['placeholder'];
 				$label = $args['options']['button_label'] ?? esc_html__('Choose File', 'theaterly');
 				do_action('mptrs_add_single_image', $name, $value);
 			}
 			function callback_password($args) {
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . ']';
 				$placeholder = empty($args['placeholder']) ? '' : $args['placeholder'];
 				?>
@@ -302,7 +302,7 @@
 				echo wp_kses_post($html);
 			}
 			function callback_color($args) {
-				$value = MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']);
+				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . ']';
 				?>
                 <label>
@@ -316,7 +316,7 @@
 			}
 			function callback_pages($args) {
 				$dropdown_args = array(
-					'selected' => MPTRS_Function::get_settings($args['section'], $args['id'], $args['std']),
+					'selected' => WTBM_Function::get_settings($args['section'], $args['id'], $args['std']),
 					'name' => $args['section'] . '[' . $args['id'] . ']',
 					'id' => $args['section'] . '[' . $args['id'] . ']',
 				);

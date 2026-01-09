@@ -6,16 +6,16 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Style')) {
-		class MPTRS_Style {
+	if (!class_exists('WTBM_Style')) {
+		class WTBM_Style {
 			public function __construct() {
 				add_action('wp_head', array($this, 'add_global_style'), 100);
 				add_action('admin_head', array($this, 'add_global_style'), 100);
 			}
 			public function add_global_style() {
-				$default_color = MPTRS_Function::get_style_settings('default_text_color', '#333');
-				$theme_color = MPTRS_Function::get_style_settings('theme_color', '#a855f7');
-				$alternate_color = MPTRS_Function::get_style_settings('theme_alternate_color', '#fff');
+				$default_color = WTBM_Function::get_style_settings('default_text_color', '#333');
+				$theme_color = WTBM_Function::get_style_settings('theme_color', '#a855f7');
+				$alternate_color = WTBM_Function::get_style_settings('theme_alternate_color', '#fff');
 				?>
                 <style>
 					:root {
@@ -74,5 +74,5 @@
 				<?php
 			}
 		}
-		new MPTRS_Style();
+		new WTBM_Style();
 	}

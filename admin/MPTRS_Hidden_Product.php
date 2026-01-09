@@ -15,7 +15,7 @@
 				add_action( 'wp', array( $this, 'hide_hidden_wc_product_from_frontend' ) );
 			}
 			public function create_hidden_wc_product_on_publish( $post_id, $post ) {
-				if ( $post->post_type == MPTRS_Function::get_movie_cpt() && $post->post_status == 'publish' && empty( MPTRS_Function::get_post_info( $post_id, 'check_if_run_once' ) ) ) {
+				if ( $post->post_type == WTBM_Function::get_movie_cpt() && $post->post_status == 'publish' && empty( WTBM_Function::get_post_info( $post_id, 'check_if_run_once' ) ) ) {
 					$new_post     = array(
 						'post_title'    => $post->post_title,
 						'post_content'  => '',
@@ -38,7 +38,7 @@
 				}
 			}
 			public function run_link_product_on_save( $post_id ) {
-				if ( get_post_type( $post_id ) == MPTRS_Function::get_movie_cpt() ) {
+				if ( get_post_type( $post_id ) == WTBM_Function::get_movie_cpt() ) {
 					if ( ! isset( $_POST['mptrs_nonce'] ) || ! wp_verify_nonce( sanitize_text_field(wp_unslash($_POST['mptrs_nonce'])), 'mptrs_nonce' ) ) {
 						return;
 					}
@@ -49,10 +49,10 @@
 						return;
 					}
 					$title = get_the_title( $post_id );
-					if ( $this->count_hidden_wc_product( $post_id ) == 0 || empty( MPTRS_Function::get_post_info( $post_id, 'link_wc_product' ) ) ) {
+					if ( $this->count_hidden_wc_product( $post_id ) == 0 || empty( WTBM_Function::get_post_info( $post_id, 'link_wc_product' ) ) ) {
 						$this->create_hidden_wc_product( $post_id, $title );
 					}
-					$product_id = MPTRS_Function::get_post_info( $post_id, 'link_wc_product', $post_id );
+					$product_id = WTBM_Function::get_post_info( $post_id, 'link_wc_product', $post_id );
 					set_post_thumbnail( $product_id, get_post_thumbnail_id( $post_id ) );
 					wp_publish_post( $product_id );
 					$product_type = 'yes';
@@ -96,7 +96,7 @@
 					$visibility = get_the_terms( $post_id, 'product_visibility' );
 					if ( is_object( $visibility ) ) {
 						if ( $visibility[0]->name == 'exclude-from-catalog' ) {
-							$check_event_hidden = MPTRS_Function::get_post_info( $post_id, 'link_mptrs_id', 0 );
+							$check_event_hidden = WTBM_Function::get_post_info( $post_id, 'link_mptrs_id', 0 );
 							if ( $check_event_hidden > 0 ) {
 								$wp_query->set_404();
 								status_header( 404 );

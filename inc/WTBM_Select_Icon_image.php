@@ -6,9 +6,9 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Select_Icon_image')) {
+	if (!class_exists('WTBM_Select_Icon_image')) {
 		$GLOBALS['mp_icon_popup_exit'] = false;
-		class MPTRS_Select_Icon_image {
+		class WTBM_Select_Icon_image {
 			public function __construct() {
 				add_action('mptrs_input_add_icon', array($this, 'load_icon'), 10, 2);
 				add_action('mptrs_add_single_image', array($this, 'add_single_image'), 10, 2);
@@ -109,7 +109,7 @@
 				<?php
 			}
 			public function add_multi_image($name, $images) {
-				$images = is_array($images) ? MPTRS_Function::array_to_string($images) : $images;
+				$images = is_array($images) ? WTBM_Function::array_to_string($images) : $images;
 				?>
                 <div class="multi_image_area">
                     <input type="hidden" class="multi_image_value" name="<?php echo esc_attr($name); ?>" value="<?php esc_attr($images); ?>"/>
@@ -1909,5 +1909,5 @@
 				];
 			}
 		}
-		new MPTRS_Select_Icon_image();
+		new WTBM_Select_Icon_image();
 	}

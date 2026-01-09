@@ -20,8 +20,8 @@
 				add_action('mptrs_license', [$this, 'licence_area']);
 			}
 			public function global_settings_menu() {
-				$label = MPTRS_Function::get_name();
-				$cpt = MPTRS_Function::get_cpt();
+				$label = WTBM_Function::get_name();
+				$cpt = WTBM_Function::get_cpt();
 				add_submenu_page(
                         'mptrs_main_menu',
                         $label . esc_html__(' Settings', 'theaterly'),
@@ -32,7 +32,7 @@
                 );
 			}
 			public function settings_page() {
-				$label = MPTRS_Function::get_name();
+				$label = WTBM_Function::get_name();
 				?>
                 <div class="mptrs_area mptrs_global_settings">
                     <div class="mpPanel">
@@ -98,7 +98,7 @@
 				return array_merge($default_sec, $sections);
 			}
 			public function settings_sec_fields($default_fields): array {
-				$label = MPTRS_Function::get_name();
+				$label = WTBM_Function::get_name();
 				$current_date = current_time('Y-m-d');
 				$settings_fields = array(
 					'mptrs_general_settings' => apply_filters('filter_mptrs_general_settings', array(

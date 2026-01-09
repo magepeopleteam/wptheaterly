@@ -15,8 +15,8 @@ if( !class_exists( 'WTBP_Menu' ) ) {
          * ✅ Main menu + submenus
          */
         public function register_admin_menu() {
-            $label = MPTRS_Function::get_name();
-            $cpt   = MPTRS_Function::get_cpt();
+            $label = WTBM_Function::get_name();
+            $cpt   = WTBM_Function::get_cpt();
 
             // Main menu
             add_menu_page(

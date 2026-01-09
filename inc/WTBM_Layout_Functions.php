@@ -96,7 +96,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 return null;
             }
             $args = [
-                'post_type'      => MPTRS_Function::get_theater_cpt(),
+                'post_type'      => WTBM_Function::get_theater_cpt(),
                 'post_status'    => 'publish',
                 'p'              => $post_id,
                 'posts_per_page' => 1,
@@ -130,7 +130,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
         public static function get_and_display_theater_date( $limit = -1 ) {
             // WP_Query args
             $args = [
-                'post_type'      => MPTRS_Function::get_theater_cpt(),
+                'post_type'      => WTBM_Function::get_theater_cpt(),
                 'post_status'    => 'publish',
                 'posts_per_page' => $limit,
                 'orderby'        => 'date',
@@ -168,7 +168,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
         public static function get_show_time_data() {
 
             $args = [
-                'post_type'      => MPTRS_Function::get_show_time_cpt(),
+                'post_type'      => WTBM_Function::get_show_time_cpt(),
                 'post_status'    => 'publish',
                 'posts_per_page' => -1,
                 'orderby'        => 'date',
@@ -208,7 +208,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 return null;
             }
             $args = [
-                'post_type'      => MPTRS_Function::get_show_time_cpt(),
+                'post_type'      => WTBM_Function::get_show_time_cpt(),
                 'post_status'    => 'publish',
                 'p'              => $post_id,
                 'posts_per_page' => 1,
@@ -247,7 +247,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 return null;
             }
             $args = [
-                'post_type'      => MPTRS_Function::get_pricing_cpt(),
+                'post_type'      => WTBM_Function::get_pricing_cpt(),
                 'post_status'    => 'publish',
                 'p'              => $post_id,
                 'posts_per_page' => 1,
@@ -288,7 +288,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
         public static function get_pricing_rules_data() {
 
             $args = [
-                'post_type'      => MPTRS_Function::get_pricing_cpt(),
+                'post_type'      => WTBM_Function::get_pricing_cpt(),
                 'post_status'    => 'publish',
                 'posts_per_page' => -1,
                 'orderby'        => 'date',

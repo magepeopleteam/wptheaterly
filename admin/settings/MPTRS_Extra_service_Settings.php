@@ -100,7 +100,7 @@
 				die;
 			}
 			public function get_extra_services($post_id) {
-				$extra_services = MPTRS_Function::get_post_info($post_id, 'mptrs_extra_service', []);
+				$extra_services = WTBM_Function::get_post_info($post_id, 'mptrs_extra_service', []);
 				$services = [];
 				foreach ($extra_services as $value) {
 					if (isset($value['group_service_info'])) {
@@ -115,7 +115,7 @@
 				}
 			}
 			public function extra_service_settings($post_id) {
-				$extra_service_active = MPTRS_Function::get_post_info($post_id, 'mptrs_extra_service_active', 'off');
+				$extra_service_active = WTBM_Function::get_post_info($post_id, 'mptrs_extra_service_active', 'off');
 				$active_class = $extra_service_active == 'on' ? 'mActive' : '';
 				$extra_service_checked = $extra_service_active == 'on' ? 'checked' : '';
 				?>
@@ -135,7 +135,7 @@
                                 <span><?php esc_html_e('Enable Extra Service.', 'theaterly'); ?></span>
                             </div>
                             <div>
-								<?php MPTRS_Layout::switch_button('mptrs_extra_service_active', $extra_service_checked); ?>
+								<?php WTBM_Layout::switch_button('mptrs_extra_service_active', $extra_service_checked); ?>
                             </div>
                         </div>
                     </section>

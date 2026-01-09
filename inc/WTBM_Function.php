@@ -6,8 +6,8 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Function')) {
-		class MPTRS_Function {
+	if (!class_exists('WTBM_Function')) {
+		class WTBM_Function {
 			public function __construct() {
 				add_action('mptrs_load_date_picker_js', [$this, 'date_picker_js'], 10, 2);
 			}
@@ -75,7 +75,7 @@
 			}
 			//**************Date related*********************//
 			public static function date_picker_format_without_year($key = 'date_format'): string {
-				$format = MPTRS_Function::get_settings('mptrs_global_settings', $key, 'D d M , yy');
+				$format = WTBM_Function::get_settings('mptrs_global_settings', $key, 'D d M , yy');
 				$date_format = 'm-d';
 				$date_format = $format == 'yy/mm/dd' ? 'm/d' : $date_format;
 				$date_format = $format == 'yy-dd-mm' ? 'd-m' : $date_format;
@@ -90,7 +90,7 @@
 				return $format == 'D M d , yy' ? 'D M  j' : $date_format;
 			}
 			public static function date_picker_format($key = 'date_format'): string {
-				$format = MPTRS_Function::get_settings('mptrs_global_settings', $key, 'D d M , yy');
+				$format = WTBM_Function::get_settings('mptrs_global_settings', $key, 'D d M , yy');
 				$date_format = 'Y-m-d';
 				$date_format = $format == 'yy/mm/dd' ? 'Y/m/d' : $date_format;
 				$date_format = $format == 'yy-dd-mm' ? 'Y-d-m' : $date_format;
@@ -329,9 +329,9 @@
 				}
 			}
 			public static function check_product_in_cart($post_id) {
-				$status = MPTRS_Function::check_woocommerce();
+				$status = WTBM_Function::check_woocommerce();
 				if ($status == 1) {
-					$product_id = MPTRS_Function::get_post_info($post_id, 'link_wc_product');
+					$product_id = WTBM_Function::get_post_info($post_id, 'link_wc_product');
 					foreach (WC()->cart->get_cart() as $cart_item) {
 						if ($cart_item['product_id'] == $product_id) {
 							return true;
@@ -377,7 +377,7 @@
 			//***********Template********************//
 			public static function details_template_path($post_id = ''): string {
 				$post_id = $post_id ?? get_the_id();
-				$template_name = MPTRS_Function::get_post_info($post_id, 'mptrs_template', 'default.php');
+				$template_name = WTBM_Function::get_post_info($post_id, 'mptrs_template', 'default.php');
 				$file_name = 'themes/' . $template_name;
 				$dir = MPTRS_PLUGIN_DIR . '/templates/' . $file_name;
 				if (!file_exists($dir)) {
@@ -394,7 +394,7 @@
 			}
 			//************************//
 			public static function get_general_settings($key, $default = '') {
-				return MPTRS_Function::get_settings('mptrs_general_settings', $key, $default);
+				return WTBM_Function::get_settings('mptrs_general_settings', $key, $default);
 			}
 			//*****************//
 			public static function get_cpt(): string {
@@ -439,5 +439,5 @@
 			//*************************************************************Full Custom Function******************************//
 	
 		}
-		new MPTRS_Function();
+		new WTBM_Function();
 	}

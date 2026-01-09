@@ -21,16 +21,16 @@
 				add_action('wp_ajax_nopriv_get_mptrs_end_break_time', array($this, 'get_mptrs_end_break_time'));
 			}
 			public function date_time_settings($post_id) {
-				$date_format = MPTRS_Function::date_picker_format();
+				$date_format = WTBM_Function::date_picker_format();
 				$now = date_i18n($date_format, strtotime(current_time('Y-m-d')));
-				$date_type = MPTRS_Function::get_post_info($post_id, 'mptrs_date_type', 'repeated');
-				$time_slot = MPTRS_Function::get_post_info($post_id, 'mptrs_time_slot_length');
-				$capacity = MPTRS_Function::get_post_info($post_id, 'mptrs_capacity_per_session', 1);
-				$repeated_start_date = MPTRS_Function::get_post_info($post_id, 'mptrs_repeated_start_date');
+				$date_type = WTBM_Function::get_post_info($post_id, 'mptrs_date_type', 'repeated');
+				$time_slot = WTBM_Function::get_post_info($post_id, 'mptrs_time_slot_length');
+				$capacity = WTBM_Function::get_post_info($post_id, 'mptrs_capacity_per_session', 1);
+				$repeated_start_date = WTBM_Function::get_post_info($post_id, 'mptrs_repeated_start_date');
 				$hidden_repeated_start_date = $repeated_start_date ? date_i18n('Y-m-d', strtotime($repeated_start_date)) : '';
 				$visible_repeated_start_date = $repeated_start_date ? date_i18n($date_format, strtotime($repeated_start_date)) : '';
-				$repeated_after = MPTRS_Function::get_post_info($post_id, 'mptrs_repeated_after', 1);
-				$active_days = MPTRS_Function::get_post_info($post_id, 'mptrs_active_days', 10);
+				$repeated_after = WTBM_Function::get_post_info($post_id, 'mptrs_repeated_after', 1);
+				$active_days = WTBM_Function::get_post_info($post_id, 'mptrs_active_days', 10);
 				?>
                 <div class="tabsItem mptrs_settings_date_time" data-tabs="#mptrs_settings_date_time">
                     <header>
@@ -61,7 +61,7 @@
                             <div class="settings_area">
                                 <div class="item_insert sortable_area">
 									<?php
-										$particular_date_lists = MPTRS_Function::get_post_info($post_id, 'mptrs_particular_dates', array());
+										$particular_date_lists = WTBM_Function::get_post_info($post_id, 'mptrs_particular_dates', array());
 										if (sizeof($particular_date_lists)) {
 											foreach ($particular_date_lists as $particular_date) {
 												if ($particular_date) {
@@ -71,7 +71,7 @@
 										}
 									?>
                                 </div>
-								<?php MPTRS_Layout::add_new_button(esc_html__('Add New Particular date', 'theaterly')); ?>
+								<?php WTBM_Layout::add_new_button(esc_html__('Add New Particular date', 'theaterly')); ?>
                                 <div class="hidden_content">
                                     <div class="hidden_item">
 										<?php self::particular_date_item('mptrs_particular_dates[]'); ?>
@@ -118,7 +118,7 @@
                             <tbody>
 							<?php
 								$this->time_slot_tr($post_id, 'default');
-								$days = MPTRS_Function::week_day();
+								$days = WTBM_Function::week_day();
 								foreach ($days as $key => $day) {
 									$this->time_slot_tr($post_id, $key);
 								}
@@ -135,8 +135,8 @@
                         <label class="label">
                             <div class="groupCheckBox flexWrap">
 								<?php
-									$off_days = MPTRS_Function::get_post_info($post_id, 'mptrs_off_days');
-									$days = MPTRS_Function::week_day();
+									$off_days = WTBM_Function::get_post_info($post_id, 'mptrs_off_days');
+									$days = WTBM_Function::week_day();
 									$off_day_array = explode(',', $off_days);
 								?>
                                 <input type="hidden" name="mptrs_off_days" value="<?php echo esc_attr($off_days); ?>"/>
@@ -157,7 +157,7 @@
                             <div class="settings_area">
                                 <div class="item_insert sortable_area">
 									<?php
-										$off_day_lists = MPTRS_Function::get_post_info($post_id, 'mptrs_off_dates', array());
+										$off_day_lists = WTBM_Function::get_post_info($post_id, 'mptrs_off_dates', array());
 										if (sizeof($off_day_lists) > 0) {
 											foreach ($off_day_lists as $off_day) {
 												if ($off_day) {
@@ -167,7 +167,7 @@
 										}
 									?>
                                 </div>
-								<?php MPTRS_Layout::add_new_button(esc_html__('Add New Off date', 'theaterly')); ?>
+								<?php WTBM_Layout::add_new_button(esc_html__('Add New Off date', 'theaterly')); ?>
                                 <div class="hidden_content">
                                     <div class="hidden_item">
 										<?php MPTRS_Date_Time_Settings::particular_date_item('mptrs_off_dates[]'); ?>
@@ -180,7 +180,7 @@
 				<?php
 			}
 			public static function particular_date_item($name, $date = '') {
-				$date_format = MPTRS_Function::date_picker_format();
+				$date_format = WTBM_Function::date_picker_format();
 				$now = date_i18n($date_format, strtotime(current_time('Y-m-d')));
 				$hidden_date = $date ? date_i18n('Y-m-d', strtotime($date)) : '';
 				$visible_date = $date ? date_i18n($date_format, strtotime($date)) : '';
@@ -191,7 +191,7 @@
                             <input type="hidden" name="<?php echo esc_attr($name); ?>" value="<?php echo esc_attr($hidden_date); ?>"/>
                             <input value="<?php echo esc_attr($visible_date); ?>" class="formControl date_type" placeholder="<?php echo esc_attr($now); ?>"/>
                         </label>
-						<?php MPTRS_Layout::move_remove_button(); ?>
+						<?php WTBM_Layout::move_remove_button(); ?>
                     </div>
                 </div>
 				<?php
@@ -199,12 +199,12 @@
 			public function time_slot_tr($post_id, $day) {
 				$start_name = 'mptrs_' . $day . '_start_time';
 				$default_start_time = $day == 'default' ? 10 : '';
-				$start_time = MPTRS_Function::get_post_info($post_id, $start_name, $default_start_time);
+				$start_time = WTBM_Function::get_post_info($post_id, $start_name, $default_start_time);
 				$end_name = 'mptrs_' . $day . '_end_time';
 				$default_end_time = $day == 'default' ? 18 : '';
-				$end_time = MPTRS_Function::get_post_info($post_id, $end_name, $default_end_time);
+				$end_time = WTBM_Function::get_post_info($post_id, $end_name, $default_end_time);
 				$start_name_break = 'mptrs_' . $day . '_start_break_time';
-				$start_time_break = MPTRS_Function::get_post_info($post_id, $start_name_break);
+				$start_time_break = WTBM_Function::get_post_info($post_id, $start_name_break);
 				?>
                 <tr>
                     <th style="text-transform: capitalize;"><?php echo esc_html($day); ?></th>
@@ -240,7 +240,7 @@
 			public function end_time_slot($post_id, $day, $start_time) {
 				$end_name = 'mptrs_' . $day . '_end_time';
 				$default_end_time = $day == 'default' ? 18 : '';
-				$end_time = MPTRS_Function::get_post_info($post_id, $end_name, $default_end_time);
+				$end_time = WTBM_Function::get_post_info($post_id, $end_name, $default_end_time);
 				?>
                 <label>
                     <select class="formControl " name="<?php echo esc_attr($end_name); ?>">
@@ -254,7 +254,7 @@
 			}
 			public function start_break_time_slot($post_id, $day, $start_time, $end_time = '') {
 				$start_name_break = 'mptrs_' . $day . '_start_break_time';
-				$start_time_break = MPTRS_Function::get_post_info($post_id, $start_name_break);
+				$start_time_break = WTBM_Function::get_post_info($post_id, $start_name_break);
 				?>
                 <label>
                     <select class="formControl" name="<?php echo esc_attr($start_name_break); ?>">
@@ -266,7 +266,7 @@
 			}
 			public function end_break_time_slot($post_id, $day, $start_time_break, $end_time) {
 				$end_name_break = 'mptrs_' . $day . '_end_break_time';
-				$end_time_break = MPTRS_Function::get_post_info($post_id, $end_name_break);
+				$end_time_break = WTBM_Function::get_post_info($post_id, $end_name_break);
 				?>
                 <label>
                     <select class="formControl" name="<?php echo esc_attr($end_name_break); ?>">

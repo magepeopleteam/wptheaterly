@@ -6,8 +6,8 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Woocommerce')) {
-		class MPTRS_Woocommerce {
+	if (!class_exists('WTBM_Woocommerce')) {
+		class WTBM_Woocommerce {
 			public function __construct() {
 				add_filter('woocommerce_add_cart_item_data', array($this, 'add_cart_item_data'), 90, 3);
 				add_action('woocommerce_before_calculate_totals', array($this, 'before_calculate_totals'), 90, 1);
@@ -25,10 +25,10 @@
 			}
 			public function add_cart_item_data( $cart_item_data, $product_id ) {
 
-				$linked_id = MPTRS_Function::get_post_info($product_id, 'link_mptrs_id', $product_id);
+				$linked_id = WTBM_Function::get_post_info($product_id, 'link_mptrs_id', $product_id);
 				$product_id = is_string(get_post_status($linked_id)) ? $linked_id : $product_id;
                 if ( isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wtbm_nonce') ) {
-					if ( get_post_type($product_id) == MPTRS_Function::get_movie_cpt()) {
+					if ( get_post_type($product_id) == WTBM_Function::get_movie_cpt()) {
 						$total_price = sanitize_text_field( wp_unslash( $cart_item_data['wtbm_price'] ) );
 						$cart_item_data['wtbm_tp'] = $total_price;
 						$cart_item_data['line_total'] = $total_price;
@@ -43,7 +43,7 @@
 			public function before_calculate_totals($cart_object): void {
 				foreach ($cart_object->cart_contents as $value) {
 					$post_id = array_key_exists('wtbm_movie_id', $value) ? $value['wtbm_movie_id'] : 0;
-					if ( get_post_type($post_id) == MPTRS_Function::get_movie_cpt() ) {
+					if ( get_post_type($post_id) == WTBM_Function::get_movie_cpt() ) {
 						$total_price = $value['wtbm_price'];
 						$value['data']->set_price($total_price);
 						$value['data']->set_regular_price($total_price);
@@ -55,15 +55,15 @@
             }
 			public function cart_item_thumbnail($thumbnail, $cart_item) {
 				$post_id = array_key_exists('wtbm_movie_id', $cart_item) ? $cart_item['wtbm_movie_id'] : 0;
-				if (get_post_type($post_id) == MPTRS_Function::get_movie_cpt()) {
-					$thumbnail = '<div class="bg_image_area" data-href="' . get_the_permalink($post_id) . '"><div data-bg-image="' . MPTRS_Function::get_image_url($post_id) . '"></div></div>';
+				if (get_post_type($post_id) == WTBM_Function::get_movie_cpt()) {
+					$thumbnail = '<div class="bg_image_area" data-href="' . get_the_permalink($post_id) . '"><div data-bg-image="' . WTBM_Function::get_image_url($post_id) . '"></div></div>';
 				}
 				return $thumbnail;
 			}
 			public function get_item_data($item_data, $cart_item) {
 				ob_start();
 				$post_id = array_key_exists('wtbm_movie_id', $cart_item) ? $cart_item['wtbm_movie_id'] : 0;
-				if (get_post_type($post_id) == MPTRS_Function::get_movie_cpt()) {
+				if (get_post_type($post_id) == WTBM_Function::get_movie_cpt()) {
 					$this->show_cart_item( $cart_item, $post_id );
 					do_action('wtbm_show_cart_item', $cart_item, $post_id );
 				}
@@ -76,7 +76,7 @@
 				$items = $woocommerce->cart->get_cart();
 				foreach ($items as $values) {
 					$post_id = array_key_exists('wtbm_movie_id', $values) ? $values['wtbm_movie_id'] : 0;
-					if (get_post_type($post_id) == MPTRS_Function::get_movie_cpt()) {
+					if (get_post_type($post_id) == WTBM_Function::get_movie_cpt()) {
 						//wc_add_notice( __( "custom_notice", 'fake_error' ), 'error');
 						do_action('wtbm_validate_cart_item', $values, $post_id );
 					}
@@ -84,7 +84,7 @@
 			}
 			public function checkout_create_order_line_item( $item, $cart_item_key, $values ) {
 				$post_id = array_key_exists('wtbm_movie_id', $values) ? $values['wtbm_movie_id'] : 0;
-				if (get_post_type($post_id) == MPTRS_Function::get_movie_cpt() ) {
+				if (get_post_type($post_id) == WTBM_Function::get_movie_cpt() ) {
 					$date = $values['booking_date'] ?: '';
 					$time = $values['booking_time'] ?: '';
 					$total_price = $values['wtbm_price'] ?? '';
@@ -94,8 +94,8 @@
                     $theater = get_the_title( $values['theater_id'] );
                     $movie = get_the_title( $values['wtbm_movie_id'] );
 
-					$item->add_meta_data(esc_html__('Date ', 'wptheaterly'), esc_html(MPTRS_Function::date_format( $date, 'date' ) ) );
-					$item->add_meta_data(esc_html__('Time ', 'wptheaterly'), esc_html(MPTRS_Function::date_format( $time, 'time' ) ) );
+					$item->add_meta_data(esc_html__('Date ', 'wptheaterly'), esc_html(WTBM_Function::date_format( $date, 'date' ) ) );
+					$item->add_meta_data(esc_html__('Time ', 'wptheaterly'), esc_html(WTBM_Function::date_format( $time, 'time' ) ) );
 					$item->add_meta_data(esc_html__('Movie ', 'wptheaterly'), esc_html( $movie ) );
 					$item->add_meta_data(esc_html__('Theater Name ', 'wptheaterly'), esc_html( $theater ) );
 					$item->add_meta_data(esc_html__('Selected Seats ', 'wptheaterly'), esc_html( $seats_str ) );
@@ -120,15 +120,15 @@
 						//$item_id = current( array_keys( $order->get_items() ) );
 						foreach ( $order->get_items() as $item_id => $item ) {
 							$post_id = wc_get_order_item_meta( $item_id, '_wtbm_id');
-							if (get_post_type( $post_id ) == MPTRS_Function::get_movie_cpt() ) {
+							if (get_post_type( $post_id ) == WTBM_Function::get_movie_cpt() ) {
 								$date = wc_get_order_item_meta($item_id, '_wtbm_date');
                                 $time = wc_get_order_item_meta($item_id, '_wtbm_time');
                                 $selected_seats = wc_get_order_item_meta($item_id, '_wtbm_selected_seats');
                                 $selected_seat_ids = wc_get_order_item_meta($item_id, '_wtbm_selected_seat_ids');
-								$date = $date ? MPTRS_Function::data_sanitize($date) : '';
-                                $time = $time ? MPTRS_Function::data_sanitize($time) : '';
+								$date = $date ? WTBM_Function::data_sanitize($date) : '';
+                                $time = $time ? WTBM_Function::data_sanitize($time) : '';
 								$total_price = wc_get_order_item_meta($item_id, '_wtbm_tp');
-								$total_price = $total_price ? MPTRS_Function::data_sanitize($total_price) : '';
+								$total_price = $total_price ? WTBM_Function::data_sanitize($total_price) : '';
 								$data['wtbm_theater_id'] = wc_get_order_item_meta($item_id, '_theater_id');
 								$data['wtbm_movie_id'] = $post_id;
 
@@ -159,7 +159,7 @@
 				$order_status = $order->get_status();
 				foreach ($order->get_items() as $item_id => $item_values) {
 					$post_id = wc_get_order_item_meta($item_id, '_mpwpb_id');
-					if (get_post_type($post_id) == MPTRS_Function::get_movie_cpt()) {
+					if (get_post_type($post_id) == WTBM_Function::get_movie_cpt()) {
 						$this->wc_order_status_change($order_status, $post_id, $order_id);
 					}
 				}
@@ -182,12 +182,12 @@
                             <li>
                                 <span class="far fa-clock"></span>
                                 <h6><?php esc_html_e('Booking Date', 'wptheaterly'); ?>&nbsp;:&nbsp;</h6>
-                                <span><?php echo esc_html( MPTRS_Function::date_format( $cart_item['booking_date'] ) ); ?></span>
+                                <span><?php echo esc_html( WTBM_Function::date_format( $cart_item['booking_date'] ) ); ?></span>
                             </li>
                             <li>
                                 <span class="far fa-clock"></span>
                                 <h6><?php esc_html_e('Booking Time', 'wptheaterly'); ?>&nbsp;:&nbsp;</h6>
-                                <span><?php echo esc_html( MPTRS_Function::date_format( $cart_item['booking_time'], 'time')); ?></span>
+                                <span><?php echo esc_html( WTBM_Function::date_format( $cart_item['booking_time'], 'time')); ?></span>
                             </li>
                             <li>
                                 <span class="far fa-clock"></span>
@@ -378,5 +378,5 @@
 
 		}
 
-		new MPTRS_Woocommerce();
+		new WTBM_Woocommerce();
 	}

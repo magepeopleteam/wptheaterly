@@ -26,8 +26,8 @@
 				if (!defined('MPTRS_PLUGIN_URL')) {
 					define('MPTRS_PLUGIN_URL', plugins_url() . '/' . plugin_basename(dirname(__FILE__)));
 				}
-				require_once MPTRS_PLUGIN_DIR . '/inc/MPTRS_Dependencies.php';
-				if (MPTRS_Function::check_woocommerce() == 1) {
+				require_once MPTRS_PLUGIN_DIR . '/inc/WTBM_Dependencies.php';
+				if (WTBM_Function::check_woocommerce() == 1) {
 					add_action('activated_plugin', array($this, 'activation_redirect'), 90, 1);
 				} else {
 					add_action('admin_notices', [$this, 'woocommerce_not_active']);
