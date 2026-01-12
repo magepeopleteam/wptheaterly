@@ -6,8 +6,8 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Dummy_Import')) {
-		class MPTRS_Dummy_Import {
+	if (!class_exists('WTBM_Dummy_Import')) {
+		class WTBM_Dummy_Import {
 			public function __construct() {
 				$this->dummy_import();
 			}

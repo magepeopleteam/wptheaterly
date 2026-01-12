@@ -6,11 +6,11 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Settings_Global')) {
-		class MPTRS_Settings_Global {
+	if (!class_exists('WTBM_Settings_Global')) {
+		class WTBM_Settings_Global {
 			protected $settings_api;
 			public function __construct() {
-				$this->settings_api = new MPTRS_Setting_API;
+				$this->settings_api = new WTBM_Setting_API;
 				add_action('admin_menu', array($this, 'global_settings_menu'), 20);
 				add_action('admin_init', array($this, 'admin_init'));
 				add_filter('mptrs_settings_sec_reg', array($this, 'settings_sec_reg'), 10);
@@ -412,5 +412,5 @@
 				<?php
 			}
 		}
-		new  MPTRS_Settings_Global();
+		new  WTBM_Settings_Global();
 	}

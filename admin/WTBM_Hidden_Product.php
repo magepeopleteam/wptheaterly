@@ -6,8 +6,8 @@
 	if ( ! defined( 'ABSPATH' ) ) {
 		exit;
 	}  // if direct access
-	if ( ! class_exists( 'MPTRS_Hidden_Product' ) ) {
-		class MPTRS_Hidden_Product {
+	if ( ! class_exists( 'WTBM_Hidden_Product' ) ) {
+		class WTBM_Hidden_Product {
 			public function __construct() {
 				add_action( 'wp_insert_post', array( $this, 'create_hidden_wc_product_on_publish' ), 10, 3 );
 				add_action( 'save_post', array( $this, 'run_link_product_on_save' ), 99, 1 );
@@ -144,5 +144,5 @@
 				return $loop->post_count;
 			}
 		}
-		new MPTRS_Hidden_Product();
+		new WTBM_Hidden_Product();
 	}

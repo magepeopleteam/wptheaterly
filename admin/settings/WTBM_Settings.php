@@ -6,8 +6,8 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Settings')) {
-		class MPTRS_Settings {
+	if (!class_exists('WTBM_Settings')) {
+		class WTBM_Settings {
 			public function __construct() {
 				add_action('add_meta_boxes', [$this, 'settings_meta']);
 				add_action('save_post', array($this, 'save_settings'), 99, 1);
@@ -150,5 +150,5 @@
 				}
 			}
 		}
-		new MPTRS_Settings();
+		new WTBM_Settings();
 	}

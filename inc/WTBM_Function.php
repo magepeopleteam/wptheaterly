@@ -379,7 +379,7 @@
 				$post_id = $post_id ?? get_the_id();
 				$template_name = WTBM_Function::get_post_info($post_id, 'mptrs_template', 'default.php');
 				$file_name = 'themes/' . $template_name;
-				$dir = MPTRS_PLUGIN_DIR . '/templates/' . $file_name;
+				$dir = WTBM_PLUGIN_DIR . '/templates/' . $file_name;
 				if (!file_exists($dir)) {
 					$file_name = 'themes/default.php';
 				}
@@ -387,7 +387,7 @@
 			}
 			public static function template_path($file_name): string {
 				$template_path = get_stylesheet_directory() . '/mptrs_templates/';
-				$default_dir = MPTRS_PLUGIN_DIR . '/templates/';
+				$default_dir = WTBM_PLUGIN_DIR . '/templates/';
 				$dir = is_dir($template_path) ? $template_path : $default_dir;
 				$file_path = $dir . $file_name;
 				return locate_template(['mptrs_templates/' . $file_name]) ? $file_path : $default_dir . $file_name;

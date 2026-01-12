@@ -2,8 +2,8 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Setting_API')) {
-		class MPTRS_Setting_API {
+	if (!class_exists('WTBM_Setting_API')) {
+		class WTBM_Setting_API {
 			protected $settings_sections = array();
 			protected $settings_fields = array();
 			public function __construct() { }

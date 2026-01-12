@@ -6,8 +6,8 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Taxonomy')) {
-		class MPTRS_Taxonomy {
+	if (!class_exists('WTBM_Taxonomy')) {
+		class WTBM_Taxonomy {
 			public function __construct() {
 				//add_action( 'init', [ $this, 'taxonomy' ] );
 			}
@@ -52,5 +52,5 @@
 				register_taxonomy('mptrs_category', 'mptrs_item', $args);
 			}
 		}
-		new MPTRS_Taxonomy();
+		new WTBM_Taxonomy();
 	}

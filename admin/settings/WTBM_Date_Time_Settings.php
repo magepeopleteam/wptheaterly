@@ -6,8 +6,8 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Date_Time_Settings')) {
-		class MPTRS_Date_Time_Settings {
+	if (!class_exists('WTBM_Date_Time_Settings')) {
+		class WTBM_Date_Time_Settings {
 			public function __construct() {
 				add_action('add_mptrs_settings_tab_content', [$this, 'date_time_settings'], 10, 1);
 				/************************/
@@ -35,11 +35,11 @@
                 <div class="tabsItem mptrs_settings_date_time" data-tabs="#mptrs_settings_date_time">
                     <header>
                         <h2><?php esc_html_e('Date & Time Settings', 'theaterly'); ?></h2>
-                        <span><?php MPTRS_Settings::info_text('date_time_desc'); ?></span>
+                        <span><?php WTBM_Settings::info_text('date_time_desc'); ?></span>
                     </header>
                     <section class="section">
                         <h2><?php esc_html_e('General date time settings', 'theaterly'); ?></h2>
-                        <span><?php MPTRS_Settings::info_text('general_date_time_desc'); ?></span>
+                        <span><?php WTBM_Settings::info_text('general_date_time_desc'); ?></span>
                     </section>
                     <section>
                         <label class="label">
@@ -102,7 +102,7 @@
                     <!-- ================ -->
                     <section class="section">
                         <h2><?php esc_html_e('Shedule settings', 'theaterly'); ?></h2>
-                        <span><?php MPTRS_Settings::info_text('general_date_time_desc'); ?></span>
+                        <span><?php WTBM_Settings::info_text('general_date_time_desc'); ?></span>
                     </section>
                     <section>
                         <table>
@@ -129,7 +129,7 @@
                     <!-- ================ -->
                     <section class="section">
                         <h2><?php esc_html_e('Offdays and date settings', 'theaterly'); ?></h2>
-                        <span><?php MPTRS_Settings::info_text('general_date_time_desc'); ?></span>
+                        <span><?php WTBM_Settings::info_text('general_date_time_desc'); ?></span>
                     </section>
                     <section>
                         <label class="label">
@@ -161,7 +161,7 @@
 										if (sizeof($off_day_lists) > 0) {
 											foreach ($off_day_lists as $off_day) {
 												if ($off_day) {
-													MPTRS_Date_Time_Settings::particular_date_item('mptrs_off_dates[]', $off_day);
+													WTBM_Date_Time_Settings::particular_date_item('mptrs_off_dates[]', $off_day);
 												}
 											}
 										}
@@ -170,7 +170,7 @@
 								<?php WTBM_Layout::add_new_button(esc_html__('Add New Off date', 'theaterly')); ?>
                                 <div class="hidden_content">
                                     <div class="hidden_item">
-										<?php MPTRS_Date_Time_Settings::particular_date_item('mptrs_off_dates[]'); ?>
+										<?php WTBM_Date_Time_Settings::particular_date_item('mptrs_off_dates[]'); ?>
                                     </div>
                                 </div>
                             </div>
@@ -333,5 +333,5 @@
 			}
 
 		}
-		new MPTRS_Date_Time_Settings();
+		new WTBM_Date_Time_Settings();
 	}

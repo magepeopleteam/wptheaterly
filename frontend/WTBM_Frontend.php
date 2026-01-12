@@ -16,10 +16,10 @@
 			}
 
 			private function load_file(){
-				require_once MPTRS_PLUGIN_DIR . '/frontend/WTBM_Shortcodes.php';
-				require_once MPTRS_PLUGIN_DIR . '/frontend/WTBM_Details_Layout.php';
-				require_once MPTRS_PLUGIN_DIR . '/frontend/WTBM_Woocommerce.php';
-				require_once MPTRS_PLUGIN_DIR . '/frontend/WTBM_Manage_Ajax.php';
+				require_once WTBM_PLUGIN_DIR . '/frontend/WTBM_Shortcodes.php';
+				require_once WTBM_PLUGIN_DIR . '/frontend/WTBM_Details_Layout.php';
+				require_once WTBM_PLUGIN_DIR . '/frontend/WTBM_Woocommerce.php';
+				require_once WTBM_PLUGIN_DIR . '/frontend/WTBM_Manage_Ajax.php';
 			}
 
 			public function load_single_template( $template ): string {

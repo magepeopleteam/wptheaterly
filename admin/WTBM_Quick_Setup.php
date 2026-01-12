@@ -6,8 +6,8 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Quick_Setup')) {
-		class MPTRS_Quick_Setup {
+	if (!class_exists('WTBM_Quick_Setup')) {
+		class WTBM_Quick_Setup {
 			public function __construct() {
 				add_action('admin_menu', array($this, 'quick_setup_menu'));
 			}
@@ -227,5 +227,5 @@
 				<?php
 			}
 		}
-		new MPTRS_Quick_Setup();
+		new WTBM_Quick_Setup();
 	}

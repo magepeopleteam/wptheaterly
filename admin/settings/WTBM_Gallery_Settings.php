@@ -22,7 +22,7 @@
 						<span class="mR"><?php esc_html_e('On/Off Slider', 'theaterly'); ?></span>
 						<?php WTBM_Layout::switch_button('mptrs_display_slider', $checked); ?>
 					</h5>
-					<?php MPTRS_Settings::info_text('mptrs_display_slider'); ?>
+					<?php WTBM_Settings::info_text('mptrs_display_slider'); ?>
 					<div class="divider"></div>
 					<div data-collapse="#mptrs_display_slider" class="<?php echo esc_attr($active); ?>">
 						<table>
@@ -32,7 +32,7 @@
 								<td colspan="3"><?php do_action('mptrs_add_multi_image', 'mptrs_slider_images', $image_ids); ?></td>
 							</tr>
 							<tr>
-								<td colspan="4"><?php MPTRS_Settings::info_text('mptrs_slider_images'); ?></td>
+								<td colspan="4"><?php WTBM_Settings::info_text('mptrs_slider_images'); ?></td>
 							</tr>
 							</tbody>
 						</table>
