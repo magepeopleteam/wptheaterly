@@ -33,6 +33,12 @@
 					add_action('admin_notices', [$this, 'woocommerce_not_active']);
 					add_action('activated_plugin', array($this, 'activation_redirect_setup'), 90, 1);
 				}
+                if (!defined('MPCRBM_PLUGIN_DIR_PRO')) {
+                    define('MPCRBM_PLUGIN_DIR_PRO', dirname(__FILE__));
+                }
+                if (!defined('MPCRBM_PLUGIN_URL_PRO')) {
+                    define('MPCRBM_PLUGIN_URL_PRO', plugins_url() . '/' . plugin_basename(dirname(__FILE__)));
+                }
 			}
 			public function activation_redirect($plugin) {
 				if ($plugin == plugin_basename(__FILE__)) {
