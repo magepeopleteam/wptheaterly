@@ -22,14 +22,13 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
             $order_status = $order->get_status();
             if (class_exists('\Mpdf\Mpdf') && in_array($order_status, ['processing', 'completed'])) {
                 $item_id = current(array_keys($order->get_items()));
-                error_log( print_r( [ '$item_id' => $item_id ], true ) );
-//                $post_id = wc_get_order_item_meta($item_id, '_wtbm_id');
-                $post_id = 270;
+                $post_id = wc_get_order_item_meta($item_id, '_wtbm_id');
+//                $post_id = 270;
                 if (get_post_type($post_id) == WTBM_Function::get_cpt() || 1 ) {
                     $download_url = self::get_pdf_url(array('order_id' => $order_id));
                     if ($download_url) {
                         ?>
-                        <div class="mpcrbm">
+                        <div class="wtbm">
                             <button type="button" class="_themeButton_mB" data-href="<?php echo esc_attr($download_url); ?>">
                                 <span class="fas fa-file-pdf mR_xs"></span>
                                 <?php esc_html_e('Download Ticket', 'car-rental-manager-pro'); ?>
@@ -61,7 +60,6 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
             exit;
         }
         public function generate_pdf($order_id, $file_name, $mail = '') {
-            error_log( print_r( [ '$order_id' => $order_id ], true ) );
             if (class_exists('\Mpdf\Mpdf')) {
                 $html = $this->create_pdf_file($order_id);
                 $mpdf = new \Mpdf\Mpdf();
@@ -119,5 +117,6 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
             }
         }
     }
+
     new WTBM_Pro_Pdf();
 }

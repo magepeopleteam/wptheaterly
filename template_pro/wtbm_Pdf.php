@@ -30,12 +30,12 @@ if ( $order_id > 0 ) {
 
     // Get booking posts based on WooCommerce order ID
     $booking_posts = get_posts(array(
-        'post_type' => 'mpcrbm_booking',
+        'post_type' => 'wtbm_booking',
         'post_status' => 'publish',
         'numberposts' => -1,
         'meta_query' => array(
             array(
-                'key' => 'mpcrbm_order_id',
+                'key' => 'wtbm_order_id',
                 'value' => $order_id,
                 'compare' => '='
             )

@@ -367,9 +367,15 @@
 				}
 			}
 			function show_forms() {
-				?>
-				<?php foreach ($this->settings_sections as $form) { ?>
-                    <div class="tabsItem" data-tabs="#<?php echo esc_attr($form['id']); ?>">
+                $display = 'none';
+				 foreach ($this->settings_sections as $form) {
+                    if( $form['id'] === 'mptrs_general_settings' ){
+                        $display = 'block';
+                    }else{
+                        $display = 'none';
+                    }
+                    ?>
+                    <div class="tabsItem" data-tabs="#<?php echo esc_attr($form['id']); ?>" style="display: <?php echo esc_attr( $display );?>">
                         <form method="post" action="options.php">
 							<?php
 								do_action('wsa_form_top_' . $form['id'], $form);

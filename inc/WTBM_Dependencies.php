@@ -55,6 +55,8 @@
 				wp_enqueue_style('wtbm_registration', WTBM_PLUGIN_URL . '/assets/frontend/wtbm_registration.css', [], time());
 				wp_enqueue_style('wtbm_seat_mapping', WTBM_PLUGIN_URL . '/assets/frontend/wtbm_seat_mapping.css', [], time());
 				wp_enqueue_script('wtbm_registration', WTBM_PLUGIN_URL . '/assets/frontend/wtbm_registration.js', ['jquery'], time(), true);
+				wp_enqueue_script('wtbm_global', WTBM_PLUGIN_URL . '/wtbm_global/assets/mp_style/wtbm_global.js', ['jquery'], time(), true);
+                wp_enqueue_style('wtbm_global', WTBM_PLUGIN_URL . '/wtbm_global/assets/mp_style/wtbm_global.css', [], time());
 				wp_localize_script('wtbm_registration', 'wtbm_ajax', array(
 					'ajax_url' => admin_url('admin-ajax.php'),
 					'nonce' => wp_create_nonce('wtbm_nonce'),

@@ -362,6 +362,9 @@
                                             <span class="wtbm_welcome_seat"><?php echo esc_html($seat); ?></span>
                                         <?php endforeach; ?>
                                     </p>
+
+                                    <?php
+                                    do_action( 'mpcrbm_pdf_button', $order_id ); ?>
                                     <p class="wtbm_welcome_total"><strong><?php esc_attr_e( 'Total Price:', 'wptheaterly' )?></strong> <?php echo get_woocommerce_currency();?> <?php echo esc_html($booking['total_price']); ?></p>
                                 </div>
                             </div>
@@ -373,6 +376,7 @@
 
                     </div>
                     <?php
+//                    do_action( 'mpcrbm_pdf_button', $order_id );
                 }
             }
 

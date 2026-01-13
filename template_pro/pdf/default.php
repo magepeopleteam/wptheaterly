@@ -3,7 +3,6 @@
 ?>
 <?php
 $attendee_id = $ticket_id ?? 0;
-
 // If no attendee_id, try to get data from WooCommerce order directly
 if ($attendee_id == 0 && isset($order_id)) {
     $wc_order = wc_get_order($order_id);
@@ -79,23 +78,25 @@ if ($attendee_id == 0 && isset($order_id)) {
         </div>
     <?php else: ?>
         <!-- Original booking post data display -->
-        <div class="mp_pdf_body">
-            <?php WTBM_Layout_Pro::service_info($attendee_id); ?>
+        <div class="" style="display:block;width:100%; float:left;">
+            <div class="mp_pdf_body" style="display:block;width:50%; float:left;">
+                <?php WTBM_Layout_Pro::service_info($attendee_id); ?>
+            </div>
+            <div class="mp_pdf_body" style="display:block;width:50%; float:left;">
+                <?php WTBM_Layout_Pro::billing_info($attendee_id); ?>
+            </div>
         </div>
-        <div class="mp_pdf_body">
-            <?php WTBM_Layout_Pro::billing_info($attendee_id); ?>
-        </div>
-        <div class="mp_pdf_body">
+        <div class="mp_pdf_body" style="width: 100%; float: left">
             <?php WTBM_Layout_Pro::order_info($attendee_id); ?>
             <div class="divider"></div>
             <h4>
                 <span style="float: left;"><?php esc_html_e('Total Bill:', 'car-rental-manager-pro'); ?></span>
-                <span style="text-align: right;float: right;"><?php echo wc_price(WTBM_Function::get_post_info($attendee_id, 'mpcrbm_tp')); ?></span>
+                <span style="text-align: right;float: right;"><?php echo wc_price(WTBM_Function::get_post_info($attendee_id, 'wtbm_tp')); ?></span>
             </h4>
         </div>
     <?php endif; ?>
 
-    <div class="mp_pdf_footer">
+    <div class="mp_pdf_footer" style="float: left; width: 100%">
         <?php
         $term_title = WTBM_Function::get_settings('mpcrbm_pdf_settings', 'pdf_tc_title');
         $term_text = WTBM_Function::get_settings('mpcrbm_pdf_settings', 'pdf_tc_text');
