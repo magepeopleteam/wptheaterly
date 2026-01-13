@@ -369,11 +369,11 @@
 			function show_forms() {
                 $display = 'none';
 				 foreach ($this->settings_sections as $form) {
-                    if( $form['id'] === 'mptrs_general_settings' ){
+                    /*if( $form['id'] === 'mptrs_general_settings' ){
                         $display = 'block';
                     }else{
                         $display = 'none';
-                    }
+                    }*/
                     ?>
                     <div class="tabsItem" data-tabs="#<?php echo esc_attr($form['id']); ?>" style="display: <?php echo esc_attr( $display );?>">
                         <form method="post" action="options.php">

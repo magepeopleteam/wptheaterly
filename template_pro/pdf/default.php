@@ -15,8 +15,8 @@ if ($attendee_id == 0 && isset($order_id)) {
 <div class='mp_pdf'>
     <div class="mp_pdf_header">
         <?php WTBM_Pro_Pdf::pdf_logo(); ?>
-        <h5><?php echo WTBM_Function::get_settings('mpcrbm_pdf_settings', 'pdf_address'); ?> </h5>
-        <h6><?php echo WTBM_Function::get_settings('mpcrbm_pdf_settings', 'pdf_phone'); ?> </h6>
+        <h5><?php echo WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_address'); ?> </h5>
+        <h6><?php echo WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_phone'); ?> </h6>
     </div>
 
     <?php if (isset($use_wc_data) && $use_wc_data && $wc_order): ?>
@@ -98,8 +98,8 @@ if ($attendee_id == 0 && isset($order_id)) {
 
     <div class="mp_pdf_footer" style="float: left; width: 100%">
         <?php
-        $term_title = WTBM_Function::get_settings('mpcrbm_pdf_settings', 'pdf_tc_title');
-        $term_text = WTBM_Function::get_settings('mpcrbm_pdf_settings', 'pdf_tc_text');
+        $term_title = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_tc_title');
+        $term_text = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_tc_text');
         if ($term_title) {
             ?>
             <h4><?php echo esc_html($term_title); ?></h4>

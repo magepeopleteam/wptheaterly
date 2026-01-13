@@ -21,12 +21,12 @@ if ( ! class_exists('WTBM_Pro_Mail') ) {
             if (empty($order_id) || !$order) {
                 return new WP_Error('invalid_data', esc_html__('Invalid order id provided', 'car-rental-manager-pro'));
             }
-            $subject = MPCRBM_Global_Function::get_settings('mpcrbm_email_settings', 'pdf_email_subject', 'PDF Booking Confirmation');
-            $content = MPCRBM_Global_Function::get_settings('mpcrbm_email_settings', 'pdf_email_content', 'Here is PDF Booking Confirmation Attachment');
+            $subject = MPCRBM_Global_Function::get_settings('wtbm_email_settings', 'pdf_email_subject', 'PDF Booking Confirmation');
+            $content = MPCRBM_Global_Function::get_settings('wtbm_email_settings', 'pdf_email_content', 'Here is PDF Booking Confirmation Attachment');
             $form_email = get_option('woocommerce_email_from_address');
             $form_name = get_option('woocommerce_email_from_name');
-            $admin_notify_email = MPCRBM_Global_Function::get_settings('mpcrbm_email_settings', 'pdf_admin_notification_email', '');
-            $email_status = MPCRBM_Global_Function::get_settings('mpcrbm_email_settings', 'pdf_send_status', 'yes');
+            $admin_notify_email = MPCRBM_Global_Function::get_settings('wtbm_email_settings', 'pdf_admin_notification_email', '');
+            $email_status = MPCRBM_Global_Function::get_settings('wtbm_email_settings', 'pdf_send_status', 'yes');
             $attachments = array();
             $headers = array(
                 sprintf("From: %s <%s>", $form_name, $form_email),
@@ -34,7 +34,7 @@ if ( ! class_exists('WTBM_Pro_Mail') ) {
             if ($email_status == 'yes') {
                 $upload_dir = wp_upload_dir();
                 $pdf_url = $upload_dir['basedir'] . '/' . $order_id . '.pdf';
-                do_action('mpcrbm_generate_pdf', $order_id, $pdf_url, 'mail');
+                do_action('wtbm_generate_pdf', $order_id, $pdf_url, 'mail');
                 if (!is_wp_error($pdf_url)) {
                     $attachments[] = $pdf_url;
                 }

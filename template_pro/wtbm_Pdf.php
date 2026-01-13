@@ -10,9 +10,9 @@ if ( $order_id > 0 ) {
     <html>
 <body>
     <?php
-    $bg_color   = WTBM_Function::get_settings( 'mpcrbm_pdf_settings', 'pdf_bg_color', '#fbfbfb' );
-    $text_color = WTBM_Function::get_settings( 'mpcrbm_pdf_settings', 'pdf_text_color', '#000' );
-    $bg_image   = WTBM_Function::get_settings( 'mpcrbm_pdf_settings', 'pdf_bg' );
+    $bg_color   = WTBM_Function::get_settings( 'wtbm_pdf_settings', 'pdf_bg_color', '#fbfbfb' );
+    $text_color = WTBM_Function::get_settings( 'wtbm_pdf_settings', 'pdf_text_color', '#000' );
+    $bg_image   = WTBM_Function::get_settings( 'wtbm_pdf_settings', 'pdf_bg' );
     ?>
     <style type="text/css">
         .mp_pdf {

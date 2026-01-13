@@ -12,10 +12,10 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
         public function __construct() {
             add_action('woocommerce_thankyou', array($this, 'pdf_button'));
             add_action('mpcrbm_pdf_button', array($this, 'pdf_button'));
-            add_action('mpcrbm_generate_pdf', array($this, 'generate_pdf'), 10, 3);
+            add_action('wtbm_generate_pdf', array($this, 'generate_pdf'), 10, 3);
             /***************/
-            add_action('wp_ajax_mpcrbm_generate_pdf', array($this, 'mpcrbm_generate_pdf'));
-            add_action('wp_ajax_nopriv_mpcrbm_generate_pdf', array($this, 'mpcrbm_generate_pdf'));
+            add_action('wp_ajax_wtbm_generate_pdf', array($this, 'wtbm_generate_pdf'));
+            add_action('wp_ajax_nopriv_wtbm_generate_pdf', array($this, 'wtbm_generate_pdf'));
         }
         public function pdf_button($order_id) {
             $order = wc_get_order($order_id);
@@ -46,7 +46,7 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
                 }
             }
         }
-        public function mpcrbm_generate_pdf() {
+        public function wtbm_generate_pdf() {
             if (empty($_GET['action']) || !check_admin_referer($_GET['action'])) {
                 wp_die(__('You do not have sufficient permissions to access this page.', 'car-rental-manager-pro'));
             }
@@ -88,7 +88,7 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
         //**********************//
         public static function get_pdf_url($args = array()) {
             $default_args = array(
-                'action' => 'mpcrbm_generate_pdf',
+                'action' => 'wtbm_generate_pdf',
                 'order_id' => '',
             );
             $args = wp_parse_args($args, $default_args);
@@ -97,19 +97,19 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
             return apply_filters('mpcrbm_filter_pdf_url', $nonce_url);
         }
         public static function pdf_bg() {
-            $ticket_bg_url = WTBM_Function::get_settings('mpcrbm_pdf_settings', 'pdf_bg');
+            $ticket_bg_url = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_bg');
             if (!empty($ticket_bg_url) && wp_get_attachment_url($ticket_bg_url)) { // Ensure the URL exists
                 ?>
                 style="background: url(<?php echo esc_url($ticket_bg_url); ?>); background-repeat: no-repeat; background-size: 100% 100%;"
                 <?php
             } else {
                 ?>
-                style="background-color: <?php echo esc_attr(WTBM_Function::get_settings('mpcrbm_pdf_settings', 'pdf_bg_color', '#fbfbfb')); ?>;"
+                style="background-color: <?php echo esc_attr(WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_bg_color', '#fbfbfb')); ?>;"
                 <?php
             }
         }
         public static function pdf_logo() {
-            $logo_url = WTBM_Function::get_settings('mpcrbm_pdf_settings', 'pdf_logo');
+            $logo_url = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_logo');
             if (!empty($logo_url)) {
                 ?>
                 <img src="<?php echo esc_attr(wp_get_attachment_url($logo_url)) ?>" alt="logo" width="150"/>
