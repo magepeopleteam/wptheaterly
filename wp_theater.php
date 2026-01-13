@@ -44,7 +44,7 @@
 			public function activation_redirect_setup($plugin) {
 				if ($plugin == plugin_basename(__FILE__)) {
 					//exit(esc_url_raw(wp_redirect(admin_url('admin.php?post_type=mptrs_item&page=mptrs_quick_setup'))));
-					 exit(esc_url_raw(wp_redirect(admin_url('admin.php?page=mptrs_quick_setup'))));
+					exit(esc_url_raw(wp_redirect(admin_url('admin.php?page=mptrs_quick_setup'))));
 				}
 			}
 			public function woocommerce_not_active() {

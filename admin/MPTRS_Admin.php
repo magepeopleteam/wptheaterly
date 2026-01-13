@@ -10,7 +10,6 @@
 		class MPTRS_Admin {
 			public function __construct() {
 				$this->load_file();
-				add_action('init', [$this, 'add_dummy_data']);
 				add_action('upgrader_process_complete', [$this, 'flush_rewrite']);
 				add_filter('use_block_editor_for_post_type', [$this, 'disable_gutenberg'], 10, 2);
 				add_action('admin_action_mptrs_item_duplicate', [$this, 'mptrs_item_duplicate']);
@@ -43,9 +42,7 @@
 				require_once MPTRS_PLUGIN_DIR . '/admin/settings/MPTRS_Extra_service_Settings.php';
 				require_once MPTRS_PLUGIN_DIR . '/admin/settings/MPTRS_Faq_Settings.php';
 			}
-			public function add_dummy_data() {
-				new MPTRS_Dummy_Import();
-			}
+
 			public function flush_rewrite() {
 				flush_rewrite_rules();
 			}

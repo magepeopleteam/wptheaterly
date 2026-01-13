@@ -12,28 +12,15 @@
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 		class MPTRS_Dummy_Import {
 			public function __construct() {
-				$this->dummy_import();
-				// add_action('admin_init', [$this, 'delete_all_wtbm_movie_posts']);
+				// $this->dummy_import();
+				add_action('admin_init', [$this, 'dummy_import']);
 			}
-			function delete_all_wtbm_movie_posts() {
-				$args = array(
-					'post_type' => 'wtbm_movie',
-					'posts_per_page' => -1, // Get all posts
-					'fields' => 'ids',      // Only retrieve post IDs for performance
-					'post_status' => 'any'  // Include published, draft, trash, etc.
-				);
 
-				$wtbm_movie_posts = get_posts($args);
-
-				foreach ($wtbm_movie_posts as $post_id) {
-					wp_delete_post($post_id, true); // The 'true' parameter forces permanent deletion
-				}
-			}
-			private function dummy_import() {
+			public function dummy_import() {
 				$dummy_post = get_option('mptrs_dummy_already_inserted');
-				$all_post = MPTRS_Function::query_post_type('mptrs_item');
-				// if ($all_post->post_count == 0 && $dummy_post != 'yes') {
-				if ($dummy_post == 'yes') {
+				$all_post = MPTRS_Function::query_post_type('wtbm_movie');
+				if ($all_post->post_count == 0 && $dummy_post != 'yes') {
+				// if ($dummy_post == 'yes') {
 					$this->create_dummy_page();
 					$dummy_data = $this->dummy_data();
 					
@@ -204,14 +191,76 @@
 						],
 						'wtbm_theater' => [
 							[
-								'post_title' => 'Screen 4',
+								'post_title' => 'Screen 1',
 								'meta_data' => [
-									'wtbp_theater_type' => 'IMAX',
+									'wtbp_theater_type' => 'Standard',
+									'wtbp_theater_rows' => '12',
+									'wtbp_theater_seatsPerRow' => '20',
+									'wtbp_theater_soundSystem' => 'Dolby Digital',
+									'wtbp_theater_status' => 'active',
+								],
+							],
+							[
+								'post_title' => 'Screen 2',
+								'meta_data' => [
+									'wtbp_theater_type' => 'Premium',
 									'wtbp_theater_rows' => '12',
 									'wtbp_theater_seatsPerRow' => '20',
 									'wtbp_theater_soundSystem' => 'Dolby Atmos',
 									'wtbp_theater_status' => 'active',
-									'wtbp_theater_category'=> ['Premium', '3D' ],
+								],
+							],
+							[
+								'post_title' => 'Screen 3',
+								'meta_data' => [
+									'wtbp_theater_type' => 'IMAX',
+									'wtbp_theater_rows' => '10',
+									'wtbp_theater_seatsPerRow' => '10',
+									'wtbp_theater_soundSystem' => 'Dolby Atmos',
+									'wtbp_theater_status' => 'active',
+								],
+							],
+							[
+								'post_title' => 'Screen 4',
+								'meta_data' => [
+									'wtbp_theater_type' => 'VIP',
+									'wtbp_theater_rows' => '10',
+									'wtbp_theater_seatsPerRow' => '10',
+									'wtbp_theater_soundSystem' => 'IMAX Enhanced',
+									'wtbp_theater_status' => 'active',
+								],
+							],
+						],
+						'wtbm_show_time' =>[
+							[
+								'post_title' => 'Screen 1',
+								'meta_data' => [
+									'wtbp_show_time_movieId' => '101',
+									'wtbp_show_time_theaterId' => '144',
+									'wtbp_show_time_date' => '2026-01-21',
+									'wtbp_show_time_start_date' => '11.00',
+									'wtbp_show_time_end_date' => '03.00',
+									
+									'wtbp_showtime_start_date' => '2026-01-21',
+									'wtbp_showtime_end_date' => '2026-01-31',
+									'wtbp_show_time_price' => '11',
+									'wtbp_showtime_off_days' => 'monday',
+								],
+							],
+						],
+						'wtbm_pricing' =>[
+							[
+								'post_title' => 'Rule 1',
+								'meta_data' => [
+									'wtbp_pricing_rules_theaterType' => '101',
+									'wtbp_pricing_rules_type' => '144',
+									'wtbp_pricing_rules_dateRange' => '2026-01-21',
+									'wtbp_pricing_rules_startDate' => '2026-01-21',
+									'wtbp_pricing_rules_endDate' => '2026-01-31',
+									'wtbp_pricing_rules_priority' => '5',
+									'wtbp_pricing_rules_multiplier' => '5',
+									'wtbp_pricing_rules_active' => 'yes',
+									
 								],
 							],
 						]
@@ -270,4 +319,7 @@
 				}
 			}
 		}
+				
+		new MPTRS_Dummy_Import();		
+
 	}
