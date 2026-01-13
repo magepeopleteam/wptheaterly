@@ -13,7 +13,7 @@
 		class MPTRS_Dummy_Import {
 			public function __construct() {
 				// $this->dummy_import();
-				add_action('admin_init', [$this, 'dummy_import']);
+				add_action('admin_init', [$this, 'dummy_import'], 99);
 			}
 
 			public function dummy_import() {
@@ -23,7 +23,7 @@
 				// if ($dummy_post == 'yes') {
 					$this->create_dummy_page();
 					$dummy_data = $this->dummy_data();
-					
+					$dummy_images = self::dummy_images();
 					foreach ($dummy_data as $type => $dummy) {
 						if ($type == 'taxonomy') {
 							foreach ($dummy as $taxonomy => $dummy_taxonomy) {
@@ -39,7 +39,7 @@
 							foreach ($dummy as $post_type => $dummy_post) {
 								$post = MPTRS_Function::query_post_type($post_type);
 								if ($post->post_count == 0) {
-									$dummy_images = $this->dummy_images();
+									
 									foreach ($dummy_post as $key => $dummy_data) {
 										$post_id = wp_insert_post([
 											'post_title' =>$dummy_data['post_title'],
@@ -73,7 +73,12 @@
 					update_option('mptrs_dummy_already_inserted', 'yes');
 				}
 			}
-			public function dummy_data(): array {
+			public function dummy_data(){
+				$dummy_post = get_option('mptrs_dummy_already_inserted');
+				$all_post = MPTRS_Function::query_post_type('wtbm_movie');
+				if ($all_post->post_count > 0 && $dummy_post == 'yes') {
+					return;
+				}
 				return [
 					'taxonomy' => [],
 					'custom_post' => [
@@ -267,7 +272,7 @@
 					]
 				];
 			}
-			public function dummy_images() {
+			private function dummy_images() {
 				$urls = array(
 						'https://raw.githubusercontent.com/magepeopleteam/dummy-images/main/wptheaterly/midnight-cafe.jpg',
 						'https://raw.githubusercontent.com/magepeopleteam/dummy-images/main/wptheaterly/the-final-pitch.jpg',
