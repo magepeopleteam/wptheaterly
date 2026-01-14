@@ -35,7 +35,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
 
         public function wtbm_insert_pricing_rules_post(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
-            $cpt = MPTRS_Function::get_pricing_cpt();
+            $cpt = WTBM_Function::get_pricing_cpt();
 
             $name           =  isset( $_POST['description'] ) ? sanitize_text_field( wp_unslash( $_POST['description'] ) ) : '';
             $description    =  isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';

@@ -6,8 +6,8 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Admin')) {
-		class MPTRS_Admin {
+	if (!class_exists('WTBM_Admin')) {
+		class WTBM_Admin {
 			public function __construct() {
 				$this->load_file();
 				add_action('init', [$this, 'add_dummy_data']);
@@ -18,41 +18,43 @@
 				add_filter('wp_mail_content_type', array($this, 'email_content_type'));
 			}
 			private function load_file(): void {
-				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Taxonomy.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Dummy_Import.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Hidden_Product.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/WTBP_CPT.php';
-				//require_once MPTRS_PLUGIN_DIR . '/admin/MPTRS_Quick_Setup.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Manage_Theater.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Manage_Showtimes.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Pricing_Rules.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/WTBP_Manage_Movie.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Theater_Seat_Mapping.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Booking_Content.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_New_Ticket_Booking.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/WTBM_Sales_Report.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Taxonomy.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Dummy_Import.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Hidden_Product.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBP_CPT.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Admin_Pro.php';
+				//require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Quick_Setup.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Manage_Theater.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Manage_Showtimes.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Pricing_Rules.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBP_Manage_Movie.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Theater_Seat_Mapping.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Booking_Content.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_New_Ticket_Booking.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Sales_Report.php';
 				//*************Global Settings*****************//
-				require_once MPTRS_PLUGIN_DIR . '/admin/global/MPTRS_Setting_API.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/global/MPTRS_Settings_Global.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/global/WTBP_Menu.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/global/WTBM_Set_Pricing_Sules.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/global/WTBM_Setting_API.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/global/WTBM_Settings_Global.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/global/WTBP_Menu.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/global/WTBM_Set_Pricing_Sules.php';
 				//*************Service Settings*****************//
-				require_once MPTRS_PLUGIN_DIR . '/admin/settings/MPTRS_Settings.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/settings/MPTRS_General_Settings.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/settings/MPTRS_Date_Time_Settings.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/settings/MPTRS_Extra_service_Settings.php';
-				require_once MPTRS_PLUGIN_DIR . '/admin/settings/MPTRS_Faq_Settings.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/settings/WTBM_Settings.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/settings/WTBM_General_Settings.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/settings/WTBM_Date_Time_Settings.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/settings/WTBM_Extra_service_Settings.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/settings/WTBM_Faq_Settings.php';
+                require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Status.php';
 			}
 			public function add_dummy_data() {
-				new MPTRS_Dummy_Import();
+				new WTBM_Dummy_Import();
 			}
 			public function flush_rewrite() {
 				flush_rewrite_rules();
 			}
 			//************Disable Gutenberg************************//
 			public function disable_gutenberg($current_status, $post_type) {
-				$user_status = MPTRS_Function::get_settings('mptrs_global_settings', 'disable_block_editor', 'yes');
-				if ($post_type === MPTRS_Function::get_cpt() && $user_status == 'yes') {
+				$user_status = WTBM_Function::get_settings('mptrs_global_settings', 'disable_block_editor', 'yes');
+				if ($post_type === WTBM_Function::get_cpt() && $user_status == 'yes') {
 					return false;
 				}
 				return $current_status;
@@ -134,5 +136,5 @@
 				return "text/html";
 			}
 		}
-		new MPTRS_Admin();
+		new WTBM_Admin();
 	}

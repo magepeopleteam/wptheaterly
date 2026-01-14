@@ -30,7 +30,7 @@
 				wp_enqueue_style('thickbox');
 			}
 			public function faq_settings($post_id) {
-				$mptrs_faq_active = MPTRS_Function::get_post_info($post_id, 'mptrs_faq_active', 'off');
+				$mptrs_faq_active = WTBM_Function::get_post_info($post_id, 'mptrs_faq_active', 'off');
 				$active_class = $mptrs_faq_active == 'on' ? 'mActive' : '';
 				$mptrs_faq_active_checked = $mptrs_faq_active == 'on' ? 'checked' : '';
 				?>
@@ -50,7 +50,7 @@
                                 <span><?php esc_html_e('Enable FAQ Section', 'theaterly'); ?></span>
                             </div>
                             <div>
-								<?php MPTRS_Layout::switch_button('mptrs_faq_active', $mptrs_faq_active_checked); ?>
+								<?php WTBM_Layout::switch_button('mptrs_faq_active', $mptrs_faq_active_checked); ?>
                             </div>
                         </div>
                     </section>

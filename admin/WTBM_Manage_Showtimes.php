@@ -25,7 +25,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
         function wtbm_insert_show_time_post() {
 
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce' );
-            $cpt = MPTRS_Function::get_show_time_cpt();
+            $cpt = WTBM_Function::get_show_time_cpt();
             $movieId            = isset( $_POST['movieId'] ) ? sanitize_text_field( $_POST['movieId'] ) : '';
             $movie_title = get_the_title( $movieId );
             $theaterId          = isset( $_POST['theaterId'] ) ? sanitize_text_field( $_POST['theaterId'] ) : '';
@@ -78,7 +78,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
         function wtbm_update_show_time_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
-            $cpt = MPTRS_Function::get_show_time_cpt();
+            $cpt = WTBM_Function::get_show_time_cpt();
 
             $movieId            = isset( $_POST['movieId'] ) ? sanitize_text_field( $_POST['movieId'] ) : '';
             $movie_title = get_the_title( $movieId );

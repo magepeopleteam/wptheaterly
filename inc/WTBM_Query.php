@@ -6,11 +6,11 @@
 	if ( ! defined( 'ABSPATH' ) ) {
 		die;
 	} // Cannot access pages directly.
-	if ( ! class_exists( 'MPTRS_Query' ) ) {
-		class MPTRS_Query {
+	if ( ! class_exists( 'WTBM_Query' ) ) {
+		class WTBM_Query {
 			public function __construct() {}
 			public static function query_all_sold( $post_id, $date) {
-				$_seat_booked_status      = MPTRS_Function::get_settings('mptrs_global_settings', 'set_book_status', array('processing', 'completed'));
+				$_seat_booked_status      = WTBM_Function::get_settings('mptrs_global_settings', 'set_book_status', array('processing', 'completed'));
 				$seat_booked_status       = ! empty( $_seat_booked_status ) ? $_seat_booked_status : [];
 
 				$date_filter              = ! empty( $date ) ? array(
@@ -64,5 +64,5 @@
 				return new WP_Query( $args );
 			}
 		}
-		new MPTRS_Query();
+		new WTBM_Query();
 	}
