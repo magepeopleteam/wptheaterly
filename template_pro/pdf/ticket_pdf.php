@@ -137,7 +137,6 @@ $pdf_phone = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_phone');
         }
     </style>
 </head>
-
 <body>
 <div class="mp_pdf">
     <div class="wtbm_pdf_container">
@@ -160,16 +159,16 @@ $pdf_phone = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_phone');
 
                         <table class="wtbm_pdf_info_table">
                             <tr>
-                                <td class="wtbm_pdf_label" width="40%">DATE : <?php echo esc_attr( $order_date );?></td>
-                                <td class="wtbm_pdf_label">TIME : <?php echo esc_html( $order_time );?></td>
+                                <td class="wtbm_pdf_label" width="40%"><?php esc_attr_e( 'DATE', 'wptheaterly' );?>: <?php echo esc_attr( $order_date );?></td>
+                                <td class="wtbm_pdf_label"><?php esc_attr_e( 'TIME', 'wptheaterly' );?>: <?php echo esc_html( $order_time );?></td>
 
                             </tr>
                             <tr>
-                                <td class="wtbm_pdf_label">THEATER : <?php echo esc_attr( $theater_name );?></td>
-                                <td class="wtbm_pdf_label">SEAT : <?php echo esc_html($seat_names);?></td>
+                                <td class="wtbm_pdf_label"><?php esc_attr_e( 'THEATER', 'wptheaterly' );?>: <?php echo esc_attr( $theater_name );?></td>
+                                <td class="wtbm_pdf_label"><?php esc_attr_e( 'SEAT', 'wptheaterly' );?>: <?php echo esc_html($seat_names);?></td>
                             </tr>
                             <tr>
-                                <td class="wtbm_pdf_label">Total Bill : <?php echo wc_price(WTBM_Function::get_post_info($attendee_id, 'wtbm_tp')); ?></td>
+                                <td class="wtbm_pdf_label"><?php esc_attr_e( 'Total Bill', 'wptheaterly' );?>: <?php echo wc_price(WTBM_Function::get_post_info($attendee_id, 'wtbm_tp')); ?></td>
                             </tr>
                         </table>
                     </td>
@@ -186,11 +185,11 @@ $pdf_phone = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_phone');
                         <!--                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Ticket123&color=9e3d34&bgcolor=f5eed7" class="wtbm_pdf_qr_code" alt="QR">-->
 
                         <div class="wtbm_pdf_details_right">
-                            <div class="wtbm_pdf_label">DATE : <?php echo esc_attr( $order_date );?></div>
-                            <div class="wtbm_pdf_label">TIME : <?php echo esc_html( $order_time );?></div>
-                            <div class="wtbm_pdf_label">THEATER : <?php echo esc_attr( $theater_name );?></div>
-                            <div class="wtbm_pdf_label">SEAT : <?php echo esc_html($seat_names);?></div>
-                            <div class="wtbm_pdf_label">Total Bill :<?php echo wc_price(WTBM_Function::get_post_info($attendee_id, 'wtbm_tp')); ?></div>
+                            <div class="wtbm_pdf_label"><?php esc_attr_e( 'DATE', 'wptheaterly' );?>: <?php echo esc_attr( $order_date );?></div>
+                            <div class="wtbm_pdf_label"><?php esc_attr_e( 'TIME', 'wptheaterly' );?> : <?php echo esc_html( $order_time );?></div>
+                            <div class="wtbm_pdf_label"><?php esc_attr_e( 'THEATER', 'wptheaterly' );?>: <?php echo esc_attr( $theater_name );?></div>
+                            <div class="wtbm_pdf_label"><?php esc_attr_e( 'SEAT', 'wptheaterly' );?>: <?php echo esc_html($seat_names);?></div>
+                            <div class="wtbm_pdf_label"><?php esc_attr_e( 'Total Bill', 'wptheaterly' );?>: <?php echo wc_price(WTBM_Function::get_post_info($attendee_id, 'wtbm_tp')); ?></div>
                         </div>
 
                         <div class="wtbm_pdf_website_btn"><?php echo esc_attr( get_site_url() );?></div>
