@@ -38,7 +38,9 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
                     }
                     $email_status = WTBM_Function::get_settings('mpcrbm_email_settings', 'pdf_email_status', array('processing', 'completed'));
                     $order_status = $order->get_status();
-                    if (get_post_type($post_id) == WTBM_Function::get_cpt() && sizeof($email_status) > 0) {
+
+//                    if (get_post_type($post_id) == WTBM_Function::get_cpt() && sizeof($email_status) > 0) {
+                    if ( 1) {
                         if (in_array($order_status, $email_status)) {
                             do_action('mpcrbm_send_mail', $order_id);
                         }
@@ -60,6 +62,7 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
             exit;
         }
         public function generate_pdf($order_id, $file_name, $mail = '') {
+
             if (class_exists('\Mpdf\Mpdf')) {
                 $html = $this->create_pdf_file($order_id);
                 $mpdf = new \Mpdf\Mpdf();

@@ -178,7 +178,8 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                     </td>
                     <td>
                         <div class="flex gap-2">
-                            <button class="btn-icon" style="color: #2563eb;" title="View Booking">👁️</button>
+<!--                            <button class="btn-icon" style="color: #2563eb;" title="View Booking">👁️</button>-->
+                            <?php do_action( 'mpcrbm_pdf_button', $meta['wtbm_order_id'] ); ?>
 <!--                            <button class="btn-icon edit" title="Edit Booking">✏️</button>-->
                         </div>
                     </td>

@@ -51,7 +51,8 @@ if ( $order_id > 0 ) {
         $i = 0;
         foreach ($booking_posts as $booking_post) {
             $ticket_id = $booking_post->ID;
-            include MPCRBM_PLUGIN_DIR_PRO . '/template_pro/pdf/default.php';
+//            include MPCRBM_PLUGIN_DIR_PRO . '/template_pro/pdf/default.php';
+            include MPCRBM_PLUGIN_DIR_PRO . '/template_pro/pdf/ticket_pdf.php';
             if ($i < $total_guest - 1) {
                 $i++;
                 ?>
