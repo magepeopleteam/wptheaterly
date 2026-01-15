@@ -397,14 +397,14 @@
 				return WTBM_Function::get_settings('mptrs_general_settings', $key, $default);
 			}
 			//*****************//
+			public static function get_movie_cpt(): string {
+				return 'wtbm_movie';
+			}
 			public static function get_cpt(): string {
 				return 'wtbm_items';
 			}
 			public static function get_theater_cpt(): string {
 				return 'wtbm_theater';
-			}
-			public static function get_movie_cpt(): string {
-				return 'wtbm_movie';
 			}
 			public static function get_show_time_cpt(): string {
 				return 'wtbm_show_time';
