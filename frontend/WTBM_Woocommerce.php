@@ -364,7 +364,7 @@
                                     </p>
 
                                     <?php
-                                    do_action( 'mpcrbm_pdf_button', $order_id ); ?>
+                                    do_action( 'wtbm_pdf_button', $order_id, 'order_done' ); ?>
                                     <p class="wtbm_welcome_total"><strong><?php esc_attr_e( 'Total Price:', 'wptheaterly' )?></strong> <?php echo get_woocommerce_currency();?> <?php echo esc_html($booking['total_price']); ?></p>
                                 </div>
                             </div>
@@ -376,7 +376,7 @@
 
                     </div>
                     <?php
-//                    do_action( 'mpcrbm_pdf_button', $order_id );
+//                    do_action( 'wtbm_pdf_button', $order_id );
                 }
             }
 

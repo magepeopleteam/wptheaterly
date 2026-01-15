@@ -165,6 +165,7 @@
 
     $(document).on( 'click', '.wtbm_mappedSeat', function (e) {
         e.preventDefault();
+        let parent = $('#wtbm_registrationContainer');
         const seatId = $(this).attr('id');
         const price = parseFloat($(this).data('price'));
         const seatNum = $(this).attr('data-seat-num');
@@ -200,6 +201,7 @@
         $("#wtbm_summerySeatIds").val( seatSummaryIds );
 
         $("#wtbm_registrationSidebar").fadeIn();
+        parent.find("#wtbm_download_ticket").empty();
 
         // console.log(`Seat ID: ${seatId}, Price: $${price}, Seat number: ${seatNum}`, wtbm_total_price, wtbm_total_seat_count );
     });
@@ -338,7 +340,7 @@
                 if (response.success) {
                     button.text('Added to Cart ✅');
                     setTimeout(  function () {
-                        button.text('Order Complete')
+                        button.text('PURCHASE TICKET')
                     },1000);
 
                     wtbm_seatBooked = [];
@@ -348,6 +350,7 @@
 
                     if( response.data.seat_map  ) {
                         $("#wtbm_seatsGrid").html(response.data.seat_map);
+                        $("#wtbm_download_ticket").html(response.data.pdf_url_btn);
                     }else{
                         $("#wtbm_seatsGrid").html( '<h6>No Movies Found</h6>');
                     }

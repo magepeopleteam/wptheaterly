@@ -44,7 +44,7 @@
         $(this).addClass('active');
         let alreadyLoadedBookingIds = [];
 
-        if( nav_name === 'wtbm_bookings' ){
+        /*if( nav_name === 'wtbm_bookings' ){
             let bookingHolder =  $("#wtbm_bookings_table_body");
             bookingHolder.empty();
             bookingHolder.html( '<div class="wtbm_booking_loader"><span class="">Booking Data Loading...</span></div>' );
@@ -78,7 +78,7 @@
                     alert("Something went wrong!");
                 }
             });
-        }
+        }*/
 
     });
     $(document).on('click', '#mptrs_add_new_movie', function (e) {
@@ -1182,7 +1182,6 @@
                 data: load_more_rule,
                 success: function (response) {
                     if (response.success) {
-
                         let total_show = wtbm_showing_count + response.data.booking_count;
                         $('#wtbm_bookings_table_body').append(response.data.booking_data);
                         $("#wtbm_showing_count").text( total_show );
