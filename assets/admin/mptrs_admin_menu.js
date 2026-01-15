@@ -357,8 +357,6 @@
             _ajax_nonce: mptrs_admin_ajax.nonce
         };
 
-        console.log( movieData );
-
         let edited_movie = '';
         if( action_type === 'edit' ){
             movieData.post_id = post_id;
@@ -375,7 +373,7 @@
                     let movie_id = response.data.ID;
                     $("#"+edited_movie).hide();
                     clickedId.text( beforeClickBtnText );
-                    alert("Movie : "+response_type+' '+ response.data.movie_title);
+                    alert("Movie : "+response_type+' '+ response.data.post_title);
 
                     $("#movies-table-body").prepend( response.data.updated_movie );
                     // renderMoviesTable( response.data, movie_id );
