@@ -23,14 +23,16 @@
 					$this->create_dummy_page();
 					$movie_data = $this->movie_data();
 					$theater_data = $this->theater_data();
+					$dummy_pricing = $this->dummy_pricing();
 					$movie_ids = $this->insert_posts($movie_data, 'wtbm_movie');
+					$this->insert_posts($dummy_pricing, 'wtbm_pricing');
 					$this->insert_thumbnails($movie_ids,'wtbp_movie_poster_id');
 					$theater_ids = $this->insert_posts($theater_data, 'wtbm_theater');
 					$this->insert_showtime($movie_ids,$theater_ids);
 					update_option('mptrs_dummy_already_inserted', 'yes');
 				}
 			}
-			public function dummy_data(){
+			public function dummy_pricing(){
 				return [
 					'taxonomy' => [],
 					'custom_post' => [
