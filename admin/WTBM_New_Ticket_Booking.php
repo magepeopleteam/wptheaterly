@@ -77,6 +77,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
             $order->calculate_totals();
             $order->update_status('completed');
 
+            $pdf_url_btn= '';
             if( $order->get_id() ){
                 $data['wtbm_movie_id']          = $wtbm_movie_id;
                 $data['wtbm_theater_id']        = $theater_id;
@@ -110,8 +111,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                     $seat_map = WTBM_Details_Layout::display_theater_seat_mapping( $theater_id, $not_available );
                 }
 
-//                error_log( print_r( [ '$seat_map' => $seat_map ], true ) );
-
+                $pdf_url_btn = WTBM_Pro_Pdf::get_pdf_url_button( $order->get_id(),  );
 
             }
 
@@ -119,6 +119,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                 'message'   => 'Order placed successfully!',
                 'order_id'  => $order->get_id(),
                 'seat_map'  => $seat_map,
+                'pdf_url_btn'  => $pdf_url_btn,
                 'wtbm_total_price' => $wtbm_price,
             ));
         }
@@ -146,7 +147,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
 
             ob_start();
             ?>
-            <div class="wtbm_registrationContainer">
+            <div class="wtbm_registrationContainer" id="wtbm_registrationContainer">
                 <div class="wtbm_registrationMainContent">
                     <?php
                     echo WTBM_Details_Layout::booking_date_display();
@@ -251,6 +252,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                             <label class="form-label"><?php esc_attr_e( 'Mobile Number', 'wptheaterly' );?></label>
                             <input type="tel" class="form-input" id="wtbm_getUserPhone" placeholder="Enter mobile number">
                         </div>
+                        <div class="" id="wtbm_download_ticket"></div>
                         <button class="purchase-btn" id="wtbm_adminTicketPurchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
                         <div class="admin-ticket-note">
                             <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>

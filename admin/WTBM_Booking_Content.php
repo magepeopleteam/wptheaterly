@@ -56,6 +56,10 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
 
             ?>
             <div id="wtbm_bookings_content" class="tab-content">
+                <?php
+                do_action('wtbm_booking_header', $header_data );
+                ?>
+
                 <div class="section">
                     <div class="section-header">
                         <div>
@@ -70,7 +74,6 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
 
                 <!-- Stats Grid - Moved to top -->
                 <?php
-                do_action('wtbm_booking_header', $header_data );
                 do_action('wtbm_booking_filter', $filter_data );
 
                 do_action( 'wtbm_booking_content', $booking_data, $total_booking );
@@ -101,18 +104,26 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                         </thead>
                         <tbody id="wtbm_bookings_table_body">
                         <?php
-//                        echo self::movie_booking_data( $booking_date, $display_count );
+                        echo self::movie_booking_data( $booking_date, $display_count );
                         ?>
                         </tbody>
                     </table>
 
                         <div id="load-more-section" class="text-center py-4 border-t border-gray-200">
-                            <div class="mb-3" id="wtbm_showing_number_of_booking" style="display: none">
-                                <span class="text-sm text-gray-600" id="showing-info" data-shoing-info =""><?php esc_attr_e( 'Showing 1', 'wptheaterly' ); ?>-<span id="wtbm_showing_count"></span> <?php esc_attr_e( 'of ', 'wptheaterly' ); ?> <?php echo esc_attr( $total_booking );?> <?php esc_attr_e( 'Bookings', 'wptheaterly' ); ?></span>
+                            <div class="mb-3" id="wtbm_showing_number_of_booking" style="display: block">
+                                <span class="text-sm text-gray-600" id="showing-info" data-shoing-info ="">
+                                    <?php esc_attr_e( 'Showing 1', 'wptheaterly' ); ?>-
+                                    <span id="wtbm_showing_count"><?php echo esc_attr($display_count); ?></span>
+                                    <?php esc_attr_e( 'of ', 'wptheaterly' ); ?>
+                                    <?php echo esc_attr( $total_booking );?>
+                                    <?php esc_attr_e( 'Bookings', 'wptheaterly' ); ?>
+                                </span>
                             </div>
-                            <button id="wtbm_booking_load_more_btn" class="btn btn-primary" style="display: none">
-                                📄 <?php esc_attr_e( 'Load More Bookings (+10)', 'wptheaterly' ); ?>
-                            </button>
+                            <?php if( $display_count > 9 ){?>
+                                <button id="wtbm_booking_load_more_btn" class="btn btn-primary" style="display: block">
+                                    📄 <?php esc_attr_e( 'Load More Bookings (+10)', 'wptheaterly' ); ?>
+                                </button>
+                            <?php }?>
                             <!--<div id="no-more-data" class="text-sm text-gray-500 hidden">
                                 ✅ <?php /*esc_attr_e( 'All bookings loaded', 'wptheaterly' ); */?>
                             </div>-->
@@ -179,7 +190,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                     <td>
                         <div class="flex gap-2">
 <!--                            <button class="btn-icon" style="color: #2563eb;" title="View Booking">👁️</button>-->
-                            <?php do_action( 'mpcrbm_pdf_button', $meta['wtbm_order_id'] ); ?>
+                            <?php do_action( 'wtbm_pdf_button', $meta['wtbm_order_id'], 'booking_list' ); ?>
 <!--                            <button class="btn-icon edit" title="Edit Booking">✏️</button>-->
                         </div>
                     </td>

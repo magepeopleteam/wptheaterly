@@ -44,7 +44,7 @@
         $(this).addClass('active');
         let alreadyLoadedBookingIds = [];
 
-        if( nav_name === 'wtbm_bookings' ){
+        /*if( nav_name === 'wtbm_bookings' ){
             let bookingHolder =  $("#wtbm_bookings_table_body");
             bookingHolder.empty();
             bookingHolder.html( '<div class="wtbm_booking_loader"><span class="">Booking Data Loading...</span></div>' );
@@ -78,7 +78,7 @@
                     alert("Something went wrong!");
                 }
             });
-        }
+        }*/
 
     });
     $(document).on('click', '#mptrs_add_new_movie', function (e) {
@@ -371,9 +371,16 @@
             success: function(response) {
                 if (response.success) {
                     let movie_id = response.data.ID;
+                    console.log( response.data );
                     $("#"+edited_movie).hide();
                     clickedId.text( beforeClickBtnText );
-                    alert("Movie : "+response_type+' '+ response.data.post_title);
+
+                    if( action_type === 'edit' ){
+                        alert("Movie : "+response_type+' '+ response.data.movie_title);
+                    }else{
+                        alert("Movie : "+response_type+' '+ response.data.post_title);
+                    }
+
 
                     $("#movies-table-body").prepend( response.data.updated_movie );
                     // renderMoviesTable( response.data, movie_id );
@@ -1182,7 +1189,6 @@
                 data: load_more_rule,
                 success: function (response) {
                     if (response.success) {
-
                         let total_show = wtbm_showing_count + response.data.booking_count;
                         $('#wtbm_bookings_table_body').append(response.data.booking_data);
                         $("#wtbm_showing_count").text( total_show );
