@@ -46,6 +46,7 @@
 											'post_status' => 'publish',
 											'post_type' => $post_type
 										]);
+										
 										if (array_key_exists('meta_data', $dummy_data)) {
 											foreach ($dummy_data['meta_data'] as $meta_key => $data) {
 												// update_post_meta($post_id, $meta_key, $data);
@@ -242,12 +243,11 @@
 								'meta_data' => [
 									'wtbp_show_time_movieId' => '101',
 									'wtbp_show_time_theaterId' => '144',
-									'wtbp_show_time_date' => '2026-01-21',
+									'wtbp_show_time_date' => gmdate('Y-m-d', strtotime(' +1 day')),
 									'wtbp_show_time_start_date' => '11.00',
-									'wtbp_show_time_end_date' => '03.00',
 									
-									'wtbp_showtime_start_date' => '2026-01-21',
-									'wtbp_showtime_end_date' => '2026-01-31',
+									'wtbp_showtime_start_date' => gmdate('Y-m-d', strtotime(' +1 day')),
+									'wtbp_showtime_end_date' => gmdate('Y-m-d', strtotime(' +30 day')),
 									'wtbp_show_time_price' => '11',
 									'wtbp_showtime_off_days' => 'monday',
 								],
@@ -259,9 +259,9 @@
 								'meta_data' => [
 									'wtbp_pricing_rules_theaterType' => '101',
 									'wtbp_pricing_rules_type' => '144',
-									'wtbp_pricing_rules_dateRange' => '2026-01-21',
-									'wtbp_pricing_rules_startDate' => '2026-01-21',
-									'wtbp_pricing_rules_endDate' => '2026-01-31',
+									'wtbp_pricing_rules_dateRange' => gmdate('Y-m-d', strtotime(' +1 day')),
+									'wtbp_pricing_rules_startDate' => gmdate('Y-m-d', strtotime(' +1 day')),
+									'wtbp_pricing_rules_endDate' => gmdate('Y-m-d', strtotime(' +30 day')),
 									'wtbp_pricing_rules_priority' => '5',
 									'wtbp_pricing_rules_multiplier' => '5',
 									'wtbp_pricing_rules_active' => 'yes',
