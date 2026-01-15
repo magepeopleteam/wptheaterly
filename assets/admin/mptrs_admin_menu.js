@@ -371,9 +371,16 @@
             success: function(response) {
                 if (response.success) {
                     let movie_id = response.data.ID;
+                    console.log( response.data );
                     $("#"+edited_movie).hide();
                     clickedId.text( beforeClickBtnText );
-                    alert("Movie : "+response_type+' '+ response.data.post_title);
+
+                    if( action_type === 'edit' ){
+                        alert("Movie : "+response_type+' '+ response.data.movie_title);
+                    }else{
+                        alert("Movie : "+response_type+' '+ response.data.post_title);
+                    }
+
 
                     $("#movies-table-body").prepend( response.data.updated_movie );
                     // renderMoviesTable( response.data, movie_id );

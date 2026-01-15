@@ -180,6 +180,9 @@
             $("#"+seatId).children().css('background-color', '#667eea');
             wtbm_total_price = wtbm_total_price + price;
             wtbm_total_seat_count++;
+
+            parent.find("#wtbm_adminTicketPurchaseBtn").text('PURCHASE TICKET');
+            parent.find("#wtbm_download_ticket").empty();
         }
 
         if (wtbm_seatBookedName.includes(seatNum)) {
@@ -201,7 +204,7 @@
         $("#wtbm_summerySeatIds").val( seatSummaryIds );
 
         $("#wtbm_registrationSidebar").fadeIn();
-        parent.find("#wtbm_download_ticket").empty();
+
 
         // console.log(`Seat ID: ${seatId}, Price: $${price}, Seat number: ${seatNum}`, wtbm_total_price, wtbm_total_seat_count );
     });
@@ -312,57 +315,62 @@
         let wtbm_seatBookedIds = JSON.stringify( wtbm_seatBooked );
 
         let button = $(this);
+        let booking_btn_text = button.text();
         let action = 'wtbm_theater_ticket_booking_admin';
-        const booking_data = {
-            action: action,
-            movie_id: movieId,
-            theater_id: theaterId,
-            booking_date: bookingDate,
-            booking_time: bookingTime,
-            total_amount: totalAmount,
-            seat_count: wtbm_total_seat_count,
-            seat_names: wtbm_seatBookedNameStr,
-            booked_seat_ids: wtbm_seatBookedIds,
-            userName: userName,
-            userPhoneNum: userPhoneNum,
-            nonce: wtbm_ajax.nonce,
-        };
+        if( booking_btn_text === 'PURCHASE TICKET' ) {
+            const booking_data = {
+                action: action,
+                movie_id: movieId,
+                theater_id: theaterId,
+                booking_date: bookingDate,
+                booking_time: bookingTime,
+                total_amount: totalAmount,
+                seat_count: wtbm_total_seat_count,
+                seat_names: wtbm_seatBookedNameStr,
+                booked_seat_ids: wtbm_seatBookedIds,
+                userName: userName,
+                userPhoneNum: userPhoneNum,
+                nonce: wtbm_ajax.nonce,
+            };
 
-        $("#wtbm_seatsGrid").empty();
-        $.ajax({
-            type: 'POST',
-            url: wtbm_ajax.ajax_url,
-            data: booking_data,
-            beforeSend: function () {
-                button.text('Adding...');
-            },
-            success: function (response) {
-                if (response.success) {
-                    button.text('Added to Cart ✅');
-                    setTimeout(  function () {
-                        button.text('PURCHASE TICKET')
-                    },1000);
+            $("#wtbm_seatsGrid").empty();
+            $.ajax({
+                type: 'POST',
+                url: wtbm_ajax.ajax_url,
+                data: booking_data,
+                beforeSend: function () {
+                    button.text('Adding...');
+                },
+                success: function (response) {
+                    if (response.success) {
+                        button.text('Added to Cart ✅');
+                        setTimeout(function () {
+                            button.text('BOOKING COMPLEATED')
+                        }, 1000);
 
-                    wtbm_seatBooked = [];
-                    wtbm_seatBookedName = [];
-                    wtbm_total_price = 0;
-                    wtbm_total_seat_count = 0;
+                        wtbm_seatBooked = [];
+                        wtbm_seatBookedName = [];
+                        wtbm_total_price = 0;
+                        wtbm_total_seat_count = 0;
 
-                    if( response.data.seat_map  ) {
-                        $("#wtbm_seatsGrid").html(response.data.seat_map);
-                        $("#wtbm_download_ticket").html(response.data.pdf_url_btn);
-                    }else{
-                        $("#wtbm_seatsGrid").html( '<h6>No Movies Found</h6>');
+                        if (response.data.seat_map) {
+                            $("#wtbm_seatsGrid").html(response.data.seat_map);
+                            $("#wtbm_download_ticket").html(response.data.pdf_url_btn);
+                        } else {
+                            $("#wtbm_seatsGrid").html('<h6>No Movies Found</h6>');
+                        }
+
+                        $("#wtbm_summaryTotal").text(response.data.wtbm_total_price);
+
+                    } else {
+                        alert(response.data);
+                        button.text('Add to Cart');
                     }
-
-                    $("#wtbm_summaryTotal").text( response.data.wtbm_total_price );
-
-                } else {
-                    alert(response.data);
-                    button.text('Add to Cart');
                 }
-            }
-        });
+            });
+        }else{
+            alert('Select Theater Ticket First');
+        }
 
     });
 

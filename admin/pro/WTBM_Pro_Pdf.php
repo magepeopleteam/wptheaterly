@@ -17,7 +17,7 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
             add_action('wp_ajax_wtbm_generate_pdf', array($this, 'wtbm_generate_pdf'));
             add_action('wp_ajax_nopriv_wtbm_generate_pdf', array($this, 'wtbm_generate_pdf'));
         }
-        public function pdf_button( $order_id, $action ) {
+        public function pdf_button( $order_id, $action ='order_done' ) {
             $order = wc_get_order($order_id);
             $order_status = $order->get_status();
             if (class_exists('\Mpdf\Mpdf') && in_array($order_status, ['processing', 'completed'])) {
