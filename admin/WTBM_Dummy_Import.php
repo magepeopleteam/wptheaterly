@@ -322,6 +322,6 @@
 			}
 		}
 				
-		new MPTRS_Dummy_Import();		
+		new WTBM_Dummy_Import();
 
 	}
