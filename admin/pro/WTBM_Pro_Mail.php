@@ -12,7 +12,7 @@ if ( ! class_exists('WTBM_Pro_Mail') ) {
     {
         public function __construct()
         {
-            add_action('mpcrbm_send_mail', array($this, 'send_mail'));
+            add_action('wtbm_send_mail', array($this, 'send_mail'));
         }
 
         public function send_mail($order_id = '')
@@ -31,7 +31,7 @@ if ( ! class_exists('WTBM_Pro_Mail') ) {
             $headers = array(
                 sprintf("From: %s <%s>", $form_name, $form_email),
             );
-            if ($email_status == 'yes') {
+            if ($email_status === 'yes') {
                 $upload_dir = wp_upload_dir();
                 $pdf_url = $upload_dir['basedir'] . '/' . $order_id . '.pdf';
                 do_action('wtbm_generate_pdf', $order_id, $pdf_url, 'mail');
@@ -46,14 +46,6 @@ if ( ! class_exists('WTBM_Pro_Mail') ) {
                 // Mail content dynamic
                 $content = $this->mail_content($content, $order);
                 $pdf_email_content = apply_filters('wtbm_pdf_email_text', $content, $order_id);
-                error_log( print_r( [
-                    '$email_address' => $email_address,
-                    '$subject' => $subject,
-                    '$pdf_email_content' => $pdf_email_content,
-                    '$headers' =>$headers,
-                    '$attachments' =>$attachments,
-                ], true ) );
-
                 wp_mail($email_address, $subject, $pdf_email_content, $headers, $attachments);
             }
         }

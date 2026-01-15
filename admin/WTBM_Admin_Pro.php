@@ -24,7 +24,7 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
             require_once WTBM_PLUGIN_DIR . '/admin/pro/WTBM_Pro_Pdf.php';
             require_once WTBM_PLUGIN_DIR . '/admin/pro/WTBM_Layout_Pro.php';
             require_once WTBM_PLUGIN_DIR . '/admin/pro/WTBM_Settings_Global_Pro.php';
-//            require_once WTBM_PLUGIN_DIR . '/admin/pro/WTBM_Pro_Mail.php';
+            require_once WTBM_PLUGIN_DIR . '/admin/pro/WTBM_Pro_Mail.php';
 
         }
         public function status_notice_sec() {

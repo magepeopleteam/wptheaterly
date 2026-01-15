@@ -23,7 +23,6 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
             if (class_exists('\Mpdf\Mpdf') && in_array($order_status, ['processing', 'completed'])) {
                 $item_id = current(array_keys($order->get_items()));
                 $post_id = wc_get_order_item_meta($item_id, '_wtbm_id');
-//                $post_id = 270;
                 if (get_post_type($post_id) == WTBM_Function::get_cpt() || 1 ) {
                     $download_url = self::get_pdf_url(array('order_id' => $order_id));
                     if ($download_url) {
@@ -39,10 +38,9 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
                     $email_status = WTBM_Function::get_settings('mpcrbm_email_settings', 'pdf_email_status', array('processing', 'completed'));
                     $order_status = $order->get_status();
 
-//                    if (get_post_type($post_id) == WTBM_Function::get_cpt() && sizeof($email_status) > 0) {
-                    if ( 1) {
+                    if ( get_post_type($post_id) == 'wtbm_movie' && sizeof($email_status) > 0) {
                         if (in_array($order_status, $email_status)) {
-                            do_action('mpcrbm_send_mail', $order_id);
+                            do_action('wtbm_send_mail', $order_id);
                         }
                     }
                 }
