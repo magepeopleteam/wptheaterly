@@ -1,0 +1,170 @@
+<?php
+	/*
+   * @Author 		engr.sumonazma@gmail.com
+   * Copyright: 	mage-people.com
+   */
+	if (!defined('ABSPATH')) {
+		die;
+	} // Cannot access pages directly.
+	if (!class_exists('WTBM_Dependencies')) {
+		class WTBM_Dependencies {
+			public function __construct() {
+				add_action('init', [$this, 'language_load']);
+				$this->load_file();
+				add_action('wp_enqueue_scripts', [$this, 'frontend_script'], 90);
+				add_action('admin_enqueue_scripts', [$this, 'admin_scripts'], 90);
+				add_action('admin_head', array($this, 'add_admin_head'), 5);
+				add_action('wp_head', array($this, 'add_frontend_head'), 5);
+				add_action('wp_enqueue_scripts', array($this, 'custom_css'), 5);
+				// add_action('admin_enqueue_scripts',[$this,'code_mirror']);
+			}
+			public function language_load(): void {
+				$plugin_dir = basename(dirname(__DIR__)) . "/languages/";
+				load_plugin_textdomain('theaterly', false, $plugin_dir);
+			}
+			private function load_file(): void {
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Function.php';
+
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Layout_Functions.php';
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Slider.php';
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Style.php';
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Select_Icon_image.php';
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Query.php';
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Layout.php';
+				if (WTBM_Function::check_woocommerce() == 1) {
+					require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Admin.php';
+					require_once WTBM_PLUGIN_DIR . '/frontend/WTBM_Frontend.php';
+				}
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Quick_Setup.php';
+			}
+			public function global_enqueue() {
+				wp_enqueue_script('jquery');
+				wp_enqueue_script('jquery-ui-core');
+				wp_enqueue_script('jquery-ui-datepicker');
+				wp_enqueue_script('jquery-ui-mouse');
+				wp_enqueue_script('jquery-ui-sortable');
+				wp_enqueue_script('jquery-ui-dialog');
+				wp_enqueue_style('mp_jquery_ui', WTBM_PLUGIN_URL . '/assets/jquery-ui.min.css', array(), '1.13.2');
+				wp_enqueue_style('mp_font_awesome', WTBM_PLUGIN_URL . '/assets/admin/all.min.css', array(), '5.15.3');
+				wp_enqueue_style('mp_select_2', WTBM_PLUGIN_URL . '/assets/select_2/select2.min.css', array(), '4.0.13');
+				wp_enqueue_script('mp_select_2', WTBM_PLUGIN_URL . '/assets/select_2/select2.min.js', array(), '4.0.13', true);
+				wp_enqueue_style('mp_owl_carousel', WTBM_PLUGIN_URL . '/assets/owl_carousel/owl.carousel.min.css', array(), '2.3.4');
+				wp_enqueue_script('mp_owl_carousel', WTBM_PLUGIN_URL . '/assets/owl_carousel/owl.carousel.min.js', array(), '2.3.4', true);
+				wp_enqueue_style('mptrs_global', WTBM_PLUGIN_URL . '/assets/mp_style/mptrs_global.css', array(), time());
+				wp_enqueue_script('mptrs_global', WTBM_PLUGIN_URL . '/assets/mp_style/mptrs_global.js', ['jquery'], time());
+				wp_enqueue_style('wtbm_registration', WTBM_PLUGIN_URL . '/assets/frontend/wtbm_registration.css', [], time());
+				wp_enqueue_style('wtbm_seat_mapping', WTBM_PLUGIN_URL . '/assets/frontend/wtbm_seat_mapping.css', [], time());
+				wp_enqueue_script('wtbm_registration', WTBM_PLUGIN_URL . '/assets/frontend/wtbm_registration.js', ['jquery'], time(), true);
+				wp_enqueue_script('wtbm_global', WTBM_PLUGIN_URL . '/wtbm_global/assets/mp_style/wtbm_global.js', ['jquery'], time(), true);
+                wp_enqueue_style('wtbm_global', WTBM_PLUGIN_URL . '/wtbm_global/assets/mp_style/wtbm_global.css', [], time());
+				wp_localize_script('wtbm_registration', 'wtbm_ajax', array(
+					'ajax_url' => admin_url('admin-ajax.php'),
+					'nonce' => wp_create_nonce('wtbm_nonce'),
+					'site_url' => get_site_url(),
+					'wc_currency_symbol' => '',
+				));
+				do_action('add_mptrs_global_enqueue');
+				wp_enqueue_style('mage-icons', WTBM_PLUGIN_URL . '/assets/mage-icon/css/mage-icon.css', array(), time());
+			}
+			public function admin_scripts() {
+				$this->global_enqueue();
+				wp_enqueue_editor();
+				wp_enqueue_media();
+				//admin script
+				wp_enqueue_script('jquery-ui-sortable');
+				wp_enqueue_style('wp-color-picker');
+				wp_enqueue_script('wp-color-picker');
+				wp_enqueue_style('wp-codemirror');
+				wp_enqueue_script('wp-codemirror');
+				//loading Time picker
+				wp_enqueue_script('jquery.timepicker.min', WTBM_PLUGIN_URL . '/assets/admin/jquery.timepicker.min.js', array('jquery'), time(), true);
+				wp_enqueue_style('jquery.timepicker.min', WTBM_PLUGIN_URL . '/assets/admin/jquery.timepicker.min.css', array(), time());
+				//=====================//
+				wp_enqueue_script('form-field-dependency', WTBM_PLUGIN_URL . '/assets/admin/form-field-dependency.js', array('jquery'), '1.0', true);
+				// admin setting global
+				wp_enqueue_script('mptrs_admin_settings', WTBM_PLUGIN_URL . '/assets/admin/mptrs_admin_settings.js', array('jquery'), time(), true);
+				wp_enqueue_script('mptrs_admin_menu', WTBM_PLUGIN_URL . '/assets/admin/mptrs_admin_menu.js', array('jquery'), time(), true);
+				wp_enqueue_script('wtbm_sales_report', WTBM_PLUGIN_URL . '/assets/admin/wtbm_sales_report.js', array('jquery'), time(), true);
+				wp_enqueue_style('mptrs_admin_settings', WTBM_PLUGIN_URL . '/assets/admin/mptrs_admin_settings.css', array(), time());
+				wp_enqueue_style('wtbm_sales_report', WTBM_PLUGIN_URL . '/assets/admin/wtbm_sales_report.css', array(), time());
+				wp_enqueue_style('mptrs_admin_menu', WTBM_PLUGIN_URL . '/assets/admin/mptrs_admin_menu.css', array(), time());
+				// ****custom************//
+				wp_enqueue_style('mptrs_admin', WTBM_PLUGIN_URL . '/assets/admin/mptrs_admin.css', [], time());
+				wp_enqueue_script('mptrs_admin', WTBM_PLUGIN_URL . '/assets/admin/mptrs_admin.js', ['jquery'], time(), true);
+				wp_enqueue_script('create_seat_plan', WTBM_PLUGIN_URL . '/assets/admin/create_seat_plan.js', ['jquery'], time(), true);
+				wp_enqueue_style('create_seat_plan', WTBM_PLUGIN_URL . '/assets/admin/create_seat_plan.css', array(), time());
+				wp_localize_script('mptrs_admin', 'mptrs_admin_ajax', array(
+					'ajax_url' => admin_url('admin-ajax.php'),
+					'nonce' => wp_create_nonce('mptrs_admin_nonce')
+				));
+				do_action('add_mptrs_admin_script');
+			}
+			public function frontend_script() {
+				$this->global_enqueue();
+				$currency_symbol = get_woocommerce_currency_symbol();
+				wp_enqueue_style('mptrs', WTBM_PLUGIN_URL . '/assets/frontend/mptrs.css', [], time());
+				wp_enqueue_script('mptrs', WTBM_PLUGIN_URL . '/assets/frontend/mptrs.js', ['jquery'], time(), true);
+				do_action('add_mptrs_frontend_script');
+			}
+			public function add_admin_head() {
+				$this->js_constant();
+			}
+			public function add_frontend_head() {
+				$this->js_constant();
+				$this->custom_css();
+			}
+			public function js_constant() {
+				?>
+                <script type="text/javascript">
+                    let mptrs_currency_symbol = "";
+                    let mptrs_currency_position = "";
+                    let mptrs_currency_decimal = "";
+                    let mptrs_currency_thousands_separator = "";
+                    let mptrs_num_of_decimal = "";
+                    let mptrs_empty_image_url = "<?php echo esc_js(WTBM_PLUGIN_URL . '/assets/images/no_image.png'); ?>";
+                    let mptrs_date_format = "<?php echo esc_js(WTBM_Function::get_settings('mptrs_global_settings', 'date_format', 'D d M , yy')); ?>";
+                    let mptrs_date_format_without_year = "<?php echo esc_js(WTBM_Function::get_settings('mptrs_global_settings', 'date_format_without_year', 'D d M')); ?>";
+                </script>
+				<?php
+				if (WTBM_Function::check_woocommerce() == 1) {
+					?>
+                    <script type="text/javascript">
+                        mptrs_currency_symbol = "<?php echo esc_js(get_woocommerce_currency_symbol()); ?>";
+                        mptrs_currency_position = "<?php echo esc_js(get_option('woocommerce_currency_pos')); ?>";
+                        mptrs_currency_decimal = "<?php echo esc_js(wc_get_price_decimal_separator()); ?>";
+                        mptrs_currency_thousands_separator = "<?php echo esc_js(wc_get_price_thousand_separator()); ?>";
+                        mptrs_num_of_decimal = "<?php echo esc_js(get_option('woocommerce_price_num_decimals', 2)); ?>";
+                    </script>
+					<?php
+				}
+			}
+			public function custom_css() {
+				$custom_css = WTBM_Function::get_settings('mptrs_add_custom_css', 'custom_css');
+				wp_add_inline_style('mptrs', $custom_css);
+			}
+			public function code_mirror($hook) {
+				wp_enqueue_code_editor(['type' => 'text/css']);
+				wp_enqueue_script('wp-theme-plugin-editor');
+				wp_enqueue_style('wp-codemirror');
+				// Properly initialize the editor after script is ready
+				add_action('admin_footer', function () {
+					?>
+                    <script>
+                        jQuery(document).ready(function ($) {
+                            if (typeof wp !== 'undefined' && wp.codeEditor) {
+                                var settings = wp.codeEditor.defaultSettings ? _.clone(wp.codeEditor.defaultSettings) : {};
+                                settings.codemirror = settings.codemirror || {};
+                                settings.codemirror.mode = 'css';
+                                var $textarea = $('.mptrs_custom_css');
+                                if ($textarea.length && !$textarea.data('codeEditor')) {
+                                    wp.codeEditor.initialize($textarea, settings);
+                                }
+                            }
+                        });
+                    </script>
+					<?php
+				});
+			}
+		}
+		new WTBM_Dependencies();
+	}

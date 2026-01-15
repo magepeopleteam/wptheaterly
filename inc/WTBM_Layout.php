@@ -6,20 +6,20 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Layout')) {
-		class MPTRS_Layout {
+	if (!class_exists('WTBM_Layout')) {
+		class WTBM_Layout {
 			public function __construct() {
 				add_action('add_mptrs_hidden_table', array($this, 'hidden_table'), 10, 2);
 				add_action('add_mptrs_pagination', array($this, 'pagination'), 10, 3);
             }
 			public static function post_select() {
-				$label = MPTRS_Function::get_name();
+				$label = WTBM_Function::get_name();
 				?>
                 <label class="min_400 mptrs_id">
                     <select name="mptrs_id" class="formControl mp_select2" id="mptrs_id" required>
                         <option value="0"><?php esc_html_e('Select', 'theaterly') . ' ' . esc_html($label); ?></option>
 						<?php
-							$loop = MPTRS_Function::query_post_type(MPTRS_Function::get_cpt());
+							$loop = WTBM_Function::query_post_type(WTBM_Function::get_cpt());
 							$posts = $loop->posts;
 							foreach ($posts as $post) {
 								?>
@@ -162,7 +162,7 @@
 			}
 			/*****************************/
 			public static function bg_image($post_id='',$url='') {
-				$thumbnail = $post_id>0?MPTRS_Function::get_image_url($post_id):$url;
+				$thumbnail = $post_id>0?WTBM_Function::get_image_url($post_id):$url;
 				$post_url=$post_id>0?get_the_permalink($post_id):'';
 				?>
                 <div class="bg_image_area" data-href="<?php echo esc_attr($post_url); ?>" data-placeholder>
@@ -235,5 +235,5 @@
 				}
 			}
 		}
-		new MPTRS_Layout();
+		new WTBM_Layout();
 	}

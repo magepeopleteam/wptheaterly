@@ -6,11 +6,8 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Dummy_Import')) {
-		require_once ABSPATH . 'wp-admin/includes/media.php';
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-		require_once ABSPATH . 'wp-admin/includes/image.php';
-		class MPTRS_Dummy_Import {
+	if (!class_exists('WTBM_Dummy_Import')) {
+		class WTBM_Dummy_Import {
 			public function __construct() {
 				// $this->dummy_import();
 				add_action('admin_init', [$this, 'dummy_import'], 99);
@@ -18,7 +15,7 @@
 
 			public function dummy_import() {
 				$dummy_post = get_option('mptrs_dummy_already_inserted');
-				$all_post = MPTRS_Function::query_post_type('wtbm_movie');
+				$all_post = WTBM_Function::query_post_type('mptrs_item');
 				if ($all_post->post_count == 0 && $dummy_post != 'yes') {
 				// if ($dummy_post == 'yes') {
 					$this->create_dummy_page();
@@ -27,7 +24,7 @@
 					foreach ($dummy_data as $type => $dummy) {
 						if ($type == 'taxonomy') {
 							foreach ($dummy as $taxonomy => $dummy_taxonomy) {
-								$check_taxonomy = MPTRS_Function::get_taxonomy($taxonomy);
+								$check_taxonomy = WTBM_Function::get_taxonomy($taxonomy);
 								if (is_string($check_taxonomy) || sizeof($check_taxonomy) == 0) {
 									foreach ($dummy_taxonomy as $taxonomy_data) {
 										wp_insert_term($taxonomy_data['name'], $taxonomy);
@@ -36,8 +33,8 @@
 							}
 						}
 						if ($type == 'custom_post') {
-							foreach ($dummy as $post_type => $dummy_post) {
-								$post = MPTRS_Function::query_post_type($post_type);
+							foreach ($dummy as $custom_post => $dummy_post) {
+								$post = WTBM_Function::query_post_type($custom_post);
 								if ($post->post_count == 0) {
 									
 									foreach ($dummy_post as $key => $dummy_data) {

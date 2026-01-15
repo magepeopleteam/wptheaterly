@@ -53,7 +53,7 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
         function mptrs_insert_theater_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
-            $cpt = MPTRS_Function::get_theater_cpt();
+            $cpt = WTBM_Function::get_theater_cpt();
 
             $title          = sanitize_text_field( $_POST['name']);
             $type           = sanitize_text_field( $_POST['type']);
@@ -104,7 +104,7 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
         function mptrs_update_theater_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
-            $cpt            = MPTRS_Function::get_theater_cpt();
+            $cpt            = WTBM_Function::get_theater_cpt();
             $title          = sanitize_text_field( $_POST['name']);
             $type           = sanitize_text_field( $_POST['type']);
             $rows           = sanitize_text_field( $_POST['rows']);

@@ -6,15 +6,15 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Taxonomy')) {
-		class MPTRS_Taxonomy {
+	if (!class_exists('WTBM_Taxonomy')) {
+		class WTBM_Taxonomy {
 			public function __construct() {
 				//add_action( 'init', [ $this, 'taxonomy' ] );
 			}
 			public function taxonomy() {
-				$label = MPTRS_Function::get_name();
-				$cat_label = MPTRS_Function::get_category_label();
-				$cat_slug = MPTRS_Function::get_category_slug();
+				$label = WTBM_Function::get_name();
+				$cat_label = WTBM_Function::get_category_label();
+				$cat_slug = WTBM_Function::get_category_slug();
 				$labels = [
 					'name' => $label . ' ' . $cat_label,
 					'singular_name' => $label . ' ' . $cat_label,
@@ -52,5 +52,5 @@
 				register_taxonomy('mptrs_category', 'mptrs_item', $args);
 			}
 		}
-		new MPTRS_Taxonomy();
+		new WTBM_Taxonomy();
 	}

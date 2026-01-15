@@ -6,16 +6,16 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Settings')) {
-		class MPTRS_Settings {
+	if (!class_exists('WTBM_Settings')) {
+		class WTBM_Settings {
 			public function __construct() {
 				add_action('add_meta_boxes', [$this, 'settings_meta']);
 				add_action('save_post', array($this, 'save_settings'), 99, 1);
 			}
 			//************************//
 			public function settings_meta() {
-				$label = MPTRS_Function::get_name();
-				$cpt = MPTRS_Function::get_cpt();
+				$label = WTBM_Function::get_name();
+				$cpt = WTBM_Function::get_cpt();
 				add_meta_box('mptrs_meta_box', $label . esc_html__(' Information Settings : ', 'theaterly') . get_the_title(get_the_id()), array($this, 'settings'), $cpt, 'normal', 'high');
 			}
 			//******************************//
@@ -53,7 +53,7 @@
 				if (!isset($_POST['mptrs_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['mptrs_nonce'])), 'mptrs_nonce') && defined('DOING_AUTOSAVE') && DOING_AUTOSAVE && !current_user_can('edit_post', $post_id)) {
 					return;
 				}
-				if (get_post_type($post_id) == MPTRS_Function::get_cpt()) {
+				if (get_post_type($post_id) == WTBM_Function::get_cpt()) {
 					//************************************//
 					$date_type = isset($_POST['mptrs_date_type']) ? sanitize_text_field(wp_unslash($_POST['mptrs_date_type'])) : '';
 					update_post_meta($post_id, 'mptrs_date_type', $date_type);
@@ -83,7 +83,7 @@
 					update_post_meta($post_id, 'mpwpb_capacity_per_session', $capacity_per_session);
 					//**********************//
 					$this->save_schedule($post_id, 'default');
-					$days = MPTRS_Function::week_day();
+					$days = WTBM_Function::week_day();
 					foreach ($days as $key => $day) {
 						$this->save_schedule($post_id, $key);
 					}
@@ -102,11 +102,11 @@
 					}
 					update_post_meta($post_id, 'mpwpb_off_dates', $_off_dates);
 				}
-				if (get_post_type($post_id) == MPTRS_Function::get_cpt()) {
+				if (get_post_type($post_id) == WTBM_Function::get_cpt()) {
 					$mpwpb_faq_active = isset($_POST['mpwpb_faq_active']) ? sanitize_text_field(wp_unslash($_POST['mpwpb_faq_active'])) : '';
 					update_post_meta($post_id, 'mpwpb_faq_active', $mpwpb_faq_active);
 				}
-				if (get_post_type($post_id) == MPTRS_Function::get_cpt()) {
+				if (get_post_type($post_id) == WTBM_Function::get_cpt()) {
 					$slider = isset($_POST['mpwpb_display_slider']) && sanitize_text_field(wp_unslash($_POST['mpwpb_display_slider'])) ? 'on' : 'off';
 					update_post_meta($post_id, 'mpwpb_display_slider', $slider);
 					$images = isset($_POST['mpwpb_slider_images']) ? sanitize_text_field(wp_unslash($_POST['mpwpb_slider_images'])) : '';
@@ -150,5 +150,5 @@
 				}
 			}
 		}
-		new MPTRS_Settings();
+		new WTBM_Settings();
 	}

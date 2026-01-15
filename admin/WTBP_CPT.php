@@ -12,10 +12,10 @@
 				add_action('init', [$this, 'add_cpt']);
 			}
 			public function add_cpt(): void {
-				$cpt = MPTRS_Function::get_cpt();
-				$label = MPTRS_Function::get_name();
-				$slug = MPTRS_Function::get_slug();
-				$icon = MPTRS_Function::get_icon();
+				$cpt = WTBM_Function::get_cpt();
+				$label = WTBM_Function::get_name();
+				$slug = WTBM_Function::get_slug();
+				$icon = WTBM_Function::get_icon();
 				$labels = [
 					'name' => $label,
 					'singular_name' => $label,

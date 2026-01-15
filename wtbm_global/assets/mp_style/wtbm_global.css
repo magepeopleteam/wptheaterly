@@ -1,0 +1,13 @@
+.wtbm [class*="_themeButton"] {
+    /*background-color: var(--color_theme);
+    color: var(--color_theme_alter);
+    padding: var(--dmp_xs) var(--dmp);
+    border: 1px solid var(--color_theme);*/
+
+    background: #4a61b7;
+    padding: 10px;
+    color: #ffffff;
+    border: 1px solid #ededed;
+    border-radius: 5px;
+    cursor: pointer;
+}

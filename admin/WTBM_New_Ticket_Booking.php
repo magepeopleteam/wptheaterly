@@ -97,7 +97,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
 
                 $booking_data = apply_filters( 'add_wtbm_booking_data', $data, $wtbm_movie_id );
 
-                MPTRS_Woocommerce::add_cpt_data('wtbm_booking', $booking_data['wtbm_billing_name'], $booking_data );
+                WTBM_Woocommerce::add_cpt_data('wtbm_booking', $booking_data['wtbm_billing_name'], $booking_data );
 
 
                 if( $theater_id && $wtbm_movie_id &&  $booking_date && $booking_time ){

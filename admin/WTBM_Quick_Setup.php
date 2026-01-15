@@ -6,14 +6,14 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Quick_Setup')) {
-		class MPTRS_Quick_Setup {
+	if (!class_exists('WTBM_Quick_Setup')) {
+		class WTBM_Quick_Setup {
 			public function __construct() {
 				add_action('admin_menu', array($this, 'quick_setup_menu'));
 			}
 			public function quick_setup_menu() {
-				$status = MPTRS_Function::check_woocommerce();
-                $label=MPTRS_Function::get_name();
+				$status = WTBM_Function::check_woocommerce();
+                $label=WTBM_Function::get_name();
 				if ($status == 1) {
 					add_submenu_page('mptrs_main_menu', __('Quick Setup', 'theaterly'), '<span style="color:#10dd10">' . __('Quick Setup', 'theaterly') . '</span>', 'manage_options', 'mptrs_quick_setup', array($this, 'quick_setup'));
 				} else {
@@ -22,7 +22,7 @@
 				}
 			}
 			public function quick_setup() {
-				$status = MPTRS_Function::check_woocommerce();
+				$status = WTBM_Function::check_woocommerce();
 				if (isset($_POST['mptrs_quick_setup_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['mptrs_quick_setup_nonce'])), 'mptrs_quick_setup_nonce')) {
 					if (isset($_POST['active_woo_btn'])) {
 						?>
@@ -157,7 +157,7 @@
 				<?php
 			}
 			public function setup_welcome_content() {
-				$status = MPTRS_Function::check_woocommerce();
+				$status = WTBM_Function::check_woocommerce();
 				?>
                 <div data-tabs-next="#mptrs_qs_welcome">
                     <h2><?php esc_html_e('Theaterly Manager For Woocommerce Plugin', 'theaterly'); ?></h2>
@@ -184,8 +184,8 @@
 				<?php
 			}
 			public function setup_general_content() {
-				$label = MPTRS_Function::get_settings('mptrs_general_settings', 'label', 'Theaterly');
-				$slug = MPTRS_Function::get_settings('mptrs_general_settings', 'slug', 'theaterly');
+				$label = WTBM_Function::get_settings('mptrs_general_settings', 'label', 'Theaterly');
+				$slug = WTBM_Function::get_settings('mptrs_general_settings', 'slug', 'theaterly');
 				?>
                 <div data-tabs-next="#mptrs_qs_general">
                     <div class="section">
@@ -227,5 +227,5 @@
 				<?php
 			}
 		}
-		new MPTRS_Quick_Setup();
+		new WTBM_Quick_Setup();
 	}
