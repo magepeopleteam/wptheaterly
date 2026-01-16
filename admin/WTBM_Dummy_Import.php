@@ -12,8 +12,8 @@
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 		class WTBM_Dummy_Import {
 			public function __construct() {
-				// $this->dummy_import();
-				add_action('admin_init', [$this, 'dummy_import'], 99);
+				$this->dummy_import();
+				// add_action('admin_init', [$this, 'dummy_import'], 99);
 			}
 
 			public function dummy_import() {
@@ -352,6 +352,6 @@
 			}
 		}
 				
-		new WTBM_Dummy_Import();		
+				
 
 	}
