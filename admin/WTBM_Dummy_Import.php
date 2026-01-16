@@ -91,22 +91,27 @@
 			}
 			public function insert_showtime( $movie_ids, $theater_ids ) {
 				$show_time_data = $this->show_time_data();
-				// print_r($theater_ids);
-				// exit;
 				foreach ( $movie_ids as $index => $movie_id ) {
-					$data = $show_time_data[ $index % count( $show_time_data ) ];
 					$post_id = wp_insert_post([
 						'post_type'   => 'wtbm_show_time',
 						'post_title'  => get_the_title( $movie_id ),
 						'post_status' => 'publish',
 					], true);
+					if ( is_wp_error( $post_id ) ) {
+						continue;
+					}
 					update_post_meta( $post_id, 'wtbp_show_time_movieId', $movie_id );
-					update_post_meta( $post_id, 'wtbp_show_time_theaterId', $theater_ids[$index] );
-					foreach ( $data['meta_data'] as $meta_key => $meta_value ) {
+					update_post_meta(
+						$post_id,
+						'wtbp_show_time_theaterId',
+						$theater_ids[ $index % count( $theater_ids ) ]
+					);
+					foreach ( $show_time_data['meta_data'] as $meta_key => $meta_value ) {
 						update_post_meta( $post_id, $meta_key, $meta_value );
 					}
 				}
 			}
+
 			public function movie_data(){
 				return [
 					[
@@ -357,27 +362,20 @@
 					],
 				];
 			}
-			public function show_time_data(){
-				$i=0;
-				while($i<=9){
-					$show_time_data[] =[
-						'post_title' => 'Show Time ',
-						'meta_data' => [
-							'wtbp_show_time_movieId' => '1',
-							'wtbp_show_time_theaterId' => '1',
-							'wtbp_show_time_date' => gmdate('Y-m-d', strtotime(' +1 day')),
-							'wtbp_show_time_start_date' => '11.00',
-							
-							'wtbp_showtime_start_date' => gmdate('Y-m-d', strtotime(' +1 day')),
-							'wtbp_showtime_end_date' => gmdate('Y-m-d', strtotime(' +30 day')),
-							'wtbp_show_time_price' => '11',
-							'wtbp_showtime_off_days' => 'monday',
-						],
-					];
-					$i++;
-				}
-				return  $show_time_data;
+			public function show_time_data() {
+				return [
+					'post_title' => 'Show Time',
+					'meta_data'  => [
+						'wtbp_show_time_date'        => gmdate( 'Y-m-d', strtotime('+1 day') ),
+						'wtbp_show_time_start_date'  => '11.00',
+						'wtbp_showtime_start_date'   => gmdate( 'Y-m-d', strtotime('+1 day') ),
+						'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
+						'wtbp_show_time_price'       => '11',
+						'wtbp_showtime_off_days'     => 'monday',
+					],
+				];
 			}
+
 			private function dummy_images() {
 				$urls = array(
 						'https://raw.githubusercontent.com/magepeopleteam/dummy-images/main/wptheaterly/midnight-cafe.jpg',
@@ -444,6 +442,4 @@
 			}
 		}
 				
-				
-
 	}
