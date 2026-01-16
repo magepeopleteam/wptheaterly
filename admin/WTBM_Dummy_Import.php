@@ -6,20 +6,24 @@
 	if (!defined('ABSPATH')) {
 		die;
 	} // Cannot access pages directly.
-	if (!class_exists('MPTRS_Dummy_Import')) {
+	if (!class_exists('WTBM_Dummy_Import')) {
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/image.php';
-		class MPTRS_Dummy_Import {
+		class WTBM_Dummy_Import {
 			public function __construct() {
 				// $this->dummy_import();
 				add_action('admin_init', [$this, 'dummy_import'], 99);
 			}
 
 			public function dummy_import() {
-				if (get_option( 'mptrs_dummy_already_inserted' ) === 'yes') {
+				$dummy_post_inserted = get_option('mptrs_dummy_already_inserted');
+				if ($dummy_post_inserted) {
 					return;
-				} else {
+				}
+				$count_existing_event = wp_count_posts('wtbm_movie')->publish;
+				$plugin_active = self::check_plugin('wptheaterly', 'wp_theater.php');
+				if ($count_existing_event == 0 && $plugin_active == 1 && $dummy_post_inserted != 'yes') {
 					$this->create_dummy_page();
 					$movie_data = $this->movie_data();
 					$theater_data = $this->theater_data();
@@ -333,8 +337,21 @@
 					
 				}
 			}
+			public static function check_plugin($plugin_dir_name, $plugin_file): int {
+				include_once ABSPATH . 'wp-admin/includes/plugin.php';
+				$plugin_dir = ABSPATH . 'wp-content/plugins/' . $plugin_dir_name;
+				if (is_plugin_active($plugin_dir_name . '/' . $plugin_file)) {
+					return 1;
+				}
+				elseif (is_dir($plugin_dir)) {
+					return 2;
+				}
+				else {
+					return 0;
+				}
+			}
 		}
 				
-		new MPTRS_Dummy_Import();		
+		new WTBM_Dummy_Import();		
 
 	}

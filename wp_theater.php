@@ -26,7 +26,9 @@
 				if (!defined('WTBM_PLUGIN_URL')) {
 					define('WTBM_PLUGIN_URL', plugins_url() . '/' . plugin_basename(dirname(__FILE__)));
 				}
+				
 				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Dependencies.php';
+				
 				if (WTBM_Function::check_woocommerce() == 1) {
 					add_action('activated_plugin', array($this, 'activation_redirect'), 90, 1);
 				} else {
