@@ -31,8 +31,8 @@
 				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Select_Icon_image.php';
 				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Query.php';
 				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Layout.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Admin.php';
 				if (WTBM_Function::check_woocommerce() == 1) {
-					require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Admin.php';
 					require_once WTBM_PLUGIN_DIR . '/frontend/WTBM_Frontend.php';
 				}
 				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Quick_Setup.php';

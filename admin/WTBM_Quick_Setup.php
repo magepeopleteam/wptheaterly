@@ -100,7 +100,9 @@
 						$new_general_settings_data = is_array($general_settings_data) ? array_replace($general_settings_data, $update_general_settings_arr) : $update_general_settings_arr;
 						update_option('mptrs_general_settings', $new_general_settings_data);
 						flush_rewrite_rules();
+						new WTBM_Dummy_Import();
 						wp_redirect(admin_url('admin.php?page=mptrs_main_menu'));
+						
 					}
 				}
 				?>
