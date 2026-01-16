@@ -231,6 +231,29 @@
 							'wtbp_theater_seatsPerRow' => '20',
 							'wtbp_theater_soundSystem' => 'Dolby Digital',
 							'wtbp_theater_status' => 'active',
+							'wtbp_theater_category' => [
+								[
+									'category_id'   => 'vip',
+									'category_name' => 'VIP',
+									'seats'         => '20',
+									'price'         => '1500',
+									'color'         => '#ff0000',
+								],
+								[
+									'category_id'   => 'premium',
+									'category_name' => 'Premium',
+									'seats'         => '30',
+									'price'         => '1000',
+									'color'         => '#0000ff',
+								],
+								[
+									'category_id'   => 'regular',
+									'category_name' => 'Regular',
+									'seats'         => '50',
+									'price'         => '700',
+									'color'         => '#00ff00',
+								]
+							],
 						],
 					],
 					[
@@ -241,6 +264,29 @@
 							'wtbp_theater_seatsPerRow' => '20',
 							'wtbp_theater_soundSystem' => 'Dolby Atmos',
 							'wtbp_theater_status' => 'active',
+							'wtbp_theater_category' => [
+								[
+									'category_id'   => 'vip',
+									'category_name' => 'VIP',
+									'seats'         => '20',
+									'price'         => '1500',
+									'color'         => '#ff0000',
+								],
+								[
+									'category_id'   => 'premium',
+									'category_name' => 'Premium',
+									'seats'         => '30',
+									'price'         => '1000',
+									'color'         => '#0000ff',
+								],
+								[
+									'category_id'   => 'regular',
+									'category_name' => 'Regular',
+									'seats'         => '50',
+									'price'         => '700',
+									'color'         => '#00ff00',
+								]
+							],
 						],
 					],
 					[
@@ -251,6 +297,29 @@
 							'wtbp_theater_seatsPerRow' => '10',
 							'wtbp_theater_soundSystem' => 'Dolby Atmos',
 							'wtbp_theater_status' => 'active',
+							'wtbp_theater_category' => [
+								[
+									'category_id'   => 'vip',
+									'category_name' => 'VIP',
+									'seats'         => '20',
+									'price'         => '1500',
+									'color'         => '#ff0000',
+								],
+								[
+									'category_id'   => 'premium',
+									'category_name' => 'Premium',
+									'seats'         => '30',
+									'price'         => '1000',
+									'color'         => '#0000ff',
+								],
+								[
+									'category_id'   => 'regular',
+									'category_name' => 'Regular',
+									'seats'         => '50',
+									'price'         => '700',
+									'color'         => '#00ff00',
+								]
+							],
 						],
 					],
 					[
@@ -261,6 +330,29 @@
 							'wtbp_theater_seatsPerRow' => '10',
 							'wtbp_theater_soundSystem' => 'IMAX Enhanced',
 							'wtbp_theater_status' => 'active',
+							'wtbp_theater_category' => [
+								[
+									'category_id'   => 'vip',
+									'category_name' => 'VIP',
+									'seats'         => '20',
+									'price'         => '1500',
+									'color'         => '#ff0000',
+								],
+								[
+									'category_id'   => 'premium',
+									'category_name' => 'Premium',
+									'seats'         => '30',
+									'price'         => '1000',
+									'color'         => '#0000ff',
+								],
+								[
+									'category_id'   => 'regular',
+									'category_name' => 'Regular',
+									'seats'         => '50',
+									'price'         => '700',
+									'color'         => '#00ff00',
+								]
+							],
 						],
 					],
 				];
