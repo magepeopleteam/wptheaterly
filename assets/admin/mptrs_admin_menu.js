@@ -1181,6 +1181,11 @@
                 action: "wtbm_get_load_more_booking_data",
                 already_loaded_booking_ids: JSON.stringify( alreadyLoadedBookingIds ),
                 display_limit: 10,
+                movie_id: $('#wtbm_movie_filter').val(),
+                theater_id: $('#wtbm_theater_filter').val(),
+                show_time: $('#wtbm_showtime_filter').val(),
+                show_date: $('#wtbm_booking_date_filter').val(),
+                booking_status: $('#wtbm_order_status_filter').val(),
                 _ajax_nonce: mptrs_admin_ajax.nonce,
             };
             $.ajax({

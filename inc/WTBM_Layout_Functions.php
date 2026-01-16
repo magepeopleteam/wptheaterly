@@ -803,6 +803,67 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             return ob_get_clean();
         }
 
+        /**
+         * Get filtered booking data by meta keys
+         *
+         * @param array $filters_data
+         * @return array
+         */
+        public static function wtbm_get_filtered_booking_data( array $filters_data = [], $loaded_booking_id = [], $display_limit = 20 ) {
+
+            $meta_query = array( 'relation' => 'AND' );
+
+            // Build meta query dynamically
+            foreach ( $filters_data as $meta_key => $meta_value ) {
+
+                if ( empty( $meta_value ) ) {
+                    continue;
+                }
+
+                $meta_query[] = array(
+                    'key'     => $meta_key,
+                    'value'   => $meta_value,
+                    'compare' => is_numeric( $meta_value ) ? '=' : 'LIKE',
+                );
+            }
+
+            $args = array(
+                'post_type'      => 'wtbm_booking',
+                'post_status'    => 'publish',
+                'posts_per_page' => $display_limit,
+                'post__not_in'   => $loaded_booking_id,
+                'fields'         => 'ids',
+            );
+
+            if ( count( $meta_query ) > 1 ) {
+                $args['meta_query'] = $meta_query;
+            }
+
+            $query = new WP_Query( $args );
+            $booking_data = array();
+            $total_posts  = (int) $query->found_posts;
+            $post_count = $query->post_count;
+
+            if ( $query->have_posts() ) {
+                foreach ( $query->posts as $booking_id ) {
+                    $booking_meta = array();
+                    $meta_data    = get_post_meta( $booking_id );
+                    foreach ( $meta_data as $key => $value ) {
+                        $booking_meta[ $key ] = maybe_unserialize( $value[0] );
+                    }
+                    $booking_data[ $booking_id ] = $booking_meta;
+                }
+            }
+
+            wp_reset_postdata();
+
+            return array(
+                'booking_data' => $booking_data,
+                'total_booking' => $total_posts,
+                'total_post_count' => $post_count,
+            );
+        }
+
     }
 
     new WTBM_Layout_Functions();

@@ -15,20 +15,57 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
             add_action('wp_ajax_wtbm_get_load_more_booking_data', [ $this, 'wtbm_get_load_more_booking_data' ]);
             add_action('wp_ajax_nopriv_wtbm_get_load_more_booking_data', [ $this, 'wtbm_get_load_more_booking_data' ]);
 
+            add_action('wp_ajax_wtbm_filter_bookings', [ $this, 'wtbm_filter_bookings' ] );
+            add_action('wp_ajax_nopriv_wtbm_filter_bookings', [ $this, 'wtbm_filter_bookings' ] );
+
+
 //            add_action('wp_ajax_wtbm_bookings_data_display', [ $this, 'wtbm_bookings_data_display' ]);
 //            add_action('wp_ajax_nopriv_wtbm_bookings_data_display', [ $this, 'wtbm_bookings_data_display' ]);
         }
 
+        function wtbm_filter_bookings() {
+
+            check_ajax_referer('mptrs_admin_nonce', 'nonce');
+
+//            $search = sanitize_text_field($_POST['order_search'] ?? '');
+
+            $filters_data = array(
+                'wtbm_movie_id'       => intval($_POST['movie_id'] ?? 0),
+                'wtbm_theater_id'     => intval($_POST['theater_id'] ?? 0),
+                'wtbm_order_time'      => sanitize_text_field($_POST['show_time'] ?? ''),
+                'wtbm_order_date'      => sanitize_text_field($_POST['show_date'] ?? ''),
+                'wtbm_order_status' => sanitize_text_field($_POST['booking_status'] ?? ''),
+            );
+
+            $filters_data = WTBM_Layout_Functions::wtbm_get_filtered_booking_data( $filters_data,[], 10 );
+            $filters_booking_data = $filters_data['booking_data'];
+            $filter_booking_count = $filters_data['total_booking'];
+
+//            $filter_booking_count = count($filters_booking_data);
+            if( $filter_booking_count > 0 ){
+                $html = self::movie_booking_data( $filters_booking_data, $filter_booking_count );
+            }else{
+                $html = 'No Booking Found';
+            }
+
+            wp_send_json_success(array(
+                'html' => $html,
+                'total_booking' => $filter_booking_count,
+            ));
+        }
+
         public function my_bookings_content_handler( $header_title ){
 
-            $args = array(
+            /*$args = array(
                 'post_type'      => 'wtbm_booking',
                 'post_status'    => 'publish',
                 'posts_per_page' => 10,
             );
 
-            $query = new WP_Query( $args );
-            $total_booking = $query->found_posts;
+            $query = new WP_Query( $args );*/
+            $data = WTBM_Layout_Functions::wtbm_get_filtered_booking_data( $filters_data = [],[], 10 );
+            $booking_data = $data['booking_data'];
+            $total_booking = $data['total_booking'];
 
             $header_data = array(
               'total_booking' => $total_booking,
@@ -37,7 +74,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
               'total_canceled_order' => 0,
             );
 
-            $booking_data = [];
+            /*$booking_data = [];
 
             if ( $query->have_posts() ) {
                 foreach ( $query->posts as $booking ) {
@@ -50,7 +87,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                 }
             }
 
-            wp_reset_postdata();
+            wp_reset_postdata();*/
 
             $filter_data = [];
 
@@ -66,7 +103,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                             <h3 class="section-title"><?php echo esc_attr( $header_title );?></h3>
                             <p class="text-sm text-gray-500" id="bookings-count"><?php esc_attr_e( 'Total:', 'wptheaterly' ); ?> <?php echo esc_attr( $total_booking );?> <?php esc_attr_e( 'bookings', 'wptheaterly' ); ?></p>
                         </div>
-                        <button class="btn btn-secondary">
+                        <button class="btn btn-secondary wtbm_show_filter">
                             🔍 <?php esc_attr_e( 'Filters', 'wptheaterly' ); ?>
                         </button>
                     </div>
@@ -115,7 +152,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                                     <?php esc_attr_e( 'Showing 1', 'wptheaterly' ); ?>-
                                     <span id="wtbm_showing_count"><?php echo esc_attr($display_count); ?></span>
                                     <?php esc_attr_e( 'of ', 'wptheaterly' ); ?>
-                                    <?php echo esc_attr( $total_booking );?>
+                                    <span id="wtbm_total_booking_count"><?php echo esc_attr( $total_booking );?></span>
                                     <?php esc_attr_e( 'Bookings', 'wptheaterly' ); ?>
                                 </span>
                             </div>
@@ -201,50 +238,55 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
 
             return ob_get_clean();
         }
-        public function wtbm_booking_filter_display( $filter_data ){ ?>
-            <div id="booking-filters" class="filters-section hidden">
+        public function wtbm_booking_filter_display1( $filter_data ){
+            $movie_data = WTBM_Layout_Functions::get_and_display_movies();
+            $theater_data = WTBM_Layout_Functions::get_and_display_theater_date();
+            $show_time_data = WTBM_Layout_Functions::get_show_time_data();
+
+            ?>
+            <div id="wtbm_booking_filters" class="wtbm_filters_section">
                 <h4 class="mb-4 font-semibold"><?php esc_attr_e( 'Filters', 'wptheaterly' ); ?></h4>
                 <div class="grid grid-cols-4 mb-4">
                     <div class="form-group">
-                        <label class="form-label"><?php esc_attr_e( 'Search', 'wptheaterly' ); ?></label>
-                        <input type="text" id="search-filter" class="form-input" placeholder="Name, Email, ID">
-                    </div>
-                    <div class="form-group">
                         <label class="form-label"><?php esc_attr_e( 'Movie', 'wptheaterly' ); ?></label>
-                        <select id="movie-filter" class="form-input"><option value=""><?php esc_attr_e( 'All Movies', 'wptheaterly' ); ?></option><option value="1">Guardians of the Galaxy Vol. 3</option><option value="2">Spider-Man: Across the Spider-Verse</option></select>
+                        <select id="wtbm_movie_filter" name="wtbm_movie_filter" class="form-input">
+                            <option value=""><?php esc_html_e( 'Select Movie', 'wptheaterly' ); ?></option>
+                            <?php if( is_array( $movie_data ) && !empty( $movie_data ) ){
+                                foreach ( $movie_data as $movie ){
+                                    ?>
+                                    <option value="<?php echo esc_attr( $movie['id'] )?>" <?php selected( $show_time_data['movie_id'] ?? '', $movie['id']); ?>><?php echo esc_attr(  $movie['title'] )?></option>
+                                <?php } }?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label"><?php esc_attr_e( 'Theater', 'wptheaterly' ); ?></label>
-                        <select id="theater-filter" class="form-input"><option value=""><?php esc_attr_e( 'All Theaters', 'wptheaterly' ); ?></option><option value="1">Screen 1</option><option value="2">Screen 2</option><option value="3">Screen 3</option></select>
+                        <select id="wtbm_theater_filter" name="wtbm_theater_filter" class="form-input">
+                            <option value=""><?php esc_html_e( 'Select Theater', 'wptheaterly' ); ?></option>
+                            <?php if( is_array( $theater_data ) && !empty( $theater_data ) ){
+                                foreach ( $theater_data as $theater ){
+                                    ?>
+                                    <option value="<?php echo esc_attr( $theater['id'] )?>" <?php selected( $show_time_data['theater_id'] ?? '', $theater['id']); ?>><?php echo esc_attr( $theater['name'] )?></option>
+                                <?php }
+                            }?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label"><?php esc_attr_e( 'Show Time', 'wptheaterly' ); ?></label>
-                        <select id="showtime-filter" class="form-input">
+                        <select id="wtbm_showtime_filter" name="wtbm_showtime_filter" class="form-input">
                             <option value=""><?php esc_attr_e( 'All Show Times', 'wptheaterly' ); ?></option>
+                            <?php if( is_array( $show_time_data ) && !empty( $show_time_data ) ){
+                                foreach ( $show_time_data as $show_time ){
+                                    ?>
+                                    <option value="<?php echo esc_attr( $show_time['show_time_start'] )?>" ><?php echo esc_attr( $show_time['show_time_start'] )?></option>
+                                <?php }
+                            }?>
                         </select>
                     </div>
                 </div>
                 <div class="grid grid-cols-4 mb-4">
                     <div class="form-group">
-                        <label class="form-label"><?php esc_attr_e( 'Show Date', 'wptheaterly' ); ?></label>
-                        <input type="date" id="date-filter" class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><?php esc_attr_e( 'Payment Status', 'wptheaterly' ); ?></label>
-                        <select id="payment-status-filter" class="form-input">
-                            <option value=""><?php esc_attr_e( 'All Payments', 'wptheaterly' ); ?></option>
-                            <option value="paid">💚 <?php esc_attr_e( 'Paid', 'wptheaterly' ); ?></option>
-                            <option value="pending">🟡 <?php esc_attr_e( 'Pending', 'wptheaterly' ); ?></option>
-                            <option value="processing">🔄 <?php esc_attr_e( 'Processing', 'wptheaterly' ); ?></option>
-                            <option value="partially_paid">🟠 <?php esc_attr_e( 'Partially Paid', 'wptheaterly' ); ?></option>
-                            <option value="failed">❌ <?php esc_attr_e( 'Failed', 'wptheaterly' ); ?></option>
-                            <option value="refunded">🔙 <?php esc_attr_e( 'Refunded', 'wptheaterly' ); ?></option>
-                            <option value="overdue">🔴 <?php esc_attr_e( 'Overdue', 'wptheaterly' ); ?></option>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label class="form-label"><?php esc_attr_e( 'Booking Status', 'wptheaterly' ); ?></label>
-                        <select id="status-filter" class="form-input">
+                        <select id="wtbm_order_status_filter" name="wtbm_order_status_filter" class="form-input">
                             <option value=""><?php esc_attr_e( 'All Bookings', 'wptheaterly' ); ?></option>
                             <option value="confirmed"><?php esc_attr_e( 'Confirmed', 'wptheaterly' ); ?></option>
                             <option value="pending"><?php esc_attr_e( 'Pending', 'wptheaterly' ); ?></option>
@@ -252,16 +294,107 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-label"><?php esc_attr_e( 'Amount Range', 'wptheaterly' ); ?></label>
-                        <div class="grid grid-cols-2 gap-1">
-                            <input type="number" id="min-amount-filter" class="form-input" placeholder="Min $" step="0.01">
-                            <input type="number" id="max-amount-filter" class="form-input" placeholder="Max $" step="0.01">
-                        </div>
+                        <label class="form-label"><?php esc_attr_e( 'Show Date', 'wptheaterly' ); ?></label>
+                        <input type="date" id="wtbm_booking_date_filter" name="wtbm_booking_date_filter" class="form-input">
                     </div>
                 </div>
-                <button class="btn btn-secondary" onclick="clearFilters()"><?php esc_attr_e( 'Clear Filters', 'wptheaterly' ); ?></button>
+                <button class="btn btn-secondary" id="wtbm_find_booking"><?php esc_attr_e( 'Filters', 'wptheaterly' ); ?></button>
+                <button class="btn btn-secondary" id="wtbm_clear_find_booking"><?php esc_attr_e( 'Clear Filters', 'wptheaterly' ); ?></button>
             </div>
       <?php }
+
+        public function wtbm_booking_filter_display( $filter_data ) {
+
+            $movie_data     = WTBM_Layout_Functions::get_and_display_movies();
+            $theater_data   = WTBM_Layout_Functions::get_and_display_theater_date();
+            $show_time_data = WTBM_Layout_Functions::get_show_time_data();
+            ?>
+
+            <div id="wtbm_booking_filters" class="wtbm_filter_section">
+                <h4 class="wtbm_filter_title">
+                    <?php esc_attr_e( 'Filters', 'wptheaterly' ); ?>
+                </h4>
+
+                <!-- Row 1 -->
+                <div class="wtbm_filter_grid wtbm_filter_grid_4">
+                    <div class="wtbm_filter_group">
+                        <label class="wtbm_filter_label"><?php esc_attr_e( 'Movie', 'wptheaterly' ); ?></label>
+                        <select id="wtbm_movie_filter" name="wtbm_movie_filter" class="wtbm_filter_input">
+                            <option value=""><?php esc_html_e( 'Select Movie', 'wptheaterly' ); ?></option>
+                            <?php if ( ! empty( $movie_data ) ) :
+                                foreach ( $movie_data as $movie ) : ?>
+                                    <option value="<?php echo esc_attr( $movie['id'] ); ?>">
+                                        <?php echo esc_html( $movie['title'] ); ?>
+                                    </option>
+                                <?php endforeach;
+                            endif; ?>
+                        </select>
+                    </div>
+
+                    <div class="wtbm_filter_group">
+                        <label class="wtbm_filter_label"><?php esc_attr_e( 'Theater', 'wptheaterly' ); ?></label>
+                        <select id="wtbm_theater_filter" name="wtbm_theater_filter" class="wtbm_filter_input">
+                            <option value=""><?php esc_html_e( 'Select Theater', 'wptheaterly' ); ?></option>
+                            <?php if ( ! empty( $theater_data ) ) :
+                                foreach ( $theater_data as $theater ) : ?>
+                                    <option value="<?php echo esc_attr( $theater['id'] ); ?>">
+                                        <?php echo esc_html( $theater['name'] ); ?>
+                                    </option>
+                                <?php endforeach;
+                            endif; ?>
+                        </select>
+                    </div>
+
+                    <div class="wtbm_filter_group">
+                        <label class="wtbm_filter_label"><?php esc_attr_e( 'Show Time', 'wptheaterly' ); ?></label>
+                        <select id="wtbm_showtime_filter" name="wtbm_showtime_filter" class="wtbm_filter_input">
+                            <option value=""><?php esc_attr_e( 'All Show Times', 'wptheaterly' ); ?></option>
+                            <?php if ( ! empty( $show_time_data ) ) :
+                                foreach ( $show_time_data as $show_time ) : ?>
+                                    <option value="<?php echo esc_attr( $show_time['show_time_start'] ); ?>">
+                                        <?php echo esc_html( $show_time['show_time_start'] ); ?>
+                                    </option>
+                                <?php endforeach;
+                            endif; ?>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="wtbm_filter_grid wtbm_filter_grid_4">
+                    <div class="wtbm_filter_group">
+                        <label class="wtbm_filter_label"><?php esc_attr_e( 'Booking Status', 'wptheaterly' ); ?></label>
+                        <select id="wtbm_order_status_filter" name="wtbm_order_status_filter" class="wtbm_filter_input">
+                            <option value=""><?php esc_attr_e( 'All Bookings', 'wptheaterly' ); ?></option>
+                            <option value="confirmed"><?php esc_attr_e( 'Confirmed', 'wptheaterly' ); ?></option>
+                            <option value="pending"><?php esc_attr_e( 'Pending', 'wptheaterly' ); ?></option>
+                            <option value="complete"><?php esc_attr_e( 'Complete', 'wptheaterly' ); ?></option>
+                            <option value="cancelled"><?php esc_attr_e( 'Cancelled', 'wptheaterly' ); ?></option>
+                        </select>
+                    </div>
+
+                    <div class="wtbm_filter_group">
+                        <label class="wtbm_filter_label"><?php esc_attr_e( 'Show Date', 'wptheaterly' ); ?></label>
+                        <input type="date"
+                               id="wtbm_booking_date_filter"
+                               name="wtbm_booking_date_filter"
+                               class="wtbm_filter_input">
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="wtbm_filter_actions">
+                    <button type="button" class="wtbm_filter_btn wtbm_filter_btn_primary" id="wtbm_find_booking">
+                        <?php esc_attr_e( 'Apply Filters', 'wptheaterly' ); ?>
+                    </button>
+                    <button type="button" class="wtbm_filter_btn wtbm_filter_btn_secondary" id="wtbm_clear_find_booking">
+                        <?php esc_attr_e( 'Clear Filters', 'wptheaterly' ); ?>
+                    </button>
+                </div>
+            </div>
+        <?php
+         }
+
         public function wtbm_booking_header_display( $header_data ){
 
             ?>
@@ -290,8 +423,15 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
 
             $loaded_booking_id = isset( $_POST['already_loaded_booking_ids'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['already_loaded_booking_ids'] ) ) ) : [];
             $display_limit = isset( $_POST['display_limit'] ) ? sanitize_text_field( wp_unslash( $_POST['display_limit'] ) ) : [];
+            $filters_data = array(
+                'wtbm_movie_id'       => intval($_POST['movie_id'] ?? 0),
+                'wtbm_theater_id'     => intval($_POST['theater_id'] ?? 0),
+                'wtbm_order_time'     => sanitize_text_field($_POST['show_time'] ?? ''),
+                'wtbm_order_date'     => sanitize_text_field($_POST['show_date'] ?? ''),
+                'wtbm_order_status'   => sanitize_text_field($_POST['booking_status'] ?? ''),
+            );
 //            if( $loaded_booking_id ){
-                $args = array(
+                /*$args = array(
                     'post_type'      => 'wtbm_booking',
                     'post_status'    => 'publish',
                     'posts_per_page' => $display_limit,
@@ -313,9 +453,12 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                         $booking_data[$booking->ID] = $booking_date;
                     }
                 }
-                wp_reset_postdata();
+                wp_reset_postdata();*/
+                $data = WTBM_Layout_Functions::wtbm_get_filtered_booking_data( $filters_data, $loaded_booking_id, $display_limit );
+                $booking_data = $data['booking_data'];
+                $booking_count = $data['total_post_count'];
 
-                $booking_count  = count( $booking_data );
+//                $booking_count  = count( $booking_data );
 
                 $booking_html = self::movie_booking_data( $booking_data, $booking_count );
                 $result = array(
