@@ -47,7 +47,7 @@ if ( ! class_exists( 'WTBM_Status' ) ) {
             $from_email = get_option( 'woocommerce_email_from_address' );
             ?>
             <div class="wrap"></div>
-            <div class="mpcrbm">
+            <div class="wtbm_status">
                 <?php do_action( 'wtbm_status_notice_sec' ); ?>
                 <div class=_dShadow_6_adminLayout">
                     <h2 class="textCenter"><?php echo esc_html( $label ) . '  ' . esc_html__( 'For Woocommerce Environment Status', 'car-rental-manager' ); ?></h2>
@@ -55,36 +55,36 @@ if ( ! class_exists( 'WTBM_Status' ) ) {
                     <table>
                         <tbody>
                         <tr>
-                            <th data-export-label="WC Version"><?php esc_html_e( 'WordPress Version : ', 'car-rental-manager' ); ?></th>
-                            <th class="<?php echo esc_attr( $wp_v > 5.5 ? 'textSuccess' : 'textWarning' ); ?>">
+                            <td data-export-label="WC Version"><?php esc_html_e( 'WordPress Version : ', 'car-rental-manager' ); ?></td>
+                            <td class="<?php echo esc_attr( $wp_v > 5.5 ? 'textSuccess' : 'textWarning' ); ?>">
                                 <span class="<?php echo esc_attr( $wp_v > 5.5 ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $wp_v ); ?>
-                            </th>
+                            </td>
                         </tr>
                         <tr>
-                            <th data-export-label="WC Version"><?php esc_html_e( 'Woocommerce Installed : ', 'car-rental-manager' ); ?></th>
-                            <th class="<?php echo esc_attr( $wc_i == 1 ? 'textSuccess' : 'textWarning' ); ?>">
+                            <td data-export-label="WC Version"><?php esc_html_e( 'Woocommerce Installed : ', 'car-rental-manager' ); ?></td>
+                            <td class="<?php echo esc_attr( $wc_i == 1 ? 'textSuccess' : 'textWarning' ); ?>">
                                 <span class="<?php echo esc_attr( $wc_i == 1 ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $wc_i_text ); ?>
-                            </th>
+                            </td>
                         </tr>
                         <?php if ( $wc_i == 1 ) { ?>
                             <tr>
-                                <th data-export-label="WC Version"><?php esc_html_e( 'Woocommerce Version : ', 'car-rental-manager' ); ?></th>
-                                <th class="<?php echo esc_attr( $is_modern ? 'textSuccess' : 'textWarning' ); ?>">
-                                    <!--                                    <th class="--><?php //echo esc_attr( $wc_v > 4.8 ? 'textSuccess' : 'textWarning' ); ?><!--">-->
+                                <td data-export-label="WC Version"><?php esc_html_e( 'Woocommerce Version : ', 'car-rental-manager' ); ?></td>
+                                <td class="<?php echo esc_attr( $is_modern ? 'textSuccess' : 'textWarning' ); ?>">
+                                    <!--                                    <td class="--><?php //echo esc_attr( $wc_v > 4.8 ? 'textSuccess' : 'textWarning' ); ?><!--">-->
                                     <span class="<?php echo esc_attr( $is_modern ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $wc_v ); ?>
-                                </th>
+                                </td>
                             </tr>
                             <tr>
-                                <th data-export-label="WC Version"><?php esc_html_e( 'Name : ', 'car-rental-manager' ); ?></th>
-                                <th class="<?php echo esc_attr( $from_name ? 'textSuccess' : 'textWarning' ); ?>">
+                                <td data-export-label="WC Version"><?php esc_html_e( 'Name : ', 'car-rental-manager' ); ?></td>
+                                <td class="<?php echo esc_attr( $from_name ? 'textSuccess' : 'textWarning' ); ?>">
                                     <span class="<?php echo esc_attr( $from_name ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $from_name ); ?>
-                                </th>
+                                </td>
                             </tr>
                             <tr>
-                                <th data-export-label="WC Version"><?php esc_html_e( 'Email Address : ', 'car-rental-manager' ); ?></th>
-                                <th class="<?php echo esc_attr( $from_email ? 'textSuccess' : 'textWarning' ); ?>">
+                                <td data-export-label="WC Version"><?php esc_html_e( 'Email Address : ', 'car-rental-manager' ); ?></td>
+                                <td class="<?php echo esc_attr( $from_email ? 'textSuccess' : 'textWarning' ); ?>">
                                     <span class="<?php echo esc_attr( $from_email ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $from_email ); ?>
-                                </th>
+                                </td>
                             </tr>
                         <?php }
                         do_action( 'mpcrbm_status_table_item_sec' ); ?>

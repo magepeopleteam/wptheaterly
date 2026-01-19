@@ -565,3 +565,24 @@ div.mpwpb_category_header, div.mpwpb_category_header div.mpwpb_service_area {
   margin: 1px;
 }
 
+/* status page */
+
+.wtbm_status{
+    width: 500px;
+    margin: auto;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.wtbm_status table{
+  width: 100%;
+  border-collapse: collapse;
+}
+.wtbm_status td{
+  padding: 10px;
+  text-align: left;
+}
+.wtbm_status tr:nth-child(odd) {
+  background-color: #f4f4f4;
+}

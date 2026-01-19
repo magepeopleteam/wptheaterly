@@ -50,32 +50,32 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
         public function status_table_item_sec() {
             ?>
             <tr>
-                <th data-export-label="WC Version">PDF Tickets Installed:</th>
-                <th><span class="textSuccess"> <span class="far fa-check-circle mR_xs"></span>Yes</span></th>
+                <td data-export-label="WC Version">PDF Tickets Installed:</td>
+                <td><span class="textSuccess"> <span class="far fa-check-circle mR_xs"></span>Yes</span></td>
             </tr>
             <tr>
-                <th data-export-label="WC Version">MagePeople PDF Support Installed:</th>
-                <th><?php $this->pdf_support_install_check(); ?></th>
+                <td data-export-label="WC Version">MagePeople PDF Support Installed:</td>
+                <td><?php $this->pdf_support_install_check(); ?></td>
             </tr>
             <tr>
-                <th data-export-label="WC Version">PHP GD library Installed:</th>
-                <th>
+                <td data-export-label="WC Version">PHP GD library Installed:</td>
+                <td>
                     <?php if ( extension_loaded( 'gd' ) ) { ?>
                         <span class="textSuccess"> <span class="far fa-check-circle mR_xs"></span>Yes</span>
                     <?php } else { ?>
                         <span class="textWarning"> <span class="fas fa-exclamation-triangle mR_xs"></span>No</span>
                     <?php } ?>
-                </th>
+                </td>
             </tr>
             <tr>
-                <th data-export-label="WC Version">PHP mbstring library Installed:</th>
-                <th>
+                <td data-export-label="WC Version">PHP mbstring library Installed:</td>
+                <td>
                     <?php if ( extension_loaded( 'mbstring' ) ) { ?>
                         <span class="textSuccess"> <span class="far fa-check-circle mR_xs"></span>Yes</span>
                     <?php } else { ?>
                         <span class="textWarning"> <span class="fas fa-exclamation-triangle mR_xs"></span>No</span>
                     <?php } ?>
-                </th>
+                </td>
             </tr>
             <?php
         }
