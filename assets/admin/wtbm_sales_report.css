@@ -426,6 +426,62 @@ div#load-more-section{padding:20px;}
 div#wtbm_showing_number_of_booking {
     margin-bottom: 10px;
 }
+
+.button-group {
+    display: flex;
+    gap: 15px; /* space between buttons */
+    margin: 50px;
+}
+
+.wtbm_pdf_csv_btn_holder {
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    outline: none;
+}
+#wtbm_booking_data_download_btn {
+    padding: 5px 10px;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+#wtbm_booking_data_csv_btn {
+    padding: 5px 10px;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #4CAF50, #388E3C);
+}
+
+/* Hover effect: float + shadow */
+.wtbm_pdf_csv_btn_holder:hover {
+    /*transform: translateY(-5px);*/
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+.wtbm_pdf_csv_btn_holder:active {
+    /*transform: translateY(2px);*/
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.wtbm_pdf_csv_btn_holder:focus {
+    outline: 2px solid rgba(255,255,255,0.5);
+    outline-offset: 2px;
+}
+.wtbm_pdf_csv_btn_holder svg {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+@media (max-width: 500px) {
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     #wtbm_sales_report_content  .container {

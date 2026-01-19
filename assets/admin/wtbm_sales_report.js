@@ -87,4 +87,76 @@
        $("#wtbm_sales_popup").fadeOut();
     }
 
+    $(document).on('click', '#wtbm_booking_data_download_btn',function () {
+        let bookingIds = [];
+        $("#wtbm_bookings_table_body tr").each(function () {
+            bookingIds.push(jQuery(this).data("order-id"));
+        });
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'wtbm_prepare_booking_pdf',
+                ids: bookingIds,
+                nonce: mptrs_admin_ajax.nonce
+            },
+            success: function (res) {
+                if (res.success) {
+                    window.location.href = res.data.download_url;
+                } else {
+                    alert(res.data);
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '#wtbm_booking_data_csv_btn', function(e){
+        alert('clicked');
+
+        e.preventDefault();
+
+
+        let bookingIds = [];
+        $("#wtbm_bookings_table_body tr").each(function () {
+            bookingIds.push(jQuery(this).data("order-id"));
+        });
+
+        if(bookingIds.length === 0){
+            alert('Select at least one booking');
+            return;
+        }
+
+        console.log( bookingIds);
+
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'wtbm_prepare_booking_csv',
+                ids: bookingIds,
+                nonce: mptrs_admin_ajax.nonce
+            },
+            success: function(res){
+                console.log( res );
+                if(res.success){
+                    // Redirect to download URL → browser automatically downloads CSV
+                    window.location.href = res.data.download_url;
+                } else {
+                    alert(res.data || 'Failed to prepare CSV.');
+                }
+            },
+            error: function(xhr,status,error){
+                console.error(error);
+                alert('AJAX error: ' + status);
+            }
+        });
+    });
+
+    $(document).on('click','.wtbm_show_filter', function(e) {
+        e.preventDefault();
+        $('#wtbm_booking_filters').slideToggle(300);
+    });
+
 }(jQuery));

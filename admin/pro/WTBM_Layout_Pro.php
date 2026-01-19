@@ -207,5 +207,172 @@ if (!class_exists('WTBM_Layout_Pro')) {
             </ul>
             <?php
         }
+
+        public static function get_booking_data_by_ids( $booking_ids ) {
+
+            if ( empty( $booking_ids ) || ! is_array( $booking_ids ) ) {
+                return [];
+            }
+
+            $args = array(
+                'post_type'      => 'wtbm_booking',
+                'post_status'    => 'publish',
+                'posts_per_page' => -1,
+                'post__in'       => $booking_ids,
+                'orderby'        => 'post__in',
+            );
+
+            $query = new WP_Query( $args );
+            $report_data = array();
+
+            if ( $query->have_posts() ) {
+
+                foreach ( $query->posts as $booking_post ) {
+
+                    $booking_id = $booking_post->ID;
+
+                    $movie_id   = get_post_meta( $booking_id, 'wtbm_movie_id', true );
+                    $movie_name = get_the_title( $movie_id );
+
+                    $theater_id   = get_post_meta( $booking_id, 'wtbm_theater_id', true );
+                    $theater_name = get_the_title( $theater_id );
+
+                    $movie_time = get_post_meta( $booking_id, 'wtbm_order_time', true );
+
+                    $attendees_name = get_post_meta( $booking_id, 'wtbm_billing_name', true );
+                    $attendees_phone = get_post_meta( $booking_id, 'wtbm_billing_phone', true );
+
+                    $booking_seats_str = '';
+                    $booking_seats = get_post_meta( $booking_id, 'wtbm_seats', true );
+                    if( is_array( $booking_seats ) && !empty( $booking_seats ) ) {
+                        $booking_seats_str = implode( ', ', $booking_seats );
+                    }
+
+                    $report_data[] = array(
+                        'id'            => $booking_id,
+                        'name'          => $attendees_name,
+                        'phone'         => $attendees_phone,
+                        'movie_name'    => $movie_name,
+                        'theater_name'  => $theater_name,
+                        'time'          => $movie_time,
+                        'seat_number'   => $booking_seats_str,
+                    );
+
+                }
+            }
+            wp_reset_postdata();
+
+            return $report_data;
+        }
+
+        public static function generate_booking_data_pdf( $booking_ids ) {
+
+            if (empty($booking_ids) || !is_array($booking_ids)) {
+                return '';
+            }
+            $bookings_data = self::get_booking_data_by_ids( $booking_ids );
+
+            $html = '<style>
+                        body { font-family: sans-serif; font-size: 11px; color: #333; }
+                        h1 { text-align: center; margin-bottom: 10px; font-size: 18px; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+                        th, td { border: 1px solid #ddd; padding: 6px; text-align: left; }
+                        th { background: #2c3e50; color: #fff; }
+                        tr:nth-child(even) { background: #f9f9f9; }
+                        .footer { font-size: 10px; text-align: center; margin-top: 10px; color: #555; }
+                    </style>';
+            $html .= '<div class="footer">Generated on '.date('d M Y H:i').'</div>';
+            $html .= '<table>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Theater Name</th>
+                                <th>Movie Name</th>
+                                <th>Time</th>
+                                <th>Seat Number</th>
+                            </tr>
+                        ';
+            $i = 1;
+            foreach ($bookings_data as $booking_data) {
+                $name       = esc_html($booking_data['name'] ?? '');
+                $phone      = esc_html($booking_data['phone'] ?? '');
+                $theater    = esc_html($booking_data['theater_name'] ?? '');
+                $movie      = esc_html($booking_data['movie_name'] ?? '');
+                $time       = esc_html($booking_data['time'] ?? '');
+                $seat       = esc_html($booking_data['seat_number'] ?? '');
+
+                $html .= '
+                    <tr>
+                        <td>'.$i++.'</td>
+                        <td>'.$name.'</td>
+                        <td>'.$phone.'</td>
+                        <td>'.$theater.'</td>
+                        <td>'.$movie.'</td>
+                        <td>'.$time.'</td>
+                        <td>'.$seat.'</td>
+                    </tr>
+                    ';
+            }
+
+            $html .= '</table>';
+            $html .= '<pagebreak />';
+
+            return $html;
+        }
+
+        public static function generate_booking_data_csv( $booking_ids ) {
+
+            if ( empty( $booking_ids ) || ! is_array( $booking_ids ) ) {
+                return;
+            }
+
+            // Get the same booking data as PDF
+            $bookings_data = self::get_booking_data_by_ids( $booking_ids );
+
+            if ( empty( $bookings_data ) ) {
+                return;
+            }
+
+            // Clean output buffer
+            if ( ob_get_length() ) {
+                ob_end_clean();
+            }
+
+            // CSV headers
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment; filename="booking_data_'.date('Y-m-d_H-i').'.csv"');
+
+            $output = fopen('php://output', 'w');
+
+            // Column headers
+            fputcsv($output, ['#', 'Name', 'Phone', 'Theater Name', 'Movie Name', 'Time', 'Seat Number']);
+
+            $i = 1;
+            foreach ( $bookings_data as $booking_data ) {
+
+                $name    = $booking_data['name'] ?? '';
+                $phone   = $booking_data['phone'] ?? '';
+                $theater = $booking_data['theater_name'] ?? '';
+                $movie   = $booking_data['movie_name'] ?? '';
+                $time    = $booking_data['time'] ?? '';
+                $seat    = $booking_data['seat_number'] ?? '';
+
+                fputcsv($output, [
+                    $i++,
+                    $name,
+                    $phone,
+                    $theater,
+                    $movie,
+                    $time,
+                    $seat
+                ]);
+            }
+
+            fclose($output);
+            exit;
+        }
+
+
     }
 }

@@ -134,7 +134,22 @@
     border-radius: 5px;
     padding: 5px;
     box-sizing: border-box;
+
+    transition: all 0.3s ease; /* smooth effect */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    position: relative;
+
 }
+
+.wtbm_mappedSeatInfo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+}
+.wtbm_mappedSeatInfo:active {
+    transform: translateY(2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
 .wtbm_reservedMappedSeatInfo{
     margin: 3px 3px 3px 3px;
     font-size: 12px;

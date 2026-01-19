@@ -16,6 +16,15 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
             /***************/
             add_action('wp_ajax_wtbm_generate_pdf', array($this, 'wtbm_generate_pdf'));
             add_action('wp_ajax_nopriv_wtbm_generate_pdf', array($this, 'wtbm_generate_pdf'));
+
+            add_action('wp_ajax_wtbm_prepare_booking_pdf', array( $this, 'wtbm_prepare_booking_pdf' ) );
+
+            add_action('wp_ajax_wtbm_download_booking_data_pdf',  array( $this, 'wtbm_download_booking_data_pdf' ) );
+            add_action('wp_ajax_nopriv_wtbm_download_booking_data_pdf',  array( $this, 'wtbm_download_booking_data_pdf' ) );
+
+            add_action('wp_ajax_wtbm_prepare_booking_csv',  array( $this, 'wtbm_prepare_booking_csv' ) );
+            add_action('wp_ajax_wtbm_download_booking_data_csv', array( $this, 'wtbm_download_booking_data_csv' ) );
+
         }
         public function pdf_button( $order_id, $action ='order_done' ) {
             $order = wc_get_order($order_id);
@@ -30,7 +39,7 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
                         <div class="wtbm">
                             <button type="button" class="_themeButton_mB" data-href="<?php echo esc_attr($download_url); ?>">
                                 <span class="fas fa-file-pdf mR_xs"></span>
-                                <?php esc_html_e('Download Ticket', 'car-rental-manager-pro'); ?>
+                                <?php esc_html_e('Ticket', 'car-rental-manager-pro'); ?>
                             </button>
                         </div>
                         <?php
@@ -141,6 +150,120 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
                 <?php
             }
         }
+
+
+        function wtbm_prepare_booking_pdf() {
+
+            check_ajax_referer('mptrs_admin_nonce', 'nonce');
+
+            $ids = array_map('intval', (array) $_POST['ids']);
+
+            if (empty($ids)) {
+                wp_send_json_error('No data');
+            }
+
+            // Token
+            $token = wp_generate_password(20, false);
+
+            // Store IDs for 5 minutes
+            set_transient(
+                'wtbm_booking_data_pdf_' . $token,
+                $ids,
+                5 * MINUTE_IN_SECONDS
+            );
+
+            $download_url = add_query_arg([
+                'action' => 'wtbm_download_booking_data_pdf',
+                'token'  => $token
+            ], admin_url('admin-ajax.php'));
+
+            wp_send_json_success([
+                'download_url' => $download_url
+            ]);
+        }
+        function wtbm_download_booking_data_pdf() {
+            $token = sanitize_text_field($_GET['token']);
+            $booking_ids = get_transient('wtbm_booking_data_pdf_' . $token);
+            if ( !$booking_ids ) {
+                wp_die('Link expired');
+            }
+            delete_transient('wtbm_booking_data_pdf_' . $token);
+            @set_time_limit(0);
+            ini_set('memory_limit', '512M');
+
+            if (ob_get_length()) {
+                ob_end_clean();
+            }
+            $file_name = 'wtbm_booking_data_' . time() . '.pdf';
+
+            if (class_exists('\Mpdf\Mpdf')) {
+                $html = WTBM_Layout_Pro::generate_booking_data_pdf( $booking_ids );
+                $mpdf = new \Mpdf\Mpdf([
+                    'format' => 'A4-L',
+                    'margin_top' => 10,
+                    'margin_bottom' => 10,
+                    'tempDir' => sys_get_temp_dir()
+                ]);
+
+                $mpdf->SetFooter('Page {PAGENO}');
+                $mpdf->WriteHTML($html);
+                $mpdf->Output($file_name, 'D');
+            }
+            exit;
+        }
+
+        public function wtbm_prepare_booking_csv() {
+            check_ajax_referer('mptrs_admin_nonce', 'nonce');
+            $ids = array_map('intval', (array) $_POST['ids']);
+            if (empty($ids)) {
+                wp_send_json_error('No booking selected');
+            }
+            $token = wp_generate_password(20, false);
+            set_transient('wtbm_booking_data_csv_' . $token, $ids, 5 * MINUTE_IN_SECONDS);
+            $download_url = add_query_arg([
+                'action' => 'wtbm_download_booking_data_csv',
+                'token'  => $token
+            ], admin_url('admin-ajax.php'));
+            wp_send_json_success(['download_url' => $download_url]);
+        }
+        function wtbm_download_booking_data_csv() {
+
+            $token = sanitize_text_field($_GET['token']);
+            $booking_ids = get_transient('wtbm_booking_data_csv_' . $token);
+
+            if (!$booking_ids) {
+                wp_die('Link expired or invalid token.');
+            }
+
+            // One-time use
+            delete_transient('wtbm_booking_data_csv_' . $token);
+
+            $data = WTBM_Layout_Pro::get_booking_data_by_ids($booking_ids);
+
+            // Send CSV headers
+            if (ob_get_length()) ob_end_clean();
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment; filename="booking_data_'.date('Y-m-d_H-i').'.csv"');
+
+            $out = fopen('php://output', 'w');
+            fputcsv($out, ['#','Name','Phone','Theater Name','Movie Name','Time','Seat Number']);
+
+            $i = 1;
+            foreach($data as $row){
+                fputcsv($out, [
+                    $i++,
+                    $row['name'] ?? '',
+                    $row['phone'] ?? '',
+                    $row['theater_name'] ?? '',
+                    $row['movie_name'] ?? '',
+                    $row['time'] ?? '',
+                    $row['seat_number'] ?? ''
+                ]);
+            }
+            fclose($out);
+            exit;
+        }
+
     }
 
     new WTBM_Pro_Pdf();
