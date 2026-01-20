@@ -864,6 +864,37 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             );
         }
 
+        public static function wtbm_get_booking_data_by_booking_id( $booking_id ) {
+
+            $args = array(
+                'post_type'   => 'wtbm_booking',
+                'post_status' => 'publish',
+                'p'           => $booking_id, // fetch this specific post
+                'fields'      => 'ids',
+            );
+
+            $query = new WP_Query( $args );
+            $booking_data = array();
+
+            if ( $query->have_posts() ) {
+                foreach ( $query->posts as $post_id ) {
+                    $meta_data = get_post_meta( $post_id );
+                    $booking_meta = array();
+
+                    foreach ( $meta_data as $key => $value ) {
+                        $booking_meta[ $key ] = maybe_unserialize( $value[0] );
+                    }
+
+                    $booking_data = $booking_meta; // only one booking, no array needed
+                }
+            }
+
+            wp_reset_postdata();
+
+            return $booking_data;
+        }
+
+
     }
 
     new WTBM_Layout_Functions();

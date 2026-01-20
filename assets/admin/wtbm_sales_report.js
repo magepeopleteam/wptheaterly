@@ -159,4 +159,82 @@
         $('#wtbm_booking_filters').slideToggle(300);
     });
 
+    $(document).on('click','.wtbm_edit_booking', function(e) {
+        let bookingId = $(this).closest('tr').attr('data-order-id');
+        let booking_edit_overlay = $('.wtbm_booking_edit_overlay');
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'wtbm_get_booking_html',
+                booking_id: bookingId,
+                nonce: mptrs_admin_ajax.nonce
+            },
+            success: function(response) {
+                console.log( response );
+                booking_edit_overlay.remove();
+                booking_edit_overlay.fadeIn(200);
+                $('body').append(response);
+                booking_edit_overlay.fadeIn(200);
+            }
+        });
+
+    });
+
+    $(document).on('click', '.wtbm_booking_edit_close_icon, .wtbm_booking_edit_close_btn', function() {
+        $('.wtbm_booking_edit_overlay').fadeOut(200, function() {
+            $(this).remove();
+        });
+    });
+
+
+    $(document).on('click', '#wtbm_update_booking', function (e) {
+        e.preventDefault();
+
+        let $body = $('.wtbm_booking_edit_body');
+
+        let data = {
+            action: 'wtbm_update_booking_data',
+            booking_id: $body.find('.wtbm_booking_edit_id').val(),
+            order_id: $body.find('.wtbm_order_edit_id').val(),
+
+            attendee_name:  $body.find('[name="wtbm_booking_attendee_name"]').val(),
+            attendee_phone: $body.find('[name="wtbm_booking_attendee_phone"]').val(),
+            attendee_email: $body.find('[name="wtbm_booking_attendee_email"]').val(),
+
+            seat_number: $body.find('[name="wtbm_booking_seat_number"]').val(),
+            booking_status: $body.find('[name="wtbm_booking_status"]').val(),
+
+            movie_id: $body.find('.wtbm_movie_edit_id').val(),
+            theater_id: $body.find('.wtbm_theater_edit_id').val(),
+            movie_time: $body.find('.wtbm_movie_time').val(),
+            nonce: mptrs_admin_ajax.nonce
+        };
+
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url,
+            type: 'POST',
+            data: data,
+            beforeSend: function () {
+                $('#wtbm_update_booking').prop('disabled', true).text('Updating...');
+            },
+            success: function (response) {
+                if (response.success) {
+                    alert('Booking updated successfully!');
+                    $('.wtbm_booking_edit_overlay').fadeOut(200, function () {
+                        $(this).remove();
+                    });
+                } else {
+                    alert(response.data || 'Update failed');
+                }
+            },
+            error: function () {
+                alert('Something went wrong. Please try again.');
+            },
+            complete: function () {
+                $('#wtbm_update_booking').prop('disabled', false).text('Update');
+            }
+        });
+    });
+
 }(jQuery));

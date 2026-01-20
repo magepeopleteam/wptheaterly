@@ -198,14 +198,24 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
 
             if (class_exists('\Mpdf\Mpdf')) {
                 $html = WTBM_Layout_Pro::generate_booking_data_pdf( $booking_ids );
+                $html = trim($html);
+
+                $html = preg_replace('/page-break-after\s*:\s*always\s*;?/i', '', $html);
+                $html = preg_replace('/<pagebreak\s*\/?>/i', '', $html);
+
                 $mpdf = new \Mpdf\Mpdf([
-                    'format' => 'A4-L',
-                    'margin_top' => 10,
+                    'margin_top'    => 10,
                     'margin_bottom' => 10,
-                    'tempDir' => sys_get_temp_dir()
                 ]);
 
-                $mpdf->SetFooter('Page {PAGENO}');
+                $mpdf->allow_charset_conversion = true;
+                $mpdf->autoScriptToLang = true;
+                $mpdf->baseScript = 1;
+                $mpdf->autoVietnamese = true;
+                $mpdf->autoArabic = true;
+                $mpdf->autoLangToFont = true;
+                $mpdf->shrink_tables_to_fit = 1;
+
                 $mpdf->WriteHTML($html);
                 $mpdf->Output($file_name, 'D');
             }

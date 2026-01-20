@@ -93,6 +93,7 @@
 				wp_enqueue_script('mptrs_admin', WTBM_PLUGIN_URL . '/assets/admin/mptrs_admin.js', ['jquery'], time(), true);
 				wp_enqueue_script('create_seat_plan', WTBM_PLUGIN_URL . '/assets/admin/create_seat_plan.js', ['jquery'], time(), true);
 				wp_enqueue_style('create_seat_plan', WTBM_PLUGIN_URL . '/assets/admin/create_seat_plan.css', array(), time());
+				wp_enqueue_style('wtbm_booking_list_edit', WTBM_PLUGIN_URL . '/assets/admin/wtbm_booking_list_edit.css', array(), time());
 				wp_localize_script('mptrs_admin', 'mptrs_admin_ajax', array(
 					'ajax_url' => admin_url('admin-ajax.php'),
 					'nonce' => wp_create_nonce('mptrs_admin_nonce')

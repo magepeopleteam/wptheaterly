@@ -18,6 +18,9 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
             add_action('wp_ajax_wtbm_filter_bookings', [ $this, 'wtbm_filter_bookings' ] );
             add_action('wp_ajax_nopriv_wtbm_filter_bookings', [ $this, 'wtbm_filter_bookings' ] );
 
+            add_action('wp_ajax_wtbm_get_booking_html', [ $this, 'wtbm_get_booking_html' ] );
+            add_action('wp_ajax_nopriv_wtbm_get_booking_html', [ $this, 'wtbm_get_booking_html' ] );
+            add_action('wp_ajax_wtbm_update_booking_data', [ $this, 'wtbm_update_booking_data' ] );
 
 //            add_action('wp_ajax_wtbm_bookings_data_display', [ $this, 'wtbm_bookings_data_display' ]);
 //            add_action('wp_ajax_nopriv_wtbm_bookings_data_display', [ $this, 'wtbm_bookings_data_display' ]);
@@ -137,7 +140,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                             <th><?php esc_attr_e( 'Show Date', 'wptheaterly' ); ?></th>
                             <th><?php esc_attr_e( 'Seats', 'wptheaterly' ); ?></th>
                             <th><?php esc_attr_e( 'Amount', 'wptheaterly' ); ?></th>
-                            <th><?php esc_attr_e( 'Payment Status', 'wptheaterly' ); ?></th>
+                            <th><?php esc_attr_e( 'Booking Status', 'wptheaterly' ); ?></th>
                             <th><?php esc_attr_e( 'Actions', 'wptheaterly' ); ?></th>
                         </tr>
                         </thead>
@@ -230,7 +233,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                         <div class="flex gap-2">
 <!--                            <button class="btn-icon" style="color: #2563eb;" title="View Booking">👁️</button>-->
                             <?php do_action( 'wtbm_pdf_button', $meta['wtbm_order_id'], 'booking_list' ); ?>
-<!--                            <button class="btn-icon edit" title="Edit Booking">✏️</button>-->
+                            <button class="btn-icon edit wtbm_edit_booking" title="Edit Booking">✏️</button>
                         </div>
                     </td>
                 </tr>
@@ -380,30 +383,6 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                 'wtbm_order_date'     => sanitize_text_field($_POST['show_date'] ?? ''),
                 'wtbm_order_status'   => sanitize_text_field($_POST['booking_status'] ?? ''),
             );
-//            if( $loaded_booking_id ){
-                /*$args = array(
-                    'post_type'      => 'wtbm_booking',
-                    'post_status'    => 'publish',
-                    'posts_per_page' => $display_limit,
-                    'post__not_in'   => $loaded_booking_id,
-                    'orderby'        => 'date',
-                    'order'          => 'DESC',
-                );
-
-                $query = new WP_Query( $args );
-                $booking_data = [];
-
-                if ( $query->have_posts() ) {
-                    foreach ( $query->posts as $booking ) {
-                        $booking_date = []; // single booking's meta
-                        $meta_data = get_post_meta( $booking->ID );
-                        foreach ( $meta_data as $key => $value ) {
-                            $booking_date[$key] = maybe_unserialize( $value[0] );
-                        }
-                        $booking_data[$booking->ID] = $booking_date;
-                    }
-                }
-                wp_reset_postdata();*/
                 $data = WTBM_Layout_Functions::wtbm_get_filtered_booking_data( $filters_data, $loaded_booking_id, $display_limit );
                 $booking_data = $data['booking_data'];
                 $booking_count = $data['total_post_count'];
@@ -419,6 +398,103 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
             /*}else{
                 wp_send_json_error("Invalid ction");
             }*/
+        }
+
+        function wtbm_get_booking_html() {
+            check_ajax_referer('mptrs_admin_nonce', 'nonce');
+
+            $booking_id = isset( $_POST['booking_id'] ) ? intval( wp_unslash( $_POST['booking_id'] ) ) : '';
+            $booking =  WTBM_Layout_Functions::wtbm_get_booking_data_by_booking_id( $booking_id );
+            $order_id = $booking['wtbm_order_id'];
+            $seats = implode( ', ', $booking['wtbm_seats'] );
+
+            ob_start();
+            ?>
+            <div class="wtbm_booking_edit_overlay">
+                <div class="wtbm_booking_edit_modal">
+
+                    <div class="wtbm_booking_edit_header">
+                        <h3>Edit Booking</h3>
+                        <span class="wtbm_booking_edit_close_icon">&times;</span>
+                    </div>
+
+                    <div class="wtbm_booking_edit_body">
+                        <label>Attendee Name</label>
+                        <input type="text" class="wtbm_booking_edit_input" name="wtbm_booking_attendee_name" value="<?php echo esc_attr($booking['wtbm_billing_name']); ?>">
+
+                        <label>Phone</label>
+                        <input type="text" class="wtbm_booking_edit_input" name="wtbm_booking_attendee_phone" value="<?php echo esc_attr($booking['wtbm_billing_phone']); ?>">
+
+                        <label>Email</label>
+                        <input type="text" class="wtbm_booking_edit_input" name="wtbm_booking_attendee_email" value="<?php echo esc_attr($booking['wtbm_billing_email']); ?>">
+
+                        <label>Seat Number</label>
+                        <input type="text" class="wtbm_booking_edit_input" name="wtbm_booking_seat_number" value="<?php echo esc_attr( $seats ); ?>">
+
+                        <label>Status</label>
+                        <select class="wtbm_booking_edit_select" name="wtbm_booking_status">
+                            <option value="confirmed" <?php selected($booking['wtbm_order_status'], 'confirmed'); ?>>Confirmed</option>
+                            <option value="pending" <?php selected($booking['wtbm_order_status'], 'pending'); ?>>Pending</option>
+                            <option value="cancelled" <?php selected($booking['wtbm_order_status'], 'cancelled'); ?>>Cancelled</option>
+                            <option value="completed" <?php selected($booking['wtbm_order_status'], 'cancelled'); ?>>Completed</option>
+                        </select>
+
+                        <input type="hidden" class="wtbm_booking_edit_id" value="<?php echo esc_attr($booking_id); ?>">
+                        <input type="hidden" class="wtbm_order_edit_id" value="<?php echo esc_attr($order_id); ?>">
+                        <input type="hidden" class="wtbm_movie_edit_id" value="<?php echo esc_attr($booking['wtbm_movie_id']); ?>">
+                        <input type="hidden" class="wtbm_theater_edit_id" value="<?php echo esc_attr($booking['wtbm_theater_id']); ?>">
+                        <input type="hidden" class="wtbm_movie_time" value="<?php echo esc_attr($booking['wtbm_order_time']); ?>">
+                    </div>
+
+                    <div class="wtbm_booking_edit_footer">
+                        <button class="wtbm_booking_edit_update_btn" id="wtbm_update_booking">Update</button>
+                        <button class="wtbm_booking_edit_close_btn">Close</button>
+                    </div>
+
+                </div>
+            </div>
+            <?php
+
+            echo ob_get_clean();
+            wp_die();
+        }
+
+        function wtbm_update_booking_data() {
+
+            check_ajax_referer('mptrs_admin_nonce', 'nonce');
+
+            if ( empty($_POST['booking_id']) ) {
+                wp_send_json_error('Invalid booking ID');
+            }
+
+            $booking_id = isset( $_POST['booking_id'] ) ? intval( wp_unslash( $_POST['booking_id'] ) ) : '';
+            $order_id   = isset( $_POST['order_id'] ) ? intval(  wp_unslash( $_POST['order_id'] ) ) : '';
+            $seat_number   = isset( $_POST['seat_number'] ) ? sanitize_text_field(  wp_unslash( $_POST['seat_number'] ) ) : '';
+
+            if( $seat_number ){
+                $seat_numbers = array_map('trim', explode(',', $seat_number));
+//                error_log( print_r( [ '$seat_numbers' => $seat_numbers ], true ) );
+                update_post_meta($booking_id, 'wtbm_seat_number', $seat_numbers );
+            }
+
+
+
+            // Update booking meta
+            update_post_meta($booking_id, 'wtbm_billing_name', sanitize_text_field($_POST['attendee_name']));
+            update_post_meta($booking_id, 'wtbm_billing_phone', sanitize_text_field($_POST['attendee_phone']));
+            update_post_meta($booking_id, 'wtbm_billing_email', sanitize_email($_POST['attendee_email']));
+
+            update_post_meta($booking_id, 'wtbm_order_status', sanitize_text_field($_POST['booking_status']));
+
+            // Update WooCommerce order status (optional)
+            if ( $order_id ) {
+                $order = wc_get_order($order_id);
+                if ( $order ) {
+                    $order->update_status( sanitize_text_field($_POST['booking_status']) );
+                }
+            }
+
+            wp_send_json_success('Booking updated');
         }
 
     }

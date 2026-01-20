@@ -1,0 +1,147 @@
+/* Overlay: full screen, semi-transparent background */
+.wtbm_booking_edit_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    /*display: none; !* Hidden by default *!*/
+    z-index: 9999;
+}
+
+/* Modal Box: horizontal center, 20% from top */
+.wtbm_booking_edit_modal {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 420px;
+    max-width: 90%;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    animation: wtbm_fade_in 0.3s ease-out;
+}
+
+/* Header */
+.wtbm_booking_edit_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(90deg, #2271b1, #1a5e91);
+    color: #fff;
+}
+
+.wtbm_booking_edit_header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.wtbm_booking_edit_close_icon {
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.wtbm_booking_edit_close_icon:hover {
+    color: #ff4d4d;
+}
+
+/* Body */
+.wtbm_booking_edit_body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.wtbm_booking_edit_body label {
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
+}
+
+.wtbm_booking_edit_input,
+.wtbm_booking_edit_select {
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.wtbm_booking_edit_input:focus,
+.wtbm_booking_edit_select:focus {
+    border-color: #2271b1;
+    box-shadow: 0 0 6px rgba(34,113,177,0.3);
+    outline: none;
+}
+
+/* Custom select arrow */
+.wtbm_booking_edit_select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cpath fill='%23333' d='M2 4l4 4 4-4z'/%3E%3C/svg%3E") no-repeat right 12px center;
+    background-size: 12px 12px;
+    cursor: pointer;
+}
+
+/* Footer */
+.wtbm_booking_edit_footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 20px;
+    background: #f5f5f5;
+}
+
+.wtbm_booking_edit_update_btn {
+    background: #2271b1;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.wtbm_booking_edit_update_btn:hover {
+    background: #1a5e91;
+}
+
+.wtbm_booking_edit_close_btn {
+    background: #e0e0e0;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.wtbm_booking_edit_close_btn:hover {
+    background: #cacaca;
+}
+
+/* Fade in animation */
+@keyframes wtbm_fade_in {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive for small screens */
+@media (max-width: 480px) {
+    .wtbm_booking_edit_modal {
+        width: 95%;
+        top: 15%;
+    }
+}
