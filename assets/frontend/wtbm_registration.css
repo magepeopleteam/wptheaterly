@@ -3,6 +3,7 @@ body{
 }
 .wtbm_registrationContainer {
     display: flex;
+    flex-direction: column;
     gap:10px;
     max-width: 1400px;
     margin: 0 auto;
@@ -12,8 +13,8 @@ body{
 .wtbm_registrationMainContent {
     background-color: #fff;
     border-radius: 10px;
-    padding:15px;
-    width: calc(100% - 320px);
+    padding:0;
+    width: 100%;
 }
 
 .section-title{
@@ -24,7 +25,7 @@ body{
 }
 
 .wtbm_registrationSidebar {
-    width: 320px;
+    width: auto;
     background: var(--mptrs_color_theme_11);
     border: 1px solid var(--mptrs_color_theme);
     border-radius:10px;
@@ -544,3 +545,15 @@ body{
     color: #28a745;
 }
 
+@media (min-width:768px) {
+    .wtbm_registrationContainer{
+        flex-direction: row;
+    }
+    .wtbm_registrationMainContent {
+        width: calc(100% - 320px);
+        padding: 15px;
+    }
+    .wtbm_registrationSidebar {
+        width: 320px;
+    }
+}
