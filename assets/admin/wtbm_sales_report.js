@@ -126,9 +126,6 @@
             alert('Select at least one booking');
             return;
         }
-
-        console.log( bookingIds);
-
         $.ajax({
             url: mptrs_admin_ajax.ajax_url,
             type: 'POST',
@@ -139,7 +136,6 @@
                 nonce: mptrs_admin_ajax.nonce
             },
             success: function(res){
-                console.log( res );
                 if(res.success){
                     // Redirect to download URL → browser automatically downloads CSV
                     window.location.href = res.data.download_url;
@@ -159,6 +155,28 @@
         $('#wtbm_booking_filters').slideToggle(300);
     });
 
+    $(document).on('click','.wtbm_delete_booking', function(e) {
+        let $this = $(this);
+        let bookingId = $(this).closest('tr').attr('data-order-id');
+
+        if (!confirm('Are you sure you want to delete this booking?')) {
+            return; // stop if cancelled
+        }
+
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'wtbm_delete_booking',
+                booking_id: bookingId,
+                nonce: mptrs_admin_ajax.nonce
+            },
+            success: function(response) {
+                $this.closest('tr').fadeOut(200);
+            }
+        });
+    });
+
     $(document).on('click','.wtbm_edit_booking', function(e) {
         let bookingId = $(this).closest('tr').attr('data-order-id');
         let booking_edit_overlay = $('.wtbm_booking_edit_overlay');
@@ -171,7 +189,6 @@
                 nonce: mptrs_admin_ajax.nonce
             },
             success: function(response) {
-                console.log( response );
                 booking_edit_overlay.remove();
                 booking_edit_overlay.fadeIn(200);
                 $('body').append(response);
@@ -203,6 +220,7 @@
             attendee_email: $body.find('[name="wtbm_booking_attendee_email"]').val(),
 
             seat_number: $body.find('[name="wtbm_booking_seat_number"]').val(),
+            seat_ids: $body.find('[name="wtbm_booking_seat_ids"]').val(),
             booking_status: $body.find('[name="wtbm_booking_status"]').val(),
 
             movie_id: $body.find('.wtbm_movie_edit_id').val(),
@@ -220,10 +238,11 @@
             },
             success: function (response) {
                 if (response.success) {
-                    alert('Booking updated successfully!');
+                    // alert('Booking updated successfully!');
                     $('.wtbm_booking_edit_overlay').fadeOut(200, function () {
                         $(this).remove();
                     });
+                    location.reload();
                 } else {
                     alert(response.data || 'Update failed');
                 }
@@ -236,5 +255,98 @@
             }
         });
     });
+
+    $(document).on('click', '.wtbm_get_available_seat', function () {
+        let parent = $("#wtbm_booking_edit_overlay");
+        let theaterId = parent.find('input[name="wtbm_edit_theater_id"]').val();
+        let movieTimeSlot = parent.find('input[name="wtbm_movie_time_slot"]').val();
+        let movieId = parent.find('input[name="wtbm_edit_movie_id"]').val();
+        let movieDate = '2026-01-21';
+
+        $.ajax({
+            url: wtbm_ajax.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'wtbm_get_theater_available_seats',
+                theater_id: theaterId,
+                activeMovieId: movieId,
+                movie_time_slot: movieTimeSlot,
+                movie_date: movieDate,
+                nonce: wtbm_ajax.nonce,
+            },
+            success: function(response) {
+                if( response.data  ) {
+                    $("#wtbm_available_seats").html(response.data.wtbm_seatMaps);
+                }else{
+                    $("#wtbm_available_seats").html( '<h6>No Seats Found Found</h6>');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
+
+        // console.log( theaterId, movieTimeSlot, movieId );
+    });
+
+    $(document).on('click', '.remove-seat', function () {
+        const seatEl   = $(this).closest('.wtbm_seat_name');
+        const seatNum  = seatEl.data('seat').toString();
+        const seatId   = seatEl.data('seat-id').toString();
+
+        const seatNumInput = $('input[name="wtbm_booking_seat_number"]');
+        let seatNums = seatNumInput.val().split(',').map(s => s.trim());
+
+        seatNums = seatNums.filter(val => val !== seatNum);
+        seatNumInput.val(seatNums.join(', '));
+
+        const seatIdInput = $('input[name="wtbm_booking_seat_ids"]');
+        let seatIds = seatIdInput.val().split(',').map(s => s.trim());
+
+        seatIds = seatIds.filter(val => val !== seatId);
+        seatIdInput.val(seatIds.join(', '));
+        seatEl.fadeOut(200, function () {
+            $(this).remove();
+        });
+    });
+
+    $(document).on('click', '.wtbm_add_seat_name', function () {
+
+        const seatEl  = $(this);
+        const seatNum = String(seatEl.data('seat')).trim();
+        const seatId  = String(seatEl.data('seat-id')).trim();
+
+        const seatNumInput = $('input[name="wtbm_booking_seat_number"]');
+        let seatNums = seatNumInput.val()
+            ? seatNumInput.val().split(',').map(s => s.trim())
+            : [];
+
+        if (!seatNums.includes(seatNum)) {
+            seatNums.push(seatNum);
+        }
+
+        seatNumInput.val(seatNums.join(', '));
+        const seatIdInput = $('input[name="wtbm_booking_seat_ids"]');
+        let seatIds = seatIdInput.val()
+            ? seatIdInput.val().split(',').map(s => s.trim())
+            : [];
+
+        if (!seatIds.includes(seatId)) {
+            seatIds.push(seatId);
+        }
+
+        seatIdInput.val(seatIds.join(', '));
+        seatEl.fadeOut(200);
+        const selectedSeat = `
+        <span class="wtbm_seat_name" data-seat-id="${seatId}" data-seat="${seatNum}">
+            ${seatNum}
+            <span class="remove-seat">✕</span>
+        </span>
+    `;
+
+        $(".wtbm_booked_seats_display").append(selectedSeat);
+    });
+
+
 
 }(jQuery));

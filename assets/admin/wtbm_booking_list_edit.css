@@ -16,7 +16,8 @@
     top: 20%;
     left: 50%;
     transform: translateX(-50%);
-    width: 420px;
+    width: 620px;
+    height: 650px;
     max-width: 90%;
     background: #fff;
     border-radius: 12px;
@@ -24,6 +25,7 @@
     overflow: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     animation: wtbm_fade_in 0.3s ease-out;
+    overflow-x: scroll;
 }
 
 /* Header */
@@ -131,6 +133,65 @@
 .wtbm_booking_edit_close_btn:hover {
     background: #cacaca;
 }
+
+.wtbm_booked_seats_display {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.wtbm_seat_name {
+    position: relative;
+    padding: 6px 24px 6px 10px;
+    background: #f2f2f2;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.wtbm_add_seat_name {
+    position: relative;
+    padding: 6px 24px 6px 10px;
+    background: #f2f2f2;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.remove-seat {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #fff;
+    background: #e74c3c;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.wtbm_seat_name:hover .remove-seat {
+    opacity: 1;
+}
+
+.wtbm_add_seat_name:hover {
+    color: #fff;
+    background: #e74c3c;
+    cursor: pointer;
+}
+
+.wtbm_get_available_seat_holder{
+    display: flex;
+    justify-content: end;
+}
+.wtbm_get_available_seat{
+    cursor: pointer;
+    padding: 5px 10px;
+    margin: 5px;
+    border: 1px solid #d9d5d5;
+    border-radius: 5px;
+}
+
 
 /* Fade in animation */
 @keyframes wtbm_fade_in {
