@@ -498,8 +498,12 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                                                             foreach ( $theater_data as $theater ){
                                                                 $total_seat_theater += $theater['theater_seat_count'];
                                                                 $total_booked_seat_theater += $theater['booked_seats'];
-                                                                $percentage = 100 * ( $total_booked_seat_theater / $total_seat_theater );
-                                                                $percentage = round( $percentage, 2 );
+                                                                if( $total_seat_theater > 0 ) {
+                                                                    $percentage = 100 * ($total_booked_seat_theater / $total_seat_theater);
+                                                                    $percentage = round($percentage, 2);
+                                                                }else{
+                                                                    $percentage = 0;
+                                                                }
 
                                                                 ?>
                                                             <?php } ?>
@@ -579,8 +583,13 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                                                                 $total_seat_in_theater += $theater['theater_seat_count'];
                                                                 $total_booked_seat_in_theater += $theater['booked_seats'];
                                                                 $total_revenue_in_theater += $theater['revenue'];
-                                                                $percentage = 100 * ( $total_booked_seat_in_theater / $total_seat_in_theater );
-                                                                $percentage = round( $percentage, 2 );
+                                                                if( $total_seat_in_theater > 0 ){
+                                                                    $percentage = 100 * ( $total_booked_seat_in_theater / $total_seat_in_theater );
+                                                                    $percentage = round( $percentage, 2 );
+                                                                }else{
+                                                                    $percentage = 0;
+                                                                }
+
 
                                                                 ?>
                                                             <?php } ?>
