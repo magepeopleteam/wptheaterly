@@ -333,7 +333,7 @@
                 nonce: wtbm_ajax.nonce,
             };
 
-            $("#wtbm_seatsGrid").empty();
+
             $.ajax({
                 type: 'POST',
                 url: wtbm_ajax.ajax_url,
@@ -354,6 +354,7 @@
                         wtbm_total_seat_count = 0;
 
                         if (response.data.seat_map) {
+                            $("#wtbm_seatsGrid").empty();
                             $("#wtbm_seatsGrid").html(response.data.seat_map);
                             $("#wtbm_download_ticket").html(response.data.pdf_url_btn);
                         } else {

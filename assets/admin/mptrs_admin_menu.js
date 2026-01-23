@@ -403,6 +403,8 @@
         let selectedSeats = [];
         let dynamicShapes = [];
 
+        let isSetPrice = 0
+
         if( post_id ) {
             $('.mptrs_mappingSeat.save').each(function () {
                 if ($(this).css('background-color') !== 'rgb(255, 255, 255)') { // Not default white
@@ -423,6 +425,10 @@
                     const top = $(this).css('top') || 0;
                     const border_radius = $(this).css('border-radius') || 0;
                     const seatText = $(this).find('.seatText').text();
+
+                    if( price == 0 ){
+                        isSetPrice = 1;
+                    }
 
                     selectedSeats.push({id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage, seat_category
                     });
@@ -474,7 +480,7 @@
             });
         });
 
-        console.log( wtbm_theater_categories );
+        // console.log( wtbm_theater_categories );
 
         wtbm_theater_categories = JSON.stringify( wtbm_theater_categories);
 
@@ -513,35 +519,39 @@
             _ajax_nonce: mptrs_admin_ajax.nonce
         };
 
-       $.ajax({
-            url: mptrs_admin_ajax.ajax_url,
-            type: "POST",
-            data: theater,
-            success: function(response) {
-                if (response.success) {
-                    if( post_id ){
-                        let edited_theater = 'theater_content_'+post_id;
-                        $("#"+edited_theater).fadeOut();
-                        $("#theaters-table-body").prepend( response.data.new_theater );
-                        alert( "Theater Edited" );
-                        clearForm( "#wtbmAddTheaterForm" );
-                    }else{
+        if( isSetPrice === 0 ) {
+            $.ajax({
+                url: mptrs_admin_ajax.ajax_url,
+                type: "POST",
+                data: theater,
+                success: function (response) {
+                    if (response.success) {
+                        if (post_id) {
+                            let edited_theater = 'theater_content_' + post_id;
+                            $("#" + edited_theater).fadeOut();
+                            $("#theaters-table-body").prepend(response.data.new_theater);
+                            alert("Theater Edited");
+                            clearForm("#wtbmAddTheaterForm");
+                        } else {
 
-                        $("#wtbm_add_edit_theater_container").fadeOut();
-                        $("#theaters-table-body").prepend( response.data.new_theater );
-                        $("#wtbm_SeatMappingSection").html( response.data.seat_map );
-                        alert( "Theater Added" );
+                            $("#wtbm_add_edit_theater_container").fadeOut();
+                            $("#theaters-table-body").prepend(response.data.new_theater);
+                            $("#wtbm_SeatMappingSection").html(response.data.seat_map);
+                            alert("Theater Added");
+                        }
+
+                    } else {
+                        alert("Error: " + response.data);
                     }
-
-                } else {
-                    alert("Error: " + response.data);
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                    alert("Something went wrong!");
                 }
-            },
-            error: function(xhr, status, error) {
-                console.log(error);
-                alert("Something went wrong!");
-            }
-        });
+            });
+        }else{
+            alert( 'Please assign a price to all seats.');
+        }
     }
 
     function wtbm_simpleHash(str) {
@@ -938,6 +948,8 @@
         let seatPlanTexts = [];
         let selectedSeats = [];
         let dynamicShapes = [];
+        let isSetPrice = 0
+
         $('.mptrs_mappingSeat.save').each(function () {
             if ( $(this).css('background-color') !== 'rgb(255, 255, 255)') { // Not default white
                 const id = $(this).data('id');
@@ -957,6 +969,11 @@
                 const top = $(this).css('top') || 0;
                 const border_radius = $(this).css('border-radius') || 0;
                 const seatText = $(this).find('.seatText').text();
+
+                if( price == 0 ){
+                    isSetPrice = 1;
+                }
+
 
                 selectedSeats.push({ id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage, seat_category });
             }
@@ -999,29 +1016,32 @@
             dynamicShapes: dynamicShapesStr,
             _ajax_nonce: mptrs_admin_ajax.nonce
         };
-        $.ajax({
-            url: mptrs_admin_ajax.ajax_url,
-            type: "POST",
-            data: theater_seat_map,
-            success: function( response ) {
+        if( isSetPrice === 0 ) {
+            $.ajax({
+                url: mptrs_admin_ajax.ajax_url,
+                type: "POST",
+                data: theater_seat_map,
+                success: function (response) {
 
-                console.log( response.success );
+                    // console.log( response.success );
+                    if (response.success) {
+                        if (theater_id) {
+                            alert("Theater Map Added");
+                            clearForm("#wtbmAddTheaterForm");
+                        }
 
-                if ( response.success ) {
-                    if( theater_id ){
-                        alert( "Theater Map Added" );
-                        clearForm( "#wtbmAddTheaterForm" );
+                    } else {
+                        alert("Error: " + response.data);
                     }
-
-                } else {
-                    alert("Error: " + response.data);
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                    alert("Something went wrong!");
                 }
-            },
-            error: function(xhr, status, error) {
-                console.log(error);
-                alert("Something went wrong!");
-            }
-        });
+            });
+        }else{
+            alert( 'Please assign a price to all seats.');
+        }
 
 
     });
