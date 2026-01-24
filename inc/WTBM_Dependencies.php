@@ -62,6 +62,7 @@
 					'nonce' => wp_create_nonce('wtbm_nonce'),
 					'site_url' => get_site_url(),
 					'wc_currency_symbol' => '',
+					'wc_currency' => get_woocommerce_currency(),
 				));
 				do_action('add_mptrs_global_enqueue');
 				wp_enqueue_style('mage-icons', WTBM_PLUGIN_URL . '/assets/mage-icon/css/mage-icon.css', array(), time());

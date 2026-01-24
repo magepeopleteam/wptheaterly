@@ -403,6 +403,7 @@
         let selectedSeats = [];
         let dynamicShapes = [];
 
+        let error_smg = 'Please assign a price to all seats.';
         let isSetPrice = 0
 
         if( post_id ) {
@@ -470,6 +471,17 @@
             let seats = $(this).find("input[name='wtbm_theater_seats']").val();
             let price = $(this).find("input[name='wtbm_theater_price']").val();
             let color = $(this).find("input[name='wtbm_theater_color']").val();
+
+
+
+            if (price === "" || isNaN(price) || Number(price) <= 0) {
+                $(this).find("input[name='wtbm_theater_price']")
+                    .addClass("error")
+                    .focus();
+
+                isSetPrice = 1;
+                error_smg = 'Please assign a price to category.';
+            }
 
             wtbm_theater_categories.push({
                 category_id: wtbm_generateUniqueId( categoryName ),
@@ -550,7 +562,7 @@
                 }
             });
         }else{
-            alert( 'Please assign a price to all seats.');
+            alert( error_smg );
         }
     }
 

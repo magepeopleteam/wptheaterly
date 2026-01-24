@@ -166,6 +166,8 @@
     background-color: #333333;
 }
 .mptrs_seatNumber{
+    width: 100%;
+    font-size: 8px;
     position: absolute;
     top: 50%;
     left:50%;
@@ -174,11 +176,14 @@
     transform: translate(-50%,-50%);
 }
 .mptrs_seatNumberShow{
-    display: flex;
-    justify-content: center;
     width: 100%;
-    text-align: center;
-    padding-top: 25%;
+    font-size: 8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #fff;
+    font-weight: bold;
+    transform: translate(-50%, -50%);
 }
 .mptrs_dynamicShape {
     position: absolute;
