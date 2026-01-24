@@ -429,6 +429,9 @@
 
                     if( price == 0 ){
                         isSetPrice = 1;
+                        $(this).addClass('wtbm-price-empty');
+                    }else{
+                        $(this).removeClass('wtbm-price-empty');
                     }
 
                     selectedSeats.push({id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage, seat_category
@@ -984,8 +987,10 @@
 
                 if( price == 0 ){
                     isSetPrice = 1;
+                    $(this).addClass('wtbm-price-empty');
+                }else{
+                    $(this).removeClass('wtbm-price-empty');
                 }
-
 
                 selectedSeats.push({ id, row, col, color, price, width, height, seat_number, left, top, z_index, data_degree, data_tableBind, border_radius, seatText, backgroundImage, seat_category });
             }

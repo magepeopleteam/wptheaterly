@@ -433,6 +433,7 @@ jQuery(document).ready(function ($) {
                 div.attr("title", category_price+''+wtbm_ajax.wc_currency );
 
                 div.removeClass('selected');
+                div.removeClass('wtbm-price-empty');
             }
 
         });
@@ -894,6 +895,7 @@ jQuery(document).ready(function ($) {
                     if (price){
                         div.attr("data-price", price)/*.text(price)*/;
                         div.attr("title", price+''+wtbm_ajax.wc_currency);
+                        div.removeClass('wtbm-price-empty');
                         const mptrs_showPriceHover = div.find('.mptrs_showPriceHover');
                         if (mptrs_showPriceHover.length) {
                             mptrs_showPriceHover.text(`Price: ${price}`);
