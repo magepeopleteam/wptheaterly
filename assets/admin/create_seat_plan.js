@@ -430,8 +430,10 @@ jQuery(document).ready(function ($) {
                 if (category_color ) div.css("background-color", category_color );
                 $(div).attr('data-seat-category', category_id);
                 div.attr("data-price", category_price );
+                div.attr("title", category_price+''+wtbm_ajax.wc_currency );
 
                 div.removeClass('selected');
+                div.removeClass('wtbm-price-empty');
             }
 
         });
@@ -464,7 +466,8 @@ jQuery(document).ready(function ($) {
         });
         $('.mptrs_mappingSeat').attr({
             'data-seat-num': '',
-            'data-price': 0
+            'data-price': 0,
+            'title': 0,
         });
 
         // $('.mptrs_mappingSeat').text('');
@@ -891,6 +894,8 @@ jQuery(document).ready(function ($) {
                     div.addClass("save").removeClass('selected');
                     if (price){
                         div.attr("data-price", price)/*.text(price)*/;
+                        div.attr("title", price+''+wtbm_ajax.wc_currency);
+                        div.removeClass('wtbm-price-empty');
                         const mptrs_showPriceHover = div.find('.mptrs_showPriceHover');
                         if (mptrs_showPriceHover.length) {
                             mptrs_showPriceHover.text(`Price: ${price}`);
@@ -1198,7 +1203,7 @@ jQuery(document).ready(function ($) {
     multiSeat_Creation();
 
     //Hover option
-   /* $('.mptrs_mappingSeat').hover(function () {
+    $('.mptrs_mappingSeat').hover(function () {
         let tooltipValue = $(this).find('.mptrs_showPriceHover').text();
         if ( tooltipValue ) {
             $(this).find('.mptrs_showPriceHover')
@@ -1207,7 +1212,7 @@ jQuery(document).ready(function ($) {
         }
     }, function () {
         $(this).find('.mptrs_showPriceHover').hide();
-    });*/
+    });
 
     //End
 

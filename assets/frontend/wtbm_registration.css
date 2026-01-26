@@ -545,6 +545,15 @@ body{
     color: #28a745;
 }
 
+.wtbm_selected_seat_floating {
+    position: absolute;
+    z-index: 9999;
+    /*background: #3498db;*/
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+}
+
 @media (min-width:768px) {
     .wtbm_registrationContainer{
         flex-direction: row;

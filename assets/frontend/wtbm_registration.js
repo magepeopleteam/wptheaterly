@@ -165,16 +165,21 @@
 
     $(document).on( 'click', '.wtbm_mappedSeat', function (e) {
         e.preventDefault();
+
+        let $this = $(this);
         let parent = $('#wtbm_registrationContainer');
         const seatId = $(this).attr('id');
         const price = parseFloat($(this).data('price'));
         const seatNum = $(this).attr('data-seat-num');
+
+        let is_floating = false;
 
         if (wtbm_seatBooked.includes( seatId ) ) {
             wtbm_seatBooked = wtbm_seatBooked.filter(seat => seat !== seatId);
             $("#"+seatId).children().css('background-color', '#2e8708');
             wtbm_total_price = wtbm_total_price - price;
             wtbm_total_seat_count--;
+
         } else {
             wtbm_seatBooked.push(seatId);
             $("#"+seatId).children().css('background-color', '#667eea');
@@ -183,6 +188,8 @@
 
             parent.find("#wtbm_adminTicketPurchaseBtn").text('PURCHASE TICKET');
             parent.find("#wtbm_download_ticket").empty();
+
+            is_floating = true;
         }
 
         if (wtbm_seatBookedName.includes(seatNum)) {
@@ -196,8 +203,8 @@
 
         $("#wtbm_summaryQuantity").text( wtbm_total_seat_count );
         $("#wtbm_summaryTotal").text( wtbm_total_price+''+wtbm_ajax.wc_currency_symbol );
-        $("#wtbm_summarySeats").text(seatSummary);
 
+    // .text(seatSummary)
 
         $("#wtbm_summeryTotalAmount").val( wtbm_total_price );
         $("#wtbm_summerySeatNumber").val( seatSummary );
@@ -206,9 +213,39 @@
         $("#wtbm_registrationSidebar").fadeIn();
 
 
+        // $("#wtbm_summarySeats").text(seatSummary);
+
+        if( is_floating ){
+            wtbm_selected_seat_floting_add( seatSummary, $this );
+        }else{
+            $("#wtbm_summarySeats").text(seatSummary);
+        }
+
+
         // console.log(`Seat ID: ${seatId}, Price: $${price}, Seat number: ${seatNum}`, wtbm_total_price, wtbm_total_seat_count );
     });
 
+    function wtbm_selected_seat_floting_add( seatSummary, $this ){
+        let source = $this;
+        let target = $("#wtbm_summarySeats");
+        let sourcePos = source.offset();
+        let targetPos = target.offset();
+        let floatingDiv = source.clone().addClass("wtbm_selected_seat_floating");
+        $("body").append(floatingDiv);
+        floatingDiv.css({
+            top: sourcePos.top,
+            left: sourcePos.left,
+            width: source.outerWidth()
+        });
+        floatingDiv.animate({
+            top: targetPos.top + 20,
+            left: targetPos.left + 20,
+            opacity: 0.2
+        }, 800, function () {
+            $(this).remove();
+            target.html(`<span>${seatSummary}</span>`);
+        });
+    }
     function wtbm_time_slot_click_make_empty( click_btn ){
 
         if(  click_btn === 'wtbm_date' ){
@@ -333,7 +370,7 @@
                 nonce: wtbm_ajax.nonce,
             };
 
-            $("#wtbm_seatsGrid").empty();
+
             $.ajax({
                 type: 'POST',
                 url: wtbm_ajax.ajax_url,
@@ -354,6 +391,7 @@
                         wtbm_total_seat_count = 0;
 
                         if (response.data.seat_map) {
+                            $("#wtbm_seatsGrid").empty();
                             $("#wtbm_seatsGrid").html(response.data.seat_map);
                             $("#wtbm_download_ticket").html(response.data.pdf_url_btn);
                         } else {

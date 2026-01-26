@@ -238,7 +238,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                     $hover_price = $seat_price === 0 ? '' : 'Price: ' . esc_attr( $seat_price );
                     $block = $seat_num ? 'block' : 'none';
 
-                    echo '<div class=" mptrs_mappingSeat ' . esc_attr( $class ) . '"
+                    echo '<div title="'.$hover_price.get_woocommerce_currency().'" class=" mptrs_mappingSeat ' . esc_attr( $class ) . '"
                                         id = "div' . esc_attr( $col ) . '_' . esc_attr( $row ) . '"
                                         data-id="' . esc_attr( $col ) . '_' . esc_attr( $row ) . '" 
                                         data-row="' . esc_attr( $col ) . '" 
