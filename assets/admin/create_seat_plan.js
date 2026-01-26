@@ -541,6 +541,12 @@ jQuery(document).ready(function ($) {
         $(".mptrs_dynamicShapeColorHolder").hide();
         $(".mptrs_dynamicTextControlHolder").hide();
     }
+
+    function wtbm_rgbToHex(rgb) {
+        let nums = rgb.match(/\d+/g); // ["46","135","8"]
+        return "#" + nums.map(x => ("0" + parseInt(x).toString(16)).slice(-2)).join("");
+    }
+
     let seat_num = 0;
     $(document).on( "click", ".mptrs_mappingSeat", function (e) {
         hide_remove_shape_text_sellection();
@@ -559,6 +565,26 @@ jQuery(document).ready(function ($) {
             selectionOrder = [];
             forReverse = [];
             make_rotate( $(this).attr('id') );
+
+
+            let seatNumber = $this.attr('data-seat-num');
+            let [prefix, number] = seatNumber.split("-");
+            if (number === undefined) {
+                number = Number( prefix );
+                prefix = "";
+            }else{
+                number = Number( number );
+            }
+
+           let seatPrice = Number($this.attr('data-price'));
+           let bgColor = $(this).css("background-color");
+            bgColor = wtbm_rgbToHex(bgColor);
+           // alert( bgColor );
+
+            $("#mptrs_setSeatPrice").val( seatPrice );
+           $("#mptrs_seatNumberPrefix").val(prefix);
+           $("#mptrs_seatNumberCount").val(number);
+           $("#mptrs_setSeatColor").val(bgColor);
 
             /*if( $("#mptrs_bindTableWidthChair").hasClass('mptrs_selectedbind' ) ){
                 let mptrs_tableBindId = $("#mptrs_parentDiv")

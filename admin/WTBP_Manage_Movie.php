@@ -68,7 +68,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
             $duration    = sanitize_text_field( $_POST['duration']);
             $rating      = floatval($_POST['rating']);
             $releaseDate = sanitize_text_field($_POST['release_date']);
-            $poster      = esc_url_raw($_POST['poster']);
+            $poster      = isset( $_POST['poster'] ) ? esc_url_raw($_POST['poster']) : '';
             $poster_id      = sanitize_textarea_field($_POST['poster_id']);
             $description = sanitize_textarea_field($_POST['description']);
             $active = sanitize_textarea_field($_POST['active']);
