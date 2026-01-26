@@ -20,7 +20,7 @@
 			}
 			public function language_load(): void {
 				$plugin_dir = basename(dirname(__DIR__)) . "/languages/";
-				load_plugin_textdomain('theaterly', false, $plugin_dir);
+				load_plugin_textdomain('wptheaterly', false, $plugin_dir);
 			}
 			private function load_file(): void {
 				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Function.php';

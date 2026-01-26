@@ -112,7 +112,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                                 <tbody id="movies-table-body">
                                     <?php
                                     $movie_data = WTBM_Layout_Functions::get_and_display_movies();
-                                    echo WTBM_Layout_Functions::display_movies_data( $movie_data );
+                                    echo wp_kses_post( WTBM_Layout_Functions::display_movies_data( $movie_data ) );
                                     ?>
 
                                 </tbody>
@@ -157,7 +157,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                                 <?php
                                     $theater_data = WTBM_Layout_Functions::get_and_display_theater_date();
 //                                    error_log( print_r( [ '$theater_data' => $theater_data ], true ) );
-                                    echo WTBM_Layout_Functions::display_theater_date( $theater_data );
+                                    echo wp_kses_post( WTBM_Layout_Functions::display_theater_date( $theater_data ) );
                                 ?>
                                 </tbody>
                             </table>
@@ -199,7 +199,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                                 <tbody id="showtimes-table-body">
                                     <?php
                                         $show_time_data = WTBM_Layout_Functions::get_show_time_data();
-                                        echo WTBM_Manage_Showtimes::display_show_times_data( $show_time_data );
+                                        echo wp_kses_post( WTBM_Manage_Showtimes::display_show_times_data( $show_time_data ) );
                                     ?>
                                 </tbody>
                             </table>
@@ -234,7 +234,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                                 <tbody id="pricing-table-body">
                                     <?php
                                         $pricing_rules_date =  WTBM_Layout_Functions::get_pricing_rules_data();
-                                        echo WTBM_Pricing_Rules::pricing_rules_data_display( $pricing_rules_date );
+                                        echo wp_kses_post( WTBM_Pricing_Rules::pricing_rules_data_display( $pricing_rules_date ) );
                                     ?>
                                 </tbody>
                             </table>

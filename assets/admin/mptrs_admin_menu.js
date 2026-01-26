@@ -406,6 +406,9 @@
         let error_smg = 'Please assign a price to all seats.';
         let isSetPrice = 0
 
+        let seatNumbers = new Set();
+        let hasError = false;
+
         if( post_id ) {
             $('.mptrs_mappingSeat.save').each(function () {
                 if ($(this).css('background-color') !== 'rgb(255, 255, 255)') { // Not default white
@@ -413,7 +416,7 @@
                     const row = $(this).data('row');
                     const col = $(this).data('col');
                     const backgroundImage = $(this).data('background-image');
-                    const seat_number = $(this).attr('data-seat-num');
+                    let seat_number = $(this).attr('data-seat-num');
                     const seat_category = $(this).attr('data-seat-category');
                     const data_degree = $(this).data('degree');
                     const data_tableBind = $(this).attr('data-tablebind');
@@ -426,6 +429,24 @@
                     const top = $(this).css('top') || 0;
                     const border_radius = $(this).css('border-radius') || 0;
                     const seatText = $(this).find('.seatText').text();
+
+                    if (!seat_number || seat_number.trim() === '') {
+                        $(this).addClass('wtbm-seat-empty');
+                        error_smg = 'Please Set Seat Number.';
+                        isSetPrice = 1;
+                    } else {
+                        $(this).removeClass('wtbm-seat-empty');
+                    }
+
+                    seat_number = seat_number.trim().toUpperCase();
+                    if (seatNumbers.has(seat_number)) {
+                        $(this).addClass('wtbm-seat-duplicate');
+                        isSetPrice = 1;
+                        error_smg = 'Please Set Unique Seat Number.';
+                    } else {
+                        $(this).removeClass('wtbm-seat-duplicate');
+                        seatNumbers.add(seat_number);
+                    }
 
                     if( price == 0 ){
                         isSetPrice = 1;
@@ -547,6 +568,8 @@
                             $("#theaters-table-body").prepend(response.data.new_theater);
                             alert("Theater Edited");
                             clearForm("#wtbmAddTheaterForm");
+
+                            location.reload();
                         } else {
 
                             $("#wtbm_add_edit_theater_container").fadeOut();
@@ -965,13 +988,17 @@
         let dynamicShapes = [];
         let isSetPrice = 0
 
+        let seatNumbers = new Set();
+
+        let error_smg = '';
+
         $('.mptrs_mappingSeat.save').each(function () {
             if ( $(this).css('background-color') !== 'rgb(255, 255, 255)') { // Not default white
                 const id = $(this).data('id');
                 const row = $(this).data('row');
                 const col = $(this).data('col');
                 const backgroundImage = $(this).data('background-image');
-                const seat_number = $(this).attr('data-seat-num');
+                let seat_number = $(this).attr('data-seat-num');
                 const seat_category = $(this).attr('data-seat-category');
                 const data_degree = $(this).data('degree');
                 const data_tableBind = $(this).attr('data-tablebind');
@@ -985,9 +1012,28 @@
                 const border_radius = $(this).css('border-radius') || 0;
                 const seatText = $(this).find('.seatText').text();
 
+                if (!seat_number || seat_number.trim() === '') {
+                    $(this).addClass('wtbm-seat-empty');
+                    error_smg = 'Please Set Seat Number.';
+                    isSetPrice = 1;
+                } else {
+                    $(this).removeClass('wtbm-seat-empty');
+                }
+
+                seat_number = seat_number.trim().toUpperCase();
+                if (seatNumbers.has(seat_number)) {
+                    $(this).addClass('wtbm-seat-duplicate');
+                    isSetPrice = 1;
+                    error_smg = 'Please Set Unique Seat Number.';
+                } else {
+                    $(this).removeClass('wtbm-seat-duplicate');
+                    seatNumbers.add(seat_number);
+                }
+
                 if( price == 0 ){
                     isSetPrice = 1;
                     $(this).addClass('wtbm-price-empty');
+                    error_smg = 'Please assign a price to all seats.';
                 }else{
                     $(this).removeClass('wtbm-price-empty');
                 }
@@ -1057,7 +1103,7 @@
                 }
             });
         }else{
-            alert( 'Please assign a price to all seats.');
+            alert( error_smg );
         }
 
 

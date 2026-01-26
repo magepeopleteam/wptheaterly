@@ -349,13 +349,13 @@
 			//***********************************//
 			public static function week_day(): array {
 				return [
-					'monday' => esc_html__('Monday', 'theaterly'),
-					'tuesday' => esc_html__('Tuesday', 'theaterly'),
-					'wednesday' => esc_html__('Wednesday', 'theaterly'),
-					'thursday' => esc_html__('Thursday', 'theaterly'),
-					'friday' => esc_html__('Friday', 'theaterly'),
-					'saturday' => esc_html__('Saturday', 'theaterly'),
-					'sunday' => esc_html__('Sunday', 'theaterly'),
+					'monday' => esc_html__('Monday', 'wptheaterly'),
+					'tuesday' => esc_html__('Tuesday', 'wptheaterly'),
+					'wednesday' => esc_html__('Wednesday', 'wptheaterly'),
+					'thursday' => esc_html__('Thursday', 'wptheaterly'),
+					'friday' => esc_html__('Friday', 'wptheaterly'),
+					'saturday' => esc_html__('Saturday', 'wptheaterly'),
+					'sunday' => esc_html__('Sunday', 'wptheaterly'),
 				];
 			}
 			public static function get_plugin_data($data) {
@@ -416,7 +416,7 @@
 				return 'wtbm_booking';
 			}
 			public static function get_name() {
-				return self::get_general_settings('label', esc_html__('Theaterly', 'theaterly'));
+				return self::get_general_settings('label', esc_html__('Theaterly', 'wptheaterly'));
 			}
 			public static function get_slug() {
 				return self::get_general_settings('slug', 'service-booking');
@@ -425,13 +425,13 @@
 				return self::get_general_settings('icon', 'dashicons-list-view');
 			}
 			public static function get_category_label() {
-				return self::get_general_settings('category_label', esc_html__('Category', 'theaterly'));
+				return self::get_general_settings('category_label', esc_html__('Category', 'wptheaterly'));
 			}
 			public static function get_category_slug() {
 				return self::get_general_settings('category_slug', 'service-category');
 			}
 			public static function get_organizer_label() {
-				return self::get_general_settings('organizer_label', esc_html__('Organizer', 'theaterly'));
+				return self::get_general_settings('organizer_label', esc_html__('Organizer', 'wptheaterly'));
 			}
 			public static function get_organizer_slug() {
 				return self::get_general_settings('organizer_slug', 'theaterly-organizer');

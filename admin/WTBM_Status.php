@@ -15,18 +15,18 @@ if ( ! class_exists( 'WTBM_Status' ) ) {
             $cpt = WTBM_Function::get_cpt();
 
             /*add_submenu_page( 'mptrs_main_menu',
-                esc_html__( 'Status', 'car-rental-manager' ),
+                esc_html__( 'Status', 'wptheaterly' ),
                 '<span style="color:yellow">' . esc_html__( 'Status',
-                'car-rental-manager' ) . '</span>',
+                'wptheaterly' ) . '</span>',
                 'manage_options',
                 'wtbm_status_page',
                 array( $this, 'status_page' )
             );*/
             add_submenu_page(
                 'mptrs_main_menu',
-                __('Status', 'theaterly'),
+                __('Status', 'wptheaterly'),
                 '<span style="color:yellow">' .
-                __('Status', 'theaterly') . '</span>',
+                __('Status', 'wptheaterly') . '</span>',
                 'manage_options',
                 'wtbm_status_page',
                 array($this, 'status_page')
@@ -39,7 +39,7 @@ if ( ! class_exists( 'WTBM_Status' ) ) {
 
             $label      = WTBM_Function::get_name();
             $wc_i       = WTBM_Function::check_woocommerce();
-            $wc_i_text  = $wc_i == 1 ? esc_html__( 'Yes', 'car-rental-manager' ) : esc_html__( 'No', 'car-rental-manager' );
+            $wc_i_text  = $wc_i == 1 ? esc_html__( 'Yes', 'wptheaterly' ) : esc_html__( 'No', 'wptheaterly' );
             $wp_v       = get_bloginfo( 'version' );
             $wc_v       = WC()->version;
             $is_modern = version_compare( $wc_v, '4.8', '>' );
@@ -50,38 +50,38 @@ if ( ! class_exists( 'WTBM_Status' ) ) {
             <div class="wtbm_status">
                 <?php do_action( 'wtbm_status_notice_sec' ); ?>
                 <div class=_dShadow_6_adminLayout">
-                    <h2 class="textCenter"><?php echo esc_html( $label ) . '  ' . esc_html__( 'For Woocommerce Environment Status', 'car-rental-manager' ); ?></h2>
+                    <h2 class="textCenter"><?php echo esc_html( $label ) . '  ' . esc_html__( 'For Woocommerce Environment Status', 'wptheaterly' ); ?></h2>
                     <div class="divider"></div>
                     <table>
                         <tbody>
                         <tr>
-                            <td data-export-label="WC Version"><?php esc_html_e( 'WordPress Version : ', 'car-rental-manager' ); ?></td>
+                            <td data-export-label="WC Version"><?php esc_html_e( 'WordPress Version : ', 'wptheaterly' ); ?></td>
                             <td class="<?php echo esc_attr( $wp_v > 5.5 ? 'textSuccess' : 'textWarning' ); ?>">
                                 <span class="<?php echo esc_attr( $wp_v > 5.5 ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $wp_v ); ?>
                             </td>
                         </tr>
                         <tr>
-                            <td data-export-label="WC Version"><?php esc_html_e( 'Woocommerce Installed : ', 'car-rental-manager' ); ?></td>
+                            <td data-export-label="WC Version"><?php esc_html_e( 'Woocommerce Installed : ', 'wptheaterly' ); ?></td>
                             <td class="<?php echo esc_attr( $wc_i == 1 ? 'textSuccess' : 'textWarning' ); ?>">
                                 <span class="<?php echo esc_attr( $wc_i == 1 ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $wc_i_text ); ?>
                             </td>
                         </tr>
                         <?php if ( $wc_i == 1 ) { ?>
                             <tr>
-                                <td data-export-label="WC Version"><?php esc_html_e( 'Woocommerce Version : ', 'car-rental-manager' ); ?></td>
+                                <td data-export-label="WC Version"><?php esc_html_e( 'Woocommerce Version : ', 'wptheaterly' ); ?></td>
                                 <td class="<?php echo esc_attr( $is_modern ? 'textSuccess' : 'textWarning' ); ?>">
                                     <!--                                    <td class="--><?php //echo esc_attr( $wc_v > 4.8 ? 'textSuccess' : 'textWarning' ); ?><!--">-->
                                     <span class="<?php echo esc_attr( $is_modern ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $wc_v ); ?>
                                 </td>
                             </tr>
                             <tr>
-                                <td data-export-label="WC Version"><?php esc_html_e( 'Name : ', 'car-rental-manager' ); ?></td>
+                                <td data-export-label="WC Version"><?php esc_html_e( 'Name : ', 'wptheaterly' ); ?></td>
                                 <td class="<?php echo esc_attr( $from_name ? 'textSuccess' : 'textWarning' ); ?>">
                                     <span class="<?php echo esc_attr( $from_name ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $from_name ); ?>
                                 </td>
                             </tr>
                             <tr>
-                                <td data-export-label="WC Version"><?php esc_html_e( 'Email Address : ', 'car-rental-manager' ); ?></td>
+                                <td data-export-label="WC Version"><?php esc_html_e( 'Email Address : ', 'wptheaterly' ); ?></td>
                                 <td class="<?php echo esc_attr( $from_email ? 'textSuccess' : 'textWarning' ); ?>">
                                     <span class="<?php echo esc_attr( $from_email ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $from_email ); ?>
                                 </td>

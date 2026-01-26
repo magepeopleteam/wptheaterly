@@ -15,10 +15,10 @@
 				$status = WTBM_Function::check_woocommerce();
                 $label=WTBM_Function::get_name();
 				if ($status == 1) {
-					add_submenu_page('mptrs_main_menu', __('Quick Setup', 'theaterly'), '<span style="color:#10dd10">' . __('Quick Setup', 'theaterly') . '</span>', 'manage_options', 'mptrs_quick_setup', array($this, 'quick_setup'));
+					add_submenu_page('mptrs_main_menu', __('Quick Setup', 'wptheaterly'), '<span style="color:#10dd10">' . __('Quick Setup', 'wptheaterly') . '</span>', 'manage_options', 'mptrs_quick_setup', array($this, 'quick_setup'));
 				} else {
 					add_menu_page($label, $label, 'manage_options', 'mptrs_main_menu', array($this, 'quick_setup'), 'dashicons-admin-site-alt2', 6);
-					add_submenu_page('mptrs_item', __('Quick Setup', 'theaterly'), '<span style="color:#10dd17">' . __('Quick Setup', 'theaterly') . '</span>', 'manage_options', 'mptrs_quick_setup', array($this, 'quick_setup'));
+					add_submenu_page('mptrs_item', __('Quick Setup', 'wptheaterly'), '<span style="color:#10dd17">' . __('Quick Setup', 'wptheaterly') . '</span>', 'manage_options', 'mptrs_quick_setup', array($this, 'quick_setup'));
 				}
 			}
 			public function quick_setup() {
@@ -90,8 +90,8 @@
 						<?php
 					}
 					if (isset($_POST['finish_quick_setup'])) {
-						$label = isset($_POST['mptrs_label']) ? sanitize_text_field(wp_unslash($_POST['mptrs_label'])) : 'theaterly';
-						$slug = isset($_POST['mptrs_slug']) ? sanitize_text_field(wp_unslash($_POST['mptrs_slug'])) : 'theaterly';
+						$label = isset($_POST['mptrs_label']) ? sanitize_text_field(wp_unslash($_POST['mptrs_label'])) : 'wptheaterly';
+						$slug = isset($_POST['mptrs_slug']) ? sanitize_text_field(wp_unslash($_POST['mptrs_slug'])) : 'wptheaterly';
 						$general_settings_data = get_option('mptrs_general_settings');
 						$update_general_settings_arr = [
 							'label' => $label,
@@ -117,21 +117,21 @@
                                             <span class="mp_zero" data-icon></span>
                                             <span class="mp_zero" data-text>1</span>
                                         </h4>
-                                        <h6 class="circleTitle" data-class><?php esc_html_e('Welcome', 'theaterly'); ?></h6>
+                                        <h6 class="circleTitle" data-class><?php esc_html_e('Welcome', 'wptheaterly'); ?></h6>
                                     </div>
                                     <div data-tabs-target-next="#mptrs_qs_general" class="tabItemNext" data-open-text="2" data-close-text="" data-open-icon="" data-close-icon="fas fa-check" data-add-class="success">
                                         <h4 class="circleIcon" data-class>
                                             <span class="mp_zero" data-icon></span>
                                             <span class="mp_zero" data-text>2</span>
                                         </h4>
-                                        <h6 class="circleTitle" data-class><?php esc_html_e('General', 'theaterly'); ?></h6>
+                                        <h6 class="circleTitle" data-class><?php esc_html_e('General', 'wptheaterly'); ?></h6>
                                     </div>
                                     <div data-tabs-target-next="#mptrs_qs_done" class="tabItemNext" data-open-text="3" data-close-text="" data-open-icon="" data-close-icon="fas fa-check" data-add-class="success">
                                         <h4 class="circleIcon" data-class>
                                             <span class="mp_zero" data-icon></span>
                                             <span class="mp_zero" data-text>3</span>
                                         </h4>
-                                        <h6 class="circleTitle" data-class><?php esc_html_e('Done', 'theaterly'); ?></h6>
+                                        <h6 class="circleTitle" data-class><?php esc_html_e('Done', 'wptheaterly'); ?></h6>
                                     </div>
                                 </div>
                                 <div class="tabsContentNext _infoLayout_mT">
@@ -144,11 +144,11 @@
 								<?php if ($status == 1) { ?>
                                     <div class="justifyBetween">
                                         <button type="button" class="mpBtn mptrs_tab_prev">
-                                            <span>&longleftarrow;<?php esc_html_e('Previous', 'theaterly'); ?></span>
+                                            <span>&longleftarrow;<?php esc_html_e('Previous', 'wptheaterly'); ?></span>
                                         </button>
                                         <div></div>
                                         <button type="button" class="themeButton mptrs_tab_next">
-                                            <span><?php esc_html_e('Next', 'theaterly'); ?>&longrightarrow;</span>
+                                            <span><?php esc_html_e('Next', 'wptheaterly'); ?>&longrightarrow;</span>
                                         </button>
                                     </div>
 								<?php } ?>
@@ -162,24 +162,24 @@
 				$status = WTBM_Function::check_woocommerce();
 				?>
                 <div data-tabs-next="#mptrs_qs_welcome">
-                    <h2><?php esc_html_e('Theaterly Manager For Woocommerce Plugin', 'theaterly'); ?></h2>
-                    <p class="mTB_xs"><?php esc_html_e('Theaterly Manager Plugin for WooCommerce for your site, Please go step by step and choose some options to get started.', 'theaterly'); ?></p>
+                    <h2><?php esc_html_e('Theaterly Manager For Woocommerce Plugin', 'wptheaterly'); ?></h2>
+                    <p class="mTB_xs"><?php esc_html_e('Theaterly Manager Plugin for WooCommerce for your site, Please go step by step and choose some options to get started.', 'wptheaterly'); ?></p>
                     <div class="_dLayout_mT_alignCenter justifyBetween">
                         <h5>
 							<?php if ($status == 1) {
-								esc_html_e('Woocommerce already installed and activated', 'theaterly');
+								esc_html_e('Woocommerce already installed and activated', 'wptheaterly');
 							} elseif ($status == 0) {
-								esc_html_e('Woocommerce need to install and active', 'theaterly');
+								esc_html_e('Woocommerce need to install and active', 'wptheaterly');
 							} else {
-								esc_html_e('Woocommerce already install , please activate it', 'theaterly');
+								esc_html_e('Woocommerce already install , please activate it', 'wptheaterly');
 							} ?>
                         </h5>
 						<?php if ($status == 1) { ?>
                             <h5><span class="fas fa-check-circle textSuccess"></span></h5>
 						<?php } elseif ($status == 0) { ?>
-                            <button class="warningButton" type="submit" name="install_and_active_woo_btn"><?php esc_html_e('Install & Active Now', 'theaterly'); ?></button>
+                            <button class="warningButton" type="submit" name="install_and_active_woo_btn"><?php esc_html_e('Install & Active Now', 'wptheaterly'); ?></button>
 						<?php } else { ?>
-                            <button class="themeButton" type="submit" name="active_woo_btn"><?php esc_html_e('Active Now', 'theaterly'); ?></button>
+                            <button class="themeButton" type="submit" name="active_woo_btn"><?php esc_html_e('Active Now', 'wptheaterly'); ?></button>
 						<?php } ?>
                     </div>
                 </div>
@@ -187,30 +187,30 @@
 			}
 			public function setup_general_content() {
 				$label = WTBM_Function::get_settings('mptrs_general_settings', 'label', 'Theaterly');
-				$slug = WTBM_Function::get_settings('mptrs_general_settings', 'slug', 'theaterly');
+				$slug = WTBM_Function::get_settings('mptrs_general_settings', 'slug', 'wptheaterly');
 				?>
                 <div data-tabs-next="#mptrs_qs_general">
                     <div class="section">
-                        <h2><?php esc_html_e('General settings', 'theaterly'); ?></h2>
-                        <p class="mTB_xs"><?php esc_html_e('Choose some general option.', 'theaterly'); ?></p>
+                        <h2><?php esc_html_e('General settings', 'wptheaterly'); ?></h2>
+                        <p class="mTB_xs"><?php esc_html_e('Choose some general option.', 'wptheaterly'); ?></p>
                         <div class="_dLayout_mT">
                             <label class="fullWidth">
-                                <span class="min_300"><?php esc_html_e('Theaterly Manager Label:', 'theaterly'); ?></span>
+                                <span class="min_300"><?php esc_html_e('Theaterly Manager Label:', 'wptheaterly'); ?></span>
                                 <input type="text" class="formControl" name="mptrs_label" value='<?php echo esc_attr($label); ?>'/>
                             </label>
                             <i class="info_text">
                                 <span class="fas fa-info-circle"></span>
-								<?php esc_html_e('It will change the Theaterly Manager post type label on the entire plugin.', 'theaterly'); ?>
+								<?php esc_html_e('It will change the Theaterly Manager post type label on the entire plugin.', 'wptheaterly'); ?>
                             </i>
                             <div class="divider"></div>
                             <label class="fullWidth">
                             <span
-                                class="min_300"><?php esc_html_e('Theaterly Manager Slug:', 'theaterly'); ?></span>
+                                class="min_300"><?php esc_html_e('Theaterly Manager Slug:', 'wptheaterly'); ?></span>
                                 <input type="text" class="formControl" name="mptrs_slug" value='<?php echo esc_attr($slug); ?>'/>
                             </label>
                             <i class="info_text">
                                 <span class="fas fa-info-circle"></span>
-								<?php esc_html_e('It will change the Theaterly Manager slug on the entire plugin. Remember after changing this slug you need to flush permalinks. Just go to Settings->Permalinks hit the Save Settings button', 'theaterly'); ?>
+								<?php esc_html_e('It will change the Theaterly Manager slug on the entire plugin. Remember after changing this slug you need to flush permalinks. Just go to Settings->Permalinks hit the Save Settings button', 'wptheaterly'); ?>
                             </i>
                         </div>
                     </div>
@@ -220,10 +220,10 @@
 			public function setup_content_done() {
 				?>
                 <div data-tabs-next="#mptrs_qs_done">
-                    <h2><?php esc_html_e('Finalize Setup', 'theaterly'); ?></h2>
-                    <p class="mTB_xs"><?php esc_html_e('You are about to Finish & Save theaterly For Woocommerce Plugin setup process', 'theaterly'); ?></p>
+                    <h2><?php esc_html_e('Finalize Setup', 'wptheaterly'); ?></h2>
+                    <p class="mTB_xs"><?php esc_html_e('You are about to Finish & Save theaterly For Woocommerce Plugin setup process', 'wptheaterly'); ?></p>
                     <div class="mT allCenter">
-                        <button type="submit" name="finish_quick_setup" class="themeButton"><?php esc_html_e('Finish & Save', 'theaterly'); ?></button>
+                        <button type="submit" name="finish_quick_setup" class="themeButton"><?php esc_html_e('Finish & Save', 'wptheaterly'); ?></button>
                     </div>
                 </div>
 				<?php

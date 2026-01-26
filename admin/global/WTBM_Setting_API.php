@@ -286,7 +286,7 @@
 				$value = WTBM_Function::get_settings($args['section'], $args['id'], $args['std']);
 				$name = $args['section'] . '[' . $args['id'] . ']';
 				$placeholder = empty($args['placeholder']) ? '' : $args['placeholder'];
-				$label = $args['options']['button_label'] ?? esc_html__('Choose File', 'theaterly');
+				$label = $args['options']['button_label'] ?? esc_html__('Choose File', 'wptheaterly');
 				do_action('mptrs_add_single_image', $name, $value);
 			}
 			function callback_password($args) {

@@ -19,7 +19,7 @@ if ( ! class_exists('WTBM_Pro_Mail') ) {
         {
             $order = wc_get_order($order_id);
             if (empty($order_id) || !$order) {
-                return new WP_Error('invalid_data', esc_html__('Invalid order id provided', 'car-rental-manager-pro'));
+                return new WP_Error('invalid_data', esc_html__('Invalid order id provided', 'wptheaterly'));
             }
             $subject = WTBM_Function::get_settings('wtbm_email_settings', 'pdf_email_subject', 'PDF Booking Confirmation');
             $content = WTBM_Function::get_settings('wtbm_email_settings', 'pdf_email_content', 'Here is PDF Booking Confirmation Attachment');

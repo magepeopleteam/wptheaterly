@@ -52,7 +52,7 @@
 				}
 				update_post_meta($post_id, 'mptrs_extra_service', $ext_services);
 				ob_start();
-				$resultMessage = esc_html__('Data Updated Successfully', 'theaterly');
+				$resultMessage = esc_html__('Data Updated Successfully', 'wptheaterly');
 				$this->show_extra_service($post_id);
 				$html_output = ob_get_clean();
 				wp_send_json_success([
@@ -90,7 +90,7 @@
 				array_push($extra_services, $new_data);
 				update_post_meta($post_id, 'mptrs_extra_service', $extra_services);
 				ob_start();
-				$resultMessage = esc_html__('Data Updated Successfully', 'theaterly');
+				$resultMessage = esc_html__('Data Updated Successfully', 'wptheaterly');
 				$this->show_extra_service($post_id);
 				$html_output = ob_get_clean();
 				wp_send_json_success([
@@ -121,18 +121,18 @@
 				?>
                 <div class="tabsItem mptrs_extra_service_settings" data-tabs="#mptrs_extra_service_settings">
                     <header>
-                        <h2><?php esc_html_e('Extra Service Configuration', 'theaterly'); ?></h2>
-                        <span><?php esc_html_e('Here you can configure Extra Service.', 'theaterly'); ?></span>
+                        <h2><?php esc_html_e('Extra Service Configuration', 'wptheaterly'); ?></h2>
+                        <span><?php esc_html_e('Here you can configure Extra Service.', 'wptheaterly'); ?></span>
                     </header>
                     <section class="section">
-                        <h2><?php esc_html_e('Extra Service Settings', 'theaterly'); ?></h2>
-                        <span><?php esc_html_e('Extra Service Settings', 'theaterly'); ?></span>
+                        <h2><?php esc_html_e('Extra Service Settings', 'wptheaterly'); ?></h2>
+                        <span><?php esc_html_e('Extra Service Settings', 'wptheaterly'); ?></span>
                     </section>
                     <section>
                         <div class="label">
                             <div>
-                                <p><?php esc_html_e('Enable Extra Service', 'theaterly'); ?></p>
-                                <span><?php esc_html_e('Enable Extra Service.', 'theaterly'); ?></span>
+                                <p><?php esc_html_e('Enable Extra Service', 'wptheaterly'); ?></p>
+                                <span><?php esc_html_e('Enable Extra Service.', 'wptheaterly'); ?></span>
                             </div>
                             <div>
 								<?php WTBM_Layout::switch_button('mptrs_extra_service_active', $extra_service_checked); ?>
@@ -143,26 +143,26 @@
                         <table class="table extra-service-table mB">
                             <thead>
                             <tr>
-                                <th style="width:66px"><?php esc_html_e('Image', 'theaterly'); ?></th>
-                                <th style="width:150px"><?php esc_html_e('Service Title', 'theaterly'); ?></th>
-                                <th><?php esc_html_e('Description', 'theaterly'); ?></th>
-                                <th style="width:90px"><?php esc_html_e('Quantity', 'theaterly'); ?></th>
-                                <th style="width:90px"><?php esc_html_e('Price', 'theaterly'); ?></th>
-                                <th style="width:92px"><?php esc_html_e('Action', 'theaterly'); ?></th>
+                                <th style="width:66px"><?php esc_html_e('Image', 'wptheaterly'); ?></th>
+                                <th style="width:150px"><?php esc_html_e('Service Title', 'wptheaterly'); ?></th>
+                                <th><?php esc_html_e('Description', 'wptheaterly'); ?></th>
+                                <th style="width:90px"><?php esc_html_e('Quantity', 'wptheaterly'); ?></th>
+                                <th style="width:90px"><?php esc_html_e('Price', 'wptheaterly'); ?></th>
+                                <th style="width:92px"><?php esc_html_e('Action', 'wptheaterly'); ?></th>
                             </tr>
                             </thead>
                             <tbody>
 							<?php $this->show_extra_service($post_id); ?>
                             </tbody>
                         </table>
-                        <button class="button mptrs-extra-service-new" data-modal="mptrs-extra-service-new" type="button"><?php esc_html_e('Add Extra Service', 'theaterly'); ?></button>
+                        <button class="button mptrs-extra-service-new" data-modal="mptrs-extra-service-new" type="button"><?php esc_html_e('Add Extra Service', 'wptheaterly'); ?></button>
                     </section>
                     <!-- sidebar collapse open -->
                     <div class="mptrs-modal-container" data-modal-target="mptrs-extra-service-new">
                         <div class="mptrs-modal-content">
                             <span class="mptrs-modal-close"><i class="fas fa-times"></i></span>
                             <div class="title">
-                                <h3><?php esc_html_e('Add Extra Service', 'theaterly'); ?></h3>
+                                <h3><?php esc_html_e('Add Extra Service', 'wptheaterly'); ?></h3>
                                 <div id="mptrs-service-msg"></div>
                             </div>
                             <div class="content">
@@ -170,23 +170,23 @@
                                 <input type="hidden" name="mptrs_ext_post_id" value="<?php echo esc_attr($post_id); ?>">
                                 <input type="hidden" name="mptrs_ext_service_item_id" value="">
                                 <label>
-									<?php esc_html_e('Service Name', 'theaterly'); ?>
+									<?php esc_html_e('Service Name', 'wptheaterly'); ?>
                                     <input type="text" name="mptrs_ext_service_name">
                                 </label>
                                 <label>
-									<?php esc_html_e('Price', 'theaterly'); ?>
+									<?php esc_html_e('Price', 'wptheaterly'); ?>
                                     <input type="number" name="mptrs_ext_service_price">
                                 </label>
                                 <label>
-									<?php esc_html_e('Quantity', 'theaterly'); ?>
+									<?php esc_html_e('Quantity', 'wptheaterly'); ?>
                                     <input type="number" name="mptrs_ext_service_qty">
                                 </label>
                                 <label>
-									<?php esc_html_e('Description', 'theaterly'); ?>
+									<?php esc_html_e('Description', 'wptheaterly'); ?>
                                     <textarea name="mptrs_ext_service_description" rows="5"></textarea>
                                 </label>
                                 <label>
-									<?php esc_html_e('Image/Icon', 'theaterly'); ?>
+									<?php esc_html_e('Image/Icon', 'wptheaterly'); ?>
                                 </label>
                                 <div class="add_icon_image_area">
                                     <input type="hidden" name="mptrs_ext_service_image_icon" value="">
@@ -209,13 +209,13 @@
                                 </div>
                                 <div class="mptrs_ex_service_save_button">
                                     <p>
-                                        <button id="mptrs_ex_service_save" class="button button-primary button-large"><?php esc_html_e('Save', 'theaterly'); ?></button>
+                                        <button id="mptrs_ex_service_save" class="button button-primary button-large"><?php esc_html_e('Save', 'wptheaterly'); ?></button>
                                         <button id="mptrs_ex_service_save_close" class="button button-primary button-large">save close</button>
                                     <p>
                                 </div>
                                 <div class="mptrs_ex_service_update_button" style="display: none;">
                                     <p>
-                                        <button id="mptrs_ex_service_update" class="button button-primary button-large"><?php esc_html_e('Update and Close', 'theaterly'); ?></button>
+                                        <button id="mptrs_ex_service_update" class="button button-primary button-large"><?php esc_html_e('Update and Close', 'wptheaterly'); ?></button>
                                     <p>
                                 </div>
                             </div>
@@ -266,7 +266,7 @@
 				$result = update_post_meta($post_id, 'mptrs_extra_service', $extra_services);
 				if ($result) {
 					ob_start();
-					$resultMessage = esc_html__('Data Deleted Successfully', 'theaterly');
+					$resultMessage = esc_html__('Data Deleted Successfully', 'wptheaterly');
 					$this->show_extra_service($post_id);
 					$html_output = ob_get_clean();
 					wp_send_json_success([

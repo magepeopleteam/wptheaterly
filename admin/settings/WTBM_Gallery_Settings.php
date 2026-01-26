@@ -19,7 +19,7 @@
 				?>
 				<div class="tabsItem" data-tabs="#mptrs_settings_gallery">
 					<h5 class="dFlex">
-						<span class="mR"><?php esc_html_e('On/Off Slider', 'theaterly'); ?></span>
+						<span class="mR"><?php esc_html_e('On/Off Slider', 'wptheaterly'); ?></span>
 						<?php WTBM_Layout::switch_button('mptrs_display_slider', $checked); ?>
 					</h5>
 					<?php WTBM_Settings::info_text('mptrs_display_slider'); ?>
@@ -28,7 +28,7 @@
 						<table>
 							<tbody>
 							<tr>
-								<th><?php esc_html_e('Gallery Images ', 'theaterly'); ?></th>
+								<th><?php esc_html_e('Gallery Images ', 'wptheaterly'); ?></th>
 								<td colspan="3"><?php do_action('mptrs_add_multi_image', 'mptrs_slider_images', $image_ids); ?></td>
 							</tr>
 							<tr>

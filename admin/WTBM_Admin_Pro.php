@@ -17,10 +17,6 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
         }
 
         private function load_file(): void {
-
-
-    //        require_once MPCRBM_PLUGIN_DIR_PRO . '/admin/MPCRBM_Settings_Global_Pro.php';
-    //        require_once MPCRBM_PLUGIN_DIR_PRO . '/admin/MPCRBM_Order_List.php';
             require_once WTBM_PLUGIN_DIR . '/admin/pro/WTBM_Pro_Pdf.php';
             require_once WTBM_PLUGIN_DIR . '/admin/pro/WTBM_Layout_Pro.php';
             require_once WTBM_PLUGIN_DIR . '/admin/pro/WTBM_Settings_Global_Pro.php';
@@ -32,7 +28,6 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
                 activate_plugin( 'magepeople-pdf-support-master/mage-pdf.php' );
             }
 
-            error_log( print_r( [ '$_REQUEST' => $_REQUEST ], true ) );
             if ( isset( $_REQUEST['install_mep_pdf_support_plugin'] ) && $_REQUEST['install_mep_pdf_support_plugin'] == 'yes' ) {
                 include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
                 include_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -88,9 +83,9 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
             if ( is_plugin_active( 'magepeople-pdf-support-master/mage-pdf.php' ) ) {
                 echo '<span class="textSuccess"> <span class="far fa-check-circle mR_xs"></span>Yes</span>';
             } elseif ( is_dir( $plugin_dir ) ) {
-                echo '<span class="textWarning"> <span class="fas fa-exclamation-triangle mR_xs"></span>Installed But Not Active ' . $active_mpdf_plugin_url . '</span>';
+                echo '<span class="textWarning"> <span class="fas fa-exclamation-triangle mR_xs"></span>Installed But Not Active ' .  esc_attr( $active_mpdf_plugin_url ) . '</span>';
             } else {
-                echo '<span class="textWarning"> <span class="fas fa-exclamation-triangle mR_xs"></span>Not Installed  ' . $install_mpdf_plugin_url . '</span>';
+                echo '<span class="textWarning"> <span class="fas fa-exclamation-triangle mR_xs"></span>Not Installed  ' .  esc_attr( $install_mpdf_plugin_url ) . '</span>';
             }
         }
         public function pdf_admin_notice() {
@@ -108,7 +103,7 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
             }
             if ( ! empty( $message ) ) {
                 $class = 'notice notice-error';
-                printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), $message );
+                printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
             }
         }
 

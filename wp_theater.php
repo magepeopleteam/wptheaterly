@@ -3,9 +3,12 @@
 	 * Plugin Name: WordPress WpTheaterly
 	 * Plugin URI: http://mage-people.com
 	 * Description: A complete solution for Any kind of theater booking.
+     * Requires at least: 5.6
+     * Requires PHP: 7.2
 	 * Version: 1.0.0
 	 * Author: MagePeople Team
 	 * Author URI: http://www.mage-people.com/
+     * License: GPL v2 or later
 	 * Text Domain: wptheaterly
 	 * Domain Path: /languages/
 	 */
@@ -57,7 +60,7 @@
 			}
 			public function woocommerce_not_active() {
 				$wc_install_url = get_admin_url() . 'plugin-install.php?s=woocommerce&tab=search&type=term';
-				$text = esc_html__('You Must Install WooCommerce Plugin before activating Tablely Manager, Because It is dependent on Woocommerce Plugin.', 'theaterly') . '<a class="btn button" href="' . esc_html($wc_install_url) . '">' . esc_html__('Click Here to Install', 'theaterly') . '</a>';
+				$text = esc_html__('You Must Install WooCommerce Plugin before activating Tablely Manager, Because It is dependent on Woocommerce Plugin.', 'wptheaterly') . '<a class="btn button" href="' . esc_html($wc_install_url) . '">' . esc_html__('Click Here to Install', 'wptheaterly') . '</a>';
 				printf('<div class="error" style="background:red; color:#fff;"><p>%s</p></div>', wp_kses_post($text));
 			}
 			public function define_constants() {

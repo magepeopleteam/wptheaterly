@@ -57,7 +57,7 @@
 									?>
 									<div class="abTopLeft">
 										<button type="button" class="_dButton_bgWhite_textDefault" data-target-popup="mptrs_slider" data-slide-index="1">
-											<?php echo esc_html__( 'View All', 'theaterly' ) . ' ' . esc_html(sizeof( $image_ids )) . ' ' . esc_html__( 'Images', 'theaterly' ); ?>
+											<?php echo esc_html__( 'View All', 'wptheaterly' ) . ' ' . esc_html(sizeof( $image_ids )) . ' ' . esc_html__( 'Images', 'wptheaterly' ); ?>
 										</button>
 									</div>
 									<?php

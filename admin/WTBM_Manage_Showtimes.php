@@ -406,10 +406,10 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                             <div class="flex gap-2">
                                 <button class="btn-icon edit editwtbm_edit_show_time"
                                         data-editShowtime="<?php echo esc_attr( $showtime['id'] ); ?>"
-                                        title="<?php esc_attr_e( 'Edit Showtime', 'wtbm' ); ?>"><i class="mi mi-pencil"></i></button>
+                                        title="<?php esc_attr_e( 'Edit Showtime', 'wptheaterly' ); ?>"><i class="mi mi-pencil"></i></button>
                                 <button class="btn-icon delete wtbm_delete_show_time"
                                         data-delete-showtime-id="<?php echo esc_attr( $showtime['id'] ); ?>"
-                                        title="<?php esc_attr_e( 'Delete Showtime', 'wtbm' ); ?>"><i class="mi mi-trash"></i></button>
+                                        title="<?php esc_attr_e( 'Delete Showtime', 'wptheaterly' ); ?>"><i class="mi mi-trash"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -419,7 +419,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 ?>
                 <tr>
                     <td colspan="6" class="text-center text-gray-500">
-                        <?php esc_html_e( 'No showtimes found.', 'wtbm' ); ?>
+                        <?php esc_html_e( 'No showtimes found.', 'wptheaterly' ); ?>
                     </td>
                 </tr>
                 <?php

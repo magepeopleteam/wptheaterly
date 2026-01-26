@@ -22,45 +22,45 @@ if ($attendee_id == 0 && isset($order_id)) {
     <?php if (isset($use_wc_data) && $use_wc_data && $wc_order): ?>
         <!-- WooCommerce Order Data Display -->
         <div class="mp_pdf_body">
-            <h4><?php esc_html_e('Booking Information', 'car-rental-manager-pro'); ?></h4>
+            <h4><?php esc_html_e('Booking Information', 'wptheaterly'); ?></h4>
             <div class="divider"></div>
             <ul class="mp_list">
                 <li>
-                    <strong class="min_150"><?php esc_html_e('Order ID:', 'car-rental-manager-pro'); ?></strong>&nbsp;#<?php echo esc_html($wc_order->get_id()); ?>
+                    <strong class="min_150"><?php esc_html_e('Order ID:', 'wptheaterly'); ?></strong>&nbsp;#<?php echo esc_html($wc_order->get_id()); ?>
                 </li>
                 <li>
-                    <strong class="min_150"><?php esc_html_e('Order Date:', 'car-rental-manager-pro'); ?></strong> <?php echo esc_html($wc_order->get_date_created()->date('Y-m-d H:i:s')); ?>
+                    <strong class="min_150"><?php esc_html_e('Order Date:', 'wptheaterly'); ?></strong> <?php echo esc_html($wc_order->get_date_created()->date('Y-m-d H:i:s')); ?>
                 </li>
                 <li>
-                    <strong class="min_150"><?php esc_html_e('Order Status:', 'car-rental-manager-pro'); ?></strong> <?php echo esc_html($wc_order->get_status()); ?>
+                    <strong class="min_150"><?php esc_html_e('Order Status:', 'wptheaterly'); ?></strong> <?php echo esc_html($wc_order->get_status()); ?>
                 </li>
                 <li>
-                    <strong class="min_150"><?php esc_html_e('Payment Method:', 'car-rental-manager-pro'); ?></strong> <?php echo esc_html($wc_order->get_payment_method_title()); ?>
+                    <strong class="min_150"><?php esc_html_e('Payment Method:', 'wptheaterly'); ?></strong> <?php echo esc_html($wc_order->get_payment_method_title()); ?>
                 </li>
             </ul>
         </div>
 
         <div class="mp_pdf_body">
-            <h5><?php esc_html_e('Billing Information', 'car-rental-manager-pro'); ?></h5>
+            <h5><?php esc_html_e('Billing Information', 'wptheaterly'); ?></h5>
             <div class="divider"></div>
             <ul class="mp_list">
                 <li>
-                    <strong class="min_100"><?php esc_html_e('Name', 'car-rental-manager-pro'); ?>:</strong> <?php echo esc_html($wc_order->get_billing_first_name() . ' ' . $wc_order->get_billing_last_name()); ?>
+                    <strong class="min_100"><?php esc_html_e('Name', 'wptheaterly'); ?>:</strong> <?php echo esc_html($wc_order->get_billing_first_name() . ' ' . $wc_order->get_billing_last_name()); ?>
                 </li>
                 <li>
-                    <strong class="min_100"><?php esc_html_e('E-mail', 'car-rental-manager-pro'); ?>:</strong> <?php echo esc_html($wc_order->get_billing_email()); ?>
+                    <strong class="min_100"><?php esc_html_e('E-mail', 'wptheaterly'); ?>:</strong> <?php echo esc_html($wc_order->get_billing_email()); ?>
                 </li>
                 <li>
-                    <strong class="min_100"><?php esc_html_e('Phone', 'car-rental-manager-pro'); ?>:</strong> <?php echo esc_html($wc_order->get_billing_phone()); ?>
+                    <strong class="min_100"><?php esc_html_e('Phone', 'wptheaterly'); ?>:</strong> <?php echo esc_html($wc_order->get_billing_phone()); ?>
                 </li>
                 <li>
-                    <strong class="min_100"><?php esc_html_e('Address', 'car-rental-manager-pro'); ?>:</strong> <?php echo wp_kses_post($wc_order->get_formatted_billing_address()); ?>
+                    <strong class="min_100"><?php esc_html_e('Address', 'wptheaterly'); ?>:</strong> <?php echo wp_kses_post($wc_order->get_formatted_billing_address()); ?>
                 </li>
             </ul>
         </div>
 
         <div class="mp_pdf_body">
-            <h5><?php esc_html_e('Order Items', 'car-rental-manager-pro'); ?></h5>
+            <h5><?php esc_html_e('Order Items', 'wptheaterly'); ?></h5>
             <div class="divider"></div>
             <ul class="mp_list">
                 <?php foreach ($wc_order->get_items() as $item): ?>
@@ -72,7 +72,7 @@ if ($attendee_id == 0 && isset($order_id)) {
             </ul>
             <div class="divider"></div>
             <h4>
-                <span style="float: left;"><?php esc_html_e('Total Bill:', 'car-rental-manager-pro'); ?></span>
+                <span style="float: left;"><?php esc_html_e('Total Bill:', 'wptheaterly'); ?></span>
                 <span style="text-align: right;float: right;"><?php echo wc_price($wc_order->get_total()); ?></span>
             </h4>
         </div>
@@ -90,7 +90,7 @@ if ($attendee_id == 0 && isset($order_id)) {
             <?php WTBM_Layout_Pro::order_info($attendee_id); ?>
             <div class="divider"></div>
             <h4>
-                <span style="float: left;"><?php esc_html_e('Total Bill:', 'car-rental-manager-pro'); ?></span>
+                <span style="float: left;"><?php esc_html_e('Total Bill:', 'wptheaterly'); ?></span>
                 <span style="text-align: right;float: right;"><?php echo wc_price(WTBM_Function::get_post_info($attendee_id, 'wtbm_tp')); ?></span>
             </h4>
         </div>
