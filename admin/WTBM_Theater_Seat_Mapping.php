@@ -122,8 +122,8 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                 }
             }
 
-            $parent_width = $columns * ( $childWidth + $gap ) - $gap;
-            $parent_height = $rows * ( $childHeight + $gap ) - $gap;
+            $parent_width = $columns * ( $childWidth + $gap ) + $gap;
+            $parent_height = $rows * ( $childHeight + $gap ) + $gap;
 
             echo '<div class="mptrs_parentDiv" id="mptrs_parentDiv" style="position: absolute; width: ' . esc_attr( $parent_width ) . 'px; height: ' . esc_attr( $parent_height ) . 'px;">';
 

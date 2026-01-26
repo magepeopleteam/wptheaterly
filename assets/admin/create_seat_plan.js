@@ -416,6 +416,43 @@ jQuery(document).ready(function ($) {
         });
         selectedSeatsDivs = selectedDraggableDivs = selectedDivs = [];
     });
+    $(document).on('click', '#mptrs_setSeatNumber_new', function (e) {
+        e.preventDefault();
+
+        let seat_prefix = $("#mptrs_seatNumberPrefix").val();
+        let count = parseInt($("#mptrs_seatNumberCount").val(), 10);
+
+        // collect existing seat numbers
+        let used = [];
+        $('.mptrs_mappingSeat').each(function () {
+            let sn = $(this).attr('data-seat-num');
+            if (sn) used.push(sn.trim().toUpperCase());
+        });
+
+        selectedSeatsDivs.forEach(function (div) {
+            if (div.hasClass('selected')) {
+
+                let seat_number;
+
+                // find unique seat number
+                do {
+                    seat_number = seat_prefix ? seat_prefix + '-' + count : '' + count;
+                    count++;
+                } while (used.includes(seat_number.toUpperCase()));
+
+                // set seat number
+                div.find('.mptrs_seatNumber').text(seat_number);
+                div.attr('data-seat-num', seat_number);
+                div.removeClass('selected');
+
+                used.push(seat_number.toUpperCase());
+            }
+        });
+
+        selectedSeatsDivs = selectedDraggableDivs = selectedDivs = [];
+    });
+
+
 
     $(document).on('click', '.wtbm_Categoryname', function (e) {
         e.preventDefault();

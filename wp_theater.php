@@ -3,9 +3,12 @@
 	 * Plugin Name: WordPress WpTheaterly
 	 * Plugin URI: http://mage-people.com
 	 * Description: A complete solution for Any kind of theater booking.
+     * Requires at least: 5.6
+     * Requires PHP: 7.2
 	 * Version: 1.0.0
 	 * Author: MagePeople Team
 	 * Author URI: http://www.mage-people.com/
+     * License: GPL v2 or later
 	 * Text Domain: wptheaterly
 	 * Domain Path: /languages/
 	 */

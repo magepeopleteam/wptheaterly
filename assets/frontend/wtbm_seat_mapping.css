@@ -188,7 +188,12 @@
 
 .wtbm-price-empty {
     border: 2px solid #e74c3c !important;
-    /*background-color: #fff5f5 !important;;*/
+}
+.wtbm-seat-nan {
+    outline: 2px dashed purple !important;
+}
+.wtbm-seat-duplicate {
+    outline: 2px dashed red;
 }
 
 .mptrs_dynamicShape {
