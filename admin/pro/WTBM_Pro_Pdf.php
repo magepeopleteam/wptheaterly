@@ -39,7 +39,7 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
                         <div class="wtbm">
                             <button type="button" class="_themeButton_mB" data-href="<?php echo esc_attr($download_url); ?>">
                                 <span class="fas fa-file-pdf mR_xs"></span>
-                                <?php esc_html_e('Ticket', 'car-rental-manager-pro'); ?>
+                                <?php esc_html_e('Ticket', 'wptheaterly'); ?>
                             </button>
                         </div>
                         <?php
@@ -69,7 +69,7 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
                         <div class="wtbm">
                             <button type="button" class="_themeButton_mB" data-href="<?php echo esc_attr($download_url); ?>">
                                 <span class="fas fa-file-pdf mR_xs"></span>
-                                <?php esc_html_e('Download Ticket', 'car-rental-manager-pro'); ?>
+                                <?php esc_html_e('Download Ticket', 'wptheaterly'); ?>
                             </button>
                         </div>
                         <?php
@@ -81,14 +81,14 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
         }
         public function wtbm_generate_pdf() {
             if (empty($_GET['action']) || !check_admin_referer($_GET['action'])) {
-                wp_die(__('You do not have sufficient permissions to access this page.', 'car-rental-manager-pro'));
+                wp_die(__('You do not have sufficient permissions to access this page.', 'wptheaterly'));
             }
             $order_id = isset($_GET['order_id']) ? sanitize_text_field($_GET['order_id']) : '';
             if (empty($order_id)) {
-                wp_die(__('Order ID is required.', 'car-rental-manager-pro'));
+                wp_die(__('Order ID is required.', 'wptheaterly'));
             }
             header("Content-Type: application/pdf; charset=UTF-8");
-            $file_name = esc_html__('Order_', 'car-rental-manager-pro') . $order_id . '.pdf';
+            $file_name = esc_html__('Order_', 'wptheaterly') . $order_id . '.pdf';
             $this->generate_pdf($order_id, $file_name);
             exit;
         }

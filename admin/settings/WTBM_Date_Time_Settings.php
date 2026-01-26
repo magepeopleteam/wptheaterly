@@ -34,29 +34,29 @@
 				?>
                 <div class="tabsItem mptrs_settings_date_time" data-tabs="#mptrs_settings_date_time">
                     <header>
-                        <h2><?php esc_html_e('Date & Time Settings', 'theaterly'); ?></h2>
+                        <h2><?php esc_html_e('Date & Time Settings', 'wptheaterly'); ?></h2>
                         <span><?php WTBM_Settings::info_text('date_time_desc'); ?></span>
                     </header>
                     <section class="section">
-                        <h2><?php esc_html_e('General date time settings', 'theaterly'); ?></h2>
+                        <h2><?php esc_html_e('General date time settings', 'wptheaterly'); ?></h2>
                         <span><?php WTBM_Settings::info_text('general_date_time_desc'); ?></span>
                     </section>
                     <section>
                         <label class="label">
                             <div>
-                                <p><?php esc_html_e('Date Type', 'theaterly'); ?> <span class="textRequired">&nbsp;*</span></p>
+                                <p><?php esc_html_e('Date Type', 'wptheaterly'); ?> <span class="textRequired">&nbsp;*</span></p>
                             </div>
                             <select class="" name="mptrs_date_type" data-mptrs-collapse required>
-                                <option disabled selected><?php esc_html_e('Please select ...', 'theaterly'); ?></option>
-                                <option value="particular" data-option-target="#mptrs_particular" <?php echo esc_attr($date_type == 'particular' ? 'selected' : ''); ?>><?php esc_html_e('Particular', 'theaterly'); ?></option>
-                                <option value="repeated" data-option-target="#mptrs_repeated" <?php echo esc_attr($date_type == 'repeated' ? 'selected' : ''); ?>><?php esc_html_e('Repeated', 'theaterly'); ?></option>
+                                <option disabled selected><?php esc_html_e('Please select ...', 'wptheaterly'); ?></option>
+                                <option value="particular" data-option-target="#mptrs_particular" <?php echo esc_attr($date_type == 'particular' ? 'selected' : ''); ?>><?php esc_html_e('Particular', 'wptheaterly'); ?></option>
+                                <option value="repeated" data-option-target="#mptrs_repeated" <?php echo esc_attr($date_type == 'repeated' ? 'selected' : ''); ?>><?php esc_html_e('Repeated', 'wptheaterly'); ?></option>
                             </select>
                         </label>
                     </section>
                     <section class="<?php echo esc_attr($date_type == 'particular' ? 'mActive' : ''); ?>" data-collapse="#mptrs_particular">
                         <label class="_dFlex_justifyBetween">
                             <div>
-                                <p><?php esc_html_e('Particular Dates', 'theaterly'); ?> <span class="textRequired">&nbsp;*</span></p>
+                                <p><?php esc_html_e('Particular Dates', 'wptheaterly'); ?> <span class="textRequired">&nbsp;*</span></p>
                             </div>
                             <div class="settings_area">
                                 <div class="item_insert sortable_area">
@@ -71,7 +71,7 @@
 										}
 									?>
                                 </div>
-								<?php WTBM_Layout::add_new_button(esc_html__('Add New Particular date', 'theaterly')); ?>
+								<?php WTBM_Layout::add_new_button(esc_html__('Add New Particular date', 'wptheaterly')); ?>
                                 <div class="hidden_content">
                                     <div class="hidden_item">
 										<?php self::particular_date_item('mptrs_particular_dates[]'); ?>
@@ -83,7 +83,7 @@
                     <section class="<?php echo esc_attr($date_type == 'repeated' ? 'mActive' : ''); ?>" data-collapse="#mptrs_repeated">
                         <label class="label">
                             <div>
-                                <p><?php esc_html_e('Repeated Start Date', 'theaterly'); ?> <span class="textRequired">&nbsp;*</span></p>
+                                <p><?php esc_html_e('Repeated Start Date', 'wptheaterly'); ?> <span class="textRequired">&nbsp;*</span></p>
                             </div>
                             <div>
                                 <input type="hidden" name="mptrs_repeated_start_date" value="<?php echo esc_attr($hidden_repeated_start_date); ?>" required/>
@@ -94,25 +94,25 @@
                     <section class="<?php echo esc_attr($date_type == 'repeated' ? 'mActive' : ''); ?>" data-collapse="#mptrs_repeated">
                         <label class="label">
                             <div>
-                                <p><?php esc_html_e('Repeated after', 'theaterly'); ?> <span class="textRequired">&nbsp;*</span></p>
+                                <p><?php esc_html_e('Repeated after', 'wptheaterly'); ?> <span class="textRequired">&nbsp;*</span></p>
                             </div>
                             <input type="text" name="mptrs_repeated_after" class="mp_number_validation" value="<?php echo esc_attr($repeated_after); ?>"/>
                         </label>
                     </section>
                     <!-- ================ -->
                     <section class="section">
-                        <h2><?php esc_html_e('Shedule settings', 'theaterly'); ?></h2>
+                        <h2><?php esc_html_e('Shedule settings', 'wptheaterly'); ?></h2>
                         <span><?php WTBM_Settings::info_text('general_date_time_desc'); ?></span>
                     </section>
                     <section>
                         <table>
                             <thead>
                             <tr>
-                                <th style="text-align: left;"><?php esc_html_e('Day', 'theaterly'); ?></th>
-                                <th><?php esc_html_e('Start Time', 'theaterly'); ?></th>
-                                <th><?php esc_html_e('To', 'theaterly'); ?></th>
-                                <th><?php esc_html_e('End Time', 'theaterly'); ?></th>
-                                <th colspan="3" class="bg-sky-light"><?php esc_html_e('Break Time', 'theaterly'); ?></th>
+                                <th style="text-align: left;"><?php esc_html_e('Day', 'wptheaterly'); ?></th>
+                                <th><?php esc_html_e('Start Time', 'wptheaterly'); ?></th>
+                                <th><?php esc_html_e('To', 'wptheaterly'); ?></th>
+                                <th><?php esc_html_e('End Time', 'wptheaterly'); ?></th>
+                                <th colspan="3" class="bg-sky-light"><?php esc_html_e('Break Time', 'wptheaterly'); ?></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -128,7 +128,7 @@
                     </section>
                     <!-- ================ -->
                     <section class="section">
-                        <h2><?php esc_html_e('Offdays and date settings', 'theaterly'); ?></h2>
+                        <h2><?php esc_html_e('Offdays and date settings', 'wptheaterly'); ?></h2>
                         <span><?php WTBM_Settings::info_text('general_date_time_desc'); ?></span>
                     </section>
                     <section>
@@ -152,7 +152,7 @@
                     <section>
                         <label class="_dFlex_justifyBetween">
                             <p>
-								<?php esc_html_e('Off date', 'theaterly'); ?>
+								<?php esc_html_e('Off date', 'wptheaterly'); ?>
                             </p>
                             <div class="settings_area">
                                 <div class="item_insert sortable_area">
@@ -167,7 +167,7 @@
 										}
 									?>
                                 </div>
-								<?php WTBM_Layout::add_new_button(esc_html__('Add New Off date', 'theaterly')); ?>
+								<?php WTBM_Layout::add_new_button(esc_html__('Add New Off date', 'wptheaterly')); ?>
                                 <div class="hidden_content">
                                     <div class="hidden_item">
 										<?php WTBM_Date_Time_Settings::particular_date_item('mptrs_off_dates[]'); ?>
@@ -220,7 +220,7 @@
                         </label>
                     </td>
                     <td class="textCenter">
-                        <strong><?php esc_html_e('To', 'theaterly'); ?></strong>
+                        <strong><?php esc_html_e('To', 'wptheaterly'); ?></strong>
                     </td>
                     <td class="mptrs_end_time">
 						<?php $this->end_time_slot($post_id, $day, $start_time); ?>
@@ -229,7 +229,7 @@
 						<?php $this->start_break_time_slot($post_id, $day, $start_time, $end_time) ?>
                     </td>
                     <td class="textCenter bg-sky-light">
-                        <strong><?php esc_html_e('To', 'theaterly'); ?></strong>
+                        <strong><?php esc_html_e('To', 'wptheaterly'); ?></strong>
                     </td>
                     <td class="bg-sky-light" class="mptrs_end_break_time">
 						<?php $this->end_break_time_slot($post_id, $day, $start_time_break, $end_time) ?>
@@ -258,7 +258,7 @@
 				?>
                 <label>
                     <select class="formControl" name="<?php echo esc_attr($start_name_break); ?>">
-                        <option value="" <?php echo esc_attr(!$start_time_break ? 'selected' : ''); ?>><?php esc_html_e('No Break', 'theaterly'); ?></option>
+                        <option value="" <?php echo esc_attr(!$start_time_break ? 'selected' : ''); ?>><?php esc_html_e('No Break', 'wptheaterly'); ?></option>
 						<?php $this->time_slot($start_time_break, $start_time, $end_time); ?>
                     </select>
                 </label>
@@ -271,7 +271,7 @@
                 <label>
                     <select class="formControl" name="<?php echo esc_attr($end_name_break); ?>">
 						<?php if ($start_time_break == '') { ?>
-                            <option value="" selected><?php esc_html_e('No Break', 'theaterly'); ?></option>
+                            <option value="" selected><?php esc_html_e('No Break', 'wptheaterly'); ?></option>
 						<?php } ?>
 						<?php $this->time_slot($end_time_break, $start_time_break, $end_time); ?>
                     </select>
@@ -293,9 +293,9 @@
 			}
 			public function default_text($day) {
 				if ($day == 'default') {
-					esc_html_e('Please select', 'theaterly');
+					esc_html_e('Please select', 'wptheaterly');
 				} else {
-					esc_html_e('Default', 'theaterly');
+					esc_html_e('Default', 'wptheaterly');
 				}
 			}
 			/*************************************/

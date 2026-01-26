@@ -36,18 +36,18 @@
 				?>
                 <div class="tabsItem" data-tabs="#mptrs_faq_settings">
                     <header>
-                        <h2><?php esc_html_e('FAQ Settings', 'theaterly'); ?></h2>
-                        <span><?php esc_html_e('FAQ Settings will be here.', 'theaterly'); ?></span>
+                        <h2><?php esc_html_e('FAQ Settings', 'wptheaterly'); ?></h2>
+                        <span><?php esc_html_e('FAQ Settings will be here.', 'wptheaterly'); ?></span>
                     </header>
                     <section class="section">
-                        <h2><?php esc_html_e('FAQ Settings', 'theaterly'); ?></h2>
-                        <span><?php esc_html_e('FAQ Settings', 'theaterly'); ?></span>
+                        <h2><?php esc_html_e('FAQ Settings', 'wptheaterly'); ?></h2>
+                        <span><?php esc_html_e('FAQ Settings', 'wptheaterly'); ?></span>
                     </section>
                     <section>
                         <div class="label">
                             <div>
-                                <p><?php esc_html_e('Enable FAQ Section', 'theaterly'); ?></p>
-                                <span><?php esc_html_e('Enable FAQ Section', 'theaterly'); ?></span>
+                                <p><?php esc_html_e('Enable FAQ Section', 'wptheaterly'); ?></p>
+                                <span><?php esc_html_e('Enable FAQ Section', 'wptheaterly'); ?></span>
                             </div>
                             <div>
 								<?php WTBM_Layout::switch_button('mptrs_faq_active', $mptrs_faq_active_checked); ?>
@@ -58,25 +58,25 @@
                         <div class="mptrs-faq-items mB">
 							<?php $this->show_faq_data($post_id); ?>
                         </div>
-                        <button class="button mptrs-faq-item-new" data-modal="mptrs-faq-item-new" type="button"><?php esc_html_e('Add FAQ', 'theaterly'); ?></button>
+                        <button class="button mptrs-faq-item-new" data-modal="mptrs-faq-item-new" type="button"><?php esc_html_e('Add FAQ', 'wptheaterly'); ?></button>
                     </section>
                     <!-- sidebar collapse open -->
                     <div class="mptrs-modal-container" data-modal-target="mptrs-faq-item-new">
                         <div class="mptrs-modal-content">
                             <span class="mptrs-modal-close"><i class="fas fa-times"></i></span>
                             <div class="title">
-                                <h3><?php esc_html_e('Add F.A.Q.', 'theaterly'); ?></h3>
+                                <h3><?php esc_html_e('Add F.A.Q.', 'wptheaterly'); ?></h3>
                                 <div id="mptrs-service-msg"></div>
                             </div>
                             <div class="content">
                                 <label>
-									<?php esc_html_e('Add Title', 'theaterly'); ?>
+									<?php esc_html_e('Add Title', 'wptheaterly'); ?>
                                     <input type="hidden" name="mptrs_post_id" value="<?php echo esc_attr($post_id); ?>">
                                     <input type="text" name="mptrs_faq_title">
                                     <input type="hidden" name="mptrs_faq_item_id">
                                 </label>
                                 <label>
-									<?php esc_html_e('Add Content', 'theaterly'); ?>
+									<?php esc_html_e('Add Content', 'wptheaterly'); ?>
                                 </label>
 								<?php
 									$content = '';
@@ -91,13 +91,13 @@
                                 <div class="mT"></div>
                                 <div class="mptrs_faq_save_buttons">
                                     <p>
-                                        <button id="mptrs_faq_save" class="button button-primary button-large"><?php esc_html_e('Save', 'theaterly'); ?></button>
+                                        <button id="mptrs_faq_save" class="button button-primary button-large"><?php esc_html_e('Save', 'wptheaterly'); ?></button>
                                         <button id="mptrs_faq_save_close" class="button button-primary button-large">save close</button>
                                     <p>
                                 </div>
                                 <div class="mptrs_faq_update_buttons" style="display: none;">
                                     <p>
-                                        <button id="mptrs_faq_update" class="button button-primary button-large"><?php esc_html_e('Update and Close', 'theaterly'); ?></button>
+                                        <button id="mptrs_faq_update" class="button button-primary button-large"><?php esc_html_e('Update and Close', 'wptheaterly'); ?></button>
                                     <p>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@
 				}
 				update_post_meta($post_id, 'mptrs_faq', $mptrs_faq);
 				ob_start();
-				$resultMessage = esc_html__('Data Updated Successfully', 'theaterly');
+				$resultMessage = esc_html__('Data Updated Successfully', 'wptheaterly');
 				$this->show_faq_data($post_id);
 				$html_output = ob_get_clean();
 				wp_send_json_success([
@@ -173,7 +173,7 @@
 				$result = update_post_meta($post_id, 'mptrs_faq', $mptrs_faq);
 				if ($result) {
 					ob_start();
-					$resultMessage = esc_html__('Data Added Successfully', 'theaterly');
+					$resultMessage = esc_html__('Data Added Successfully', 'wptheaterly');
 					$this->show_faq_data($post_id);
 					$html_output = ob_get_clean();
 					wp_send_json_success([
@@ -204,7 +204,7 @@
 				$result = update_post_meta($post_id, 'mptrs_faq', $mptrs_faq);
 				if ($result) {
 					ob_start();
-					$resultMessage = esc_html__('Data Deleted Successfully', 'theaterly');
+					$resultMessage = esc_html__('Data Deleted Successfully', 'wptheaterly');
 					$this->show_faq_data($post_id);
 					$html_output = ob_get_clean();
 					wp_send_json_success([

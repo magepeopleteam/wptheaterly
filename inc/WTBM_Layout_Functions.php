@@ -25,7 +25,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             $query = new WP_Query( $args );
 
             if ( ! $query->have_posts() ) {
-                echo '<tr><td colspan="6">' . esc_html__( 'No movies found.', 'theaterly' ) . '</td></tr>';
+                echo '<tr><td colspan="6">' . esc_html__( 'No movies found.', 'wptheaterly' ) . '</td></tr>';
                 return;
             }
 
@@ -140,7 +140,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             $query = new WP_Query( $args );
 
             if ( ! $query->have_posts() ) {
-                echo '<tr><td colspan="6">' . esc_html__( 'No movies found.', 'theaterly' ) . '</td></tr>';
+                echo '<tr><td colspan="6">' . esc_html__( 'No movies found.', 'wptheaterly' ) . '</td></tr>';
                 return;
             }
 
@@ -352,35 +352,35 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
                 <div class="grid grid-cols-2 mb-4">
                     <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'Movie Title', 'theaterly' ); ?></label>
+                        <label class="form-label"><?php esc_html_e( 'Movie Title', 'wptheaterly' ); ?></label>
                         <input type="text" id="movie-title" class="form-input"
-                               placeholder="<?php esc_attr_e( 'Movie Title', 'theaterly' ); ?>"
+                               placeholder="<?php esc_attr_e( 'Movie Title', 'wptheaterly' ); ?>"
                                value="<?php echo esc_attr( $data['title'] ); ?>">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'Genre', 'theaterly' ); ?></label>
+                        <label class="form-label"><?php esc_html_e( 'Genre', 'wptheaterly' ); ?></label>
                         <input type="text" id="movie-genre" class="form-input"
-                               placeholder="<?php esc_attr_e( 'Genre', 'theaterly' ); ?>"
+                               placeholder="<?php esc_attr_e( 'Genre', 'wptheaterly' ); ?>"
                                value="<?php echo esc_attr( $data['genre'] ); ?>">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'Duration', 'theaterly' ); ?></label>
+                        <label class="form-label"><?php esc_html_e( 'Duration', 'wptheaterly' ); ?></label>
                         <input type="text" id="movie-duration" class="form-input"
-                               placeholder="<?php esc_attr_e( '2h 30m', 'theaterly' ); ?>"
+                               placeholder="<?php esc_attr_e( '2h 30m', 'wptheaterly' ); ?>"
                                value="<?php echo esc_attr( $data['duration'] ); ?>">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'Rating', 'theaterly' ); ?></label>
+                        <label class="form-label"><?php esc_html_e( 'Rating', 'wptheaterly' ); ?></label>
                         <input type="number" id="movie-rating" class="form-input" step="0.1"
-                               placeholder="<?php esc_attr_e( '8.5', 'theaterly' ); ?>"
+                               placeholder="<?php esc_attr_e( '8.5', 'wptheaterly' ); ?>"
                                value="<?php echo esc_attr( $data['rating'] ); ?>">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'Release Date', 'theaterly' ); ?></label>
+                        <label class="form-label"><?php esc_html_e( 'Release Date', 'wptheaterly' ); ?></label>
                         <input type="date" id="movie-release-date" class="form-input"
                                value="<?php echo esc_attr( $data['releaseDate'] ); ?>">
                     </div>
@@ -394,11 +394,11 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <?php endif; ?>
                     </div>
                     <button type="button" class="button" id="wtbm_upload_movie_poster">
-                        <?php esc_html_e( 'Upload Poster', 'theaterly' ); ?>
+                        <?php esc_html_e( 'Upload Poster', 'wptheaterly' ); ?>
                     </button>
                     <button type="button" class="button" id="wtbm_remove_movie_poster"
                             style="<?php echo empty( $data['poster_id'] ) ? 'display:none;' : ''; ?>">
-                        <?php esc_html_e( 'Remove', 'theaterly' ); ?>
+                        <?php esc_html_e( 'Remove', 'wptheaterly' ); ?>
                     </button>
 
                 </div>
@@ -415,9 +415,9 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 </div>
 
                 <div class="form-group mb-4">
-                    <label class="form-label"><?php esc_html_e( 'Description', 'theaterly' ); ?></label>
+                    <label class="form-label"><?php esc_html_e( 'Description', 'wptheaterly' ); ?></label>
                     <textarea id="movie-description" class="form-input" rows="3"
-                              placeholder="<?php esc_attr_e( 'Movie description', 'theaterly' ); ?>"><?php
+                              placeholder="<?php esc_attr_e( 'Movie description', 'wptheaterly' ); ?>"><?php
                         echo esc_textarea( $data['description'] );
                         ?></textarea>
                 </div>
@@ -481,7 +481,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                 <div class="font-medium text-gray-900"><?php echo $title; ?></div>
                                 <?php if ( $releaseDate ) : ?>
                                     <div class="text-sm text-gray-500">
-                                        <?php echo sprintf( __( 'Released: %s', 'theaterly' ), $releaseDate ); ?>
+                                        <?php echo sprintf( __( 'Released: %s', 'wptheaterly' ), $releaseDate ); ?>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -498,9 +498,9 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <td>
                         <div class="flex gap-2">
                             <button class="btn-icon edit wtbm_edit_movie" data-edit-movie-id="<?php echo esc_attr( $id );?>" id="wrbm_edit_<?php echo esc_attr( $id );?>"
-                                    title="<?php esc_attr_e( 'Edit Movie', 'theaterly' ); ?>"><i class="mi mi-pencil"></i></button>
+                                    title="<?php esc_attr_e( 'Edit Movie', 'wptheaterly' ); ?>"><i class="mi mi-pencil"></i></button>
                             <button class="btn-icon delete wtbm_delete_movie" id="wrbm_delete_<?php echo esc_attr( $id );?>"
-                                    title="<?php esc_attr_e( 'Delete Movie', 'theaterly' ); ?>" data-delete-movie-id="<?php echo esc_attr( $id );?>"><i class="mi mi-trash"></i></button>
+                                    title="<?php esc_attr_e( 'Delete Movie', 'wptheaterly' ); ?>" data-delete-movie-id="<?php echo esc_attr( $id );?>"><i class="mi mi-trash"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -612,7 +612,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
             <div class="wtbm_add_edit_theater_container" id="wtbm_add_edit_theater_container">
                 <h4 class="mb-4 font-semibold">
-                    <?php echo $theater ? esc_html__( 'Edit Theater', 'theaterly' ) : esc_html__( 'Add New Theater', 'theaterly' ); ?>
+                    <?php echo $theater ? esc_html__( 'Edit Theater', 'wptheaterly' ) : esc_html__( 'Add New Theater', 'wptheaterly' ); ?>
                 </h4>
                 <input type="hidden" name="wtbp_theater_id" value="<?php echo esc_attr( $theater_id ); ?>">
 
@@ -620,14 +620,14 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
                 <div class="grid grid-cols-2 mb-4">
                     <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'Theater Name', 'theaterly' ); ?></label>
+                        <label class="form-label"><?php esc_html_e( 'Theater Name', 'wptheaterly' ); ?></label>
                         <input type="text" id="theater-name" class="form-input"
                                value="<?php echo $theater_name; ?>"
-                               placeholder="<?php esc_attr_e( 'Screen 1', 'theaterly' ); ?>">
+                               placeholder="<?php esc_attr_e( 'Screen 1', 'wptheaterly' ); ?>">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'Theater Type', 'theaterly' ); ?></label>
+                        <label class="form-label"><?php esc_html_e( 'Theater Type', 'wptheaterly' ); ?></label>
                         <select id="theater-type" class="form-input">
                             <?php
                             $types = [ 'Standard', 'Premium', 'IMAX', 'VIP' ];
@@ -642,21 +642,21 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'Rows', 'theaterly' ); ?></label>
+                        <label class="form-label"><?php esc_html_e( 'Rows', 'wptheaterly' ); ?></label>
                         <input type="number" id="theater-rows" class="form-input"
                                value="<?php echo $theater_rows; ?>"
-                               placeholder="<?php esc_attr_e( '8', 'theaterly' ); ?>">
+                               placeholder="<?php esc_attr_e( '8', 'wptheaterly' ); ?>">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'Seats per Row', 'theaterly' ); ?></label>
+                        <label class="form-label"><?php esc_html_e( 'Seats per Row', 'wptheaterly' ); ?></label>
                         <input type="number" id="theater-seats-per-row" class="form-input"
                                value="<?php echo $theater_seats; ?>"
-                               placeholder="<?php esc_attr_e( '12', 'theaterly' ); ?>">
+                               placeholder="<?php esc_attr_e( '12', 'wptheaterly' ); ?>">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'Sound System', 'theaterly' ); ?></label>
+                        <label class="form-label"><?php esc_html_e( 'Sound System', 'wptheaterly' ); ?></label>
                         <select id="theater-sound" class="form-input">
                             <?php
                             $sounds = [ 'Dolby Digital', 'Dolby Atmos', 'IMAX Enhanced' ];
@@ -669,7 +669,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label"><?php esc_html_e( 'Status', 'theaterly' ); ?></label>
+                        <label class="form-label"><?php esc_html_e( 'Status', 'wptheaterly' ); ?></label>
                         <select id="theater-status" class="form-input">
                             <?php
                             $statuses = [ 'active', 'maintenance', 'inactive' ];
@@ -697,9 +697,9 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 </div>
 
                 <div class="form-group mb-4">
-                    <label class="form-label"><?php esc_html_e( 'Description', 'theaterly' ); ?></label>
+                    <label class="form-label"><?php esc_html_e( 'Description', 'wptheaterly' ); ?></label>
                     <textarea id="theater-description" class="form-input" rows="3"
-                              placeholder="<?php esc_attr_e( 'Theater description', 'theaterly' ); ?>"><?php echo $theater_description; ?></textarea>
+                              placeholder="<?php esc_attr_e( 'Theater description', 'wptheaterly' ); ?>"><?php echo $theater_description; ?></textarea>
                 </div>
                 <?php if( $action === 'edit' ) { ?>
                 <div class="tabsItem" data-tabs="#mptrs_seat_mapping">
@@ -718,14 +718,14 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 <div class="flex gap-2">
                 <?php if( $action === 'add' ){?>
                 <button type="button" class="btn btn-success" id="wtbp_add_new_theater">
-                    <?php echo $theater ? esc_html__( 'Update Theater', 'theaterly' ) : esc_html__( 'Save Theater & Load Seat Map', 'theaterly' ); ?>
+                    <?php echo $theater ? esc_html__( 'Update Theater', 'wptheaterly' ) : esc_html__( 'Save Theater & Load Seat Map', 'wptheaterly' ); ?>
                 </button>
                 <?php } else{?>
                     <button type="button" class="btn btn-success" id="wtbm_update_theater" date-theater-id="<?php echo esc_attr( $theater_id );?>">
-                        <?php echo $theater ? esc_html__( 'Update Theater', 'theaterly' ) : esc_html__( 'Add Theater', 'theaterly' ); ?>
+                        <?php echo $theater ? esc_html__( 'Update Theater', 'wptheaterly' ) : esc_html__( 'Add Theater', 'wptheaterly' ); ?>
                     </button>
                 <?php }?>
-                <button type="button" class="btn btn-secondary" id="wtbm_clear_theater_from"><?php esc_html_e( 'Cancel', 'theaterly' ); ?></button>
+                <button type="button" class="btn btn-secondary" id="wtbm_clear_theater_from"><?php esc_html_e( 'Cancel', 'wptheaterly' ); ?></button>
             </div>
             </div>
 
@@ -785,13 +785,13 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             <button
                                     class="btn-icon edit wtbm_edit_theater"
                                     data-theater-id="<?php echo esc_attr( $id ); ?>"
-                                    title="<?php esc_attr_e( 'Edit Theater', 'text-domain' ); ?>">
+                                    title="<?php esc_attr_e( 'Edit Theater', 'wptheaterly' ); ?>">
                                 <i class="mi mi-pencil"></i>
                             </button>
                             <button
                                     class="btn-icon delete wtbm_delete_theater"
                                     data-delete-theater-id="<?php echo esc_attr( $id ); ?>"
-                                    title="<?php esc_attr_e( 'Delete Theater', 'text-domain' ); ?>">
+                                    title="<?php esc_attr_e( 'Delete Theater', 'wptheaterly' ); ?>">
                                 <i class="mi mi-trash"></i>
                             </button>
                         </div>

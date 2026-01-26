@@ -126,7 +126,7 @@
 			}
 			public function post_duplicator($actions, $post) {
 				if (current_user_can('edit_posts')) {
-					$actions['duplicate'] = '<a href="' . wp_nonce_url('admin.php?action=mptrs_item_duplicate&post=' . $post->ID, basename(__FILE__), 'duplicate_nonce') . '" title="' . esc_html__('Duplicate Post', 'theaterly') . '" rel="permalink">' . esc_html__('Duplicate', 'theaterly') . '</a>';
+					$actions['duplicate'] = '<a href="' . wp_nonce_url('admin.php?action=mptrs_item_duplicate&post=' . $post->ID, basename(__FILE__), 'duplicate_nonce') . '" title="' . esc_html__('Duplicate Post', 'wptheaterly') . '" rel="permalink">' . esc_html__('Duplicate', 'wptheaterly') . '</a>';
 				}
 				return $actions;
 			}

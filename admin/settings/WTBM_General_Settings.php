@@ -14,7 +14,7 @@
 			public function general_settings($post_id) {
 				?>
                 <div class="tabsItem" data-tabs="#mptrs_general_info">
-                    <h2><?php esc_html_e('General Information Settings', 'theaterly'); ?></h2>
+                    <h2><?php esc_html_e('General Information Settings', 'wptheaterly'); ?></h2>
                 </div>
 				<?php
 			}

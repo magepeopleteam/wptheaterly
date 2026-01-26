@@ -19,7 +19,7 @@ if (!class_exists('WTBM_Layout_Pro')) {
                 <h5>
                     <?php
                     $transportaion_label = WTBM_Function::get_name();
-                    $translated_string = __("%s Information", 'theaterly');
+                    $translated_string = __("%s Information", 'wptheaterly');
                     $formatted_string = sprintf($translated_string, $transportaion_label);
                     echo esc_html($formatted_string);
                     ?>
@@ -78,24 +78,24 @@ if (!class_exists('WTBM_Layout_Pro')) {
                 $seat_names = '';
 
                 ?>
-                <h4><?php esc_html_e('Booking Information', 'theaterly'); ?> </h4>
+                <h4><?php esc_html_e('Booking Information', 'wptheaterly'); ?> </h4>
                 <div class="divider"></div>
                 <ul class="mp_list">
                     <li>
-                        <strong class="min_150"><?php esc_html_e('Order ID:', 'theaterly'); ?> :</strong>&nbsp;#<?php echo esc_html($order_id); ?>
+                        <strong class="min_150"><?php esc_html_e('Order ID:', 'wptheaterly'); ?> :</strong>&nbsp;#<?php echo esc_html($order_id); ?>
                     </li>
                     <li>
-                        <strong class="min_150"><?php esc_html_e('Service No', 'theaterly'); ?> :</strong> <?php echo esc_html($pin); ?>
+                        <strong class="min_150"><?php esc_html_e('Service No', 'wptheaterly'); ?> :</strong> <?php echo esc_html($pin); ?>
                     </li>
 
                     <li>
-                        <strong class="min_150"><?php esc_html_e('Theater Name', 'theaterly'); ?> :</strong> <?php echo esc_html($theater_name); ?>
+                        <strong class="min_150"><?php esc_html_e('Theater Name', 'wptheaterly'); ?> :</strong> <?php echo esc_html($theater_name); ?>
                     </li>
                     <li>
-                        <strong class="min_150"><?php esc_html_e('Number Of Seats', 'theaterly'); ?> :</strong> <?php echo esc_html($number_of_seats); ?>
+                        <strong class="min_150"><?php esc_html_e('Number Of Seats', 'wptheaterly'); ?> :</strong> <?php echo esc_html($number_of_seats); ?>
                     </li>
                     <li>
-                        <strong class="min_150"><?php esc_html_e('Seat Number', 'theaterly'); ?> :</strong>
+                        <strong class="min_150"><?php esc_html_e('Seat Number', 'wptheaterly'); ?> :</strong>
                         <?php
                         if( !empty( $seat_numbers ) && is_array( $seat_numbers ) ){
                             $seat_names = implode(", ", $seat_numbers );
@@ -105,16 +105,16 @@ if (!class_exists('WTBM_Layout_Pro')) {
                     </li>
 
                     <li>
-                        <strong class="min_150"><?php esc_html_e('Booking Date', 'theaterly'); ?> :</strong>
+                        <strong class="min_150"><?php esc_html_e('Booking Date', 'wptheaterly'); ?> :</strong>
                         <?php echo esc_html(WTBM_Function::date_format($order_date, 'full')); ?>
                     </li>
                     <li>
-                        <strong class="min_150"><?php esc_html_e('Booking Time', 'theaterly'); ?> :</strong>
+                        <strong class="min_150"><?php esc_html_e('Booking Time', 'wptheaterly'); ?> :</strong>
                         <?php echo esc_html( $order_time); ?>
                     </li>
 
                     <li>
-                        <strong class="min_150"><?php esc_html_e('Payment Method ', 'theaterly'); ?> :</strong><?php echo $payment_method; ?>
+                        <strong class="min_150"><?php esc_html_e('Payment Method ', 'wptheaterly'); ?> :</strong><?php echo $payment_method; ?>
                     </li>
 
                     <?php do_action('wtbm_after_order_info', $attendee_id); ?>
@@ -127,7 +127,7 @@ if (!class_exists('WTBM_Layout_Pro')) {
             $ex_service_infos = $ex_service ? WTBM_Function::data_sanitize($ex_service) : [];
             if (sizeof($ex_service_infos) > 0) {
                 ?>
-                <h5><?php esc_html_e('Extra Service', 'theaterly'); ?></h5>
+                <h5><?php esc_html_e('Extra Service', 'wptheaterly'); ?></h5>
                 <div class="divider"></div>
                 <ul class="mp_list">
                     <?php
@@ -155,27 +155,27 @@ if (!class_exists('WTBM_Layout_Pro')) {
             $address = WTBM_Function::get_post_info($attendee_id, 'wtbm_billing_address');
             $all_meta = get_post_meta($attendee_id);
             ?>
-            <h5><?php esc_html_e('Billing information', 'theaterly'); ?></h5>
+            <h5><?php esc_html_e('Billing information', 'wptheaterly'); ?></h5>
             <div class="divider"></div>
             <ul class="mp_list">
                 <?php if ($billing_name) { ?>
                     <li>
-                        <strong class="min_100"><?php esc_html_e('Name', 'theaterly'); ?> : &nbsp;</strong><?php echo esc_html($billing_name); ?>
+                        <strong class="min_100"><?php esc_html_e('Name', 'wptheaterly'); ?> : &nbsp;</strong><?php echo esc_html($billing_name); ?>
                     </li>
                 <?php } ?>
                 <?php if ($email) { ?>
                     <li>
-                        <strong class="min_100"><?php esc_html_e('E-mail', 'theaterly'); ?> : &nbsp;</strong><?php echo esc_html($email); ?>
+                        <strong class="min_100"><?php esc_html_e('E-mail', 'wptheaterly'); ?> : &nbsp;</strong><?php echo esc_html($email); ?>
                     </li>
                 <?php } ?>
                 <?php if ($phone) { ?>
                     <li>
-                        <strong class="min_100"><?php esc_html_e('Phone', 'theaterly'); ?> : &nbsp;</strong><?php echo esc_html($phone); ?>
+                        <strong class="min_100"><?php esc_html_e('Phone', 'wptheaterly'); ?> : &nbsp;</strong><?php echo esc_html($phone); ?>
                     </li>
                 <?php } ?>
                 <?php if ($address) { ?>
                     <li>
-                        <strong class="min_100"><?php esc_html_e('Address', 'theaterly'); ?> : &nbsp;</strong><?php echo esc_html($address); ?>
+                        <strong class="min_100"><?php esc_html_e('Address', 'wptheaterly'); ?> : &nbsp;</strong><?php echo esc_html($address); ?>
                     </li>
                 <?php } ?>
                 <?php

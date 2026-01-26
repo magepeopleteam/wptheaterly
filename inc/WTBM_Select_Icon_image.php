@@ -20,14 +20,14 @@
                 <div class="mp_add_icon_area">
                     <button type="button" class="mp_add_icon dButton_xs ">
                         <input type="hidden" name="<?php echo esc_html($name); ?>" placeholder="" value="<?php echo esc_html($value); ?>"/>
-                        <span class="<?php echo esc_html($value); ?>" data-empty-text="<?php esc_html_e('Add Icon', 'theaterly'); ?>">
+                        <span class="<?php echo esc_html($value); ?>" data-empty-text="<?php esc_html_e('Add Icon', 'wptheaterly'); ?>">
 			                    <?php
 				                    if (!$value) {
-					                    esc_html_e('Add Icon', 'theaterly');
+					                    esc_html_e('Add Icon', 'wptheaterly');
 				                    }
 			                    ?>
 			                </span>
-                        <span class="fas fa-times remove_input_icon <?php echo esc_html($value ? 'active' : ''); ?> " title="<?php esc_html_e('Remove Icon', 'theaterly'); ?>"></span>
+                        <span class="fas fa-times remove_input_icon <?php echo esc_html($value ? 'active' : ''); ?> " title="<?php esc_html_e('Remove Icon', 'wptheaterly'); ?>"></span>
                     </button>
                 </div>
 				<?php
@@ -40,9 +40,9 @@
                     <div class="add_icon_popup mptrs_popup mptrs_area" data-popup="#add_icon_popup">
                         <div class="popupMainArea fullWidth">
                             <div class="popupHeader allCenter">
-                                <h2 class="_mR"><?php esc_html_e('Select Icon', 'theaterly'); ?></h2>
+                                <h2 class="_mR"><?php esc_html_e('Select Icon', 'wptheaterly'); ?></h2>
                                 <label class="min_300">
-                                    <input type="text" class="formControl mp_name_validation" name="mp_select_icon_name" placeholder="<?php esc_attr_e('Icon/class name....', 'theaterly'); ?>"/>
+                                    <input type="text" class="formControl mp_name_validation" name="mp_select_icon_name" placeholder="<?php esc_attr_e('Icon/class name....', 'wptheaterly'); ?>"/>
                                 </label>
                                 <span class="fas fa-times popupClose"></span>
                             </div>
@@ -58,7 +58,7 @@
                                         <div class="dFlex">
                                             <ul class="popupIconMenu">
                                                 <li class="active" data-icon-menu="all_item" data-icon-title="all_item">
-													<?php esc_html_e('All Icon', 'theaterly'); ?>&nbsp;(
+													<?php esc_html_e('All Icon', 'wptheaterly'); ?>&nbsp;(
                                                     <strong><?php echo esc_html($total_icon); ?></strong>
                                                     )
                                                 </li>
@@ -103,7 +103,7 @@
                         </div>
 					<?php } ?>
                     <button type="button" class="_dButton_xs_bgColor_1_fullWidth <?php echo esc_attr($image_id ? 'dNone' : ''); ?>">
-                        <span class="fas fa-images mR_xs"></span><?php esc_html_e('Image', 'theaterly'); ?>
+                        <span class="fas fa-images mR_xs"></span><?php esc_html_e('Image', 'wptheaterly'); ?>
                     </button>
                 </div>
 				<?php
@@ -129,7 +129,7 @@
 						?>
                     </div>
                     <button type="button" class="_dButton_bgColor_1 add_multi_image">
-                        <span class="fas fa-images mR_xs"></span><?php esc_html_e('Image', 'theaterly'); ?>
+                        <span class="fas fa-images mR_xs"></span><?php esc_html_e('Image', 'wptheaterly'); ?>
                     </button>
                 </div>
 				<?php
@@ -147,18 +147,18 @@
                         <div class="allCenter">
                             <span class="<?php echo esc_attr($icon); ?>" data-add-icon></span>
                         </div>
-                        <span class="fas fa-times mp_remove_icon icon_remove" title="<?php esc_html_e('Remove Icon', 'theaterly'); ?>"></span>
+                        <span class="fas fa-times mp_remove_icon icon_remove" title="<?php esc_html_e('Remove Icon', 'wptheaterly'); ?>"></span>
                     </div>
                     <div class="image_item <?php echo esc_attr($image_class); ?>">
 	                    <?php echo wp_get_attachment_image($image, 'medium'); ?>
-                        <span class="fas fa-times mp_remove_icon image_remove" title="<?php esc_html_e('Remove Image', 'theaterly'); ?>"></span>
+                        <span class="fas fa-times mp_remove_icon image_remove" title="<?php esc_html_e('Remove Image', 'wptheaterly'); ?>"></span>
                     </div>
                     <div class="add_icon_image_button_area <?php echo esc_attr($button_active_class); ?>">
                         <div class="flexEqual d-flex flex-column">
                             <button class="_mpBtn_xs mp_image_add m-1" type="button">
-                                <span class="fas fa-images"></span><?php esc_html_e('Image', 'theaterly'); ?></button>
+                                <span class="fas fa-images"></span><?php esc_html_e('Image', 'wptheaterly'); ?></button>
                             <button class="_mpBtn_xs icon_add m-1" type="button" data-target-popup="#add_icon_popup">
-                                <span class="fas fa-plus"></span><?php esc_html_e('Icon', 'theaterly'); ?></button>
+                                <span class="fas fa-plus"></span><?php esc_html_e('Icon', 'wptheaterly'); ?></button>
                         </div>
                     </div>
                 </div>

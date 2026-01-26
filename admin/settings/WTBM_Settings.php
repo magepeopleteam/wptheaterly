@@ -16,7 +16,7 @@
 			public function settings_meta() {
 				$label = WTBM_Function::get_name();
 				$cpt = WTBM_Function::get_cpt();
-				add_meta_box('mptrs_meta_box', $label . esc_html__(' Information Settings : ', 'theaterly') . get_the_title(get_the_id()), array($this, 'settings'), $cpt, 'normal', 'high');
+				add_meta_box('mptrs_meta_box', $label . esc_html__(' Information Settings : ', 'wptheaterly') . get_the_title(get_the_id()), array($this, 'settings'), $cpt, 'normal', 'high');
 			}
 			//******************************//
 			public function settings() {
@@ -28,16 +28,16 @@
                         <div class="tabLists">
                             <ul class="_fullWidth">
                                 <li data-tabs-target="#mptrs_general_info">
-                                    <i class="fas fa-tools _mR_xs"></i><?php esc_html_e('General Info', 'theaterly'); ?>
+                                    <i class="fas fa-tools _mR_xs"></i><?php esc_html_e('General Info', 'wptheaterly'); ?>
                                 </li>
                                 <li data-tabs-target="#mptrs_settings_date_time">
-                                    <i class="fas fa-clock _mR_xs"></i><?php esc_html_e('Date & Time', 'theaterly'); ?>
+                                    <i class="fas fa-clock _mR_xs"></i><?php esc_html_e('Date & Time', 'wptheaterly'); ?>
                                 </li>
                                 <li data-tabs-target="#mptrs_extra_service_settings">
-                                    <i class="fas fa-funnel-dollar _mR_xs"></i><?php esc_html_e('Extra Service', 'theaterly'); ?>
+                                    <i class="fas fa-funnel-dollar _mR_xs"></i><?php esc_html_e('Extra Service', 'wptheaterly'); ?>
                                 </li>
                                 <li data-tabs-target="#mptrs_faq_settings">
-                                    <i class="fas fa-question-circle _mR_xs"></i><?php esc_html_e('FAQ', 'theaterly'); ?>
+                                    <i class="fas fa-question-circle _mR_xs"></i><?php esc_html_e('FAQ', 'wptheaterly'); ?>
                                 </li>
 								<?php do_action('add_mptrs_settings_tab_after_date', $post_id); ?>
                             </ul>
@@ -134,11 +134,11 @@
 			}
 			public static function description_array($key) {
 				$des = array(
-					'mpwpb_display_slider' => esc_html__('By default slider is ON but you can keep it off by switching this option', 'theaterly'),
-					'mpwpb_slider_images' => esc_html__('Please upload images for gallery', 'theaterly'),
-					'date_time_desc' => esc_html__('Date & time settings', 'theaterly'),
-					'general_date_time_desc' => esc_html__('Date & time settings', 'theaterly'),
-					//''          => esc_html__( '', 'theaterly' ),
+					'mpwpb_display_slider' => esc_html__('By default slider is ON but you can keep it off by switching this option', 'wptheaterly'),
+					'mpwpb_slider_images' => esc_html__('Please upload images for gallery', 'wptheaterly'),
+					'date_time_desc' => esc_html__('Date & time settings', 'wptheaterly'),
+					'general_date_time_desc' => esc_html__('Date & time settings', 'wptheaterly'),
+					//''          => esc_html__( '', 'wptheaterly' ),
 				);
 				$des = apply_filters('mpwpb_filter_description_array', $des);
 				return $des[$key];

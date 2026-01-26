@@ -17,7 +17,7 @@
 				?>
                 <label class="min_400 mptrs_id">
                     <select name="mptrs_id" class="formControl mp_select2" id="mptrs_id" required>
-                        <option value="0"><?php esc_html_e('Select', 'theaterly') . ' ' . esc_html($label); ?></option>
+                        <option value="0"><?php esc_html_e('Select', 'wptheaterly') . ' ' . esc_html($label); ?></option>
 						<?php
 							$loop = WTBM_Function::query_post_type(WTBM_Function::get_cpt());
 							$posts = $loop->posts;
@@ -58,7 +58,7 @@
 							if ($params['pagination-style'] == 'load_more') {
 								?>
                                 <button type="button" class="_mpBtn_xs_min_200 pagination_load_more" data-load-more="0">
-									<?php esc_html_e('Load More', 'theaterly'); ?>
+									<?php esc_html_e('Load More', 'wptheaterly'); ?>
                                 </button>
 								<?php
 							}
@@ -70,7 +70,7 @@
 								?>
                                 <div class="buttonGroup">
 									<?php if ($total_page > 2) { ?>
-                                        <button class="_mpBtn_xs page_prev" type="button" title="<?php esc_html_e('GoTO Previous Page', 'theaterly'); ?>" disabled>
+                                        <button class="_mpBtn_xs page_prev" type="button" title="<?php esc_html_e('GoTO Previous Page', 'wptheaterly'); ?>" disabled>
                                             <span class="fas fa-chevron-left mp_zero"></span>
                                         </button>
 									<?php } ?>
@@ -90,7 +90,7 @@
 									<?php } ?>
 
 									<?php if ($total_page > 2) { ?>
-                                        <button class="_mpBtn_xs page_next" type="button" title="<?php esc_html_e('GoTO Next Page', 'theaterly'); ?>">
+                                        <button class="_mpBtn_xs page_next" type="button" title="<?php esc_html_e('GoTO Next Page', 'wptheaterly'); ?>">
                                             <span class="fas fa-chevron-right mp_zero"></span>
                                         </button>
 									<?php } ?>
@@ -178,8 +178,8 @@
                     <div class="mp_load_more_text_area">
                         <span data-read-close><?php echo esc_html(substr($text, 0, $length)); ?> ....</span>
                         <span data-read-open class="dNone"><?php echo esc_html($text); ?></span>
-                        <div data-read data-open-text="<?php esc_attr_e('Load More', 'theaterly'); ?>" data-close-text="<?php esc_attr_e('Less More', 'theaterly'); ?>">
-                            <span data-text><?php esc_html_e('Load More', 'theaterly'); ?></span>
+                        <div data-read data-open-text="<?php esc_attr_e('Load More', 'wptheaterly'); ?>" data-close-text="<?php esc_attr_e('Less More', 'wptheaterly'); ?>">
+                            <span data-text><?php esc_html_e('Load More', 'wptheaterly'); ?></span>
                         </div>
                     </div>
 					<?php
@@ -220,7 +220,7 @@
 						?>
                         <label>
                             <select name="<?php echo esc_attr($input_name); ?>" data-price="<?php echo esc_attr($price); ?>" class="formControl">
-                                <option selected value="0"><?php echo esc_html__('Please select', 'theaterly').' '.esc_html($text); ?></option>
+                                <option selected value="0"><?php echo esc_html__('Please select', 'wptheaterly').' '.esc_html($text); ?></option>
 								<?php
 									$max_total = $max_qty > 0 ? $max_qty : $available_seat;
 									$min_value=max(1,$min_qty);
