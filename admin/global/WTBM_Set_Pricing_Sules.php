@@ -104,14 +104,13 @@ if (!class_exists('WTBM_Set_Pricing_Sules')) {
 
                         case 'theater':
                             if ( !empty( $rule['theaterType'] ) && $theater_type === $rule['theaterType'] ) {
-                                error_log( print_r( $theater_type, true ) );
                                 $apply = true;
                             }
                             break;
 
                         case 'time':
 
-                            $booking_float = (float)date('H', strtotime($booking_time)) + ((int)date('i', strtotime($booking_time)) / 60);
+                            $booking_float = (float)gmdate('H', strtotime($booking_time)) + ((int)gmdate('i', strtotime($booking_time)) / 60);
 
                             list( $start, $end ) = explode('-', $rule['time_range']);
                             $start = (int)$start;

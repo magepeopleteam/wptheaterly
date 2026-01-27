@@ -118,7 +118,7 @@
 							);
 						}
 					}
-					wp_redirect(admin_url('post.php?action=edit&post=' . $new_post_id));
+                    wp_safe_redirect(admin_url('post.php?action=edit&post=' . $new_post_id));
 					exit;
 				} else {
 					wp_die('Post creation failed, could not find original post: ' . esc_html($post_id));

@@ -5,7 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 $order_id = $order_id ?? 0;
 if ( $order_id > 0 ) {
     $css_url=MPCRBM_PLUGIN_URL_PRO . '/assets/admin/mpcrbm_pdf.css' ;
-    printf( '<link rel="stylesheet" href="%s">', $css_url);
+    printf(
+        '<link rel="stylesheet" href="%s" />',
+        esc_url( $css_url )
+    );
     ?>
     <html>
 <body>

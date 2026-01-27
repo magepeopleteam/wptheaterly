@@ -15,8 +15,8 @@ if ($attendee_id == 0 && isset($order_id)) {
 <div class='mp_pdf'>
     <div class="mp_pdf_header">
         <?php WTBM_Pro_Pdf::pdf_logo(); ?>
-        <h5><?php echo WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_address'); ?> </h5>
-        <h6><?php echo WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_phone'); ?> </h6>
+        <h5><?php echo esc_html( WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_address') ); ?> </h5>
+        <h6><?php echo esc_html( WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_phone') ) ; ?> </h6>
     </div>
 
     <?php if (isset($use_wc_data) && $use_wc_data && $wc_order): ?>
@@ -66,14 +66,14 @@ if ($attendee_id == 0 && isset($order_id)) {
                 <?php foreach ($wc_order->get_items() as $item): ?>
                     <li class="justifyBetween">
                         <p class="min_150"><?php echo esc_html($item->get_name()); ?></p>
-                        <span>x<?php echo esc_html($item->get_quantity()); ?> | <?php echo wc_price($item->get_total()); ?></span>
+                        <span>x<?php echo esc_html($item->get_quantity()); ?> | <?php echo wp_kses_post(  wc_price($item->get_total() ) ); ?></span>
                     </li>
                 <?php endforeach; ?>
             </ul>
             <div class="divider"></div>
             <h4>
                 <span style="float: left;"><?php esc_html_e('Total Bill:', 'wptheaterly'); ?></span>
-                <span style="text-align: right;float: right;"><?php echo wc_price($wc_order->get_total()); ?></span>
+                <span style="text-align: right;float: right;"><?php echo wp_kses_post( wc_price($wc_order->get_total() ) ); ?></span>
             </h4>
         </div>
     <?php else: ?>
@@ -91,7 +91,7 @@ if ($attendee_id == 0 && isset($order_id)) {
             <div class="divider"></div>
             <h4>
                 <span style="float: left;"><?php esc_html_e('Total Bill:', 'wptheaterly'); ?></span>
-                <span style="text-align: right;float: right;"><?php echo wc_price(WTBM_Function::get_post_info($attendee_id, 'wtbm_tp')); ?></span>
+                <span style="text-align: right;float: right;"><?php echo wp_kses_post( wc_price(WTBM_Function::get_post_info($attendee_id, 'wtbm_tp' ) ) ); ?></span>
             </h4>
         </div>
     <?php endif; ?>
@@ -106,7 +106,7 @@ if ($attendee_id == 0 && isset($order_id)) {
             <?php
         }
         if ($term_text) { ?>
-            <span><?php echo html_entity_decode($term_text); ?></span>
+            <span><?php echo esc_html($term_text); ?></span>
         <?php } ?>
     </div>
 </div>
