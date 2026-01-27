@@ -19,6 +19,7 @@ if (!class_exists('WTBM_Layout_Pro')) {
                 <h5>
                     <?php
                     $transportaion_label = WTBM_Function::get_name();
+                    // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
                     $translated_string = __("%s Information", 'wptheaterly');
                     $formatted_string = sprintf($translated_string, $transportaion_label);
                     echo esc_html($formatted_string);
@@ -27,8 +28,8 @@ if (!class_exists('WTBM_Layout_Pro')) {
                 <div class="divider"></div>
                 <ul class="mp_list">
                     <li class="justifyBetween">
-                        <p class="min_150"> <?php echo get_the_title($post_id); ?> </p>
-                        <span>x 1 &nbsp;|&nbsp;<?php echo wc_price($price); ?> = <?php echo wc_price($price); ?></span>
+                        <p class="min_150"> <?php echo esc_attr( get_the_title( $post_id ) ); ?> </p>
+                        <span>x 1 &nbsp;|&nbsp;<?php echo wp_kses_post( wc_price( $price ) ); ?> = <?php echo wp_kses_post( wc_price( $price ) ); ?></span>
                     </li>
                     <?php
                     // Iterate through the $all_meta array
@@ -114,7 +115,7 @@ if (!class_exists('WTBM_Layout_Pro')) {
                     </li>
 
                     <li>
-                        <strong class="min_150"><?php esc_html_e('Payment Method ', 'wptheaterly'); ?> :</strong><?php echo $payment_method; ?>
+                        <strong class="min_150"><?php esc_html_e('Payment Method ', 'wptheaterly'); ?> :</strong><?php echo esc_html( $payment_method ); ?>
                     </li>
 
                     <?php do_action('wtbm_after_order_info', $attendee_id); ?>
@@ -138,7 +139,7 @@ if (!class_exists('WTBM_Layout_Pro')) {
                         ?>
                         <li class="justifyBetween">
                             <strong class="min_100"> <?php echo esc_html($name); ?> </strong>
-                            <span>x<?php echo esc_html($qty); ?>&nbsp;|&nbsp;<?php echo wc_price($price); ?> = <?php echo wc_price($price * $qty); ?></span>
+                            <span>x<?php echo esc_html($qty); ?>&nbsp;|&nbsp;<?php echo wp_kses_post( wc_price( $price ) ); ?> = <?php echo wp_kses_post( wc_price($price * $qty ) ); ?></span>
                         </li>
                         <?php
                     }
@@ -281,7 +282,7 @@ if (!class_exists('WTBM_Layout_Pro')) {
                         tr:nth-child(even) { background: #f9f9f9; }
                         .footer { font-size: 10px; text-align: center; margin-top: 10px; color: #555; }
                     </style>';
-            $html .= '<div class="footer">Generated on '.date('d M Y H:i').'</div>';
+            $html .= '<div class="footer">Generated on '.gmdate('d M Y H:i').'</div>';
             $html .= '<table>
                             <tr>
                                 <th>#</th>
@@ -320,59 +321,6 @@ if (!class_exists('WTBM_Layout_Pro')) {
 
             return $html;
         }
-
-        public static function generate_booking_data_csv( $booking_ids ) {
-
-            if ( empty( $booking_ids ) || ! is_array( $booking_ids ) ) {
-                return;
-            }
-
-            // Get the same booking data as PDF
-            $bookings_data = self::get_booking_data_by_ids( $booking_ids );
-
-            if ( empty( $bookings_data ) ) {
-                return;
-            }
-
-            // Clean output buffer
-            if ( ob_get_length() ) {
-                ob_end_clean();
-            }
-
-            // CSV headers
-            header('Content-Type: text/csv');
-            header('Content-Disposition: attachment; filename="booking_data_'.date('Y-m-d_H-i').'.csv"');
-
-            $output = fopen('php://output', 'w');
-
-            // Column headers
-            fputcsv($output, ['#', 'Name', 'Phone', 'Theater Name', 'Movie Name', 'Time', 'Seat Number']);
-
-            $i = 1;
-            foreach ( $bookings_data as $booking_data ) {
-
-                $name    = $booking_data['name'] ?? '';
-                $phone   = $booking_data['phone'] ?? '';
-                $theater = $booking_data['theater_name'] ?? '';
-                $movie   = $booking_data['movie_name'] ?? '';
-                $time    = $booking_data['time'] ?? '';
-                $seat    = $booking_data['seat_number'] ?? '';
-
-                fputcsv($output, [
-                    $i++,
-                    $name,
-                    $phone,
-                    $theater,
-                    $movie,
-                    $time,
-                    $seat
-                ]);
-            }
-
-            fclose($output);
-            exit;
-        }
-
 
     }
 }

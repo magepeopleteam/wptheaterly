@@ -26,18 +26,18 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce' );
             $cpt = WTBM_Function::get_show_time_cpt();
-            $movieId            = isset( $_POST['movieId'] ) ? sanitize_text_field( $_POST['movieId'] ) : '';
+            $movieId            = isset( $_POST['movieId'] ) ? sanitize_text_field( wp_unslash( $_POST['movieId'] ) ) : '';
             $movie_title = get_the_title( $movieId );
-            $theaterId          = isset( $_POST['theaterId'] ) ? sanitize_text_field( $_POST['theaterId'] ) : '';
-            $date               = isset( $_POST['date'] ) ? sanitize_text_field( $_POST['date']) : '';
-            $start_date         = isset( $_POST['start_date'] ) ? sanitize_text_field( $_POST['start_date']) : '';
-            $end_date           = isset( $_POST['start_date'] ) ? sanitize_text_field( $_POST['end_date']) : '';
-            $startTime          = isset( $_POST['startTime'] ) ? sanitize_text_field( $_POST['startTime'] ) : '';
-            $endTime            = isset( $_POST['endTime'] ) ? sanitize_text_field( $_POST['endTime'] ) : '';
-            $showtime_off_days  = isset( $_POST['showtime_off_days'] ) ? sanitize_text_field( $_POST['showtime_off_days'] ) : '';
-            $action_type        = isset( $_POST['action_type'] ) ? sanitize_text_field( $_POST['action_type'] ) : '';
-            $price              = isset( $_POST['price'] ) ? floatval( $_POST['price'] ) : '';
-            $description        = isset( $_POST['description'] ) ? sanitize_textarea_field( $_POST['description'] ) : '';
+            $theaterId          = isset( $_POST['theaterId'] ) ? sanitize_text_field( wp_unslash( $_POST['theaterId'] ) ) : '';
+            $date               = isset( $_POST['date'] ) ? sanitize_text_field( wp_unslash( $_POST['date'] ) ) : '';
+            $start_date         = isset( $_POST['start_date'] ) ? sanitize_text_field( wp_unslash( $_POST['start_date'] ) ) : '';
+            $end_date           = isset( $_POST['end_date'] ) ? sanitize_text_field( wp_unslash( $_POST['end_date'] ) ) : '';
+            $startTime          = isset( $_POST['startTime'] ) ? sanitize_text_field( wp_unslash( $_POST['startTime'] ) ) : '';
+            $endTime            = isset( $_POST['endTime'] ) ? sanitize_text_field( wp_unslash( $_POST['endTime'] ) ) : '';
+            $showtime_off_days  = isset( $_POST['showtime_off_days'] ) ? sanitize_text_field( wp_unslash( $_POST['showtime_off_days'] ) ) : '';
+            $action_type        = isset( $_POST['action_type'] ) ? sanitize_text_field( wp_unslash( $_POST['action_type'] ) ) : '';
+            $price              = isset( $_POST['price'] ) ? floatval( wp_unslash(  $_POST['price'] ) ) : '';
+            $description        = isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
             $showtime_off_days_ary = [];
             if( $showtime_off_days ){
                 $showtime_off_days_ary = explode( ',', $showtime_off_days );
@@ -80,18 +80,18 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
             $cpt = WTBM_Function::get_show_time_cpt();
 
-            $movieId            = isset( $_POST['movieId'] ) ? sanitize_text_field( $_POST['movieId'] ) : '';
+            $movieId            = isset( $_POST['movieId'] ) ? sanitize_text_field( wp_unslash( $_POST['movieId'] ) ) : '';
             $movie_title = get_the_title( $movieId );
-            $theaterId          = isset( $_POST['theaterId'] ) ? sanitize_text_field( $_POST['theaterId'] ) : '';
-            $start_date         = isset( $_POST['start_date'] ) ? sanitize_text_field( $_POST['start_date']) : '';
-            $end_date           = isset( $_POST['end_date'] ) ? sanitize_text_field( $_POST['end_date']) : '';
-            $date               = isset( $_POST['date'] ) ? sanitize_text_field( $_POST['date']) : '';
-            $startTime          = isset( $_POST['startTime'] ) ? sanitize_text_field( $_POST['startTime'] ) : '';
-            $endTime            = isset( $_POST['endTime'] ) ? sanitize_text_field( $_POST['endTime'] ) : '';
-            $action_type        = isset( $_POST['action_type'] ) ? sanitize_text_field( $_POST['action_type'] ) : '';
-            $price              = isset( $_POST['price'] ) ? floatval( $_POST['price'] ) : '';
-            $description        = isset( $_POST['description'] ) ? sanitize_textarea_field( $_POST['description'] ) : '';
-            $showtime_off_days  = isset( $_POST['showtime_off_days'] ) ? sanitize_text_field( $_POST['showtime_off_days'] ) : '';
+            $theaterId          = isset( $_POST['theaterId'] ) ? sanitize_text_field( wp_unslash( $_POST['theaterId'] ) ) : '';
+            $start_date         = isset( $_POST['start_date'] ) ? sanitize_text_field( wp_unslash( $_POST['start_date'] ) ) : '';
+            $end_date           = isset( $_POST['end_date'] ) ? sanitize_text_field( wp_unslash( $_POST['end_date'] ) ) : '';
+            $date               = isset( $_POST['date'] ) ? sanitize_text_field( wp_unslash( $_POST['date'] ) ) : '';
+            $startTime          = isset( $_POST['startTime'] ) ? sanitize_text_field( wp_unslash( $_POST['startTime'] ) ) : '';
+            $endTime            = isset( $_POST['endTime'] ) ? sanitize_text_field( wp_unslash( $_POST['endTime'] ) ) : '';
+//            $action_type        = isset( $_POST['action_type'] ) ? sanitize_text_field( wp_unslash( $_POST['action_type'] ) ) : '';
+            $price              = isset( $_POST['price'] ) ? floatval( wp_unslash( $_POST['price'] ) ) : '';
+            $description        = isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
+            $showtime_off_days  = isset( $_POST['showtime_off_days'] ) ? sanitize_text_field( wp_unslash( $_POST['showtime_off_days'] ) ) : '';
             $showtime_off_days_ary = [];
             if( $showtime_off_days ){
                 $showtime_off_days_ary = explode( ',', $showtime_off_days );
@@ -99,7 +99,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
             if( $end_date === '' ){
                 $end_date = $start_date;
             }
-            $showTimeId = isset( $_POST['showTimeId'] ) ? sanitize_text_field( $_POST['showTimeId'] ) : '';
+            $showTimeId = isset( $_POST['showTimeId'] ) ? sanitize_text_field( wp_unslash( $_POST['showTimeId'] ) ) : '';
             $post_data = [
                 'ID'           => $showTimeId,
                 'post_title'   => $movie_title,
@@ -137,7 +137,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
         public function wtbm_add_edit_show_time_form(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
-            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';
+            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
             if( $post_id == '' ){
                 $type = 'add';
             }else{
@@ -151,7 +151,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
         public function wtbm_get_theater_categories(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
-            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';
+            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
             if( $post_id ){
                 $categories_html = self::get_theater_categories_html( $post_id );
                 wp_send_json_success(  $categories_html );
@@ -169,7 +169,9 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
             $categories = self::get_theater_categories( $post_id );
             ob_start();
-            echo '<div class="wtbm_theater_categories_list">';
+            ?>
+            <div class="wtbm_theater_categories_list">
+            <?php
             foreach ( $categories as $index => $cat ) {
                 $cat_name = isset( $cat['category_name'] ) ? esc_html( $cat['category_name'] ) : '';
                 $seats    = isset( $cat['seats'] ) ? intval( $cat['seats'] ) : 0;
@@ -191,10 +193,43 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 </div>
                 <?php
 
-            }
+            } ?>
 
-            echo '</div>';
+            </div>
+            <?php
+
             return ob_get_clean();
+        }
+
+        public static function get_theater_categories_html_new( $post_id ) {
+
+            $categories = self::get_theater_categories( $post_id ); ?>
+            <div class="wtbm_theater_categories_list">
+            <?php
+            foreach ( $categories as $index => $cat ) {
+                $cat_name = isset( $cat['category_name'] ) ? esc_html( $cat['category_name'] ) : '';
+                $seats    = isset( $cat['seats'] ) ? intval( $cat['seats'] ) : 0;
+                $price    = isset( $cat['price'] ) ? esc_html( $cat['price'] ) : '0.00';
+                ?>
+                <div class="pricing-item">
+                    <div
+                            data-cat-name="<?php echo esc_attr( $cat_name );?>"
+                            data-cat-seats="<?php echo esc_attr( $seats );?>"
+                            data-cat-base-price="<?php echo esc_attr( $price );?>"
+                    >
+                        <div class="font-medium"><?php echo esc_attr( $cat_name );?></div>
+                        <div class="text-sm text-gray-500"><?php echo esc_attr( $seats );?> seats</div>
+                        <div class="text-sm text-gray-500">Base: <?php echo esc_attr( $price );?></div>
+                    </div>
+                    <div>
+                        <input type="number" class="form-input pricing-input" data-category="Regular" placeholder="12.99" value="<?php echo esc_attr( $price );?>" step="0.01" min="0" style="width: 100px;">
+                    </div>
+                </div>
+                <?php
+
+            } ?>
+            </div>
+            <?php
         }
 
         public static function add_edit_show_time_html( $action_type, $showtime_id ) {
@@ -206,6 +241,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
             $add_action = 'wtbm_add_new_show_time';
 
+            $theater_id = '';
             $show_time_id = $categories_html = '';
             $show_time_data = [];
             if ( $action_type === 'edit' && $showtime_id ) {
@@ -213,9 +249,8 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 $show_time_data = WTBM_Layout_Functions::get_show_time_data_by_id( absint( $showtime_id ) );
 //                $show_time_id = isset( $show_time_data['theater_id'] ) ? $show_time_data['theater_id'] : '';
                 $theater_id = isset( $show_time_data['theater_id'] ) ? $show_time_data['theater_id'] : '';
-
                 if( $theater_id ){
-                    $categories_html = self::get_theater_categories_html( $theater_id );
+//                    $categories_html = self::get_theater_categories_html( $theater_id );
                 }
 
             }
@@ -279,7 +314,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                         <label class="form-label"><?php esc_html_e( 'Date', 'wptheaterly' ); ?></label>
                         <input id="showtime-date" type="date" name="showtime_date" class="form-input"
                                value="<?php echo isset( $show_time_data['show_time_date'] ) ? esc_attr( $show_time_data['show_time_date'] ) : ''; ?>"
-                               min="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>">
+                               min="<?php echo esc_attr( gmdate( 'Y-m-d' ) ); ?>">
                     </div>
 
                     <div class="form-group">
@@ -313,8 +348,8 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 <div id="wtbm_pricing-section" class="wtbm_pricing-section ">
                     <h5 class="font-semibold mb-3">Pricing by Seating Category</h5>
                     <div id="wtbm_pricing_categories">
-                        <?php  if ( $action_type === 'edit' && $showtime_id ) {
-                            echo  $categories_html ;
+                        <?php  if ( $action_type === 'edit' && $showtime_id && $theater_id ) {
+                            self::get_theater_categories_html_new( $theater_id ) ;
                         }?>
                     </div>
                 </div>
@@ -385,11 +420,11 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                         </td>
                         <?php if( $showtime['showtime_end_date'] ){
 
-                            $start_date_formatted = date('d M, y', strtotime( $showtime['showtime_start_date'] ));
-                            $end_date_formatted = date('d M, y', strtotime( $showtime['showtime_end_date'] ));
+                            $start_date_formatted = gmdate('d M, y', strtotime( $showtime['showtime_start_date'] ));
+                            $end_date_formatted = gmdate('d M, y', strtotime( $showtime['showtime_end_date'] ));
                             ?>
                             <td class="text-sm text-gray-900">
-                                <?php echo esc_html( $start_date_formatted ).' - '. $end_date_formatted; ?>
+                                <?php echo esc_html( $start_date_formatted .' - '. $end_date_formatted ); ?>
                             </td>
                         <?php }else{?>
                             <td class="text-sm text-gray-900">

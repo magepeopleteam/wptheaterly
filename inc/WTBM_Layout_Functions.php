@@ -481,7 +481,10 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                 <div class="font-medium text-gray-900"><?php echo $title; ?></div>
                                 <?php if ( $releaseDate ) : ?>
                                     <div class="text-sm text-gray-500">
-                                        <?php echo sprintf( __( 'Released: %s', 'wptheaterly' ), $releaseDate ); ?>
+
+                                        <?php
+                                        // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+                                        echo sprintf( __( 'Released: %s', 'wptheaterly' ), $releaseDate ); ?>
                                     </div>
                                 <?php endif; ?>
                             </div>

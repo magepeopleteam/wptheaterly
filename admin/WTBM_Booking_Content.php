@@ -36,14 +36,17 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
 
             check_ajax_referer('mptrs_admin_nonce', 'nonce');
 
+            $show_time = isset( $_POST['show_time'] ) ? sanitize_text_field(wp_unslash( $_POST['show_time'] ) ) : '';
+            $show_date = isset( $_POST['show_date'] ) ? sanitize_text_field(wp_unslash( $_POST['show_date'] ) ) : '';
+            $booking_status = isset( $_POST['booking_status'] ) ? sanitize_text_field(wp_unslash( $_POST['booking_status'] ) ) : '';
 //            $search = sanitize_text_field($_POST['order_search'] ?? '');
 
             $filters_data = array(
-                'wtbm_movie_id'       => intval($_POST['movie_id'] ?? 0),
-                'wtbm_theater_id'     => intval($_POST['theater_id'] ?? 0),
-                'wtbm_order_time'      => sanitize_text_field($_POST['show_time'] ?? ''),
-                'wtbm_order_date'      => sanitize_text_field($_POST['show_date'] ?? ''),
-                'wtbm_order_status' => sanitize_text_field($_POST['booking_status'] ?? ''),
+                'wtbm_movie_id'     => intval($_POST['movie_id'] ?? 0),
+                'wtbm_theater_id'   => intval($_POST['theater_id'] ?? 0),
+                'wtbm_order_time'   => $show_time,
+                'wtbm_order_date'   => $show_date,
+                'wtbm_order_status' => $booking_status,
             );
 
             $filters_data = WTBM_Layout_Functions::wtbm_get_filtered_booking_data( $filters_data,[], 10 );
@@ -152,7 +155,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                         </thead>
                         <tbody id="wtbm_bookings_table_body">
                         <?php
-                        echo self::movie_booking_data( $booking_date, $display_count );
+                        echo wp_kses_post( self::movie_booking_data( $booking_date, $display_count ) );
                         ?>
                         </tbody>
                     </table>
@@ -382,12 +385,17 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
 
             $loaded_booking_id = isset( $_POST['already_loaded_booking_ids'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['already_loaded_booking_ids'] ) ) ) : [];
             $display_limit = isset( $_POST['display_limit'] ) ? sanitize_text_field( wp_unslash( $_POST['display_limit'] ) ) : [];
+
+            $show_time = isset( $_POST['show_time'] ) ? sanitize_text_field(wp_unslash( $_POST['show_time'] ) ) : '';
+            $show_date = isset( $_POST['show_date'] ) ? sanitize_text_field(wp_unslash( $_POST['show_date'] ) ) : '';
+            $booking_status = isset( $_POST['booking_status'] ) ? sanitize_text_field(wp_unslash( $_POST['booking_status'] ) ) : '';
+
             $filters_data = array(
                 'wtbm_movie_id'       => intval($_POST['movie_id'] ?? 0),
                 'wtbm_theater_id'     => intval($_POST['theater_id'] ?? 0),
-                'wtbm_order_time'     => sanitize_text_field($_POST['show_time'] ?? ''),
-                'wtbm_order_date'     => sanitize_text_field($_POST['show_date'] ?? ''),
-                'wtbm_order_status'   => sanitize_text_field($_POST['booking_status'] ?? ''),
+                'wtbm_order_time'     => $show_time,
+                'wtbm_order_date'     => $show_date,
+                'wtbm_order_status'   => $booking_status,
             );
                 $data = WTBM_Layout_Functions::wtbm_get_filtered_booking_data( $filters_data, $loaded_booking_id, $display_limit );
                 $booking_data = $data['booking_data'];
@@ -481,8 +489,11 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
             </div>
             <?php
 
-            echo ob_get_clean();
-            wp_die();
+            $edit_data = ob_get_clean();
+            wp_send_json_success([
+                'message' => 'getting edit data successfully.!',
+                'edit_data' => $edit_data,
+            ]);
         }
 
         public function wtbm_get_theater_available_seats(){
@@ -490,7 +501,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
 
             if ( isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wtbm_nonce') ) {
                 $theater_id = isset( $_POST['theater_id']) ? sanitize_text_field( wp_unslash($_POST['theater_id'] ) ) : '';
-                $movie_id = isset( $_POST['theater_id']) ? sanitize_text_field( wp_unslash($_POST['activeMovieId'] ) ) : '';
+                $movie_id = isset( $_POST['activeMovieId']) ? sanitize_text_field( wp_unslash($_POST['activeMovieId'] ) ) : '';
                 $search_time = isset( $_POST['movie_time_slot']) ? sanitize_text_field( wp_unslash($_POST['movie_time_slot'] ) ) : '';
                 $get_date = isset( $_POST['movie_date']) ? sanitize_text_field( wp_unslash($_POST['movie_date'] ) ) : '';
 
@@ -568,11 +579,15 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                 update_post_meta($booking_id, 'wtbm_seat_ids', $seat_ids_ary );
             }
 
-            update_post_meta($booking_id, 'wtbm_billing_name', sanitize_text_field($_POST['attendee_name']));
-            update_post_meta($booking_id, 'wtbm_billing_phone', sanitize_text_field($_POST['attendee_phone']));
-            update_post_meta($booking_id, 'wtbm_billing_email', sanitize_email($_POST['attendee_email']));
+            $attendee_name = isset( $_POST['attendee_name'] ) ? sanitize_text_field( wp_unslash( $_POST['attendee_name'] ) ) : '';
+            $attendee_phone = isset( $_POST['attendee_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['attendee_phone'] ) ) : '';
+            $attendee_email = isset( $_POST['attendee_email'] ) ? sanitize_text_field( wp_unslash( $_POST['attendee_email'] ) ) : '';
+            $booking_status = isset( $_POST['booking_status'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_status'] ) ) : '';
+            update_post_meta($booking_id, 'wtbm_billing_name', $attendee_name );
+            update_post_meta($booking_id, 'wtbm_billing_phone',$attendee_phone );
+            update_post_meta($booking_id, 'wtbm_billing_email', $attendee_email );
 
-            update_post_meta($booking_id, 'wtbm_order_status', sanitize_text_field($_POST['booking_status']));
+            update_post_meta($booking_id, 'wtbm_order_status',$booking_status );
             if ( $order_id ) {
                 $order = wc_get_order($order_id);
                 if ( $order ) {
