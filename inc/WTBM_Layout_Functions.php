@@ -618,7 +618,11 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
             <div class="wtbm_add_edit_theater_container" id="wtbm_add_edit_theater_container">
                 <h4 class="mb-4 font-semibold">
-                    <?php echo esc_attr( $theater ) ? esc_html__( 'Edit Theater', 'wptheaterly' ) : esc_html__( 'Add New Theater', 'wptheaterly' ); ?>
+                    <?php
+                    echo ! empty( $theater )
+                        ? esc_html__( 'Edit Theater', 'wptheaterly' )
+                        : esc_html__( 'Add New Theater', 'wptheaterly' );
+                    ?>
                 </h4>
                 <input type="hidden" name="wtbp_theater_id" value="<?php echo esc_attr( $theater_id ); ?>">
 
