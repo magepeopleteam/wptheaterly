@@ -26,18 +26,18 @@
 
             public function display_registration_data( $atts ){
 
-                $today_date = date('M d, y');
+                $today_date = gmdate('M d, y');
 
                 ob_start();
                 ?>
                 <div class="wtbm_registrationContainer">
                     <div class="wtbm_registrationMainContent">
                         <?php
-                            echo WTBM_Details_Layout::booking_date_display();
+                            WTBM_Details_Layout::booking_date_display();
                         ?>
 
                         <div class="section" id="wtbm_movieSection">
-                            <?php echo WTBM_Details_Layout::display_date_wise_movies() ;?>
+                            <?php WTBM_Details_Layout::display_date_wise_movies() ;?>
                         </div>
 
                         <div class="section" id="wtbm_hallSection" style="display: none">
@@ -76,7 +76,7 @@
                         <div class="wtbm_registrationSummaryCard">
                             <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="">
                             <input type="hidden" name="wtbm_summeryTheaterId" id="wtbm_summeryTheaterId" value="">
-                            <input type="hidden" name="wtbm_summeryDate" id="wtbm_summeryDate" value="<?php echo esc_attr( date("Y-m-d") );?>">
+                            <input type="hidden" name="wtbm_summeryDate" id="wtbm_summeryDate" value="<?php echo esc_attr( gmdate("Y-m-d") );?>">
                             <input type="hidden" name="wtbm_summeryTime" id="wtbm_summeryTime" value="">
                             <input type="hidden" name="wtbm_summerySeatType" id="wtbm_summerySeatType" value="">
                             <input type="hidden" name="wtbm_summerySeatNumber" id="wtbm_summerySeatNumber" value="">

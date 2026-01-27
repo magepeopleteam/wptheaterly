@@ -14,7 +14,7 @@
 
             public static function booking_date_display() {
 
-                ob_start();
+//                ob_start();
                 ?>
                 <div class="wtbm_booking_date_section" id="wtbm_bookingDateSection">
                     <h2 class="section-title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
@@ -43,10 +43,54 @@
                 </div>
                 <?php
 
-                return ob_get_clean();
+//                return ob_get_clean();
             }
 
             public static function display_date_wise_movies( $date = '' ){
+                $movie_ids = self::get_wtbm_show_time_movie_ids_by_date( $date );
+                $output = '';
+
+                if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
+                    $movie_data = self::get_movies_data_by_ids( $movie_ids );
+
+                    $total_movie = count( $movie_data );
+
+//                    ob_start(); ?>
+                    <h2 class="section-title">Select Movie (<?php echo esc_attr( $total_movie );?>)</h2>
+                    <div class="wtbm_booking_movies_grid" id="wtbm_moviesGrid">
+                        <?php foreach ( $movie_data as $i => $movie ): ?>
+                            <div class="wtbm_booking_movie_card"
+                                 data-movie-name="<?php echo esc_attr( $movie['title'] );?>"
+                                 data-movie-id="<?php echo esc_attr( $movie['movie_id'] );?>"
+                                 data-movie-duration="<?php echo esc_attr( $movie['movie_duration'] );?>">
+                                <div class="wtbm_booking_movies_poster">
+                                    <?php if( $movie['poster_image_url'] ){?>
+                                        <img src="<?php echo esc_attr( $movie['poster_image_url'] );?>" alt="<?php echo esc_attr( $movie['title'] );?>" >
+                                    <?php }else{?>
+                                        🎬
+                                    <?php }?>
+                                    <span class="slected-moive">
+                                        <i class="mi mi-check"></i>
+                                    </span>
+                                </div>
+                                <div class="wtbm_booking_movies_info">
+                                    <div class="wtbm_booking_movies_title"><?php echo esc_attr( $movie['title'] );?></div>
+                                    <div class="wtbm_booking_movies_details">
+                                        <?php esc_html_e( 'Duration', 'wptheaterly' );?> - <?php echo esc_html( $movie['movie_duration'] );?>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php
+//                    $output = ob_get_clean();
+                }
+
+//                return $output;
+            }
+
+            public static function display_date_wise_movies_ajax( $date = '' ){
                 $movie_ids = self::get_wtbm_show_time_movie_ids_by_date( $date );
                 $output = '';
 
@@ -79,7 +123,7 @@
                                         <?php esc_html_e( 'Duration', 'wptheaterly' );?> - <?php echo esc_html( $movie['movie_duration'] );?>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -89,6 +133,7 @@
 
                 return $output;
             }
+
 
 
             public static function display_theater_show_time( $movie_id, $date = ''  ){
@@ -104,7 +149,7 @@
                                 <?php
                                 if( is_array( $show_time ) && !empty( $show_time ) ){
                                     foreach ( $show_time as $time ){
-                                        $formatted_time = date('h:i A', strtotime( esc_attr( $time ) ));
+                                        $formatted_time = gmdate('h:i A', strtotime( esc_attr( $time ) ));
                                         ?>
                                         <div class="wtbm_timeSlot" data-wtbm-theater-name = "<?php echo esc_attr( $post_title );?>" data-wtbm-theater="<?php echo esc_attr( $theater_id );?>" data-time-slot="<?php echo esc_attr( $time );?>">
                                             <?php echo esc_attr( $formatted_time );?>
@@ -282,7 +327,7 @@
                         $current_movie_id = intval( $current_movie_id );
                         $theater_id = intval( $theater_id );
                         if ( $current_movie_id === intval( $movie_id ) ) {
-                            $dayName = strtolower( date( 'l', strtotime($date ) ) );
+                            $dayName = strtolower( gmdate( 'l', strtotime($date ) ) );
                             if ( ! isset( $showtimes[ $theater_id ] ) ) {
                                 $showtimes[ $theater_id ] = array();
                             }
@@ -509,6 +554,21 @@
                 return $content;
             }
 
+            public static function show_html_element(){
+                return array(
+                    'form'     => array( 'action' => true, 'method' => true, 'id' => true, 'class' => true, 'data-*' => true ),
+                    'input'    => array( 'type' => true, 'name' => true, 'value' => true, 'id' => true, 'class' => true, 'checked' => true, 'placeholder' => true, 'data-*' => true ),
+                    'textarea' => array( 'name' => true, 'id' => true, 'class' => true, 'rows' => true, 'cols' => true, 'placeholder' => true, 'data-*' => true ),
+                    'select'   => array( 'name' => true, 'id' => true, 'class' => true, 'data-*' => true ),
+                    'option'   => array( 'value' => true, 'selected' => true ),
+                    'label'    => array( 'for' => true, 'class' => true ),
+                    'button'   => array( 'type' => true, 'class' => true, 'data-*' => true ),
+                    'div'      => array( 'class' => true, 'id' => true, 'data-*' => true ),
+                    'span'     => array( 'class' => true,  'id' => true, 'data-*' => true ),
+                    'p'        => array(),
+                    'br'       => array(),
+                );
+            }
 
 
         }

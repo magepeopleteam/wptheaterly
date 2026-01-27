@@ -48,7 +48,6 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                     <button class="mptrs_mapping_set_seat <?php echo esc_html( $select_add_seat_tab );?> tooltips" id="mptrs_mapping_set_seat"  data-tooltip="<?php esc_html_e('Add Seat', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($add_seats); ?>" alt=""></button>
                     <button class="mptrs_mapping_set_shape tooltips" id="mptrs_mapping_set_shape" data-tooltip="<?php esc_html_e('Add Shape', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($shapes); ?>" alt=""></button>
                     <button class="mptrs_mapping_setText tooltips" id="mptrs_mapping_setText" data-tooltip="<?php esc_html_e('Set Text', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($text); ?>" alt=""></button>
-<!--                    <button class="mptrs_importFromTemplate tooltips" id="mptrs_importFromTemplate"  data-tooltip="--><?php //esc_html_e('Import From Template', 'wptheaterly'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($import); ?><!--" alt=""></button>-->
                     <button class="mptrs_removeSelected tooltips" id="mptrs_removeSelected"  data-tooltip="<?php esc_html_e('Erase', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($eraser); ?>" alt=""></button>
                     <button class="mptrs_undo tooltips" id="mptrs_undo" data-tooltip="<?php esc_html_e('Undo', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($undo); ?>" alt=""></button>
                     <button class="mptrs_copyPaste tooltips" id="mptrs_copyPaste" data-tooltip="<?php esc_html_e('Paste', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($paste); ?>" alt=""></button>
@@ -57,7 +56,6 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                    <?php if( $action_type === 'add' ){?>
                         <button class="mptrs_savePlan tooltips" data-theater-id="<?php echo esc_attr( $post_id );?>" id="wtbm_saveSeatPlan" data-tooltip="<?php esc_html_e('Save Plan', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($save_plan); ?>" alt=""></button>
                     <?php }?>
-<!--                    <button class="mptrs_savePlan tooltips" id="mptrs_savePlanAsTemplate" data-tooltip="--><?php //esc_html_e('Save Plan with Template', 'wptheaterly'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($save_template); ?><!--" alt=""></button>-->
                 </div>
             </div>
 

@@ -25,14 +25,12 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                 'revenue' => 0,
             );
 
-            // Convert date string to DateTime
             try {
                 $dt = new DateTime( $date );
             } catch ( Exception $e ) {
                 return $results;
             }
 
-            // Prepare date range
             if ( $type === 'today' ) {
                 $start_date = $dt->format( 'Y-m-d' );
                 $end_date   = $dt->format( 'Y-m-d' );
@@ -89,14 +87,12 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
         public static function pa_get_wtbm_booking_movie_report( $date, $type = 'today' ) {
             $results = array();
 
-            // Convert date string to DateTime
             try {
                 $dt = new DateTime( $date );
             } catch ( Exception $e ) {
                 return $results;
             }
 
-            // Prepare date range
             if ( $type === 'today' ) {
                 $start_date = $dt->format( 'Y-m-d' );
                 $end_date   = $dt->format( 'Y-m-d' );
@@ -246,7 +242,6 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                 }
             }
 
-            // Query all bookings for this date
             $args = array(
                 'post_type'      => 'wtbm_booking',
                 'post_status'    => 'publish',
@@ -376,7 +371,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
         public function sales_report_display(){
             $today = 'today';
             $week = 'week';
-            $date = date( 'Y-m-d' );
+            $date = gmdate( 'Y-m-d' );
 //            $date = '2025-09-23';
             $today_sales_report = self::pa_get_wtbm_booking_report( $date, $today );
             $weekly_sales_report = self::pa_get_wtbm_booking_report( $date, $week );
@@ -459,7 +454,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                                         <div class="wtbm_sales_report" id="wtbm_dily_sales_report" style="display: none">
                                             <div class="">
                                                 <h2 class=""><?php esc_attr_e( 'DAILY SALES REPORT', 'wptheaterly' );?></h2>
-                                                <h2 class=""><?php echo esc_attr( date("d M, Y") );?></h2>
+                                                <h2 class=""><?php echo esc_attr( gmdate("d M, Y") );?></h2>
                                             </div>
                                             <div class="wtbm_sales_popup_content" id="wtbm_sales_popup_content">
 
@@ -473,7 +468,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                                                 <div class="wtbm_pick_hours">
                                                     <h3><?php esc_attr_e( 'Sales Report', 'wptheaterly' );?><?php esc_attr_e( 'PICK HOURS', 'wptheaterly' );?> </h3>
                                                     <?php foreach ( $top_selling_times as $key => $top_selling_time ){
-                                                        $time = $time_am_pm = date("h:i A", strtotime( $top_selling_time['start_time'] ) );
+                                                        $time = $time_am_pm = gmdate("h:i A", strtotime( $top_selling_time['start_time'] ) );
                                                         $number_ticket = $top_selling_time['booked_seats'];
                                                         ?>
                                                         <li class=""><?php echo esc_attr( $time ); ?>(<?php echo esc_attr( $number_ticket );?><?php esc_attr_e( 'Tickets', 'wptheaterly' );?>)</li>
@@ -519,7 +514,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                                         <div class="wtbm_sales_report" id="wtbm_dily_movies_performance" style="display: none">
                                             <div class="">
                                                 <h2 class=""><?php esc_attr_e( 'MOVIE PERFORMANCE REPORT', 'wptheaterly' );?></h2>
-                                                <h2 class="">PERIOD: <?php echo esc_attr( date("d M, Y") );?></h2>
+                                                <h2 class="">PERIOD: <?php echo esc_attr( gmdate("d M, Y") );?></h2>
                                             </div>
                                             <div class="wtbm_movie_report_holder">
                                                 <h3><?php esc_attr_e( 'TOP PERFORMING MOVIE', 'wptheaterly' );?> </h3>
@@ -534,7 +529,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                                                         if( is_array( $movies_data ) && !empty( $movies_data ) ){
                                                             foreach ( $movies_data as $key => $movie ){
                                                                 if( $key === 0 ){
-                                                                    $best_show_time = date("h:i A", strtotime( $movie['start_time'] ) );
+                                                                    $best_show_time = gmdate("h:i A", strtotime( $movie['start_time'] ) );
                                                                 }
                                                                 $total_revenue += $movie['revenue'];
                                                                 $total_booked_seat += $movie['booked_seats'];
@@ -565,7 +560,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                                         <div class="wtbm_sales_report" id="wtbm_daily_theater_performance" style="display: none">
                                             <div class="">
                                                 <h2 class=""><?php esc_attr_e( 'THEATER PERFORMANCE REPORT', 'wptheaterly' );?></h2>
-                                                <h2 class="">PERIOD: <?php echo esc_attr( date("d M, Y") );?></h2>
+                                                <h2 class="">PERIOD: <?php echo esc_attr( gmdate("d M, Y") );?></h2>
                                             </div>
                                             <div class="wtbm_theater_report_holder">
                                                 <h3><?php esc_attr_e( 'THEATER PERFORMING', 'wptheaterly' );?> </h3>
@@ -647,7 +642,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                             <div class="mt-6 flex flex-between items-center">
                                 <div class="text-sm text-gray-600">
                                     <?php
-                                    $datetime_now = date("Y-m-d H:i:s");
+                                    $datetime_now = gmdate("Y-m-d H:i:s");
                                     ?>
                                     <?php esc_attr_e( 'Last updated', 'wptheaterly' );?>: <span id="last-updated"><?php echo esc_attr( $datetime_now )?></span>
                                 </div>

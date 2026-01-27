@@ -20,7 +20,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
         public function wtbm_add_edit_pricing_form(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
-            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';
+            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
             if( $post_id == '' ){
                 $type = 'add';
             }else{
@@ -37,7 +37,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
             $cpt = WTBM_Function::get_pricing_cpt();
 
-            $name           =  isset( $_POST['description'] ) ? sanitize_text_field( wp_unslash( $_POST['description'] ) ) : '';
+            $name           =  isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
             $description    =  isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
 
             $type           = isset( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : '';
@@ -53,10 +53,10 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
             $dateRange      = isset( $_POST['dateRange'] ) ? sanitize_text_field( wp_unslash( $_POST['dateRange'] ) ) : '';
             $theaterType    = isset( $_POST['theaterType'] ) ? sanitize_text_field( wp_unslash( $_POST['theaterType'] ) ) : '';
 
-            $action_type = isset( $_POST['action_type'] ) ? sanitize_text_field( $_POST['action_type'] ) : '';
+            $action_type = isset( $_POST['action_type'] ) ? sanitize_text_field( wp_unslash( $_POST['action_type'] ) ) : '';
 
             if( $action_type === 'edit' ){
-                $pricing_id = sanitize_text_field( $_POST['post_id'] ) ;
+                $pricing_id = isset( $_POST['post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
                 $post_data = [
                     'post_title'   => $name,
                     'post_type'    => $cpt,
@@ -141,7 +141,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
             <div class="grid grid-cols-2 mb-4">
                 <div class="form-group">
                     <label class="form-label"><?php esc_html_e( 'Rule Name', 'wptheaterly' ); ?></label>
-                    <input type="text" id="pricing-name" class="form-input" value="<?php echo $name; ?>" placeholder="e.g., Matinee, Weekend" required>
+                    <input type="text" id="pricing-name" class="form-input" value="<?php echo esc_attr( $name ) ;?>" placeholder="e.g., Matinee, Weekend" required>
                 </div>
 
                 <div class="form-group">
@@ -157,7 +157,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                 <!-- Time Range -->
                 <div class="form-group" id="time-range-group" style="<?php echo ( $rules_type === 'time' ) ? '' : 'display:none;'; ?>">
                     <label class="form-label"><?php esc_html_e( 'Time Range', 'wptheaterly' ); ?></label>
-                    <input type="text" id="pricing-time-range" class="form-input" value="<?php echo $rules_time_range; ?>" placeholder="e.g., 09:00-14:00">
+                    <input type="text" id="pricing-time-range" class="form-input" value="<?php echo esc_attr( $rules_time_range );?>" placeholder="e.g., 09:00-14:00">
                 </div>
 
                 <!-- Days -->
@@ -169,7 +169,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                         foreach ( $days as $day ) { ?>
                             <label class="flex items-center gap-1">
                                 <input type="checkbox" name="pricing-days[]" value="<?php echo esc_attr( $day ); ?>" <?php checked( in_array( $day, $rules_days ) ); ?>>
-                                <?php echo ucfirst( $day ); ?>
+                                <?php echo esc_attr( ucfirst( $day ) ) ; ?>
                             </label>
                         <?php } ?>
                     </div>
@@ -179,8 +179,8 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                 <div class="form-group" id="date-range-group" style="<?php echo ( $rules_type === 'date' ) ? '' : 'display:none;'; ?>">
                     <label class="form-label"><?php esc_html_e( 'Date Range', 'wptheaterly' ); ?></label>
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="date" id="pricing-start-date" class="form-input" value="<?php echo $rules_start_date; ?>">
-                        <input type="date" id="pricing-end-date" class="form-input" value="<?php echo $rules_end_date; ?>">
+                        <input type="date" id="pricing-start-date" class="form-input" value="<?php echo esc_attr( $rules_start_date ) ;?>">
+                        <input type="date" id="pricing-end-date" class="form-input" value="<?php echo esc_attr( $rules_end_date ); ?>">
                     </div>
                 </div>
 
@@ -199,26 +199,26 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                 <!-- Multiplier -->
                 <div class="form-group">
                     <label class="form-label"><?php esc_html_e( 'Price Multiplier', 'wptheaterly' ); ?></label>
-                    <input type="number" id="pricing-multiplier" class="form-input" value="<?php echo $rules_multiplier; ?>" step="0.1" min="0.1" max="5.0">
+                    <input type="number" id="pricing-multiplier" class="form-input" value="<?php echo esc_attr( $rules_multiplier ); ?>" step="0.1" min="0.1" max="5.0">
                     <div class="text-sm text-gray-500 mt-1">1.0 = base price, 0.8 = 20% discount, 1.5 = 50% markup</div>
                 </div>
 
                 <!-- Priority -->
                 <div class="form-group">
                     <label class="form-label"><?php esc_html_e( 'Priority', 'wptheaterly' ); ?></label>
-                    <input type="number" id="pricing-priority" class="form-input" value="<?php echo $rules_priority; ?>" min="1" max="100">
+                    <input type="number" id="pricing-priority" class="form-input" value="<?php echo esc_attr( $rules_priority); ?>" min="1" max="100">
                 </div>
 
                 <!-- Min Seats -->
                 <div class="form-group">
                     <label class="form-label"><?php esc_html_e( 'Minimum Seats', 'wptheaterly' ); ?></label>
-                    <input type="number" id="pricing-min-seats" class="form-input" value="<?php echo $rules_min_seats; ?>" min="1">
+                    <input type="number" id="pricing-min-seats" class="form-input" value="<?php echo esc_attr( $rules_min_seats); ?>" min="1">
                 </div>
 
                 <!-- Active -->
                 <div class="form-group">
                     <label class="flex items-center">
-                        <input type="checkbox" id="pricing-active" class="mr-2" <?php echo $rules_active; ?>>
+                        <input type="checkbox" id="pricing-active" class="mr-2" <?php echo esc_attr( $rules_active); ?>>
                         <span><?php esc_html_e( 'Active', 'wptheaterly' ); ?></span>
                     </label>
                 </div>
@@ -226,7 +226,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                 <!-- Combinable -->
                 <div class="form-group">
                     <label class="flex items-center">
-                        <input type="checkbox" id="pricing-combinable" class="mr-2" <?php echo $rules_combinable; ?>>
+                        <input type="checkbox" id="pricing-combinable" class="mr-2" <?php echo esc_attr( $rules_combinable ); ?>>
                         <span><?php esc_html_e( 'Can be combined with other rules', 'wptheaterly' ); ?></span>
                     </label>
                 </div>
@@ -235,7 +235,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
             <!-- Description -->
             <div class="form-group mb-4">
                 <label class="form-label"><?php esc_html_e( 'Description', 'wptheaterly' ); ?></label>
-                <textarea id="pricing-description" class="form-input" rows="2"><?php echo $description; ?></textarea>
+                <textarea id="pricing-description" class="form-input" rows="2"><?php echo esc_attr( $description ); ?></textarea>
             </div>
 
             <div class="flex gap-2">
@@ -258,7 +258,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
             ob_start();
 
             if ( empty( $pricing_rules_date ) ) {
-                echo '<tr><td colspan="5" class="text-center text-gray-500">No pricing rules found.</td></tr>';
+                echo wp_kses_post( '<tr><td colspan="5" class="text-center text-gray-500">No pricing rules found.</td></tr>' );
                 return ob_get_clean();
             }
 
@@ -305,16 +305,16 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                 ?>
                 <tr id="pricing_rules_content_<?php echo esc_attr( $id );?>">
                     <td>
-                        <div class="text-sm font-medium text-gray-900"><?php echo $name; ?></div>
-                        <div class="text-sm text-gray-500"><?php echo $subtitle; ?></div>
+                        <div class="text-sm font-medium text-gray-900"><?php echo esc_attr( $name ); ?></div>
+                        <div class="text-sm text-gray-500"><?php echo esc_attr( $subtitle ); ?></div>
                     </td>
-                    <td class="text-sm text-gray-900"><?php echo $details; ?></td>
-                    <td class="text-sm text-gray-900"><?php echo $multiplier; ?>x</td>
+                    <td class="text-sm text-gray-900"><?php echo esc_attr( $details ); ?></td>
+                    <td class="text-sm text-gray-900"><?php echo esc_attr( $multiplier ); ?>x</td>
                     <td>
-                        <span class="status-badge <?php echo $statusClass; ?>">
-                            <?php echo $statusText; ?>
+                        <span class="status-badge <?php echo esc_attr( $statusClass ); ?>">
+                            <?php echo esc_attr( $statusText ); ?>
                         </span>
-                        <div class="text-xs text-gray-500 mt-1">Priority: <?php echo $priority; ?></div>
+                        <div class="text-xs text-gray-500 mt-1">Priority: <?php echo esc_attr( $priority ); ?></div>
                     </td>
                     <td>
                         <div class="flex gap-2">

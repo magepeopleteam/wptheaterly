@@ -147,7 +147,7 @@
 								$data['wtbm_billing_phone'] = $order->get_billing_phone();
 								$data['wtbm_billing_address'] = $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 
-								$booking_data = apply_filters( 'add_wtbm_booking_data', $data, $post_id );
+								$booking_data = apply_filters( 'wtbm_add_booking_data', $data, $post_id );
 								self::add_cpt_data('wtbm_booking', $booking_data['wtbm_billing_name'], $booking_data);
 							}
 						}

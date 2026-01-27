@@ -35,23 +35,24 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
             $quantity = 1;
             $wtbm_movie_id = $original_post_id;
             $theater_id = intval($_POST['theater_id'] ?? 0);
-            $booking_date = sanitize_text_field($_POST['booking_date'] ?? '');
-            $booking_time = sanitize_text_field($_POST['booking_time'] ?? '');
-            $seat_count = intval($_POST['seat_count'] ?? 0);
+            $booking_date = isset( $_POST['booking_date'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_date'] ) ) : '';
+            $booking_time = isset( $_POST['booking_time'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_time'] ) ) : '';
+//            $seat_count = intval($_POST['seat_count'] ?? 0);
+            $seat_count = isset( $_POST['seat_count'] ) ? intval( wp_unslash( $_POST['seat_count'] ) ) : '';
 
-            $seat_names = json_decode( sanitize_text_field( wp_unslash( $_POST['seat_names'] ) ) );
-            $booked_seat_ids = json_decode( sanitize_text_field( wp_unslash( $_POST['booked_seat_ids'] ) ) );
+            $seat_names = isset( $_POST['seat_names'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['seat_names'] ) ) ) : [];
+            $booked_seat_ids = isset( $_POST['booked_seat_ids'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['booked_seat_ids'] ) ) ) : [];
 
             $wtbm_price = floatval($_POST['total_amount'] ?? 0);
-            $user_name = sanitize_text_field($_POST['userName'] ?? '');
-            $user_phone_num = sanitize_text_field($_POST['userPhoneNum'] ?? '');
+            $user_name = isset( $_POST['userName'] ) ? sanitize_text_field( wp_unslash( $_POST['userName'] ) ) : '';
+            $user_phone_num = isset( $_POST['userPhoneNum'] ) ? sanitize_text_field( wp_unslash( $_POST['userPhoneNum'] ) ) : '';
             $user_id = get_current_user_id();
             $order = wc_create_order(array('customer_id' => $user_id));
             if ( ! $order ) {
                 wp_send_json_error('Failed to create order.');
             }
 
-            $day_of_week = strtolower( date('l', strtotime( $booking_date ) ) );
+            $day_of_week = strtolower( gmdate('l', strtotime( $booking_date ) ) );
             $wtbm_price = WTBM_Set_Pricing_Sules::calculate_price_by_rules(  $wtbm_price, $day_of_week, $booking_date, $theater_id, $booking_time, $seat_count  );
 
             $item = new WC_Order_Item_Product();
@@ -96,7 +97,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                 $data['wtbm_billing_phone']     = $user_phone_num;
                 $data['wtbm_billing_address']   = '';
 
-                $booking_data = apply_filters( 'add_wtbm_booking_data', $data, $wtbm_movie_id );
+                $booking_data = apply_filters( 'wtbm_add_booking_data', $data, $wtbm_movie_id );
 
                 WTBM_Woocommerce::add_cpt_data('wtbm_booking', $booking_data['wtbm_billing_name'], $booking_data );
 
@@ -136,25 +137,25 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                         <h3 class="section-title"><?php esc_attr_e( 'New Ticket Sale', 'wptheaterly' ); ?></h3>
                     </div>
 
-                    <?php echo $this->display_registration_data( $args );?>
+                    <?php $this->display_registration_data( $args );?>
                 </div>
             </div>
         <?php }
 
         public function display_registration_data( $atts ){
 
-            $today_date = date('M d, y');
+            $today_date = gmdate('M d, y');
 
-            ob_start();
+//            ob_start();
             ?>
             <div class="wtbm_registrationContainer" id="wtbm_registrationContainer">
                 <div class="wtbm_registrationMainContent">
                     <?php
-                    echo WTBM_Details_Layout::booking_date_display();
+                    WTBM_Details_Layout::booking_date_display();
                     ?>
 
                     <div class="section" id="wtbm_movieSection">
-                        <?php echo WTBM_Details_Layout::display_date_wise_movies() ;?>
+                        <?php WTBM_Details_Layout::display_date_wise_movies() ;?>
                     </div>
 
                     <div class="section" id="wtbm_hallSection" style="display: none">
@@ -193,7 +194,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                     <div class="wtbm_registrationSummaryCard">
                         <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="">
                         <input type="hidden" name="wtbm_summeryTheaterId" id="wtbm_summeryTheaterId" value="">
-                        <input type="hidden" name="wtbm_summeryDate" id="wtbm_summeryDate" value="<?php echo esc_attr( date("Y-m-d") );?>">
+                        <input type="hidden" name="wtbm_summeryDate" id="wtbm_summeryDate" value="<?php echo esc_attr( gmdate("Y-m-d") );?>">
                         <input type="hidden" name="wtbm_summeryTime" id="wtbm_summeryTime" value="">
                         <input type="hidden" name="wtbm_summerySeatType" id="wtbm_summerySeatType" value="">
                         <input type="hidden" name="wtbm_summerySeatNumber" id="wtbm_summerySeatNumber" value="">
@@ -262,7 +263,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
             </div>
             <?php
 
-            return ob_get_clean();
+//            return ob_get_clean();
         }
 
     }

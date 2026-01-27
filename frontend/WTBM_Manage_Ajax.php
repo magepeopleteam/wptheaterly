@@ -37,7 +37,7 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                     $date = isset( $_POST['date'] ) ? sanitize_text_field( wp_unslash( $_POST['date'] ) ) : '';
                     // Fetch movies or showtimes based on date
                     if( $date ){
-                        $movies = WTBM_Details_Layout::display_date_wise_movies( $date );
+                        $movies = WTBM_Details_Layout::display_date_wise_movies_ajax( $date );
                     }
 
                     wp_send_json_success($movies);
