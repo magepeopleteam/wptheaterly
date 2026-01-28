@@ -720,6 +720,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     </header>
                     <section class="mptrs-seat-mapping-section " id="wtbm_SeatMappingSection">
                         <?php
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             echo WTBM_Theater_Seat_Mapping::render_seat_mapping_meta_box( $theater_id, 'edit', $theater_rows, $theater_seats, );
                         ?>
                     </section>

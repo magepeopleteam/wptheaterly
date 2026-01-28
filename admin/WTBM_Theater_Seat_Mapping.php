@@ -243,7 +243,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                     $hover_price = $seat_price === 0 ? '' : 'Price: ' . esc_attr( $seat_price );
                     $block = $seat_num ? 'block' : 'none';
 
-                    echo '<div title="'.$hover_price.get_woocommerce_currency().'" class=" mptrs_mappingSeat ' . esc_attr( $class ) . '"
+                    echo '<div title="'.esc_attr( $hover_price ).esc_attr(get_woocommerce_currency()).'" class=" mptrs_mappingSeat ' . esc_attr( $class ) . '"
                                         id = "div' . esc_attr( $col ) . '_' . esc_attr( $row ) . '"
                                         data-id="' . esc_attr( $col ) . '_' . esc_attr( $row ) . '" 
                                         data-row="' . esc_attr( $col ) . '" 
@@ -354,7 +354,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                                         <div class="mptrs_setPriceColorHolder" id="mptrs_setPriceColorHolder" style="display: none">
                                             <div class="wtbm_setSeatCategoryContainer">
                                                 <span class="wtbm_addSeatCategory" id="wtbm_addSeatCategory">Select Category</span>
-                                                 '.$category_html.'
+                                                 '.wp_kses_post( $category_html ).'
                                             </div>
                                         
                                             <div class="mptrs_copyHolder" style="display: none">
