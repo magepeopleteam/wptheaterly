@@ -23,7 +23,7 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
         public function wtbm_theater_seat_map_add(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
-            $post_id     = isset($_POST['post_id']) ? intval($_POST['post_id']) : '';
+            $post_id     = isset($_POST['post_id']) ? intval( wp_unslash( $_POST['post_id'] ) ) : '';
             if( $post_id ) {
                 $seat_maps_meta_data = isset($_POST['seat_maps_meta_data']) ? json_decode(sanitize_text_field(wp_unslash($_POST['seat_maps_meta_data'])), true) : [];
                 $seat_plan_texts = isset($_POST['seatPlanTexts']) ? json_decode(sanitize_text_field(wp_unslash($_POST['seatPlanTexts'])), true) : '';
@@ -55,13 +55,13 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
 
             $cpt = WTBM_Function::get_theater_cpt();
 
-            $title          = sanitize_text_field( $_POST['name']);
-            $type           = sanitize_text_field( $_POST['type']);
-            $rows           = sanitize_text_field( $_POST['rows']);
-            $seatsPerRow    = sanitize_text_field($_POST['seatsPerRow']);
-            $soundSystem    = sanitize_text_field($_POST['soundSystem']);
-            $status         = sanitize_text_field($_POST['status']);
-            $description    = sanitize_textarea_field($_POST['description']);
+            $title          = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+            $type           = isset( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : '';
+            $rows           = isset( $_POST['rows'] ) ? sanitize_text_field( wp_unslash( $_POST['rows'] ) ) : '';
+            $seatsPerRow    = isset( $_POST['seatsPerRow'] ) ? sanitize_text_field( wp_unslash( $_POST['seatsPerRow'] ) ) : '';
+            $soundSystem    = isset( $_POST['soundSystem'] ) ? sanitize_text_field( wp_unslash( $_POST['soundSystem'] ) ) : '';
+            $status         = isset( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
+            $description    = isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
 
             $categories = isset( $_POST['wtbm_categories'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['wtbm_categories'] ) ), true ) : '';
 
@@ -105,15 +105,15 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
             $cpt            = WTBM_Function::get_theater_cpt();
-            $title          = sanitize_text_field( $_POST['name']);
-            $type           = sanitize_text_field( $_POST['type']);
-            $rows           = sanitize_text_field( $_POST['rows']);
-            $seatsPerRow    = sanitize_text_field($_POST['seatsPerRow']);
-            $soundSystem    = sanitize_text_field($_POST['soundSystem']);
-            $status         = sanitize_text_field($_POST['status']);
-            $description    = sanitize_textarea_field($_POST['description']);
+            $title          = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+            $type           = isset( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : '';
+            $rows           = isset( $_POST['rows'] ) ? sanitize_text_field( wp_unslash( $_POST['rows'] ) ) : '';
+            $seatsPerRow    = isset( $_POST['seatsPerRow'] ) ? sanitize_text_field( wp_unslash( $_POST['seatsPerRow'] ) ) : '';
+            $soundSystem    = isset( $_POST['soundSystem'] ) ? sanitize_text_field( wp_unslash( $_POST['soundSystem'] ) ) : '';
+            $status         = isset( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
+            $description    = isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
 
-            $post_id     = isset($_POST['post_id']) ? intval($_POST['post_id']) : '';
+            $post_id     = isset($_POST['post_id']) ? intval( wp_unslash( $_POST['post_id'] ) ) : '';
             $post_data = [
                 'ID'           => $post_id,
                 'post_title'   => $title,
@@ -167,7 +167,7 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
         public function wtbp_add_edit_theater_form(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
-            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';
+            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
             if( $post_id == '' ){
                 $theater_data = null;
                 $type = 'add';

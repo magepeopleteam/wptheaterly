@@ -20,13 +20,12 @@ if (!class_exists('WTBP_Manage_Movie')) {
 
             add_action('wp_ajax_wtbt_delete_custom_post', [ $this, 'wtbt_delete_custom_post' ]);
             add_action('wp_ajax_nopriv_wtbt_delete_custom_post', [ $this, 'wtbt_delete_custom_post' ]);
-
         }
 
         public function wtbt_delete_custom_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
-            $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : '';
+            $post_id = isset($_POST['post_id']) ? intval( wp_unslash( $_POST['post_id'] ) ) : '';
 
             if ( $post_id ) {
                 $post = get_post($post_id);
@@ -58,20 +57,19 @@ if (!class_exists('WTBP_Manage_Movie')) {
             }
         }
 
-
         function mptrs_insert_movie_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
             $cpt = WTBM_Function::get_movie_cpt();
-            $title       = sanitize_text_field( $_POST['title']);
-            $genre       = sanitize_text_field( $_POST['genre']);
-            $duration    = sanitize_text_field( $_POST['duration']);
-            $rating      = floatval($_POST['rating']);
-            $releaseDate = sanitize_text_field($_POST['release_date']);
-            $poster      = isset( $_POST['poster'] ) ? esc_url_raw($_POST['poster']) : '';
-            $poster_id      = sanitize_textarea_field($_POST['poster_id']);
-            $description = sanitize_textarea_field($_POST['description']);
-            $active = sanitize_textarea_field($_POST['active']);
+            $title       = isset( $_POST['title'] ) ? sanitize_text_field( wp_unslash( $_POST['title'] ) ) : '';
+            $genre       = isset( $_POST['genre'] ) ? sanitize_text_field( wp_unslash( $_POST['genre'] ) ) : '';
+            $duration    = isset( $_POST['duration'] ) ? sanitize_text_field( wp_unslash(  $_POST['duration'] ) ) : '';
+            $rating      = isset( $_POST['rating'] ) ? floatval( wp_unslash( $_POST['rating'] ) ) : '';
+            $releaseDate = isset( $_POST['release_date'] ) ? sanitize_text_field( wp_unslash( $_POST['release_date'] ) ) : '';
+            $poster      = isset( $_POST['poster'] ) ? esc_url_raw( wp_unslash( $_POST['poster'] ) ) : '';
+            $poster_id   = isset( $_POST['poster_id'] ) ? sanitize_textarea_field( wp_unslash( $_POST['poster_id'] ) ) : '';
+            $description = isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
+            $active      = isset( $_POST['active'] ) ? sanitize_textarea_field( wp_unslash( $_POST['active'] ) ) : '';
 
             $post_id = wp_insert_post([
                 'post_title'   => $title,
@@ -99,16 +97,16 @@ if (!class_exists('WTBP_Manage_Movie')) {
         function wtbm_update_movie_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
             $cpt = WTBM_Function::get_movie_cpt();
-            $title          = sanitize_text_field( $_POST['title']);
-            $genre          = sanitize_text_field( $_POST['genre']);
-            $duration       = sanitize_text_field( $_POST['duration']);
-            $rating         = floatval($_POST['rating']);
-            $releaseDate    = sanitize_text_field($_POST['release_date']);
-            $poster         = isset( $_POST['poster'] ) ? esc_url_raw( $_POST['poster'] ) : '';
-            $poster_id      = sanitize_textarea_field($_POST['poster_id']);
-            $description    = sanitize_textarea_field($_POST['description']);
-            $post_id        = isset($_POST['post_id']) ? intval($_POST['post_id']) : '';
-            $active         = sanitize_textarea_field($_POST['active']);
+            $title          = isset( $_POST['title'] ) ? sanitize_text_field( wp_unslash( $_POST['title'] ) ) : '';
+            $genre          = isset( $_POST['genre'] ) ? sanitize_text_field( wp_unslash( $_POST['genre'] ) ) : '';
+            $duration       = isset( $_POST['duration'] ) ? sanitize_text_field( wp_unslash( $_POST['duration'] ) ) : '';
+            $rating         = isset( $_POST['rating'] ) ? floatval( wp_unslash( $_POST['rating'] ) ) : '';
+            $releaseDate    = isset( $_POST['release_date'] ) ? sanitize_text_field( wp_unslash( $_POST['release_date'] ) ) : '';
+            $poster         = isset( $_POST['poster'] ) ? esc_url_raw( wp_unslash( $_POST['poster'] ) ) : '';
+            $poster_id      = isset( $_POST['poster_id'] ) ? sanitize_textarea_field( wp_unslash( $_POST['poster_id'] ) ) : '';
+            $description    = isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
+            $post_id        = isset($_POST['post_id']) ? intval( wp_unslash( $_POST['post_id'] ) ) : '';
+            $active         = isset( $_POST['active'] ) ? sanitize_textarea_field( wp_unslash( $_POST['active'] ) ) : '';
             $post_data = [
                 'post_title'   => $title,
                 'post_type'    => $cpt,
@@ -160,12 +158,10 @@ if (!class_exists('WTBP_Manage_Movie')) {
 
         }
 
-
-
         public function wtbp_add_edit_movie_form(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
 
-            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';
+            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
             $movie_data = [];
             if( $post_id == '' ){
                 $type = 'add';
@@ -179,9 +175,6 @@ if (!class_exists('WTBP_Manage_Movie')) {
             wp_send_json_success(  $add_form );
 
         }
-
-
-
 
     }
 

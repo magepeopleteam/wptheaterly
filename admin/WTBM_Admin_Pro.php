@@ -47,8 +47,8 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
                     }
                 }
             }else{
-                // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
-                wp_die( __( 'Security check failed', 'wptheaterly' ) );
+                esc_attr_e( 'Security check failed', 'wptheaterly' );
+                wp_die( );
             }
 
         }
