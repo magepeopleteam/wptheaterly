@@ -64,10 +64,10 @@ if ($wtbm_attendee_id == 0 && isset($wtbm_order_id)) {
             <h5><?php esc_html_e('Order Items', 'wptheaterly'); ?></h5>
             <div class="divider"></div>
             <ul class="mp_list">
-                <?php foreach ($wtbm_wc_order->get_items() as $item): ?>
+                <?php foreach ($wtbm_wc_order->get_items() as $wtbm_item): ?>
                     <li class="justifyBetween">
-                        <p class="min_150"><?php echo esc_html($item->get_name()); ?></p>
-                        <span>x<?php echo esc_html($item->get_quantity()); ?> | <?php echo wp_kses_post(  wc_price($item->get_total() ) ); ?></span>
+                        <p class="min_150"><?php echo esc_html($wtbm_item->get_name()); ?></p>
+                        <span>x<?php echo esc_html($wtbm_item->get_quantity()); ?> | <?php echo wp_kses_post(  wc_price($wtbm_item->get_total() ) ); ?></span>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -99,15 +99,15 @@ if ($wtbm_attendee_id == 0 && isset($wtbm_order_id)) {
 
     <div class="mp_pdf_footer" style="float: left; width: 100%">
         <?php
-        $term_title = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_tc_title');
-        $term_text = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_tc_text');
-        if ($term_title) {
+        $wtbm_term_title = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_tc_title');
+        $wtbm_term_text = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_tc_text');
+        if ($wtbm_term_title) {
             ?>
-            <h4><?php echo esc_html($term_title); ?></h4>
+            <h4><?php echo esc_html($wtbm_term_title); ?></h4>
             <?php
         }
-        if ($term_text) { ?>
-            <span><?php echo esc_html($term_text); ?></span>
+        if ($wtbm_term_text) { ?>
+            <span><?php echo esc_html($wtbm_term_text); ?></span>
         <?php } ?>
     </div>
 </div>

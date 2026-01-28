@@ -46,8 +46,8 @@ if ( $wtbm_order_id > 0 ) { ?>
     } else {
         $wtbm_total_guest = count($wtbm_booking_posts);
         $wtbm_i = 0;
-        foreach ($wtbm_booking_posts as $booking_post) {
-            $wtbm_ticket_id = $booking_post->ID;
+        foreach ($wtbm_booking_posts as $wtbm_booking_post) {
+            $wtbm_ticket_id = $wtbm_booking_post->ID;
 //            include MPCRBM_PLUGIN_DIR_PRO . '/template_pro/pdf/default.php';
             include MPCRBM_PLUGIN_DIR_PRO . '/template_pro/pdf/ticket_pdf.php';
             if ($wtbm_i < $wtbm_total_guest - 1) {
