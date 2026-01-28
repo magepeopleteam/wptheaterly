@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Plugin Name: Online Theater System & Reservation Plugin - WpTheaterly
+	 * Plugin Name: Online Theater System & Reservation - Theaterly
 	 * Plugin URI: http://mage-people.com
 	 * Description: A complete solution for Any kind of theater booking.
      * Requires at least: 5.6

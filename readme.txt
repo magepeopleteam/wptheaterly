@@ -1,4 +1,4 @@
-=== Online Theater System & Reservation Plugin - WpTheaterly ===
+=== Online Theater System & Reservation - Theaterly ===
 Contributors: magepeopleteam
 Tags: appointment booking, Car Wash Booking, Booking calendar, Tablely
 Requires at least: 5.6

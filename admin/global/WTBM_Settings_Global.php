@@ -16,7 +16,7 @@
 				add_filter('wtbm_settings_sec_reg', array($this, 'settings_sec_reg'), 10);
 				add_filter('wtbm_settings_sec_fields', array($this, 'settings_sec_fields'), 10);
                 /*******************************/
-				add_action('wsa_form_bottom_mptrs_license_settings', [$this, 'license_settings'], 5);
+				add_action('wtbm_form_bottom_mptrs_license_settings', [$this, 'license_settings'], 5);
 				add_action('mptrs_license', [$this, 'licence_area']);
 			}
 			public function global_settings_menu() {
