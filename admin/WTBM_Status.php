@@ -87,7 +87,7 @@ if ( ! class_exists( 'WTBM_Status' ) ) {
                                 </td>
                             </tr>
                         <?php }
-                        do_action( 'mpcrbm_status_table_item_sec' ); ?>
+                        do_action( 'wtbm_status_table_item_sec' ); ?>
                         </tbody>
                     </table>
                 </div>

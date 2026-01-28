@@ -9,7 +9,7 @@
 	if (!class_exists('MPTRS_General_Settings')) {
 		class MPTRS_General_Settings {
 			public function __construct() {
-				add_action('add_mptrs_settings_tab_content', [$this, 'general_settings'], 10, 1);
+				add_action('wtbm_add_settings_tab_content', [$this, 'general_settings'], 10, 1);
 			}
 			public function general_settings($post_id) {
 				?>

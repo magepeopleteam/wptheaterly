@@ -9,7 +9,7 @@
 	if (!class_exists('MPTRS_Extra_service_Settings')) {
 		class MPTRS_Extra_service_Settings {
 			public function __construct() {
-				add_action('add_mptrs_settings_tab_content', [$this, 'extra_service_settings'], 10, 1);
+				add_action('wtbm_add_settings_tab_content', [$this, 'extra_service_settings'], 10, 1);
 				// save extra service
 				add_action('wp_ajax_mptrs_save_ex_service', [$this, 'save_ex_service']);
 				add_action('wp_ajax_nopriv_mptrs_save_ex_service', [$this, 'save_ex_service']);

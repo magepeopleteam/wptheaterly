@@ -9,7 +9,7 @@
 	if (!class_exists('WTBM_Date_Time_Settings')) {
 		class WTBM_Date_Time_Settings {
 			public function __construct() {
-				add_action('add_mptrs_settings_tab_content', [$this, 'date_time_settings'], 10, 1);
+				add_action('wtbm_add_settings_tab_content', [$this, 'date_time_settings'], 10, 1);
 				/************************/
 				add_action('wp_ajax_get_mptrs_end_time_slot', array($this, 'get_mptrs_end_time_slot'));
 				add_action('wp_ajax_nopriv_get_mptrs_end_time_slot', array($this, 'get_mptrs_end_time_slot'));

@@ -39,11 +39,11 @@
                                 <li data-tabs-target="#mptrs_faq_settings">
                                     <i class="fas fa-question-circle _mR_xs"></i><?php esc_html_e('FAQ', 'wptheaterly'); ?>
                                 </li>
-								<?php do_action('add_mptrs_settings_tab_after_date', $post_id); ?>
+								<?php do_action('wtbm_add_settings_tab_after_date', $post_id); ?>
                             </ul>
                         </div>
                         <div class="tabsContent">
-							<?php do_action('add_mptrs_settings_tab_content', $post_id); ?>
+							<?php do_action('wtbm_add_settings_tab_content', $post_id); ?>
                         </div>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
 					'general_date_time_desc' => esc_html__('Date & time settings', 'wptheaterly'),
 					//''          => esc_html__( '', 'wptheaterly' ),
 				);
-				$des = apply_filters('mpwpb_filter_description_array', $des);
+				$des = apply_filters('wtbm_filter_description_array', $des);
 				return $des[$key];
 			}
 			public static function info_text($key) {

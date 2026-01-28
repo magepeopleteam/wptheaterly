@@ -79,7 +79,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                 <!-- Main Content -->
                 <div class="main-content">
 
-                    <?php do_action( 'movie_content');?>
+                    <?php do_action( 'wtbm_movie_content');?>
                     <!-- Movies Tab -->
                     <div id="wtbm_movies_content" class="tab-content active">
                         <div class="section">

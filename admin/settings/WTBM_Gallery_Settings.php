@@ -9,7 +9,7 @@
 	if (!class_exists('MPTRS_Gallery_Settings')) {
 		class MPTRS_Gallery_Settings {
 			public function __construct() {
-				add_action('add_mptrs_settings_tab_content', [$this, 'gallery_settings'], 10, 1);
+				add_action('wtbm_add_settings_tab_content', [$this, 'gallery_settings'], 10, 1);
 			}
 			public function gallery_settings($post_id) {
 				$display = WTBM_Function::get_post_info($post_id, 'mptrs_display_slider', 'off');
