@@ -7,6 +7,7 @@
 		die;
 	} // Cannot access pages directly.
 	if (!class_exists('WTBM_Select_Icon_image')) {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 		$GLOBALS['mp_icon_popup_exit'] = false;
 		class WTBM_Select_Icon_image {
 			public function __construct() {
@@ -35,6 +36,7 @@
 			}
 			public function icon_popup() {
 				if (!$GLOBALS['mp_icon_popup_exit']) {
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 					$GLOBALS['mp_icon_popup_exit'] = true;
 					?>
                     <div class="add_icon_popup mptrs_popup mptrs_area" data-popup="#add_icon_popup">

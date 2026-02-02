@@ -37,7 +37,7 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                     $date = isset( $_POST['date'] ) ? sanitize_text_field( wp_unslash( $_POST['date'] ) ) : '';
                     // Fetch movies or showtimes based on date
                     if( $date ){
-                        $movies = WTBM_Details_Layout::display_date_wise_movies( $date );
+                        $movies = WTBM_Details_Layout::display_date_wise_movies_ajax( $date );
                     }
 
                     wp_send_json_success($movies);
@@ -53,8 +53,8 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
             if ( isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wtbm_nonce') ) {
 
                 if (isset($_POST['date']) && isset($_POST['movie_id'])) {
-                    $date = sanitize_text_field($_POST['date']);
-                    $movie_id = sanitize_text_field($_POST['movie_id']);
+                    $date = isset( $_POST['date'] ) ? sanitize_text_field( wp_unslash( $_POST['date'] ) ) : '';
+                    $movie_id = isset( $_POST['movie_id'] ) ? sanitize_text_field( wp_unslash( $_POST['movie_id'] ) ) : '';
                     // Fetch movies or showtimes based on date
                     $theater_show_times = WTBM_Details_Layout::display_theater_show_time( $movie_id, $date );
 
@@ -73,7 +73,7 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
 
             if ( isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wtbm_nonce') ) {
                 $theater_id = isset( $_POST['theater_id']) ? sanitize_text_field( wp_unslash($_POST['theater_id'] ) ) : '';
-                $movie_id = isset( $_POST['theater_id']) ? sanitize_text_field( wp_unslash($_POST['activeMovieId'] ) ) : '';
+                $movie_id = isset( $_POST['activeMovieId']) ? sanitize_text_field( wp_unslash($_POST['activeMovieId'] ) ) : '';
                 $search_time = isset( $_POST['movie_time_slot']) ? sanitize_text_field( wp_unslash($_POST['movie_time_slot'] ) ) : '';
                 $get_date = isset( $_POST['movie_date']) ? sanitize_text_field( wp_unslash($_POST['movie_date'] ) ) : '';
 
@@ -98,19 +98,24 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
 
             if ( isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wtbm_nonce') ) {
 
-                $original_post_id = intval($_POST['movie_id']);
+                $original_post_id = isset( $_POST['movie_id'] ) ? intval( wp_unslash( $_POST['movie_id'] ) ) : '';
                 $product_id = intval(get_post_meta($original_post_id, 'link_wc_product', true));
                 $quantity = 1;
 
-                $theater_id     = intval( $_POST['theater_id'] );
-                $booking_data   = sanitize_text_field( $_POST['booking_date'] );
-                $booking_time   = sanitize_text_field( $_POST['booking_time'] );
-                $total_amount   = floatval( $_POST['total_amount'] );
-                $seat_count     = intval($_POST['seat_count']);
+                $theater_id     = isset( $_POST['theater_id'] ) ? intval( wp_unslash( $_POST['theater_id'] ) ) : '';
+                $booking_data   = isset( $_POST['booking_date'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_date'] ) ) : '';
+                $booking_time   = isset( $_POST['booking_time'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_time'] ) ) : '';
+                $total_amount   = isset( $_POST['total_amount'] ) ? floatval( wp_unslash( $_POST['total_amount'] ) ) : '';
+                $seat_count     = isset( $_POST['seat_count'] ) ? intval( wp_unslash( $_POST['seat_count'] ) ) : '';
+                $user_name     = isset( $_POST['userName'] ) ? sanitize_text_field( wp_unslash( $_POST['userName'] ) ) : '';
+                $user_phoneNum     = isset( $_POST['userPhoneNum'] ) ? sanitize_text_field( wp_unslash( $_POST['userPhoneNum'] ) ) : '';
 
 
+                $seat_names     = isset( $_POST['seat_names'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['seat_names'] ) ) ) : '';
+                $booked_seat_ids    = isset( $_POST['booked_seat_ids'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['booked_seat_ids'] ) ) ) : '';
 
-                $day_of_week = strtolower( date('l', strtotime( $booking_data ) ) );
+
+                $day_of_week = strtolower( gmdate('l', strtotime( $booking_data ) ) );
                 $total_discount_amount = WTBM_Set_Pricing_Sules::calculate_price_by_rules(  $total_amount, $day_of_week, $booking_data, $theater_id, $booking_time, $seat_count  );
 
                 $cart_item_data = [
@@ -120,12 +125,12 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                     'booking_date'          => $booking_data,
                     'booking_time'          => $booking_time,
                     'seat_count'            => $seat_count,
-                    'seat_names'            => json_decode( sanitize_text_field( wp_unslash( $_POST['seat_names'] ) ) ),
-                    'booked_seat_ids'       => json_decode( sanitize_text_field( wp_unslash( $_POST['booked_seat_ids'] ) )),
+                    'seat_names'            => $seat_names,
+                    'booked_seat_ids'       => $booked_seat_ids,
                     'wtbm_price'            => $total_discount_amount,
                     'wtbm_original_price'   => $total_amount,
-                    'user_name'             => sanitize_text_field($_POST['userName']),
-                    'user_phone_num'        => sanitize_text_field($_POST['userPhoneNum']),
+                    'user_name'             => $user_name,
+                    'user_phone_num'        => $user_phoneNum,
                 ];
 
                 if (!class_exists('WC_Cart')) {
@@ -154,29 +159,30 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
 
             if ( isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wtbm_nonce') ) {
 
-                $original_post_id = intval($_POST['movie_id']);
-                $product_id = intval(get_post_meta($original_post_id, 'link_wc_product', true));
+                $original_post_id = isset( $_POST['movie_id'] ) ? intval( $_POST['movie_id'] ) : '';
+                $product_id = intval( get_post_meta( $original_post_id, 'link_wc_product', true ) );
                 $quantity = 1;
 
                 $wtbm_movie_id = $original_post_id;
                 $wtbm_product_id = $product_id;
-                $theater_id = intval($_POST['theater_id']);
-                $booking_date = sanitize_text_field( $_POST['booking_date'] );
-                $booking_time = sanitize_text_field( $_POST['booking_time'] );
-                $seat_count = intval($_POST['seat_count']);
-                $seat_names = json_decode( sanitize_text_field( wp_unslash( $_POST['seat_names'] ) ) );
-                $booked_seat_ids = json_decode( sanitize_text_field( wp_unslash( $_POST['booked_seat_ids'] ) ) );
-                $wtbm_price = floatval($_POST['total_amount']);
-                $wtbm_original_price = floatval($_POST['wtbm_original_price']);
-                $user_name = sanitize_text_field($_POST['userName']);
-                $user_phone_num = sanitize_text_field($_POST['userPhoneNum']);
+                $theater_id = isset( $_POST['theater_id'] ) ? intval( $_POST['theater_id'] ) : '';
+                $booking_date =  isset( $_POST['booking_date'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_date'] ) ) : '';
+                $booking_time = isset( $_POST['booking_time'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_time'] ) ) : '';
+                $seat_count = isset( $_POST['seat_count'] ) ? intval( $_POST['seat_count'] ) : '';
+                $seat_names =  isset( $_POST['seat_names'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['seat_names'] ) ) ) : '';
+                $booked_seat_ids = isset( $_POST['booked_seat_ids'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['booked_seat_ids'] ) ) ) : '';
+                $wtbm_price = isset( $_POST['total_amount'] ) ? floatval( $_POST['total_amount'] ) : '';
+                $wtbm_original_price = isset( $_POST['wtbm_original_price'] ) ? floatval( $_POST['wtbm_original_price'] ) : '';
+
+                $user_name     = isset( $_POST['userName'] ) ? sanitize_text_field( wp_unslash( $_POST['userName'] ) ) : '';
+                $user_phoneNum     = isset( $_POST['userPhoneNum'] ) ? sanitize_text_field( wp_unslash( $_POST['userPhoneNum'] ) ) : '';
 
 
                 if( !is_user_logged_in() ){
                     wp_send_json_error('Please login to place an order.');
                 }
 
-                $price      = floatval($_POST['total_amount']);
+                $price      = isset( $_POST['total_amount'] ) ? floatval( $_POST['total_amount'] ) : '';
                 $user_id    = get_current_user_id();
 
                 $order = wc_create_order(array('customer_id' => $user_id));

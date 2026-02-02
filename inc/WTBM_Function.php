@@ -257,7 +257,8 @@
 						$tax_rates = WC_Tax::get_rates($product->get_tax_class());
 						$base_tax_rates = WC_Tax::get_base_tax_rates($product->get_tax_class('unfiltered'));
 						if (!empty(WC()->customer) && WC()->customer->get_is_vat_exempt()) { // @codingStandardsIgnoreLine.
-							$remove_taxes = apply_filters('woocommerce_adjust_non_base_location_prices', true) ? WC_Tax::calc_tax($line_price, $base_tax_rates, true) : WC_Tax::calc_tax($line_price, $tax_rates, true);
+                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+                            $remove_taxes = apply_filters('woocommerce_adjust_non_base_location_prices', true) ? WC_Tax::calc_tax($line_price, $base_tax_rates, true) : WC_Tax::calc_tax($line_price, $tax_rates, true);
 							if ('yes' === get_option('woocommerce_tax_round_at_subtotal')) {
 								$remove_taxes_total = array_sum($remove_taxes);
 							} else {
@@ -279,6 +280,7 @@
 						}
 					}
 				}
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 				$return_price = apply_filters('woocommerce_get_price_including_tax', $return_price, $qty, $product);
 				$display_suffix = get_option('woocommerce_price_display_suffix') ? get_option('woocommerce_price_display_suffix') : '';
 				return wc_price($return_price) . ' ' . $display_suffix;
@@ -436,9 +438,12 @@
 			public static function get_organizer_slug() {
 				return self::get_general_settings('organizer_slug', 'theaterly-organizer');
 			}
+
             public static function get_order_item_meta( $item_id, $key ): string {
                 global $wpdb;
                 $table_name = $wpdb->prefix . "woocommerce_order_itemmeta";
+                // PHPCS ignore: trusted WordPress core table
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
                 $results    = $wpdb->get_results( $wpdb->prepare( "SELECT meta_value FROM $table_name WHERE order_item_id = %d AND meta_key = %s", $item_id, $key ) );
                 foreach ( $results as $result ) {
                     $value = $result->meta_value;
@@ -446,8 +451,9 @@
 
                 return $value ?? '';
             }
-			//*************************************************************Full Custom Function******************************//
-	
+
+            //*************************************************************Full Custom Function******************************//
+
 		}
 		new WTBM_Function();
 	}

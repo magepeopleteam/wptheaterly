@@ -12,7 +12,7 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
         public function __construct() {
             $this->load_file();
             add_action( 'wtbm_status_notice_sec', array( $this, 'status_notice_sec' ) );
-            add_action( 'mpcrbm_status_table_item_sec', array( $this, 'status_table_item_sec' ) );
+            add_action( 'wtbm_status_table_item_sec', array( $this, 'status_table_item_sec' ) );
             add_action( 'admin_notices', array( $this, 'pdf_admin_notice' ) );
         }
 
@@ -24,23 +24,33 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
 
         }
         public function status_notice_sec() {
-            if ( isset( $_REQUEST['active_mep_pdf_support_plugin'] ) && $_REQUEST['active_mep_pdf_support_plugin'] == 'yes' ) {
-                activate_plugin( 'magepeople-pdf-support-master/mage-pdf.php' );
+
+            if ( isset( $_GET['wtbm_nonce'] ) ) {
+                if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['wtbm_nonce'] ) ), 'wtbm_mpdf_plugin_action') ) {
+
+                    if (isset($_REQUEST['active_mep_pdf_support_plugin']) && $_REQUEST['active_mep_pdf_support_plugin'] == 'yes') {
+                        activate_plugin('magepeople-pdf-support-master/mage-pdf.php');
+                    }
+
+                    if (isset($_REQUEST['install_mep_pdf_support_plugin']) && $_REQUEST['install_mep_pdf_support_plugin'] == 'yes') {
+                        include_once(ABSPATH . 'wp-admin/includes/plugin-install.php');
+                        include_once(ABSPATH . 'wp-admin/includes/file.php');
+                        include_once(ABSPATH . 'wp-admin/includes/misc.php');
+                        include_once(ABSPATH . 'wp-admin/includes/class-wp-upgrader.php');
+                        $title = 'title';
+                        $url = 'url';
+                        $nonce = 'nonce';
+                        $plugin = 'plugin';
+                        $api = 'api';
+                        $upgrades = new Plugin_Upgrader(new Plugin_Installer_Skin(compact('title', 'url', 'nonce', 'plugin', 'api')));
+                        $upgrades->install('https://github.com/magepeopleteam/magepeople-pdf-support/archive/master.zip');
+                    }
+                }
+            }else{
+                esc_attr_e( 'Security check failed', 'wptheaterly' );
+                wp_die( );
             }
 
-            if ( isset( $_REQUEST['install_mep_pdf_support_plugin'] ) && $_REQUEST['install_mep_pdf_support_plugin'] == 'yes' ) {
-                include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
-                include_once( ABSPATH . 'wp-admin/includes/file.php' );
-                include_once( ABSPATH . 'wp-admin/includes/misc.php' );
-                include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-                $title='title';
-                $url='url';
-                $nonce='nonce';
-                $plugin='plugin';
-                $api='api';
-                $upgrades = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
-                $upgrades->install( 'https://github.com/magepeopleteam/magepeople-pdf-support/archive/master.zip' );
-            }
         }
         public function status_table_item_sec() {
             ?>
@@ -90,8 +100,25 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
         }
         public function pdf_admin_notice() {
             $admin_url = get_admin_url();
-            $active_mpdf_plugin_url = '<a href="' . $admin_url . 'admin.php?page=wtbm_status_page&active_mep_pdf_support_plugin=yes" class="page-title-action">Active Now</a>';
+
+            $active_mpdf_plugin_url = wp_nonce_url(
+                $admin_url . 'admin.php?page=wtbm_status_page&active_mep_pdf_support_plugin=yes',
+                'wtbm_mpdf_plugin_action',
+                'wtbm_nonce'
+            );
+
+            $install_mpdf_plugin_url = wp_nonce_url(
+                $admin_url . 'admin.php?page=wtbm_status_page&install_mep_pdf_support_plugin=yes',
+                'wtbm_mpdf_plugin_action',
+                'wtbm_nonce'
+            );
+
+            $active_mpdf_plugin_url = '<a href="' . esc_url( $active_mpdf_plugin_url ) . '" class="page-title-action">Activate Now</a>';
+            $install_mpdf_plugin_url = '<a href="' . esc_url( $install_mpdf_plugin_url ) . '" class="page-title-action">Install Now</a>';
+
+           /* $active_mpdf_plugin_url = '<a href="' . $admin_url . 'admin.php?page=wtbm_status_page&active_mep_pdf_support_plugin=yes" class="page-title-action">Active Now</a>';
             $install_mpdf_plugin_url = '<a href="' . $admin_url . 'admin.php?page=wtbm_status_page&install_mep_pdf_support_plugin=yes" class="page-title-action">Install Now</a>';
+            */
             include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
             $plugin_dir = ABSPATH . 'wp-content/plugins/magepeople-pdf-support-master';
             if ( is_plugin_active( 'magepeople-pdf-support-master/mage-pdf.php' ) ) {
@@ -103,7 +130,7 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
             }
             if ( ! empty( $message ) ) {
                 $class = 'notice notice-error';
-                printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
+                printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), wp_kses_post( $message ) );
             }
         }
 

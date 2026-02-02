@@ -140,7 +140,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             $query = new WP_Query( $args );
 
             if ( ! $query->have_posts() ) {
-                echo '<tr><td colspan="6">' . esc_html__( 'No movies found.', 'wptheaterly' ) . '</td></tr>';
+                echo wp_kses_post('<tr><td colspan="6">' . esc_html__( 'No movies found.', 'wptheaterly' ) . '</td></tr>' ) ;
                 return;
             }
 
@@ -428,7 +428,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 <?php }else{?>
                     <button class="btn btn-success mptrs_add_new_movie" data-edited-post-id=<?php echo esc_attr( $post_id );?> id="mptrs_edit_movie">Update Movie</button>
                 <?php }?>
-                <button class="btn btn-secondary" id="wtbm_clear_add_movie_form" >Cancel</button>
+                <button class="btn btn-secondary" id="wtbm_clear_add_movie_form" ><?php esc_attr_e( 'Cancel', 'wptheaterly' ); ?></button>
             </div>
             <?php
 
@@ -474,25 +474,30 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 <tr class="wtbm_movie_content" id="movie_content_<?php echo esc_attr( $id );?>" date-movie-id="<?php echo esc_attr( $id );?>">
                     <td>
                         <div class="flex items-center">
-                            <img src="<?php echo $poster_img_url; ?>"
-                                 alt="<?php echo $title; ?>"
+                            <img src="<?php echo esc_url( $poster_img_url );?>"
+                                 alt="<?php echo esc_html( $title ) ; ?>"
                                  class="movie-poster" loading="lazy">
                             <div>
-                                <div class="font-medium text-gray-900"><?php echo $title; ?></div>
+                                <div class="font-medium text-gray-900"><?php echo esc_html( $title); ?></div>
                                 <?php if ( $releaseDate ) : ?>
                                     <div class="text-sm text-gray-500">
-                                        <?php echo sprintf( __( 'Released: %s', 'wptheaterly' ), $releaseDate ); ?>
+
+                                        <?php
+                                        // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+                                          esc_attr_e( 'Released: ', 'wptheaterly' );
+                                          echo esc_html( $releaseDate );
+                                          ?>
                                     </div>
                                 <?php endif; ?>
                             </div>
                         </div>
                     </td>
-                    <td class="text-sm text-gray-900"><?php echo $genre; ?></td>
-                    <td class="text-sm text-gray-900"><?php echo $duration; ?></td>
-                    <td class="text-sm font-medium">⭐ <?php echo $rating; ?></td>
+                    <td class="text-sm text-gray-900"><?php echo esc_html( $genre ); ?></td>
+                    <td class="text-sm text-gray-900"><?php echo esc_html( $duration) ; ?></td>
+                    <td class="text-sm font-medium">⭐ <?php echo esc_html( $rating ); ?></td>
                     <td>
                 <span class="status-badge status-<?php echo esc_attr( strtolower( $status ) ); ?>">
-                    <?php echo $status; ?>
+                    <?php echo esc_attr( $status); ?>
                 </span>
                     </td>
                     <td>
@@ -515,25 +520,25 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             if( $action === 'add' ){
             ?>
             <div class="wtbm_theater_category_box" data-id="1">
-                <h4>Seating Category 1</h4>
+                <h4><?php esc_attr_e( 'Seating Category 1', 'wptheaterly' ); ?></h4>
 
                 <div class="wtbm_theater_form_group_holder">
                     <div class="wtbm_theater_form_group">
-                        <label>Category Name</label>
+                        <label><?php esc_attr_e( 'Category Name', 'wptheaterly' ); ?></label>
                         <input type="text" placeholder="e.g., Regular, Premium" name="wtbm_theater_category_name" required>
                     </div>
 
                     <div class="wtbm_theater_form_group">
-                        <label>Number of Seats</label>
+                        <label><?php esc_attr_e( 'Number of Seats', 'wptheaterly' ); ?></label>
                         <input type="number" placeholder="50" name="wtbm_theater_seats" required>
                     </div>
 
                     <div class="wtbm_theater_form_group">
-                        <label>Base Price ($)</label>
+                        <label><?php esc_attr_e( 'Base Price ($)', 'wptheaterly' ); ?></label>
                         <input type="number" step="0.01" placeholder="12.99" name="wtbm_theater_price" required>
                     </div>
                     <div class="wtbm_theater_form_group">
-                        <label>Set Color</label>
+                        <label><?php esc_attr_e( 'Set Color', 'wptheaterly' ); ?></label>
                         <input type="color" name="wtbm_theater_color" class="wtbm_theater_color" value="<?php echo esc_attr( $default_color );?>" required>
                     </div>
                 </div>
@@ -551,25 +556,25 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             <?php if( $count_category > 1 ){?>
                                 <button type="button" class="wtbm_theater_remove_btn">&times;</button>
                             <?php }?>
-                            <h4>Seating Category <?php echo esc_attr( $count_category );?></h4>
+                            <h4><?php esc_attr_e( 'Seating Category', 'wptheaterly' ); ?> <?php echo esc_attr( $count_category );?></h4>
                             <div class="wtbm_theater_form_group_holder">
                                 <div class="wtbm_theater_form_group">
-                                    <label>Category Name</label>
+                                    <label><?php esc_attr_e( 'Category Name', 'wptheaterly' ); ?></label>
                                     <input type="text" placeholder="e.g., Regular, Premium" name="wtbm_theater_category_name" value="<?php echo esc_attr( $category['category_name']);?>" required>
                                 </div>
 
                                 <div class="wtbm_theater_form_group">
-                                    <label>Number of Seats</label>
+                                    <label><?php esc_attr_e( 'Number of Seats', 'wptheaterly' ); ?></label>
                                     <input type="number" placeholder="50" name="wtbm_theater_seats" value="<?php echo esc_attr( $category['seats']);?>" required>
                                 </div>
 
                                 <div class="wtbm_theater_form_group">
-                                    <label>Base Price ($)</label>
+                                    <label><?php esc_attr_e( 'Base Price ($)', 'wptheaterly' ); ?></label>
                                     <input type="number" step="0.01" placeholder="12.99" name="wtbm_theater_price" value="<?php echo esc_attr( $category['price']);?>" required>
                                 </div>
 
                                 <div class="wtbm_theater_form_group">
-                                    <label>Set Color</label>
+                                    <label><?php esc_attr_e( 'Set Color', 'wptheaterly' ); ?></label>
                                     <input type="color" name="wtbm_theater_color" class="wtbm_theater_color" value="<?php echo esc_attr( $color );?>" required>
                                 </div>
                             </div>
@@ -608,11 +613,16 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             ];
             $data = wp_parse_args( $theater, $defaults );*/
 
+            $allowed_tags = WTBM_Details_Layout::show_html_element();
             ob_start(); ?>
 
             <div class="wtbm_add_edit_theater_container" id="wtbm_add_edit_theater_container">
                 <h4 class="mb-4 font-semibold">
-                    <?php echo $theater ? esc_html__( 'Edit Theater', 'wptheaterly' ) : esc_html__( 'Add New Theater', 'wptheaterly' ); ?>
+                    <?php
+                    echo ! empty( $theater )
+                        ? esc_html__( 'Edit Theater', 'wptheaterly' )
+                        : esc_html__( 'Add New Theater', 'wptheaterly' );
+                    ?>
                 </h4>
                 <input type="hidden" name="wtbp_theater_id" value="<?php echo esc_attr( $theater_id ); ?>">
 
@@ -622,7 +632,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <div class="form-group">
                         <label class="form-label"><?php esc_html_e( 'Theater Name', 'wptheaterly' ); ?></label>
                         <input type="text" id="theater-name" class="form-input"
-                               value="<?php echo $theater_name; ?>"
+                               value="<?php echo esc_attr( $theater_name ) ; ?>"
                                placeholder="<?php esc_attr_e( 'Screen 1', 'wptheaterly' ); ?>">
                     </div>
 
@@ -632,10 +642,11 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             <?php
                             $types = [ 'Standard', 'Premium', 'IMAX', 'VIP' ];
                             foreach ( $types as $type ) {
-                                echo '<option value="' . esc_attr( $type ) . '" ' .
+                                echo wp_kses('<option value="' . esc_attr( $type ) . '" ' .
                                     selected( $theater_type, $type, false ) . '>' .
                                     esc_html( $type ) .
-                                    '</option>';
+                                    '</option>', $allowed_tags) ;
+
                             }
                             ?>
                         </select>
@@ -644,14 +655,14 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <div class="form-group">
                         <label class="form-label"><?php esc_html_e( 'Rows', 'wptheaterly' ); ?></label>
                         <input type="number" id="theater-rows" class="form-input"
-                               value="<?php echo $theater_rows; ?>"
+                               value="<?php echo esc_attr( $theater_rows ); ?>"
                                placeholder="<?php esc_attr_e( '8', 'wptheaterly' ); ?>">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label"><?php esc_html_e( 'Seats per Row', 'wptheaterly' ); ?></label>
                         <input type="number" id="theater-seats-per-row" class="form-input"
-                               value="<?php echo $theater_seats; ?>"
+                               value="<?php echo esc_attr( $theater_seats ); ?>"
                                placeholder="<?php esc_attr_e( '12', 'wptheaterly' ); ?>">
                     </div>
 
@@ -662,7 +673,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             $sounds = [ 'Dolby Digital', 'Dolby Atmos', 'IMAX Enhanced' ];
                             foreach ( $sounds as $sound ) {
                                 $selected = selected( $theater_sound, $sound, false );
-                                echo '<option value="' . esc_attr( $sound ) . '"' . $selected . '>' . esc_html( $sound ) . '</option>';
+                                echo  wp_kses('<option value="' . esc_attr( $sound ) . '"' . $selected . '>' . esc_html( $sound ) . '</option>', $allowed_tags);
                             }
                             ?>
                         </select>
@@ -674,10 +685,10 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             <?php
                             $statuses = [ 'active', 'maintenance', 'inactive' ];
                             foreach ( $statuses as $status ) {
-                                echo '<option value="' . esc_attr( $status ) . '" ' .
+                                echo wp_kses('<option value="' . esc_attr( $status ) . '" ' .
                                     selected( $theater_status, $status, false ) . '>' .
                                     esc_html( ucfirst( $status ) ) .
-                                    '</option>';
+                                    '</option>', $allowed_tags );
                             }
                             ?>
                         </select>
@@ -689,17 +700,17 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <!--Add category-->
                         <?php
                             $default_color = '#2e8708';
-                            echo self::add_category( $action, $theater_category, $default_color );
+                            echo wp_kses( self::add_category( $action, $theater_category, $default_color ), $allowed_tags );
                         ?>
                     </div>
 
-                    <button type="button" class="wtbm_theater_add_btn">+ Add Seating Category</button>
+                    <button type="button" class="wtbm_theater_add_btn">+ <?php esc_html_e( 'Add Seating Category', 'wptheaterly' ); ?></button>
                 </div>
 
                 <div class="form-group mb-4">
                     <label class="form-label"><?php esc_html_e( 'Description', 'wptheaterly' ); ?></label>
                     <textarea id="theater-description" class="form-input" rows="3"
-                              placeholder="<?php esc_attr_e( 'Theater description', 'wptheaterly' ); ?>"><?php echo $theater_description; ?></textarea>
+                              placeholder="<?php esc_attr_e( 'Theater description', 'wptheaterly' ); ?>"><?php echo esc_html( $theater_description ); ?></textarea>
                 </div>
                 <?php if( $action === 'edit' ) { ?>
                 <div class="tabsItem" data-tabs="#mptrs_seat_mapping">
@@ -709,6 +720,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     </header>
                     <section class="mptrs-seat-mapping-section " id="wtbm_SeatMappingSection">
                         <?php
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             echo WTBM_Theater_Seat_Mapping::render_seat_mapping_meta_box( $theater_id, 'edit', $theater_rows, $theater_seats, );
                         ?>
                     </section>
@@ -766,15 +778,15 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 ?>
                 <tr id="theater_content_<?php echo esc_attr( $id );?>" data-id="<?php echo esc_attr( $id ); ?>">
                     <td>
-                        <div class="font-medium text-gray-900"><?php echo $name; ?></div>
+                        <div class="font-medium text-gray-900"><?php echo esc_html( $name ); ?></div>
                         <div class="text-sm text-gray-500">
                             <?php echo esc_html( "{$rows} × {$seats_row} layout" ); ?>
                         </div>
-                        <div class="text-xs text-gray-400"><?php echo $desc; ?></div>
+                        <div class="text-xs text-gray-400"><?php echo esc_html( $desc ); ?></div>
                     </td>
-                    <td class="text-sm text-gray-900"><?php echo $type; ?></td>
+                    <td class="text-sm text-gray-900"><?php echo esc_html( $type ); ?></td>
                     <td class="text-sm text-gray-900"><?php echo esc_html( "{$total_seats} seats" ); ?></td>
-                    <td class="text-sm text-gray-900"><?php echo $sound; ?></td>
+                    <td class="text-sm text-gray-900"><?php echo esc_html( $sound ); ?></td>
                     <td>
                 <span class="status-badge status-<?php echo esc_attr( $status ); ?>">
                     <?php echo esc_html( $status ); ?>

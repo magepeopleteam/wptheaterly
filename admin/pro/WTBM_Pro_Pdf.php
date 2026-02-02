@@ -80,12 +80,15 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
             return ob_get_clean();
         }
         public function wtbm_generate_pdf() {
-            if (empty($_GET['action']) || !check_admin_referer($_GET['action'])) {
-                wp_die(__('You do not have sufficient permissions to access this page.', 'wptheaterly'));
+            $action = isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : '';
+            if (empty( $action ) || !check_admin_referer( $action )) {
+                esc_attr_e('You do not have sufficient permissions to access this page.', 'wptheaterly');
+                wp_die();
             }
-            $order_id = isset($_GET['order_id']) ? sanitize_text_field($_GET['order_id']) : '';
+            $order_id = isset($_GET['order_id']) ? sanitize_text_field(wp_unslash( $_GET['order_id'] ) ) : '';
             if (empty($order_id)) {
-                wp_die(__('Order ID is required.', 'wptheaterly'));
+                esc_attr_e('Order ID is required.', 'wptheaterly');
+                wp_die();
             }
             header("Content-Type: application/pdf; charset=UTF-8");
             $file_name = esc_html__('Order_', 'wptheaterly') . $order_id . '.pdf';
@@ -156,7 +159,10 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
 
             check_ajax_referer('mptrs_admin_nonce', 'nonce');
 
-            $ids = array_map('intval', (array) $_POST['ids']);
+//            $ids = array_map('intval', (array) $_POST['ids']);
+            $ids = isset( $_POST['ids'] )
+                ? array_map( 'absint', wp_unslash( $_POST['ids'] ) )
+                : [];
 
             if (empty($ids)) {
                 wp_send_json_error('No data');
@@ -174,7 +180,8 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
 
             $download_url = add_query_arg([
                 'action' => 'wtbm_download_booking_data_pdf',
-                'token'  => $token
+                'token'  => $token,
+                '_wpnonce' => wp_create_nonce( 'wtbm_download_booking_data_pdf' ),
             ], admin_url('admin-ajax.php'));
 
             wp_send_json_success([
@@ -182,49 +189,58 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
             ]);
         }
         function wtbm_download_booking_data_pdf() {
-            $token = sanitize_text_field($_GET['token']);
-            $booking_ids = get_transient('wtbm_booking_data_pdf_' . $token);
-            if ( !$booking_ids ) {
-                wp_die('Link expired');
-            }
-            delete_transient('wtbm_booking_data_pdf_' . $token);
-            @set_time_limit(0);
-            ini_set('memory_limit', '512M');
+            $nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
 
-            if (ob_get_length()) {
-                ob_end_clean();
-            }
-            $file_name = 'wtbm_booking_data_' . time() . '.pdf';
+            if ( $nonce && wp_verify_nonce( $nonce, 'wtbm_download_booking_data_pdf' ) ) {
+                $token = isset( $_GET['token'] ) ? sanitize_text_field( wp_unslash( $_GET['token'] ) ) : '';
+                $booking_ids = get_transient('wtbm_booking_data_pdf_' . $token);
+                if (!$booking_ids) {
+                    wp_die('Link expired');
+                }
+                delete_transient('wtbm_booking_data_pdf_' . $token);
+                /*@set_time_limit(0);
+                ini_set('memory_limit', '512M');*/
 
-            if (class_exists('\Mpdf\Mpdf')) {
-                $html = WTBM_Layout_Pro::generate_booking_data_pdf( $booking_ids );
-                $html = trim($html);
+                if (ob_get_length()) {
+                    ob_end_clean();
+                }
+                $file_name = 'wtbm_booking_data_' . time() . '.pdf';
 
-                $html = preg_replace('/page-break-after\s*:\s*always\s*;?/i', '', $html);
-                $html = preg_replace('/<pagebreak\s*\/?>/i', '', $html);
+                if (class_exists('\Mpdf\Mpdf')) {
+                    $html = WTBM_Layout_Pro::generate_booking_data_pdf($booking_ids);
+                    $html = trim($html);
 
-                $mpdf = new \Mpdf\Mpdf([
-                    'margin_top'    => 10,
-                    'margin_bottom' => 10,
-                ]);
+                    $html = preg_replace('/page-break-after\s*:\s*always\s*;?/i', '', $html);
+                    $html = preg_replace('/<pagebreak\s*\/?>/i', '', $html);
 
-                $mpdf->allow_charset_conversion = true;
-                $mpdf->autoScriptToLang = true;
-                $mpdf->baseScript = 1;
-                $mpdf->autoVietnamese = true;
-                $mpdf->autoArabic = true;
-                $mpdf->autoLangToFont = true;
-                $mpdf->shrink_tables_to_fit = 1;
+                    $mpdf = new \Mpdf\Mpdf([
+                        'margin_top' => 10,
+                        'margin_bottom' => 10,
+                    ]);
 
-                $mpdf->WriteHTML($html);
-                $mpdf->Output($file_name, 'D');
+                    $mpdf->allow_charset_conversion = true;
+                    $mpdf->autoScriptToLang = true;
+                    $mpdf->baseScript = 1;
+                    $mpdf->autoVietnamese = true;
+                    $mpdf->autoArabic = true;
+                    $mpdf->autoLangToFont = true;
+                    $mpdf->shrink_tables_to_fit = 1;
+
+                    $mpdf->WriteHTML($html);
+                    $mpdf->Output($file_name, 'D');
+                }
+            }else{
+                wp_die('Security check failed');
             }
             exit;
         }
 
         public function wtbm_prepare_booking_csv() {
             check_ajax_referer('mptrs_admin_nonce', 'nonce');
-            $ids = array_map('intval', (array) $_POST['ids']);
+//            $ids = array_map('intval', (array) $_POST['ids']);
+            $ids = isset( $_POST['ids'] )
+                ? array_map( 'absint', wp_unslash( $_POST['ids'] ) )
+                : [];
             if (empty($ids)) {
                 wp_send_json_error('No booking selected');
             }
@@ -232,45 +248,48 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
             set_transient('wtbm_booking_data_csv_' . $token, $ids, 5 * MINUTE_IN_SECONDS);
             $download_url = add_query_arg([
                 'action' => 'wtbm_download_booking_data_csv',
-                'token'  => $token
+                'token'  => $token,
+                '_wpnonce' => wp_create_nonce( 'wtbm_download_booking_data_pdf' ),
             ], admin_url('admin-ajax.php'));
             wp_send_json_success(['download_url' => $download_url]);
         }
         function wtbm_download_booking_data_csv() {
 
-            $token = sanitize_text_field($_GET['token']);
-            $booking_ids = get_transient('wtbm_booking_data_csv_' . $token);
+            $nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
+            if ( $nonce && wp_verify_nonce( $nonce, 'wtbm_download_booking_data_pdf' ) ) {
+                $token = isset( $_GET['token'] ) ? sanitize_text_field( wp_unslash( $_GET['token'] ) ) : '';
+                $booking_ids = get_transient('wtbm_booking_data_csv_' . $token);
 
-            if (!$booking_ids) {
-                wp_die('Link expired or invalid token.');
+                if (!$booking_ids) {
+                    wp_die('Link expired or invalid token.');
+                }
+
+                delete_transient('wtbm_booking_data_csv_' . $token);
+                $data = WTBM_Layout_Pro::get_booking_data_by_ids($booking_ids);
+                if (ob_get_length()) ob_end_clean();
+                header('Content-Type: text/csv');
+                header('Content-Disposition: attachment; filename="booking_data_' . gmdate('Y-m-d_H-i') . '.csv"');
+
+                $out = fopen('php://output', 'w');
+                fputcsv($out, ['#', 'Name', 'Phone', 'Theater Name', 'Movie Name', 'Time', 'Seat Number']);
+
+                $i = 1;
+                foreach ($data as $row) {
+                    fputcsv($out, [
+                        $i++,
+                        $row['name'] ?? '',
+                        $row['phone'] ?? '',
+                        $row['theater_name'] ?? '',
+                        $row['movie_name'] ?? '',
+                        $row['time'] ?? '',
+                        $row['seat_number'] ?? ''
+                    ]);
+                }
+                // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+                fclose($out);
+            }else{
+                wp_die('Security check failed');
             }
-
-            // One-time use
-            delete_transient('wtbm_booking_data_csv_' . $token);
-
-            $data = WTBM_Layout_Pro::get_booking_data_by_ids($booking_ids);
-
-            // Send CSV headers
-            if (ob_get_length()) ob_end_clean();
-            header('Content-Type: text/csv');
-            header('Content-Disposition: attachment; filename="booking_data_'.date('Y-m-d_H-i').'.csv"');
-
-            $out = fopen('php://output', 'w');
-            fputcsv($out, ['#','Name','Phone','Theater Name','Movie Name','Time','Seat Number']);
-
-            $i = 1;
-            foreach($data as $row){
-                fputcsv($out, [
-                    $i++,
-                    $row['name'] ?? '',
-                    $row['phone'] ?? '',
-                    $row['theater_name'] ?? '',
-                    $row['movie_name'] ?? '',
-                    $row['time'] ?? '',
-                    $row['seat_number'] ?? ''
-                ]);
-            }
-            fclose($out);
             exit;
         }
 

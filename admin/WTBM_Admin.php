@@ -93,9 +93,27 @@
 						$post_terms = wp_get_object_terms($post_id, $taxonomy, array('fields' => 'slugs'));
 						wp_set_object_terms($new_post_id, $post_terms, $taxonomy, false);
 					}
-					$post_meta_infos = $wpdb->get_results(
+
+					/*$post_meta_infos = $wpdb->get_results(
 						$wpdb->prepare("SELECT meta_key, meta_value FROM {$wpdb->postmeta}  WHERE post_id = %d  AND meta_key != %s", $post_id, 'total_booking')
-					);
+					);*/
+
+                    $cache_key = 'wtbm_post_meta_' . $post_id;
+                    $post_meta_infos = wp_cache_get( $cache_key, 'wtbm_post_meta' );
+                    if ( false === $post_meta_infos ) {
+                        global $wpdb;
+                        // PHPCS ignore: trusted WordPress core table
+                        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+                        $post_meta_infos = $wpdb->get_results(
+                            $wpdb->prepare(
+                                "SELECT meta_key, meta_value FROM {$wpdb->postmeta} WHERE post_id = %d AND meta_key != %s",
+                                absint($post_id),
+                                'total_booking'
+                            )
+                        );
+                        wp_cache_set( $cache_key, $post_meta_infos, 'wtbm_post_meta', 3600 );
+                    }
+
 					if (count($post_meta_infos) != 0) {
 						foreach ($post_meta_infos as $meta_info) {
 							$meta_key = $meta_info->meta_key;
@@ -103,6 +121,8 @@
 								continue;
 							}
 							$meta_value = addslashes($meta_info->meta_value);
+                            // PHPCS ignore: direct DB insert to trusted core table
+                            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 							$wpdb->insert(
 								$wpdb->postmeta,
 								[
@@ -118,7 +138,7 @@
 							);
 						}
 					}
-					wp_redirect(admin_url('post.php?action=edit&post=' . $new_post_id));
+                    wp_safe_redirect(admin_url('post.php?action=edit&post=' . $new_post_id));
 					exit;
 				} else {
 					wp_die('Post creation failed, could not find original post: ' . esc_html($post_id));

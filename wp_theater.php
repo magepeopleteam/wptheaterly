@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Plugin Name: WordPress WpTheaterly
+	 * Plugin Name: Online Theater System & Reservation - Theaterly
 	 * Plugin URI: http://mage-people.com
 	 * Description: A complete solution for Any kind of theater booking.
      * Requires at least: 5.6
@@ -48,14 +48,14 @@
 			public function activation_redirect($plugin) {
 				if ($plugin == plugin_basename(__FILE__)) {
 					flush_rewrite_rules();
-					//exit(esc_url_raw(wp_redirect(admin_url('edit.php?post_type=mptrs_item&page=mptrs_quick_setup'))));
-					exit(esc_url_raw(wp_redirect(admin_url('admin.php?page=mptrs_main_menu'))));
+					//exit(esc_url_raw(wp_safe_redirect(admin_url('edit.php?post_type=mptrs_item&page=mptrs_quick_setup'))));
+					exit(esc_url_raw(wp_safe_redirect(admin_url('admin.php?page=mptrs_main_menu'))));
 				}
 			}
 			public function activation_redirect_setup($plugin) {
 				if ($plugin == plugin_basename(__FILE__)) {
-					//exit(esc_url_raw(wp_redirect(admin_url('admin.php?post_type=mptrs_item&page=mptrs_quick_setup'))));
-					exit(esc_url_raw(wp_redirect(admin_url('admin.php?page=mptrs_quick_setup'))));
+					//exit(esc_url_raw(wp_safe_redirect(admin_url('admin.php?post_type=mptrs_item&page=mptrs_quick_setup'))));
+					exit(esc_url_raw(wp_safe_redirect(admin_url('admin.php?page=mptrs_quick_setup'))));
 				}
 			}
 			public function woocommerce_not_active() {

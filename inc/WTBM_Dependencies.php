@@ -20,7 +20,7 @@
 			}
 			public function language_load(): void {
 				$plugin_dir = basename(dirname(__DIR__)) . "/languages/";
-				load_plugin_textdomain('wptheaterly', false, $plugin_dir);
+//				load_plugin_textdomain('wptheaterly', false, $plugin_dir);
 			}
 			private function load_file(): void {
 				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Function.php';
@@ -64,7 +64,7 @@
 					'wc_currency_symbol' => '',
 					'wc_currency' => get_woocommerce_currency(),
 				));
-				do_action('add_mptrs_global_enqueue');
+				do_action('wtbm_add_global_enqueue');
 				wp_enqueue_style('mage-icons', WTBM_PLUGIN_URL . '/assets/mage-icon/css/mage-icon.css', array(), time());
 			}
 			public function admin_scripts() {
@@ -99,14 +99,14 @@
 					'ajax_url' => admin_url('admin-ajax.php'),
 					'nonce' => wp_create_nonce('mptrs_admin_nonce')
 				));
-				do_action('add_mptrs_admin_script');
+				do_action('wtbm_add_admin_script');
 			}
 			public function frontend_script() {
 				$this->global_enqueue();
 				$currency_symbol = get_woocommerce_currency_symbol();
 				wp_enqueue_style('mptrs', WTBM_PLUGIN_URL . '/assets/frontend/mptrs.css', [], time());
 				wp_enqueue_script('mptrs', WTBM_PLUGIN_URL . '/assets/frontend/mptrs.js', ['jquery'], time(), true);
-				do_action('add_mptrs_frontend_script');
+				do_action('wtbm_add_frontend_script');
 			}
 			public function add_admin_head() {
 				$this->js_constant();

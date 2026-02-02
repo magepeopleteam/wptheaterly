@@ -9,7 +9,7 @@
 	if (!class_exists('MPTRS_Faq_Settings')) {
 		class MPTRS_Faq_Settings {
 			public function __construct() {
-				add_action('add_mptrs_settings_tab_content', [$this, 'faq_settings']);
+				add_action('wtbm_add_settings_tab_content', [$this, 'faq_settings']);
 				add_action('admin_enqueue_scripts', [$this, 'my_custom_editor_enqueue']);
 				// save faq data
 				add_action('wp_ajax_mptrs_faq_data_save', [$this, 'save_faq_data_settings']);

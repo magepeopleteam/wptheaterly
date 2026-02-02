@@ -109,7 +109,7 @@
 					$item->add_meta_data('_wtbm_selected_seats', $seat_names );
 					$item->add_meta_data('_wtbm_selected_seat_ids', $seat_ids );
 
-					do_action('mpwpb_checkout_create_order_line_item', $item, $values);
+					do_action('wtbm_checkout_create_order_line_item', $item, $values);
 				}
 			}
 			public function checkout_order_processed( $order ) {
@@ -147,7 +147,7 @@
 								$data['wtbm_billing_phone'] = $order->get_billing_phone();
 								$data['wtbm_billing_address'] = $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 
-								$booking_data = apply_filters( 'add_wtbm_booking_data', $data, $post_id );
+								$booking_data = apply_filters( 'wtbm_add_booking_data', $data, $post_id );
 								self::add_cpt_data('wtbm_booking', $booking_data['wtbm_billing_name'], $booking_data);
 							}
 						}
@@ -176,7 +176,7 @@
                 $movie = get_the_title( $cart_item['wtbm_movie_id'] );
 				?>
                 <div class="mptrs_area">
-					<?php do_action('mpwpb_before_cart_item_display', $cart_item, $post_id ); ?>
+					<?php do_action('wtbm_before_cart_item_display', $cart_item, $post_id ); ?>
                     <div class="dLayout_xs">
                         <ul class="cart_list">
                             <li>
@@ -365,7 +365,7 @@
 
                                     <?php
                                     do_action( 'wtbm_pdf_button', $order_id, 'order_done' ); ?>
-                                    <p class="wtbm_welcome_total"><strong><?php esc_attr_e( 'Total Price:', 'wptheaterly' )?></strong> <?php echo get_woocommerce_currency();?> <?php echo esc_html($booking['total_price']); ?></p>
+                                    <p class="wtbm_welcome_total"><strong><?php esc_attr_e( 'Total Price:', 'wptheaterly' )?></strong> <?php echo esc_attr( get_woocommerce_currency() );?> <?php echo esc_html($booking['total_price']); ?></p>
                                 </div>
                             </div>
 

@@ -28,6 +28,13 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
             $save_plan = WTBM_Plan_ASSETS . 'images/tools/save.png';
             $save_template = WTBM_Plan_ASSETS . 'images/tools/save_template.png';
             // Output the meta box content
+            if( $action_type === 'add' ){
+                $select_add_seat_tab = 'enable_set_seat';
+                $select_single_seat_tab = '';
+            }else{
+                $select_single_seat_tab = 'enable_single_seat_selection';
+                $select_add_seat_tab = '';
+            }
 
             $theater_categories = WTBM_Manage_Showtimes::get_theater_categories( $post_id );
 //            error_log( print_r( [ '$theater_categories' => $theater_categories ], true ) );
@@ -37,11 +44,10 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                 <input type="hidden" id="mptrs_mapping_plan_id" name="mptrs_mapping_plan_id" value="<?php echo esc_attr( $post_id ); ?>">
                 <div class="mptrs_mapping_planControlHolder">
                     <button class="mptrs_mapping_multiselect tooltips" id="mptrs_mapping_multiselect" data-tooltip="<?php esc_html_e('Multi Select', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($selection); ?>" alt=""></button>
-                    <button class="mptrs_mapping_singleSelect tooltips" id="mptrs_mapping_singleSelect" data-tooltip="<?php esc_html_e('Single Select', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($choice); ?>" alt=""></button>
-                    <button class="mptrs_mapping_set_seat enable_set_seat tooltips" id="mptrs_mapping_set_seat"  data-tooltip="<?php esc_html_e('Add Seat', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($add_seats); ?>" alt=""></button>
+                    <button class="mptrs_mapping_singleSelect <?php echo esc_html( $select_single_seat_tab );?> tooltips" id="mptrs_mapping_singleSelect" data-tooltip="<?php esc_html_e('Single Select', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($choice); ?>" alt=""></button>
+                    <button class="mptrs_mapping_set_seat <?php echo esc_html( $select_add_seat_tab );?> tooltips" id="mptrs_mapping_set_seat"  data-tooltip="<?php esc_html_e('Add Seat', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($add_seats); ?>" alt=""></button>
                     <button class="mptrs_mapping_set_shape tooltips" id="mptrs_mapping_set_shape" data-tooltip="<?php esc_html_e('Add Shape', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($shapes); ?>" alt=""></button>
                     <button class="mptrs_mapping_setText tooltips" id="mptrs_mapping_setText" data-tooltip="<?php esc_html_e('Set Text', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($text); ?>" alt=""></button>
-<!--                    <button class="mptrs_importFromTemplate tooltips" id="mptrs_importFromTemplate"  data-tooltip="--><?php //esc_html_e('Import From Template', 'wptheaterly'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($import); ?><!--" alt=""></button>-->
                     <button class="mptrs_removeSelected tooltips" id="mptrs_removeSelected"  data-tooltip="<?php esc_html_e('Erase', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($eraser); ?>" alt=""></button>
                     <button class="mptrs_undo tooltips" id="mptrs_undo" data-tooltip="<?php esc_html_e('Undo', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($undo); ?>" alt=""></button>
                     <button class="mptrs_copyPaste tooltips" id="mptrs_copyPaste" data-tooltip="<?php esc_html_e('Paste', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($paste); ?>" alt=""></button>
@@ -50,7 +56,6 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                    <?php if( $action_type === 'add' ){?>
                         <button class="mptrs_savePlan tooltips" data-theater-id="<?php echo esc_attr( $post_id );?>" id="wtbm_saveSeatPlan" data-tooltip="<?php esc_html_e('Save Plan', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($save_plan); ?>" alt=""></button>
                     <?php }?>
-<!--                    <button class="mptrs_savePlan tooltips" id="mptrs_savePlanAsTemplate" data-tooltip="--><?php //esc_html_e('Save Plan with Template', 'wptheaterly'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($save_template); ?><!--" alt=""></button>-->
                 </div>
             </div>
 
@@ -238,7 +243,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                     $hover_price = $seat_price === 0 ? '' : 'Price: ' . esc_attr( $seat_price );
                     $block = $seat_num ? 'block' : 'none';
 
-                    echo '<div title="'.$hover_price.get_woocommerce_currency().'" class=" mptrs_mappingSeat ' . esc_attr( $class ) . '"
+                    echo '<div title="'.esc_attr( $hover_price ).esc_attr(get_woocommerce_currency()).'" class=" mptrs_mappingSeat ' . esc_attr( $class ) . '"
                                         id = "div' . esc_attr( $col ) . '_' . esc_attr( $row ) . '"
                                         data-id="' . esc_attr( $col ) . '_' . esc_attr( $row ) . '" 
                                         data-row="' . esc_attr( $col ) . '" 
@@ -349,7 +354,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                                         <div class="mptrs_setPriceColorHolder" id="mptrs_setPriceColorHolder" style="display: none">
                                             <div class="wtbm_setSeatCategoryContainer">
                                                 <span class="wtbm_addSeatCategory" id="wtbm_addSeatCategory">Select Category</span>
-                                                 '.$category_html.'
+                                                 '.wp_kses_post( $category_html ).'
                                             </div>
                                         
                                             <div class="mptrs_copyHolder" style="display: none">
@@ -372,7 +377,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                                             <div class="mptrs_colorPriceHolder">
                                                 <div class="mptrs_textPriceHolder">
                                                     <span class="mptrs_priceText"> Set Price:</span>
-                                                    <input type="number" id="mptrs_setSeatPrice" placeholder="Enter price">
+                                                    <input type="number" id="mptrs_setSeatPrice" value="" placeholder="Enter price">
                                                 </div>
                                                 <button id="mptrs_applyPriceChanges">Set Price</button>
                                             </div>

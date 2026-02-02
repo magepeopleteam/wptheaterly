@@ -112,11 +112,7 @@
     });
 
     $(document).on('click', '#wtbm_booking_data_csv_btn', function(e){
-        alert('clicked');
-
         e.preventDefault();
-
-
         let bookingIds = [];
         $("#wtbm_bookings_table_body tr").each(function () {
             bookingIds.push(jQuery(this).data("order-id"));
@@ -189,10 +185,18 @@
                 nonce: mptrs_admin_ajax.nonce
             },
             success: function(response) {
-                booking_edit_overlay.remove();
-                booking_edit_overlay.fadeIn(200);
-                $('body').append(response);
-                booking_edit_overlay.fadeIn(200);
+
+                console.log( response );
+                if( response.success){
+                    booking_edit_overlay.remove();
+                    booking_edit_overlay.fadeIn(200);
+                    $('body').append(response.data.edit_data);
+                    booking_edit_overlay.fadeIn(200);
+                }else{
+                    alert('No data Found');
+                }
+
+
             }
         });
 

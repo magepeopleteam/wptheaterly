@@ -13,10 +13,10 @@
 				$this->settings_api = new WTBM_Setting_API;
 				add_action('admin_menu', array($this, 'global_settings_menu'), 20);
 				add_action('admin_init', array($this, 'admin_init'));
-				add_filter('mptrs_settings_sec_reg', array($this, 'settings_sec_reg'), 10);
-				add_filter('mptrs_settings_sec_fields', array($this, 'settings_sec_fields'), 10);
+				add_filter('wtbm_settings_sec_reg', array($this, 'settings_sec_reg'), 10);
+				add_filter('wtbm_settings_sec_fields', array($this, 'settings_sec_fields'), 10);
                 /*******************************/
-				add_action('wsa_form_bottom_mptrs_license_settings', [$this, 'license_settings'], 5);
+				add_action('wtbm_form_bottom_mptrs_license_settings', [$this, 'license_settings'], 5);
 				add_action('mptrs_license', [$this, 'licence_area']);
 			}
 			public function global_settings_menu() {
@@ -56,11 +56,11 @@
 			}
 			public function get_settings_sections() {
 				$sections = array();
-				return apply_filters('mptrs_settings_sec_reg', $sections);
+				return apply_filters('wtbm_settings_sec_reg', $sections);
 			}
 			public function get_settings_fields() {
 				$settings_fields = array();
-				return apply_filters('mptrs_settings_sec_fields', $settings_fields);
+				return apply_filters('wtbm_settings_sec_fields', $settings_fields);
 			}
 			public function settings_sec_reg($default_sec): array {
 				$sections = array(
@@ -111,7 +111,7 @@
 				$label = WTBM_Function::get_name();
 				$current_date = current_time('Y-m-d');
 				$settings_fields = array(
-					'mptrs_general_settings' => apply_filters('filter_mptrs_general_settings', array(
+					'mptrs_general_settings' => apply_filters('wtbm_filter_general_settings', array(
 						array(
 							'name' => 'label',
 							'label' => $label . ' ' . esc_html__('Label', 'wptheaterly'),
@@ -184,7 +184,7 @@
 							'placeholder' => esc_html__('Ex:50', 'wptheaterly'),
 						),
 					)),
-					'mptrs_global_settings' => apply_filters('filter_mptrs_global_settings', array(
+					'mptrs_global_settings' => apply_filters('wtbm_filter_global_settings', array(
 						array(
 							'name' => 'disable_block_editor',
 							'label' => esc_html__('Disable Block/Gutenberg Editor', 'wptheaterly'),
@@ -351,7 +351,7 @@
 							)
 						)
 					),
-					'mptrs_style_settings' => apply_filters('filter_mptrs_style_settings', array(
+					'mptrs_style_settings' => apply_filters('wtbm_filter_style_settings', array(
 						array(
 							'name' => 'theme_color',
 							'label' => esc_html__('Theme Color', 'wptheaterly'),
@@ -375,7 +375,7 @@
 						),
 
 					)),
-					'mptrs_add_custom_css' => apply_filters('filter_mptrs_add_custom_css', array(
+					'mptrs_add_custom_css' => apply_filters('wtbm_filter_add_custom_css', array(
 						array(
 							'name' => 'custom_css',
 							'label' => esc_html__('Custom CSS', 'wptheaterly'),
@@ -519,7 +519,7 @@
                     </tr>
                     </thead>
                     <tbody>
-					<?php do_action('mp_license_page_plugin_list'); ?>
+					<?php do_action('wtbm_mp_license_page_plugin_list'); ?>
                     </tbody>
                 </table>
 				<?php
