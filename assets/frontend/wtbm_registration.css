@@ -195,7 +195,7 @@ body{
     flex-wrap: wrap;
 }
 
-.wtbm_timeSlot {
+.wtbm_timeSlot, .wtbm_single_timeSlot {
     background:var(--mptrs_color_theme_alter);
     border: 1px solid var(--mptrs_color_theme_77);
     border-radius:5px;
@@ -213,6 +213,20 @@ body{
 }
 
 .wtbm_timeSlot.selected {
+    background:var(--mptrs_color_theme);
+    color: var(--mptrs_color_theme_alter);
+    border-color: transparent;
+    box-shadow: 0 2px 15px var(--mptrs_color_theme_77);
+}
+
+.wtbm_single_timeSlot:hover {
+    background:var(--mptrs_color_theme);
+    color: var(--mptrs_color_theme_alter);
+    border-color: transparent;
+    box-shadow: 0 2px 15px var(--mptrs_color_theme_77);
+}
+
+.wtbm_single_timeSlot.selected {
     background:var(--mptrs_color_theme);
     color: var(--mptrs_color_theme_alter);
     border-color: transparent;

@@ -157,6 +157,62 @@
 
     });
 
+    $(document).on('click', '.wtbm_single_timeSlot', function () {
+        let this_class = $(this);
+        let click_btn = 'time_slot'
+        wtbm_time_slot_click_make_empty( click_btn );
+
+        $("#wtbm_seatSection").fadeOut();
+        $(".wtbm_single_timeSlot").removeClass( 'selected' );
+        this_class.addClass('selected');
+
+        let theaterId = $(this).attr('data-wtbm-theater').trim();
+        let movieTimeSlot = $(this).attr('data-time-slot').trim();
+        let theaterName = $(this).attr('data-wtbm-theater-name').trim();
+        let movieDate = $('#wtbm_bookingDateSelector .wtbm_booking_date_date_card.active').data('date');
+        let timeSlotDisplay = $(this).text();
+
+        $("#wtbm_summeryTheaterId").val(theaterId);
+        $("#wtbm_summeryTime").val(movieTimeSlot);
+
+        $("#wtbm_summaryTheaterName").text(theaterName);
+        $("#wtbm_summaryTimeSlot").text(timeSlotDisplay);
+
+        let wtbm_seat_loader = $("#wtbm_seat_loader");
+        wtbm_seat_loader.fadeIn();
+        wtbm_seat_loader.empty();
+        wtbm_seat_loader.append( wtbm_loader( 'Seat Map Loading...' ) );
+
+        let activeMovieId = $(".wtbm_booking_movie_card.wtbm_movieActive").data("movie-id");
+
+        $.ajax({
+            url: wtbm_ajax.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'wtbm_get_theater_seat_map_data',
+                theater_id: theaterId,
+                activeMovieId: activeMovieId,
+                movie_time_slot: movieTimeSlot,
+                movie_date: movieDate,
+                nonce: wtbm_ajax.nonce,
+            },
+            success: function(response) {
+                wtbm_seat_loader.fadeOut();
+                if( response.data  ) {
+                    $("#wtbm_single_movie_seats").html(response.data.wtbm_seatMaps);
+                }else{
+                    $("#wtbm_seatsGrid").html( '<h6>No Movies Found</h6>');
+                }
+                $("#wtbm_seatSection").fadeIn();
+                $("#wtbm_hallSection").fadeIn();
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
+
+    });
+
 
     let wtbm_seatBooked = [];
     let wtbm_seatBookedName = [];

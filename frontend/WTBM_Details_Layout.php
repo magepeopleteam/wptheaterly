@@ -163,6 +163,33 @@
                 return ob_get_clean();
             }
 
+            public static function display_theater_show_time_single_movie( $movie_id, $date = ''  ){
+
+                $show_times = self::get_wtbm_show_time_by_date_and_movie_id( $movie_id, $date );
+                ob_start();
+                if( is_array( $show_times ) && !empty( $show_times ) ){
+                    foreach ( $show_times as $theater_id => $show_time  ){
+                        $post_title = get_the_title( $theater_id );
+                        ?>
+                        <div class="wtbm_hallCard">
+                            <div class="wtbm_single_move_timeSlots">
+                                <?php
+                                if( is_array( $show_time ) && !empty( $show_time ) ){
+                                    foreach ( $show_time as $time ){
+                                        $formatted_time = gmdate('h:i A', strtotime( esc_attr( $time ) ));
+                                        ?>
+                                        <div class="wtbm_single_timeSlot" data-wtbm-theater-name = "<?php echo esc_attr( $post_title );?>" data-wtbm-theater="<?php echo esc_attr( $theater_id );?>" data-time-slot="<?php echo esc_attr( $time );?>">
+                                            <?php echo esc_attr( $formatted_time );?>
+                                        </div>
+                                <?php } }?>
+                            </div>
+                        </div>
+                    <?php
+                    }
+                }
+                return ob_get_clean();
+            }
+
 
             public static function get_movies_data_by_ids( $movie_ids = array() ) {
                 if ( empty( $movie_ids ) || ! is_array( $movie_ids ) ) {
