@@ -47,6 +47,11 @@ body{
     gap: 10px;
     flex-wrap: wrap;
 }
+.wtbm_single_movie_booking_date{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 
 .wtbm_booking_date_date_card {
     background:var(--mptrs_color_theme_22);

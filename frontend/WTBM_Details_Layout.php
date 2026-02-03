@@ -45,6 +45,39 @@
 
 //                return ob_get_clean();
             }
+            public static function booking_date_display_single_movie( $movie_id ) {
+
+                ob_start();
+                ?>
+                <div class="wtbm_booking_date_section">
+                    <h2 class="section-title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
+                    <div class="wtbm_single_movie_booking_date" id="wtbm_bookingSingleMovieDate">
+                        <?php
+                        for ( $i = 0; $i < 7; $i++ ) {
+                            $date = new DateTime();
+                            $date->modify("+$i day");
+
+                            $day   = $date->format('D');
+                            $dayNo = $date->format('d');
+                            $month = $date->format('M');
+                            $full  = $date->format('Y-m-d');
+                            ?>
+                            <div class="wtbm_booking_date_date_card <?php echo $i === 0 ? 'active' : ''; ?>" data-date="<?php echo esc_attr($full); ?>">
+                                <div class="day"><?php echo esc_html($day); ?></div>
+                                <div>
+                                    <span class="date"><?php echo esc_html($dayNo); ?></span>
+                                    <span class="month"><?php echo esc_html($month); ?></span>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                </div>
+                <?php
+
+                return ob_get_clean();
+            }
 
             public static function display_date_wise_movies( $date = '' ){
                 $movie_ids = self::get_wtbm_show_time_movie_ids_by_date( $date );

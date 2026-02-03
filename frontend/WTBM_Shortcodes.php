@@ -24,6 +24,7 @@
                     $date = '2026-02-02';
 
                     $theater_show_times = WTBM_Details_Layout::display_theater_show_time_single_movie( $movie_id, $date );
+//                    $theater_show_times = WTBM_Details_Layout::booking_date_display();
 
                     ?>
 
@@ -183,11 +184,14 @@
                         <div class="wtbm_single_movie_card">
                             <div class="wtbm_single_movie_section_title">Select Date</div>
                             <div class="wtbm_single_movie_options wtbm_date">
-                                <div class="wtbm_single_movie_option"><small>TUE</small>03</div>
+                                <!--<div class="wtbm_single_movie_option"><small>TUE</small>03</div>
                                 <div class="wtbm_single_movie_option"><small>WED</small>04</div>
                                 <div class="wtbm_single_movie_option"><small>THU</small>05</div>
                                 <div class="wtbm_single_movie_option"><small>FRI</small>06</div>
-                                <div class="wtbm_single_movie_option"><small>SAT</small>07</div>
+                                <div class="wtbm_single_movie_option"><small>SAT</small>07</div>-->
+                                <?php
+                                 echo wp_kses_post( WTBM_Details_Layout::booking_date_display_single_movie( $movie_id ) );
+                                ?>
                             </div>
 
                             <div class="wtbm_single_movie_section_title" style="margin-top:20px">Select Time</div>
