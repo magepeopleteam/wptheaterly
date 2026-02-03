@@ -169,7 +169,7 @@
         let theaterId = $(this).attr('data-wtbm-theater').trim();
         let movieTimeSlot = $(this).attr('data-time-slot').trim();
         let theaterName = $(this).attr('data-wtbm-theater-name').trim();
-        let movieDate = $('#wtbm_bookingDateSelector .wtbm_booking_date_date_card.active').data('date');
+        let movieDate = $('#wtbm_bookingSingleMovieDate .wtbm_booking_date_date_card.active').data('date');
         let timeSlotDisplay = $(this).text();
 
         $("#wtbm_summeryTheaterId").val(theaterId);

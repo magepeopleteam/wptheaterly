@@ -83,6 +83,8 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                     $not_available = [];
                 }
 
+                error_log( print_r( [ '$_POST' =>$_POST ,'$not_available' => $not_available ], true ) );
+
                 if( $theater_id ){
                     $seat_map = WTBM_Details_Layout::display_theater_seat_mapping( $theater_id, $not_available );
                 }

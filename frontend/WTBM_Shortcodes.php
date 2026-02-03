@@ -16,15 +16,12 @@
             function single_movie_booking( $attr ) {
                 ob_start();
 
-                $movie_id = isset( $attr['movie_id'] ) ? $attr['movie_id'] : '';
-                $movie_id = 471;
+                $movie_id = isset( $attr['movie_id'] ) ? $attr['movie_id'] : 471;
+//                $movie_id = 471;
 
                 if( $movie_id ){
-
                     $date = '2026-02-02';
-
                     $theater_show_times = WTBM_Details_Layout::display_theater_show_time_single_movie( $movie_id, $date );
-//                    $theater_show_times = WTBM_Details_Layout::booking_date_display();
 
                     ?>
 
@@ -114,7 +111,7 @@
                             display:grid;
                             /*grid-template-columns:repeat(10,1fr);*/
                             gap:8px;
-                            max-width:500px;
+                            /*max-width:500px;*/
                             margin:0 auto;
                         }
                         .wtbm_single_movie_seat{
@@ -164,11 +161,19 @@
                             font-size:16px;
                             cursor:pointer;
                         }
+                        .wtbm_single_move_timeSlots{
+                            display: flex;
+                            gap: 15px;
+                        }
                     </style>
 
                     <body class="wtbm_single_movie_body">
 
                     <div class="wtbm_single_movie_wrapper">
+
+                        <div class="wtbm_booking_movie_card wtbm_movieActive"
+                             data-movie-id="<?php echo esc_attr( $movie_id ); ?>">
+                        </div>
 
                         <div class="wtbm_single_movie_title">Cinema Paradiso</div>
                         <div class="wtbm_single_movie_subtitle">RESERVE YOUR EXPERIENCE</div>
