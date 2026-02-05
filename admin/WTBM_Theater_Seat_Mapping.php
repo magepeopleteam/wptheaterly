@@ -110,12 +110,12 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
             }
 
             $seat_mapping_info = get_option( 'mptrs_seat_mapping_info' );
-            $box_size = isset($seat_mapping_info[ 'mptrs_box_size' ]) ? $seat_mapping_info[ 'mptrs_box_size' ] : 30;
+            $box_size = isset($seat_mapping_info[ 'mptrs_box_size' ]) ? $seat_mapping_info[ 'mptrs_box_size' ] : 25;
             $rows = isset($seat_mapping_info[ 'mptrs_num_of_rows' ]) ? $seat_mapping_info[ 'mptrs_num_of_rows' ] : $rows;
             $columns = isset($seat_mapping_info[ 'mptrs_num_of_columns' ]) ? $seat_mapping_info[ 'mptrs_num_of_columns' ] : $seatsPerRow;
 
 
-            $gap = isset( $get_create_box_data['boxGap'] ) ? absint( $get_create_box_data['boxGap'] ) : 10;
+            $gap = isset( $get_create_box_data['boxGap'] ) ? absint( $get_create_box_data['boxGap'] ) : 5;
 
             $childWidth = $box_size;
             $childHeight = $box_size + 5;

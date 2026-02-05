@@ -50,7 +50,6 @@
                 ob_start();
                 ?>
                 <div class="wtbm_booking_date_section">
-                    <h2 class="section-title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
                     <div class="wtbm_single_movie_booking_date" id="wtbm_bookingSingleMovieDate">
                         <?php
                         for ( $i = 0; $i < 7; $i++ ) {
@@ -62,7 +61,7 @@
                             $month = $date->format('M');
                             $full  = $date->format('Y-m-d');
                             ?>
-                            <div class="wtbm_booking_date_date_card <?php echo $i === 0 ? 'active' : ''; ?>" data-date="<?php echo esc_attr($full); ?>">
+                            <div class="wtbm_single_movie_booking_date_card <?php echo $i === 0 ? 'active' : ''; ?>" data-date="<?php echo esc_attr($full); ?>">
                                 <div class="day"><?php echo esc_html($day); ?></div>
                                 <div>
                                     <span class="date"><?php echo esc_html($dayNo); ?></span>

@@ -35,6 +35,17 @@ body{
     top: 40px;
 }
 
+.wtbm_singleRegistrationSidebar {
+    width: 100%;
+    background: var(--mptrs_color_theme_11);
+    border: 1px solid var(--mptrs_color_theme);
+    border-radius:10px;
+    padding:15px;
+    height: fit-content;
+    position: sticky;
+    top: 40px;
+}
+
 
 .wtbm_booking_date_section {
     margin-bottom:20px;
@@ -68,6 +79,28 @@ body{
     box-shadow: 0 2px 5px var(--mptrs_color_theme_66);
 }
 
+.wtbm_single_movie_booking_date_card {
+    background:var(--mptrs_color_theme_22);
+    border: 1px solid  transparent;
+    border-radius: 4px;
+    padding:5px;
+    cursor: pointer;
+    width: 80px;
+    box-shadow: 0 2px 0px #ddd;
+}
+
+.wtbm_single_movie_booking_date_card:hover {
+    border: 1px solid  var(--mptrs_color_theme);
+    box-shadow: 0 2px 5px var(--mptrs_color_theme_66);
+}
+
+.wtbm_single_movie_booking_date_card.active {
+    background: var(--mptrs_color_theme);
+    border: 1px solid  var(--mptrs_color_theme);
+    color: var(--mptrs_color_theme_alter);
+    box-shadow: 0 3px 6px var(--mptrs_color_theme_ee);
+}
+
 .wtbm_booking_date_date_card.active {
     background: var(--mptrs_color_theme);
     border: 1px solid  var(--mptrs_color_theme);
@@ -86,6 +119,21 @@ body{
 }
 
 .wtbm_booking_date_date_card .month {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.wtbm_single_movie_booking_date_card .day {
+    font-size: 14px;
+    text-align: left;
+}
+
+.wtbm_single_movie_booking_date_card .date {
+    font-size:18px;
+    font-weight: 500;
+}
+
+.wtbm_single_movie_booking_date_card .month {
     font-size: 14px;
     opacity: 0.8;
 }

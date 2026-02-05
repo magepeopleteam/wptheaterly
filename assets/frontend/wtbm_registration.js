@@ -44,6 +44,39 @@
         });
     });
 
+    $(document).on('click', '.wtbm_single_movie_booking_date_card', function () {
+        $('.wtbm_single_movie_booking_date_card').removeClass('active');
+        $(this).addClass('active');
+
+        $("#wtbm_single_movie_seats").empty();
+        $("#wtbm_single_movie_booking_card").fadeOut();
+
+        let date = $(this).data('date').trim();
+        let movieId = $("#wtbm_summeryMovieId").val().trim();
+        $.ajax({
+            url: wtbm_ajax.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'wtbm_get_single_theater_show_time_data',
+                date: date,
+                movie_id: movieId,
+                nonce: wtbm_ajax.nonce,
+            },
+            success: function(response) {
+                if( response.data  ) {
+                    // wtbm_displayHallsList.html(response.data);
+                    $(".wtbm_single_move_timeSlots").html( response.data );
+                }else{
+                    $(".wtbm_single_move_timeSlots").html( '<h6>No Time Slot Found</h6>');
+                }
+                $("#wtbm_hallSection").fadeIn();
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
+    });
+
     $(document).on('click', '.wtbm_booking_movie_card', function () {
 
         $("#wtbm_seatSection").fadeOut();
@@ -163,13 +196,16 @@
         wtbm_time_slot_click_make_empty( click_btn );
 
         $("#wtbm_seatSection").fadeOut();
+        $("#wtbm_single_movie_booking_card").fadeIn();
+
         $(".wtbm_single_timeSlot").removeClass( 'selected' );
         this_class.addClass('selected');
 
         let theaterId = $(this).attr('data-wtbm-theater').trim();
         let movieTimeSlot = $(this).attr('data-time-slot').trim();
         let theaterName = $(this).attr('data-wtbm-theater-name').trim();
-        let movieDate = $('#wtbm_bookingSingleMovieDate .wtbm_booking_date_date_card.active').data('date');
+        // let movieDate = $('#wtbm_bookingSingleMovieDate .wtbm_booking_date_date_card.active').data('date');
+        let movieDate = $('#wtbm_bookingSingleMovieDate .wtbm_single_movie_booking_date_card.active').data('date');
         let timeSlotDisplay = $(this).text();
 
         $("#wtbm_summeryTheaterId").val(theaterId);
