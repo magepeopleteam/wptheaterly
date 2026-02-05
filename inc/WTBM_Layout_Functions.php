@@ -74,16 +74,19 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $query->the_post();
 
                 $movie_data = [
-                    'id'          => get_the_ID(),
-                    'title'       => get_the_title(),
-                    'description' => get_the_content(),
-                    'genre'       => get_post_meta( get_the_ID(), 'wtbp_movie_genre', true ),
-                    'duration'    => get_post_meta( get_the_ID(), 'wtbp_movie_duration', true ),
-                    'rating'      => get_post_meta( get_the_ID(), 'wtbp_movie_rating', true ),
-                    'releaseDate' => get_post_meta( get_the_ID(), 'wtbp_movie_release_date', true ),
-                    'poster'      => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
-                    'poster_id'   => get_post_meta( get_the_ID(), 'wtbp_movie_poster_id', true ),
-                    'status'      => get_post_meta( get_the_ID(), 'wtbp_movie_active', true ) ?: false,
+                    'id'            => get_the_ID(),
+                    'title'         => get_the_title(),
+                    'description'   => get_the_content(),
+                    'genre'         => get_post_meta( get_the_ID(), 'wtbp_movie_genre', true ),
+                    'duration'      => get_post_meta( get_the_ID(), 'wtbp_movie_duration', true ),
+                    'rating'        => get_post_meta( get_the_ID(), 'wtbp_movie_rating', true ),
+                    'releaseDate'   => get_post_meta( get_the_ID(), 'wtbp_movie_release_date', true ),
+                    'poster'        => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
+                    'poster_id'     => get_post_meta( get_the_ID(), 'wtbp_movie_poster_id', true ),
+                    'status'        => get_post_meta( get_the_ID(), 'wtbp_movie_active', true ) ?: false,
+                    'director'      => get_post_meta( get_the_ID(), 'wtbp_movie_director', true ) ?: false,
+                    'actor_actress' => get_post_meta( get_the_ID(), 'wtbp_movie_actors', true ) ?: false,
+                    'movie_writer'  => get_post_meta( get_the_ID(), 'wtbp_movie_writer', true ) ?: false,
                 ];
             }
             wp_reset_postdata();
@@ -339,6 +342,9 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 'poster'      => '',
                 'poster_id'   => '',
                 'description' => '',
+                'director'    => '',
+                'actor_actress' => '',
+                'movie_writer'  => '',
             ];
             $data = wp_parse_args( $data, $defaults );
             $post_id = $data['id'];
@@ -361,7 +367,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <div class="form-group">
                         <label class="form-label"><?php esc_html_e( 'Genre', 'wptheaterly' ); ?></label>
                         <input type="text" id="movie-genre" class="form-input"
-                               placeholder="<?php esc_attr_e( 'Genre', 'wptheaterly' ); ?>"
+                               placeholder="<?php esc_attr_e( 'Action, Drama, Comedy, Romance, Horror', 'wptheaterly' ); ?>"
                                value="<?php echo esc_attr( $data['genre'] ); ?>">
                     </div>
 
@@ -377,6 +383,27 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <input type="number" id="movie-rating" class="form-input" step="0.1"
                                placeholder="<?php esc_attr_e( '8.5', 'wptheaterly' ); ?>"
                                value="<?php echo esc_attr( $data['rating'] ); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'Director', 'wptheaterly' ); ?></label>
+                        <input type="text" id="movie_director" class="form-input" step="0.1"
+                               placeholder="<?php esc_attr_e( 'Director name', 'wptheaterly' ); ?>"
+                               value="<?php echo esc_attr( $data['director'] ); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'Cast / Actors', 'wptheaterly' ); ?></label>
+                        <input type="text" id="movie_actor_actress" class="form-input" step="0.1"
+                               placeholder="<?php esc_attr_e( 'Actor Actress name', 'wptheaterly' ); ?>"
+                               value="<?php echo esc_attr( $data['actor_actress'] ); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'Movie Writer', 'wptheaterly' ); ?></label>
+                        <input type="text" id="movie_writer" class="form-input" step="0.1"
+                               placeholder="<?php esc_attr_e( 'Actor Actress name', 'wptheaterly' ); ?>"
+                               value="<?php echo esc_attr( $data['movie_writer'] ); ?>">
                     </div>
 
                     <div class="form-group">

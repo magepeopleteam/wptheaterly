@@ -71,6 +71,10 @@ if (!class_exists('WTBP_Manage_Movie')) {
             $description = isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
             $active      = isset( $_POST['active'] ) ? sanitize_textarea_field( wp_unslash( $_POST['active'] ) ) : '';
 
+            $director      = isset( $_POST['director'] ) ? sanitize_textarea_field( wp_unslash( $_POST['director'] ) ) : '';
+            $actor_actress = isset( $_POST['actor_actress'] ) ? sanitize_textarea_field( wp_unslash( $_POST['actor_actress'] ) ) : '';
+            $writer        = isset( $_POST['writer'] ) ? sanitize_textarea_field( wp_unslash( $_POST['writer'] ) ) : '';
+
             $post_id = wp_insert_post([
                 'post_title'   => $title,
                 'post_type'    => $cpt, // your custom post type
@@ -87,6 +91,9 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 update_post_meta($post_id, 'wtbp_movie_poster', $poster);
                 update_post_meta($post_id, 'wtbp_movie_active', $active);
                 update_post_meta($post_id, 'wtbp_movie_poster_id', $poster_id);
+                update_post_meta($post_id, 'wtbp_movie_director', $director);
+                update_post_meta($post_id, 'wtbp_movie_actors', $actor_actress);
+                update_post_meta($post_id, 'wtbp_movie_writer', $writer);
 
                 wp_send_json_success( get_post( $post_id ) );
             } else {
@@ -107,6 +114,10 @@ if (!class_exists('WTBP_Manage_Movie')) {
             $description    = isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
             $post_id        = isset($_POST['post_id']) ? intval( wp_unslash( $_POST['post_id'] ) ) : '';
             $active         = isset( $_POST['active'] ) ? sanitize_textarea_field( wp_unslash( $_POST['active'] ) ) : '';
+
+            $director      = isset( $_POST['director'] ) ? sanitize_textarea_field( wp_unslash( $_POST['director'] ) ) : '';
+            $actor_actress = isset( $_POST['actor_actress'] ) ? sanitize_textarea_field( wp_unslash( $_POST['actor_actress'] ) ) : '';
+            $writer        = isset( $_POST['writer'] ) ? sanitize_textarea_field( wp_unslash( $_POST['writer'] ) ) : '';
             $post_data = [
                 'post_title'   => $title,
                 'post_type'    => $cpt,
@@ -125,6 +136,9 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 update_post_meta( $post_id, 'wtbp_movie_poster', $poster );
                 update_post_meta( $post_id, 'wtbp_movie_active', $active );
                 update_post_meta( $post_id, 'wtbp_movie_poster_id', $poster_id );
+                update_post_meta( $post_id, 'wtbp_movie_director', $director );
+                update_post_meta( $post_id, 'wtbp_movie_actors', $actor_actress );
+                update_post_meta( $post_id, 'wtbp_movie_writer', $writer );
 
                 $status = 'inactive';
                 if( $active === 'true' ){
