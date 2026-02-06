@@ -24,7 +24,7 @@
 
 			public function load_single_template( $template ): string {
 				global $post;
-				if ( $post->post_type && $post->post_type == WTBM_Function::get_cpt()) {
+				if ( $post->post_type && $post->post_type == WTBM_Function::get_movie_cpt()) {
 					$template = WTBM_Function::template_path( 'single_page/details.php' );
 				}
 				return $template;

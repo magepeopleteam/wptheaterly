@@ -98,6 +98,17 @@
                 ];
                 register_post_type('wtbm_booking', $args);
 
+                $args = [
+                    'public' => true,
+                    'label' => esc_html__('Movie', 'wptheaterly'),
+                    'supports' => ['title', 'thumbnail', 'editor'],
+                    'show_in_menu' => false,
+                    'capability_type' => 'post',
+                    'publicly_queryable' => true,
+                    'has_archive' => true,
+                ];
+                register_post_type('wtbm_movie', $args);
+
 			}
 		}
 		new WTBP_CPT();
