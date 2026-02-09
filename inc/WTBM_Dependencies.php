@@ -107,6 +107,7 @@
                 wp_enqueue_style('wtbm_single_movie', WTBM_PLUGIN_URL . '/assets/frontend/wtbm_single_movie.css', [], time());
 				wp_enqueue_style('mptrs', WTBM_PLUGIN_URL . '/assets/frontend/mptrs.css', [], time());
 				wp_enqueue_script('mptrs', WTBM_PLUGIN_URL . '/assets/frontend/mptrs.js', ['jquery'], time(), true);
+				wp_enqueue_script('wtbm_single_movie', WTBM_PLUGIN_URL . '/assets/frontend/wtbm_single_movie.js', ['jquery'], time(), true);
 				do_action('wtbm_add_frontend_script');
 			}
 			public function add_admin_head() {

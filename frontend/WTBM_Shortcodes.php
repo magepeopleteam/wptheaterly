@@ -11,6 +11,7 @@
 			public function __construct() {
                 add_shortcode( 'wtbm_ticket_booking', array( $this, 'wtbm_ticket_booking_shortcode' ) );
                 add_shortcode('wtbm_single_movie_booking', array( $this, 'single_movie_booking' ) );
+                add_shortcode('wtbm_display_running_movie', array( $this, 'display_running_movie' ) );
 			}
 
             function single_movie_booking( $attr ) {
@@ -20,6 +21,18 @@
                 if( $movie_id ){
                     WTBM_Layout_Functions::display_single_movie_data( $movie_id );
                 }
+
+                return ob_get_clean();
+            }
+
+            function display_running_movie( $attr ) {
+
+                $date = isset( $attr['date'] ) ? $attr['date'] : '';
+                $number_column = isset( $attr['column'] ) ? $attr['column'] : 3;
+                $view = isset( $attr['view'] ) ? $attr['view'] : 'grid';
+                $list_grid_btn = isset( $attr['list_grid_btn'] ) ? $attr['list_grid_btn'] : 'yes';
+                ob_start();
+                WTBM_Layout_Functions::display_running_movie_data( $date, $view, $list_grid_btn, $number_column );
 
                 return ob_get_clean();
             }

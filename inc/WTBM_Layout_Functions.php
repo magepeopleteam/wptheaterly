@@ -947,9 +947,16 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $movie_rating = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_rating', '');
                 $movie_duration = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_duration', '');
                 $movie_genre = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_genre', '');
+                $movie_director = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_director', '');
+                $wtbp_movie_actors = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_actors', '');
 //                    $date = '2026-02-02';
                 $date = gmdate("Y-m-d");
                 $theater_show_times = WTBM_Details_Layout::display_theater_show_time_single_movie( $movie_id, $date );
+
+
+                if( $movie_genre ){
+                    $movie_genre_ary = explode( ',', $movie_genre );
+                }
 
                 ?>
                 <div class="wtbm_single_movie_wrapper">
@@ -970,11 +977,38 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             <h1 class="wtbm_single_movie_movie_title"><?php echo esc_attr( get_the_title( $movie_id ) );?></h1>
                             <div class="" style="display: flex; gap: 10px">
                                 <div class="wtbm_single_movie_meta">
-                                    <?php esc_attr_e( 'Runtime', 'wptheaterly' );?>: <?php echo esc_attr( $movie_duration );?> | <?php esc_attr_e( 'Genre', 'wptheaterly' );?>: <?php echo esc_attr( $movie_genre );?> | <?php esc_attr_e( 'Rating', 'wptheaterly' );?>: <?php echo esc_attr( $movie_rating );?><br>
-                                    <?php esc_attr_e( 'Director', 'wptheaterly' );?>: Sofia Martinez | <?php esc_attr_e( 'Starring', 'wptheaterly' );?>: James Chen, Elena Rodriguez<br>
+                                    <?php if( $movie_genre_ary ){ ?>
+                                        <div class="wtbm_movie_genery_holder">
+                                        <?php
+                                            foreach( $movie_genre_ary as $genre_ary ){ ?>
+                                                <span class="wtbm_movie_genere"><?php echo esc_attr( $genre_ary );?></span>
+                                            <?php } ?>
+                                        </div>
+                                        <?php  } ?>
+<!--                                    --><?php //esc_attr_e( 'Runtime', 'wptheaterly' );?><!--: --><?php //echo esc_attr( $movie_duration );?><!-- | --><?php //esc_attr_e( 'Rating', 'wptheaterly' );?><!--: --><?php //echo esc_attr( $movie_rating );?><!--<br>-->
+
+                                    <div class="wtbm_add_runtime_dating">
+                                        <span class="wtbm_movie_meta">
+                                          <i class="fa-regular fa-clock"></i>
+                                          <?php esc_html_e( 'Runtime', 'wptheaterly' );?>:
+                                          <?php echo esc_html( $movie_duration );?>
+                                        </span>
+                                        <span class="wtbm_movie_meta">
+                                          <i class="fa-solid fa-star"></i>
+                                          <?php esc_html_e( 'Rating', 'wptheaterly' );?>:
+                                          <?php echo esc_html( $movie_rating );?>
+                                        </span>
+                                    </div>
+
+                                    <div class="wtbm_movie_creator">
+                                        <strong><?php esc_attr_e( 'Director', 'wptheaterly' );?></strong>: <?php echo esc_attr( $movie_director );?> |
+                                        <strong><?php esc_attr_e( 'Starring', 'wptheaterly' );?></strong>: <?php echo esc_attr( $wtbp_movie_actors );?><br>
+                                    </div>
                                     <?php esc_attr_e( 'Description', 'wptheaterly' );?>: <?php echo esc_html( $movie_description );?>
                                 </div>
-                                <!--<div class="wtbm_single_movie_meta" style="display: flex; flex-direction: column">
+                                <!--
+                                <?php esc_attr_e( 'Genre', 'wptheaterly' );?>: <?php echo esc_attr( $movie_genre );?>
+                                <div class="wtbm_single_movie_meta" style="display: flex; flex-direction: column">
                                     <span class="wtbm_single_movie_badge">Thriller / Mystery</span>
                                     <span class="wtbm_single_movie_badge">Action</span>
                                     <span class="wtbm_single_movie_badge">Adventure</span>
@@ -983,6 +1017,10 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                     <span>3h 12m</span>
                                 </div>-->
                             </div>
+
+                        </div>
+
+                        <div class="wtbm_movie_maker_info">
 
                         </div>
 
@@ -1091,6 +1129,73 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             }
         }
 
+        public static function display_running_movie_data( $date, $view, $list_grid_btn, $columns = 3 ){
+
+            if( !$date ){
+                $date_formatted = current_time( 'Y-m-d' );
+            }else{
+                $date_formatted = gmdate('Y-m-d', $date);
+            }
+
+            $movie_ids = WTBM_Details_Layout::get_wtbm_show_time_movie_ids_by_date( $date_formatted );
+            $movie_data = [];
+
+            if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
+                $movie_data = WTBM_Details_Layout::get_movies_data_by_ids( $movie_ids );
+
+                if( $view === 'grid' ){
+                    $list_grid = 'grid-view';
+                }else{
+                    $list_grid = 'list-view';
+                }
+                ?>
+                <div class="wtbm_show_movie_wrapper" data-columns="<?php echo esc_attr( $columns );?>">
+                    <div class="wtbm_show_movie_content">
+                        <?php if( $list_grid_btn === 'yes' ){?>
+                            <div class="wtbm_show_movie_controls">
+                                <button class="wtbm_show_movie_toggle <?php echo ( $view === 'grid' ) ? 'active' : ''; ?>" data-view="grid">
+                                    <?php esc_attr_e( 'Grid', 'wptheaterly' );?>
+                                </button>
+                                <button class="wtbm_show_movie_toggle <?php echo ( $view === 'list' ) ? 'active' : ''; ?>" data-view="list">
+                                    <?php esc_attr_e( 'List', 'wptheaterly' );?>
+                                </button>
+                            </div>
+                        <?php }?>
+
+                        <div class="wtbm_show_movie_list <?php echo esc_html( $list_grid );?>">
+
+                            <?php
+                             foreach ( $movie_data as $i => $movie ): ?>
+                                 <div class="wtbm_show_movie_card" data-genre="action" style="display: none"
+                                     data-movie-id="<?php echo esc_attr( $movie['movie_id'] );?>">
+                                     <div class="wtbm_show_image">
+                                         <a href="<?php echo esc_url( $movie['permalink'] );?>" target="_blank">
+                                            <?php if( $movie['poster_image_url'] ){?>
+                                                <img src="<?php echo esc_attr( $movie['poster_image_url'] );?>" alt="<?php echo esc_attr( $movie['title'] );?>" >
+                                            <?php }else{?>
+                                                🎬
+                                            <?php }?>
+                                        </a>
+                                     </div>
+                                    <div class="wtbm_show_movie_info">
+                                        <h2 class="wtbm_booking_movies_title" style="text-decoration: none"><?php echo esc_attr( $movie['title'] );?></h2>
+                                        <div class="wtbm_movie_desc" style="text-decoration: none"><?php echo esc_html( $movie['movie_description']  );?></div>
+                                        <div class="wtbm_booking_movies_details">
+                                            <?php esc_html_e( 'Duration', 'wptheaterly' );?> - <?php echo esc_html( $movie['movie_duration'] );?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <button class="wtbm_show_movie_loadmore" style="display: none"><?php esc_attr_e( 'Load More', 'wptheaterly' );?></button>
+                    </div>
+                </div>
+                <?php
+            }else{ ?>
+                <div class="wtbm_empty_movie"><?php esc_attr_e( 'No Movie Found', 'wptheaterly' );?></div>
+        <?php
+            }
+        }
 
     }
 
