@@ -10,7 +10,19 @@
 		class WTBM_Shortcodes {
 			public function __construct() {
                 add_shortcode( 'wtbm_ticket_booking', array( $this, 'wtbm_ticket_booking_shortcode' ) );
+                add_shortcode('wtbm_single_movie_booking', array( $this, 'single_movie_booking' ) );
 			}
+
+            function single_movie_booking( $attr ) {
+
+                $movie_id = isset( $attr['movie_id'] ) ? $attr['movie_id'] : '';
+                ob_start();
+                if( $movie_id ){
+                    WTBM_Layout_Functions::display_single_movie_data( $movie_id );
+                }
+
+                return ob_get_clean();
+            }
 
             public function wtbm_ticket_booking_shortcode( $atts = array(), $content = null ) {
                 // Default attributes

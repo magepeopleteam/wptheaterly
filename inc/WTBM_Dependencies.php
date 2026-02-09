@@ -104,6 +104,7 @@
 			public function frontend_script() {
 				$this->global_enqueue();
 				$currency_symbol = get_woocommerce_currency_symbol();
+                wp_enqueue_style('wtbm_single_movie', WTBM_PLUGIN_URL . '/assets/frontend/wtbm_single_movie.css', [], time());
 				wp_enqueue_style('mptrs', WTBM_PLUGIN_URL . '/assets/frontend/mptrs.css', [], time());
 				wp_enqueue_script('mptrs', WTBM_PLUGIN_URL . '/assets/frontend/mptrs.js', ['jquery'], time(), true);
 				do_action('wtbm_add_frontend_script');

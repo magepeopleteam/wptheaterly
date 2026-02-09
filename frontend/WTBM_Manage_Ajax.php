@@ -17,6 +17,9 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
             add_action( 'wp_ajax_wtbm_get_theater_show_time_data', [ $this, 'wtbm_get_theater_show_time_data' ] );
             add_action( 'wp_ajax_nopriv_wtbm_get_theater_show_time_data', [ $this, 'wtbm_get_theater_show_time_data' ] );
 
+            add_action( 'wp_ajax_wtbm_get_single_theater_show_time_data', [ $this, 'wtbm_get_single_theater_show_time_data' ] );
+            add_action( 'wp_ajax_nopriv_wtbm_get_single_theater_show_time_data', [ $this, 'wtbm_get_single_theater_show_time_data' ] );
+
             add_action( 'wp_ajax_wtbm_get_theater_seat_map_data', [ $this, 'wtbm_get_theater_seat_map_data' ] );
             add_action( 'wp_ajax_nopriv_wtbm_get_theater_seat_map_data', [ $this, 'wtbm_get_theater_seat_map_data' ] );
 
@@ -57,6 +60,24 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                     $movie_id = isset( $_POST['movie_id'] ) ? sanitize_text_field( wp_unslash( $_POST['movie_id'] ) ) : '';
                     // Fetch movies or showtimes based on date
                     $theater_show_times = WTBM_Details_Layout::display_theater_show_time( $movie_id, $date );
+
+                    wp_send_json_success($theater_show_times);
+                } else {
+                    wp_send_json_error('No date provided');
+                }
+            }
+            wp_die();
+        }
+
+        public function wtbm_get_single_theater_show_time_data(){
+
+            if ( isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wtbm_nonce') ) {
+
+                if (isset($_POST['date']) && isset($_POST['movie_id'])) {
+                    $date = isset( $_POST['date'] ) ? sanitize_text_field( wp_unslash( $_POST['date'] ) ) : '';
+                    $movie_id = isset( $_POST['movie_id'] ) ? sanitize_text_field( wp_unslash( $_POST['movie_id'] ) ) : '';
+                    // Fetch movies or showtimes based on date
+                    $theater_show_times = WTBM_Details_Layout::display_theater_show_time_single_movie( $movie_id, $date );
 
                     wp_send_json_success($theater_show_times);
                 } else {

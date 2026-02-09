@@ -45,6 +45,38 @@
 
 //                return ob_get_clean();
             }
+            public static function booking_date_display_single_movie( $movie_id ) {
+
+                ob_start();
+                ?>
+                <div class="wtbm_booking_date_section">
+                    <div class="wtbm_single_movie_booking_date" id="wtbm_bookingSingleMovieDate">
+                        <?php
+                        for ( $i = 0; $i < 7; $i++ ) {
+                            $date = new DateTime();
+                            $date->modify("+$i day");
+
+                            $day   = $date->format('D');
+                            $dayNo = $date->format('d');
+                            $month = $date->format('M');
+                            $full  = $date->format('Y-m-d');
+                            ?>
+                            <div class="wtbm_single_movie_booking_date_card <?php echo $i === 0 ? 'active' : ''; ?>" data-date="<?php echo esc_attr($full); ?>">
+                                <div class="day"><?php echo esc_html($day); ?></div>
+                                <div>
+                                    <span class="date"><?php echo esc_html($dayNo); ?></span>
+                                    <span class="month"><?php echo esc_html($month); ?></span>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                </div>
+                <?php
+
+                return ob_get_clean();
+            }
 
             public static function display_date_wise_movies( $date = '' ){
                 $movie_ids = self::get_wtbm_show_time_movie_ids_by_date( $date );
@@ -152,6 +184,33 @@
                                         $formatted_time = gmdate('h:i A', strtotime( esc_attr( $time ) ));
                                         ?>
                                         <div class="wtbm_timeSlot" data-wtbm-theater-name = "<?php echo esc_attr( $post_title );?>" data-wtbm-theater="<?php echo esc_attr( $theater_id );?>" data-time-slot="<?php echo esc_attr( $time );?>">
+                                            <?php echo esc_attr( $formatted_time );?>
+                                        </div>
+                                <?php } }?>
+                            </div>
+                        </div>
+                    <?php
+                    }
+                }
+                return ob_get_clean();
+            }
+
+            public static function display_theater_show_time_single_movie( $movie_id, $date = ''  ){
+
+                $show_times = self::get_wtbm_show_time_by_date_and_movie_id( $movie_id, $date );
+                ob_start();
+                if( is_array( $show_times ) && !empty( $show_times ) ){
+                    foreach ( $show_times as $theater_id => $show_time  ){
+                        $post_title = get_the_title( $theater_id );
+                        ?>
+                        <div class="wtbm_hallCard">
+                            <div class="wtbm_single_move_timeSlots">
+                                <?php
+                                if( is_array( $show_time ) && !empty( $show_time ) ){
+                                    foreach ( $show_time as $time ){
+                                        $formatted_time = gmdate('h:i A', strtotime( esc_attr( $time ) ));
+                                        ?>
+                                        <div class="wtbm_single_timeSlot" data-wtbm-theater-name = "<?php echo esc_attr( $post_title );?>" data-wtbm-theater="<?php echo esc_attr( $theater_id );?>" data-time-slot="<?php echo esc_attr( $time );?>">
                                             <?php echo esc_attr( $formatted_time );?>
                                         </div>
                                 <?php } }?>
