@@ -17,9 +17,10 @@
             function single_movie_booking( $attr ) {
 
                 $movie_id = isset( $attr['movie_id'] ) ? $attr['movie_id'] : '';
+                $show_header = isset( $attr['show_header'] ) ? $attr['show_header'] : '';
                 ob_start();
                 if( $movie_id ){
-                    WTBM_Layout_Functions::display_single_movie_data( $movie_id );
+                    WTBM_Layout_Functions::display_single_movie_data( $movie_id, $show_header );
                 }
 
                 return ob_get_clean();

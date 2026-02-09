@@ -937,7 +937,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             return $booking_data;
         }
 
-        public static function display_single_movie_data( $movie_id ){
+        public static function display_single_movie_data( $movie_id, $hide_header = 'yes' ){
             if( $movie_id ){
                 $movie_description = get_the_excerpt( $movie_id );
                 $movie_poster_id = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_poster_id', '');
@@ -968,7 +968,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <!-- <div class="wtbm_single_movie_title"><?php /*echo esc_attr( get_the_title( $movie_id ) );*/?></div>
                         <div class="wtbm_single_movie_subtitle"><?php /*echo esc_attr( get_the_title( $movie_id ) );*/?></div>
 -->
-                    <?php if( 1 ){?>
+                    <?php if( $hide_header === 'yes' ){?>
                     <div class="wtbm_single_movie_card_description">
                         <div class="wtbm_single_movie_poster">
                             <img src="<?php echo esc_url( $poster_url );?>" alt="Avatar Poster" />
@@ -1006,16 +1006,6 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                     </div>
                                     <?php esc_attr_e( 'Description', 'wptheaterly' );?>: <?php echo esc_html( $movie_description );?>
                                 </div>
-                                <!--
-                                <?php esc_attr_e( 'Genre', 'wptheaterly' );?>: <?php echo esc_attr( $movie_genre );?>
-                                <div class="wtbm_single_movie_meta" style="display: flex; flex-direction: column">
-                                    <span class="wtbm_single_movie_badge">Thriller / Mystery</span>
-                                    <span class="wtbm_single_movie_badge">Action</span>
-                                    <span class="wtbm_single_movie_badge">Adventure</span>
-                                    <span class="wtbm_single_movie_badge">Fantasy</span>
-                                    <span>PG‑13</span>
-                                    <span>3h 12m</span>
-                                </div>-->
                             </div>
 
                         </div>
