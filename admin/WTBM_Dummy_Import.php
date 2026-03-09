@@ -400,11 +400,11 @@
 					'post_title' => 'Show Time',
 					'meta_data'  => [
 						'wtbp_show_time_date'        => gmdate( 'Y-m-d', strtotime('+1 day') ),
-						'wtbp_show_time_start_date'  => '11.00',
+						'wtbp_show_time_start_date'  => '11:00',
 						'wtbp_showtime_start_date'   => gmdate( 'Y-m-d', strtotime('+1 day') ),
 						'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
-						// 'wtbp_show_time_price'       => '11',
-						'wtbp_showtime_off_days'     => 'monday',
+						'wtbp_show_time_price'       => 0,
+						'wtbp_showtime_off_days'     => ['monday'],
 					],
 				];
 			}
