@@ -402,7 +402,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
 
                         <div class="wtbm_sales_report_card">
                             <div class="flex items-center mb-4">
-                                <span style="width: 24px; height: 24px; color: #9333ea; margin-right: 12px;">📊</span>
+                                <span style="font-size: 1.5rem; color: #9333ea; margin-right:3px;"><i class="mi mi-stats"></i></span>
                                 <h3 class="text-xl font-bold text-gray-900"><?php esc_attr_e( 'Sales Analytics', 'wptheaterly' );?></h3>
                             </div>
 
@@ -429,27 +429,27 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                                 </div>
                             </div>
 
-                            <div class="flex gap-4 mb-6">
+                            <div class="flex gap-4 mt-6">
                                 <div class="form-group">
                                     <label class="form-label"><?php esc_attr_e( 'From Date', 'wptheaterly' );?></label>
-                                    <input type="date" class="form-input">
+                                    <input type="date" class="">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label"><?php esc_attr_e( 'To Date', 'wptheaterly' );?></label>
-                                    <input type="date" class="form-input">
+                                    <input type="date" class="">
                                 </div>
-                                <div style="display: flex; align-items: end;">
-                                    <button class="btn" style="background: #9333ea; color: white;">
+                                <div style="display: flex; align-items: center;">
+                                    <button class="btn" style="background: #9333ea; color: white;margin-top:10px;">
                                         <?php esc_attr_e( 'Generate Report', 'wptheaterly' );?>
                                     </button>
                                 </div>
                             </div>
 
-                            <div class="border rounded p-6" style="border-color: var(--gray-200);">
+                            <div class="border rounded" style="border-color: var(--gray-200);">
 
                                 <div class="wtbm_sales_overlay" id="wtbm_sales_popup">
                                     <div class="wtbm_sales_popup">
-                                        <button class="wtbm_sales_close-btn">×</button>
+                                        <button class="btn-danger wtbm_sales_close-btn p-1">X</button>
 
                                         <div class="wtbm_sales_report" id="wtbm_dily_sales_report" style="display: none">
                                             <div class="">
@@ -607,7 +607,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                                             </div>
                                         </div>
 
-                                        <button class="wtbm_sales_open-btn" ><?php esc_attr_e( 'Okay', 'wptheaterly' );?></button>
+                                        <button class="btn btn-primary wtbm_sales_open-btn" ><?php esc_attr_e( 'Okay', 'wptheaterly' );?></button>
                                     </div>
                                 </div>
 
@@ -646,7 +646,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
                                     ?>
                                     <?php esc_attr_e( 'Last updated', 'wptheaterly' );?>: <span id="last-updated"><?php echo esc_attr( $datetime_now )?></span>
                                 </div>
-                                <div class="flex gap-3">
+                                <div class="d-flex gap-3">
                                     <button class="btn btn-secondary text-sm"><?php esc_attr_e( 'Export PDF', 'wptheaterly' );?></button>
                                     <button class="btn btn-success text-sm"><?php esc_attr_e( 'Export Excel', 'wptheaterly' );?></button>
                                     <button class="btn btn-primary text-sm" ><?php esc_attr_e( 'Print Report', 'wptheaterly' );?></button>
