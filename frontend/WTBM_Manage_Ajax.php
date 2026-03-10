@@ -137,7 +137,7 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
 
 
                 $day_of_week = strtolower( gmdate('l', strtotime( $booking_data ) ) );
-                $total_discount_amount = WTBM_Set_Pricing_Sules::calculate_price_by_rules(  $total_amount, $day_of_week, $booking_data, $theater_id, $booking_time, $seat_count  );
+                $total_discount_amount = WTBM_Set_Pricing_Rules::calculate_price_by_rules(  $total_amount, $day_of_week, $booking_data, $theater_id, $booking_time, $seat_count  );
 
                 $cart_item_data = [
                     'wtbm_movie_id'         => $original_post_id,

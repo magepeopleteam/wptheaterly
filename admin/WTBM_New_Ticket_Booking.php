@@ -53,7 +53,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
             }
 
             $day_of_week = strtolower( gmdate('l', strtotime( $booking_date ) ) );
-            $wtbm_price = WTBM_Set_Pricing_Sules::calculate_price_by_rules(  $wtbm_price, $day_of_week, $booking_date, $theater_id, $booking_time, $seat_count  );
+            $wtbm_price = WTBM_Set_Pricing_Rules::calculate_price_by_rules(  $wtbm_price, $day_of_week, $booking_date, $theater_id, $booking_time, $seat_count  );
 
             $item = new WC_Order_Item_Product();
             $item->set_product( wc_get_product( $product_id ) );
