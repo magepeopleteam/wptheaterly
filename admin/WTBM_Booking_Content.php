@@ -116,7 +116,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                             <p class="text-sm text-gray-500" id="bookings-count"><?php esc_attr_e( 'Total:', 'wptheaterly' ); ?> <?php echo esc_attr( $total_booking );?> <?php esc_attr_e( 'bookings', 'wptheaterly' ); ?></p>
                         </div>
                         <button class="btn btn-secondary wtbm_show_filter">
-                            <i class="mi mi-search"></i> <?php _e('Filters','wptheaterly'); ?>
+                            <i class="mi mi-search"></i> <?php esc_html_e('Filters','wptheaterly'); ?>
                         </button>
 
                         

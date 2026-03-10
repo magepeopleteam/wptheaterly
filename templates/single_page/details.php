@@ -21,7 +21,7 @@ if ( wp_is_block_theme() ) {
             wp_body_open();
             echo '<div class="wp-site-blocks">';
             echo '<header class="wp-block-template-part site-header">';
-            echo $header_html;
+            echo esc_html($header_html);
             echo '</header>';
             echo '</div>';
         } else {
