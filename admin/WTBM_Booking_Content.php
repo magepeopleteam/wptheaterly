@@ -116,7 +116,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                             <p class="text-sm text-gray-500" id="bookings-count"><?php esc_attr_e( 'Total:', 'wptheaterly' ); ?> <?php echo esc_attr( $total_booking );?> <?php esc_attr_e( 'bookings', 'wptheaterly' ); ?></p>
                         </div>
                         <button class="btn btn-secondary wtbm_show_filter">
-                            🔍 Filters
+                            <i class="mi mi-search"></i> <?php esc_html_e('Filters','wptheaterly'); ?>
                         </button>
 
                         
@@ -241,8 +241,8 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                     <td>
                         <div class="flex gap-2">
                             <?php do_action( 'wtbm_pdf_button', $meta['wtbm_order_id'], 'booking_list' ); ?>
-                            <button class="btn-icon edit wtbm_edit_booking" title="Edit Booking">✏️</button>
-                            <button class="btn-icon wtbm_delete_booking" style="color: #2563eb;" title="Delete Booking">🗑️</button>
+                            <button class="btn-icon edit wtbm_edit_booking" title="Edit Booking"><i class="mi mi-pencil"></i></button>
+                            <button class="btn-icon delete wtbm_delete_booking"  title="Delete Booking"><i class="mi mi-trash"></i></button>
                         </div>
                     </td>
                 </tr>

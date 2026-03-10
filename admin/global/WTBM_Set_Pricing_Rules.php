@@ -6,9 +6,9 @@
 if (!defined('ABSPATH')) {
     die;
 } // Cannot access pages directly.
-if (!class_exists('WTBM_Set_Pricing_Sules')) {
+if (!class_exists('WTBM_Set_Pricing_Rules')) {
 
-    class WTBM_Set_Pricing_Sules {
+    class WTBM_Set_Pricing_Rules {
         /**
          * Store cached data
          */
@@ -177,5 +177,5 @@ if (!class_exists('WTBM_Set_Pricing_Sules')) {
     }
 
 
-    new WTBM_Set_Pricing_Sules();
+    new WTBM_Set_Pricing_Rules();
 }

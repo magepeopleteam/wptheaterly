@@ -189,9 +189,9 @@
                 console.log( response );
                 if( response.success){
                     booking_edit_overlay.remove();
-                    booking_edit_overlay.fadeIn(200);
+                    booking_edit_overlay.fadeIn();
                     $('body').append(response.data.edit_data);
-                    booking_edit_overlay.fadeIn(200);
+                    booking_edit_overlay.fadeIn();
                 }else{
                     alert('No data Found');
                 }
