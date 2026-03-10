@@ -236,29 +236,8 @@
 							'wtbp_theater_seatsPerRow' => '20',
 							'wtbp_theater_soundSystem' => 'Dolby Digital',
 							'wtbp_theater_status' => 'active',
-							'wtbp_theater_category' => [
-								[
-									'category_id'   => 'vip',
-									'category_name' => 'VIP',
-									'seats'         => '20',
-									'price'         => '150',
-									'color'         => '#ff0000',
-								],
-								[
-									'category_id'   => 'premium',
-									'category_name' => 'Premium',
-									'seats'         => '30',
-									'price'         => '100',
-									'color'         => '#0000ff',
-								],
-								[
-									'category_id'   => 'regular',
-									'category_name' => 'Regular',
-									'seats'         => '50',
-									'price'         => '70',
-									'color'         => '#00ff00',
-								]
-							],
+							'wtbp_theater_category' => $this->theater_seat_category_data(),
+							'wtbp_theater_seat_map' => $this->theater_seat_data(),
 						],
 					],
 					[
@@ -269,29 +248,8 @@
 							'wtbp_theater_seatsPerRow' => '20',
 							'wtbp_theater_soundSystem' => 'Dolby Atmos',
 							'wtbp_theater_status' => 'active',
-							'wtbp_theater_category' => [
-								[
-									'category_id'   => 'vip',
-									'category_name' => 'VIP',
-									'seats'         => '20',
-									'price'         => '150',
-									'color'         => '#ff0000',
-								],
-								[
-									'category_id'   => 'premium',
-									'category_name' => 'Premium',
-									'seats'         => '30',
-									'price'         => '100',
-									'color'         => '#0000ff',
-								],
-								[
-									'category_id'   => 'regular',
-									'category_name' => 'Regular',
-									'seats'         => '50',
-									'price'         => '70',
-									'color'         => '#00ff00',
-								]
-							],
+							'wtbp_theater_category' => $this->theater_seat_category_data(),
+							'wtbp_theater_seat_map' => $this->theater_seat_data(),
 						],
 					],
 					[
@@ -302,29 +260,8 @@
 							'wtbp_theater_seatsPerRow' => '10',
 							'wtbp_theater_soundSystem' => 'Dolby Atmos',
 							'wtbp_theater_status' => 'active',
-							'wtbp_theater_category' => [
-								[
-									'category_id'   => 'vip',
-									'category_name' => 'VIP',
-									'seats'         => '20',
-									'price'         => '150',
-									'color'         => '#ff0000',
-								],
-								[
-									'category_id'   => 'premium',
-									'category_name' => 'Premium',
-									'seats'         => '30',
-									'price'         => '100',
-									'color'         => '#0000ff',
-								],
-								[
-									'category_id'   => 'regular',
-									'category_name' => 'Regular',
-									'seats'         => '50',
-									'price'         => '70',
-									'color'         => '#00ff00',
-								]
-							],
+							'wtbp_theater_category' => $this->theater_seat_category_data(),
+							'wtbp_theater_seat_map' => $this->theater_seat_data(),
 						],
 					],
 					[
@@ -335,29 +272,8 @@
 							'wtbp_theater_seatsPerRow' => '10',
 							'wtbp_theater_soundSystem' => 'IMAX Enhanced',
 							'wtbp_theater_status' => 'active',
-							'wtbp_theater_category' => [
-								[
-									'category_id'   => 'vip',
-									'category_name' => 'VIP',
-									'seats'         => '20',
-									'price'         => '150',
-									'color'         => '#ff0000',
-								],
-								[
-									'category_id'   => 'premium',
-									'category_name' => 'Premium',
-									'seats'         => '30',
-									'price'         => '100',
-									'color'         => '#0000ff',
-								],
-								[
-									'category_id'   => 'regular',
-									'category_name' => 'Regular',
-									'seats'         => '50',
-									'price'         => '70',
-									'color'         => '#00ff00',
-								]
-							],
+							'wtbp_theater_category' => $this->theater_seat_category_data(),
+							'wtbp_theater_seat_map' => $this->theater_seat_data(),
 						],
 					],
 					[
@@ -368,43 +284,68 @@
 							'wtbp_theater_seatsPerRow' => '10',
 							'wtbp_theater_soundSystem' => 'IMAX Enhanced',
 							'wtbp_theater_status' => 'active',
-							'wtbp_theater_category' => [
-								[
-									'category_id'   => 'vip',
-									'category_name' => 'VIP',
-									'seats'         => '20',
-									'price'         => '150',
-									'color'         => '#ff0000',
-								],
-								[
-									'category_id'   => 'premium',
-									'category_name' => 'Premium',
-									'seats'         => '30',
-									'price'         => '100',
-									'color'         => '#0000ff',
-								],
-								[
-									'category_id'   => 'regular',
-									'category_name' => 'Regular',
-									'seats'         => '50',
-									'price'         => '70',
-									'color'         => '#00ff00',
-								]
-							],
+							'wtbp_theater_category' => $this->theater_seat_category_data(),
+							'wtbp_theater_seat_map' => $this->theater_seat_data(),
 						],
 					],
 				];
 			}
+			public function theater_seat_category_data(){
+				return [
+						[
+							'category_id'   => 'regular',
+							'category_name' => 'Regular',
+							'seats'         => '50',
+							'price'         => '70',
+							'color'         => '#28a745',
+						]
+					];
+			}
+
+			public function theater_seat_data(){
+				$seat_data = [];
+				$seat_no = 1;
+				for($row=0; $row<10; $row++){
+					for($col=0; $col<10; $col++){
+						$seat_data[] = [
+							'id'            => $row.'_'.$col,
+							'row'           => $row,
+							'col'           => $col,
+							'color'         => '#28a745',
+							'price'         => 70,
+							'width'         => '25px',
+							'height'        => '30px',
+							'seat_number'   => $seat_no++,
+							'left'          => (10 + ($col * 30)).'px',
+							'top'           => (10 + ($row * 40)).'px',
+							'z_index'       => 10,
+							'data_degree'   => 0,
+							'data_tableBind'=> '',
+							'border_radius' => '5px',
+							'seatText'      => '',
+							'backgroundImage'=> '',
+							'seat_category' => 'regular'
+						];
+					}
+				}
+
+				return [
+					'seat_data' => $seat_data,
+					'seat_text_data' => [],
+					'dynamic_shapes' => [],
+				];
+			}
+
 			public function show_time_data() {
 				return [
 					'post_title' => 'Show Time',
 					'meta_data'  => [
 						'wtbp_show_time_date'        => gmdate( 'Y-m-d', strtotime('+1 day') ),
-						'wtbp_show_time_start_date'  => '11.00',
+						'wtbp_show_time_start_date'  => '11:00',
 						'wtbp_showtime_start_date'   => gmdate( 'Y-m-d', strtotime('+1 day') ),
 						'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
-						// 'wtbp_show_time_price'       => '11',
-						'wtbp_showtime_off_days'     => 'monday',
+						'wtbp_show_time_price'       => 0,
+						'wtbp_showtime_off_days'     => ['monday'],
 					],
 				];
 			}
