@@ -177,7 +177,7 @@
 						<?php if ($status == 1) { ?>
                             <h5><span class="fas fa-check-circle textSuccess"></span></h5>
 						<?php } elseif ($status == 0) { ?>
-                            <button class="warningButton" type="submit" name="install_and_active_woo_btn"><?php esc_html_e('Install & Active Now', 'wptheaterly'); ?></button>
+                            <button class="themeButton" type="submit" name="install_and_active_woo_btn"><?php esc_html_e('Install & Active Now', 'wptheaterly'); ?></button>
 						<?php } else { ?>
                             <button class="themeButton" type="submit" name="active_woo_btn"><?php esc_html_e('Active Now', 'wptheaterly'); ?></button>
 						<?php } ?>
