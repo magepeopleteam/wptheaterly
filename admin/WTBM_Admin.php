@@ -35,7 +35,7 @@
 				require_once WTBM_PLUGIN_DIR . '/admin/global/WTBM_Setting_API.php';
 				require_once WTBM_PLUGIN_DIR . '/admin/global/WTBM_Settings_Global.php';
 				require_once WTBM_PLUGIN_DIR . '/admin/global/WTBP_Menu.php';
-				require_once WTBM_PLUGIN_DIR . '/admin/global/WTBM_Set_Pricing_Sules.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/global/WTBM_Set_Pricing_Rules.php';
 				//*************Service Settings*****************//
 				require_once WTBM_PLUGIN_DIR . '/admin/settings/WTBM_Settings.php';
 				require_once WTBM_PLUGIN_DIR . '/admin/settings/WTBM_General_Settings.php';
