@@ -201,6 +201,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                 if ( $order ) {
                     $status = wc_get_order_status_name( $order->get_status() );
                 }
+
                 // Example meta keys, adjust to match your actual saved meta keys
                 $booking_code   = 'BK' . str_pad(  $meta['wtbm_order_id'], 6, '0', STR_PAD_LEFT );
                 $customer_name  = $meta['wtbm_billing_name'] ?? 'N/A';
@@ -421,7 +422,6 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
             $booking =  WTBM_Layout_Functions::wtbm_get_booking_data_by_booking_id( $booking_id );
             $order_id = $booking['wtbm_order_id'];
 
-//            error_log( print_r( [ '$booking' => $booking ], true ) );
             $seats = '';
             $seat_ids = '';
             if( is_array( $booking['wtbm_seats'] ) && !empty( $booking['wtbm_seats'] ) ) {
@@ -571,7 +571,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
             $order_id   = isset( $_POST['order_id'] ) ? intval(  wp_unslash( $_POST['order_id'] ) ) : '';
             $seat_number   = isset( $_POST['seat_number'] ) ? sanitize_text_field(  wp_unslash( $_POST['seat_number'] ) ) : '';
             $seat_ids   = isset( $_POST['seat_ids'] ) ? sanitize_text_field(  wp_unslash( $_POST['seat_ids'] ) ) : '';
-            $booking_status   = isset( $_POST['booking_status'] ) ? sanitize_text_field(  wp_unslash( $_POST['booking_status'] ) ) : '';
+//            $booking_status   = isset( $_POST['booking_status'] ) ? sanitize_text_field(  wp_unslash( $_POST['booking_status'] ) ) : '';
 
             if( $seat_number ){
                 $seat_numbers = array_map('trim', explode(',', $seat_number));
