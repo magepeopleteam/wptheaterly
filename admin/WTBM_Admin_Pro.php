@@ -25,8 +25,8 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
         }
         public function status_notice_sec() {
 
-            if ( isset( $_GET['wtbm_nonce'] ) ) {
-                if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['wtbm_nonce'] ) ), 'wtbm_mpdf_plugin_action') ) {
+            // if ( isset( $_GET['wtbm_nonce'] ) ) {
+                // if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['wtbm_nonce'] ) ), 'wtbm_mpdf_plugin_action') ) {
 
                     if (isset($_REQUEST['active_mep_pdf_support_plugin']) && $_REQUEST['active_mep_pdf_support_plugin'] == 'yes') {
                         activate_plugin('magepeople-pdf-support-master/mage-pdf.php');
@@ -45,11 +45,11 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
                         $upgrades = new Plugin_Upgrader(new Plugin_Installer_Skin(compact('title', 'url', 'nonce', 'plugin', 'api')));
                         $upgrades->install('https://github.com/magepeopleteam/magepeople-pdf-support/archive/master.zip');
                     }
-                }
-            }else{
-                esc_attr_e( 'Security check failed', 'wptheaterly' );
-                wp_die( );
-            }
+                // }
+            // }else{
+            //     // esc_attr_e( 'Security check failed', 'wptheaterly' );
+            //     wp_die( );
+            // }
 
         }
         public function status_table_item_sec() {
