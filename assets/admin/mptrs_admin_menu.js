@@ -378,12 +378,7 @@
                     $("#"+edited_movie).hide();
                     clickedId.text( beforeClickBtnText );
 
-                    if( action_type === 'edit' ){
-                        alert("Movie : "+response_type+' '+ response.data.movie_title);
-                    }else{
-                        alert("Movie : "+response_type+' '+ response.data.post_title);
-                    }
-
+                    alert("Movie : "+response_type+' '+ response.data.movie_title);
 
                     $("#movies-table-body").prepend( response.data.updated_movie );
                     // renderMoviesTable( response.data, movie_id );

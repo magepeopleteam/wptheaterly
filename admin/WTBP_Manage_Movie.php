@@ -95,7 +95,28 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 update_post_meta($post_id, 'wtbp_movie_actors', $actor_actress);
                 update_post_meta($post_id, 'wtbp_movie_writer', $writer);
 
-                wp_send_json_success( get_post( $post_id ) );
+
+                $added_movie[0] = array(
+                    'id'                => $post_id,
+                    'title'             => $title,
+                    'active'            => $active,
+                    'genre'             => $genre,
+                    'duration'          => $duration,
+                    'rating'            => $rating,
+                    'release_date'      => $releaseDate,
+                    'poster_image_url'  => esc_url( wp_get_attachment_url( $poster_id ) ),
+                    'description'       => $title,
+                    'status'            => $active,
+                );
+
+                $updated_movie = WTBM_Layout_Functions::display_movies_data( $added_movie );
+                $result = array(
+                    'success' => true,
+                    'updated_movie' => $updated_movie,
+                    'movie_title' => $title,
+                );
+
+                wp_send_json_success( $result );
             } else {
                 wp_send_json_error("Failed to insert post");
             }

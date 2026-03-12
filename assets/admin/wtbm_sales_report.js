@@ -265,7 +265,8 @@
         let theaterId = parent.find('input[name="wtbm_edit_theater_id"]').val();
         let movieTimeSlot = parent.find('input[name="wtbm_movie_time_slot"]').val();
         let movieId = parent.find('input[name="wtbm_edit_movie_id"]').val();
-        let movieDate = '2026-01-21';
+        let movieDate = parent.find('input[name="wtbm_movie_order_date"]').val();
+        // let movieDate = '2026-03-12';
 
         $.ajax({
             url: wtbm_ajax.ajax_url,

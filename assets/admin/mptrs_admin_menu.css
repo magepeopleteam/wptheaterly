@@ -614,7 +614,7 @@
     display: inline-block;
     margin-right: 8px;
     margin-top: 5px;
-    padding: 6px 14px;
+    padding: 0 15px;
     border-radius: 6px;
     font-size: 14px;
     cursor: pointer;
@@ -629,8 +629,8 @@
     background-color: #1b5fbf;
 }
 #wtbm_remove_movie_poster {
-    background-color: #f44336;
-    border: 1px solid #f44336;
+    background-color: #db0505;
+    border: 1px solid #8f0909;
     color: #fff;
 }
 #wtbm_remove_movie_poster:hover {
@@ -717,5 +717,57 @@
 }
 .wtbm_filter_btn_secondary:hover {
     background: #e5e7eb;
+}
+
+
+.wtbp_add_movie_holder .form-group input{
+    width:100%;
+    padding:5px 12px;
+    border:1px solid #dcdcde;
+    border-radius:6px;
+    font-size:14px;
+    background:#fff;
+    transition:all .2s ease;
+}
+.wtbp_add_movie_holder .form-group select{
+    width:100%;
+    padding:5px 12px;
+    border:1px solid #dcdcde;
+    border-radius:6px;
+    font-size:14px;
+    background:#fff;
+    transition:all .2s ease;
+}
+.wtbm_add_edit_theater_container .form-group input{
+    width:100%;
+    padding:5px 12px;
+    border:1px solid #dcdcde;
+    border-radius:6px;
+    font-size:14px;
+    background:#fff;
+    transition:all .2s ease;
+}
+.wtbm_add_edit_theater_container .form-group select{
+    width:100%;
+    padding:5px 12px;
+    border:1px solid #dcdcde;
+    border-radius:6px;
+    font-size:14px;
+    background:#fff;
+    transition:all .2s ease;
+}
+
+.form-group input::placeholder{
+    color:#8c8f94;
+}
+
+.form-group input:hover{
+    border-color:#2271b1;
+}
+
+.form-group input:focus{
+    outline:none;
+    border-color:#2271b1;
+    box-shadow:0 0 0 2px rgba(34,113,177,0.15);
 }
 

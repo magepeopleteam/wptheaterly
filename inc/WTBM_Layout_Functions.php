@@ -421,17 +421,23 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                  style="max-width:150px; height:auto;" />
                         <?php endif; ?>
                     </div>
-                    <button type="button" class="button" id="wtbm_upload_movie_poster">
-                        <?php esc_html_e( 'Upload Poster', 'wptheaterly' ); ?>
-                    </button>
-                    <button type="button" class="button" id="wtbm_remove_movie_poster"
-                            style="<?php echo empty( $data['poster_id'] ) ? 'display:none;' : ''; ?>">
-                        <?php esc_html_e( 'Remove', 'wptheaterly' ); ?>
-                    </button>
 
                 </div>
 
                 <!-- Active -->
+                <div class="form-group mb-4">
+                    <div class="" style="display: flex; gap: 10px" >
+                        <button type="button" class="button" id="wtbm_upload_movie_poster">
+                            <span class="dashicons dashicons-format-image" style="margin-top: 5px"></span>
+                            <?php esc_html_e( 'Upload Poster', 'wptheaterly' ); ?>
+                        </button>
+                        <button type="button" class="button" id="wtbm_remove_movie_poster"
+                                style="<?php echo empty( $data['poster_id'] ) ? 'display:none;' : ''; ?>">
+                            <span class="dashicons dashicons-trash" style="margin-top: 5px"></span>
+                            <?php esc_html_e( 'Remove', 'wptheaterly' ); ?>
+                        </button>
+                    </div>
+                </div>
                 <div class="form-group mb-4">
                     <label class="flex items-center">
                         <input type="checkbox" id="wtbm_movie_active" class="mr-2"

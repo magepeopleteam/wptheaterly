@@ -478,6 +478,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                         <input type="hidden" class="wtbm_movie_edit_id" name="wtbm_edit_movie_id" value="<?php echo esc_attr( $booking['wtbm_movie_id'] ); ?>">
                         <input type="hidden" class="wtbm_theater_edit_id" name="wtbm_edit_theater_id" value="<?php echo esc_attr( $booking['wtbm_theater_id'] ); ?>">
                         <input type="hidden" class="wtbm_movie_time" name="wtbm_movie_time_slot" value="<?php echo esc_attr( $booking['wtbm_order_time'] ); ?>">
+                        <input type="hidden" class="wtbm_movie_order_date" name="wtbm_movie_order_date" value="<?php echo esc_attr( $booking['wtbm_order_date'] ); ?>">
                     </div>
 
                     <div class="wtbm_booking_edit_footer">
@@ -583,6 +584,9 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
             $attendee_phone = isset( $_POST['attendee_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['attendee_phone'] ) ) : '';
             $attendee_email = isset( $_POST['attendee_email'] ) ? sanitize_text_field( wp_unslash( $_POST['attendee_email'] ) ) : '';
             $booking_status = isset( $_POST['booking_status'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_status'] ) ) : '';
+
+
+
             update_post_meta($booking_id, 'wtbm_billing_name', $attendee_name );
             update_post_meta($booking_id, 'wtbm_billing_phone',$attendee_phone );
             update_post_meta($booking_id, 'wtbm_billing_email', $attendee_email );
