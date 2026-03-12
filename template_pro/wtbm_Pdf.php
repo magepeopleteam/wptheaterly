@@ -48,8 +48,8 @@ if ( $wtbm_order_id > 0 ) { ?>
         $wtbm_i = 0;
         foreach ($wtbm_booking_posts as $wtbm_booking_post) {
             $wtbm_ticket_id = $wtbm_booking_post->ID;
-//            include MPCRBM_PLUGIN_DIR_PRO . '/template_pro/pdf/default.php';
-            include MPCRBM_PLUGIN_DIR_PRO . '/template_pro/pdf/ticket_pdf.php';
+           include MPCRBM_PLUGIN_DIR_PRO . '/template_pro/pdf/cinema.php';
+            // include MPCRBM_PLUGIN_DIR_PRO . '/template_pro/pdf/ticket_pdf.php';
             if ($wtbm_i < $wtbm_total_guest - 1) {
                 $wtbm_i++;
                 ?>

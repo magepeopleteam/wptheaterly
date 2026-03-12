@@ -113,31 +113,31 @@
 							<?php wp_nonce_field('mptrs_quick_setup_nonce', 'mptrs_quick_setup_nonce'); ?>
                             <div class="mptrs_next_tab">
                                 <div class="tabListsNext _max_700_mAuto">
-                                    <div data-tabs-target-next="#mptrs_qs_welcome" class="tabItemNext" data-open-text="1" data-close-text=" " data-open-icon="" data-close-icon="fas fa-check" data-add-class="success">
+                                    <!-- <div data-tabs-target-next="#mptrs_qs_welcome" class="tabItemNext" data-open-text="1" data-close-text=" " data-open-icon="" data-close-icon="fas fa-check" data-add-class="success">
                                         <h4 class="circleIcon" data-class>
                                             <span class="mp_zero" data-icon></span>
                                             <span class="mp_zero" data-text>1</span>
                                         </h4>
-                                        <h6 class="circleTitle" data-class><?php esc_html_e('Welcome', 'wptheaterly'); ?></h6>
-                                    </div>
+                                        <h6 class="circleTitle" data-class><?php //esc_html_e('Welcome', 'wptheaterly'); ?></h6>
+                                    </div> -->
                                     <div data-tabs-target-next="#mptrs_qs_general" class="tabItemNext" data-open-text="2" data-close-text="" data-open-icon="" data-close-icon="fas fa-check" data-add-class="success">
                                         <h4 class="circleIcon" data-class>
                                             <span class="mp_zero" data-icon></span>
-                                            <span class="mp_zero" data-text>2</span>
+                                            <span class="mp_zero" data-text>1</span>
                                         </h4>
                                         <h6 class="circleTitle" data-class><?php esc_html_e('General', 'wptheaterly'); ?></h6>
                                     </div>
                                     <div data-tabs-target-next="#mptrs_qs_done" class="tabItemNext" data-open-text="3" data-close-text="" data-open-icon="" data-close-icon="fas fa-check" data-add-class="success">
                                         <h4 class="circleIcon" data-class>
                                             <span class="mp_zero" data-icon></span>
-                                            <span class="mp_zero" data-text>3</span>
+                                            <span class="mp_zero" data-text>2</span>
                                         </h4>
                                         <h6 class="circleTitle" data-class><?php esc_html_e('Done', 'wptheaterly'); ?></h6>
                                     </div>
                                 </div>
                                 <div class="tabsContentNext _infoLayout_mT">
 									<?php
-										$this->setup_welcome_content();
+										// $this->setup_welcome_content();
 										$this->setup_general_content();
 										$this->setup_content_done();
 									?>

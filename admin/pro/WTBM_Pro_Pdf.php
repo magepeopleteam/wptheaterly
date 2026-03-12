@@ -110,7 +110,7 @@ if ( ! class_exists('WTBM_Pro_Pdf') ) {
                 if ($mail) {
                     $mpdf->Output($file_name, 'F');
                 } else {
-                    $mpdf->Output($file_name, 'D');
+                    $mpdf->Output($file_name, 'I');
                 }
             }
         }
