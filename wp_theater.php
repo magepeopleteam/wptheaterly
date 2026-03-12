@@ -37,6 +37,7 @@
 					add_action('admin_notices', [$this, 'woocommerce_not_active']);
 					add_action('activated_plugin', array($this, 'activation_redirect_setup'), 90, 1);
 					add_action('admin_enqueue_scripts', [$this, 'wtbm_enqueue_installer_script'], 90);
+					add_action('admin_enqueue_scripts', [$this, 'my_plugin_admin_scripts']);
 
 				}
                 if (!defined('MPCRBM_PLUGIN_DIR_PRO')) {
@@ -64,7 +65,7 @@
 				if ($plugin == plugin_basename(__FILE__)) {
 					flush_rewrite_rules();
 					//exit(esc_url_raw(wp_safe_redirect(admin_url('edit.php?post_type=mptrs_item&page=mptrs_quick_setup'))));
-					exit(esc_url_raw(wp_safe_redirect(admin_url('admin.php?page=mptrs_main_menu'))));
+					// exit(esc_url_raw(wp_safe_redirect(admin_url('admin.php?page=mptrs_main_menu'))));
 				}
 			}
 			public function activation_redirect_setup($plugin) {
@@ -77,16 +78,23 @@
 			public function woocommerce_not_active() {
 				$nonce = wp_create_nonce('wtbm_installer_nonce');
 				?>
-				<div class="notice notice-error is-dismissible" id="wtbm-install-notice">
-					<p>
-						<?php esc_html_e('Theaterly Manager For WooCommerce requires WooCommerce to be installed and active.', 'wptheaterly'); ?>
+				<div id="wtbm-dialog-container" style="display:none;text-align: center;" title="Dependency Required">
+					<p><strong>Theaterly Manager</strong> requires WooCommerce to be installed and active to function correctly.</p>
+					<p>Would you like to install and activate it now?</p>
+					<div style="text-align: center;">
 						<button class="button button-primary" id="wtbm-install-btn" data-nonce="<?php echo $nonce; ?>">
-							<?php esc_html_e('Install & Activate WooCommerce Now', 'wptheaterly'); ?>
+							<?php esc_html_e('Install & Activate WooCommerce', 'wptheaterly'); ?>
 						</button>
 						<span class="spinner" style="float:none;"></span>
-					</p>
+					</div>
 				</div>
 				<?php
+			}
+
+			function my_plugin_admin_scripts() {
+				// Load jQuery UI Dialog and the base theme
+				wp_enqueue_script('jquery-ui-dialog');
+				wp_enqueue_style('wp-jquery-ui-dialog');
 			}
 
 			public function define_constants() {
