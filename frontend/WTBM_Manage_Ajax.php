@@ -269,12 +269,6 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                     ],
                 ]
             ]);
-            error_log( print_r( [
-                '$movie_id' => $movie_id,
-                '$theater_id' => $theater_id,
-                '$get_date' => $get_date,
-                '$search_time' => $search_time,
-                ], true ) );
 
             if ( !empty($bookings) ) {
                 foreach ( $bookings as $booking ) {

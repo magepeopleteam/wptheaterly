@@ -383,6 +383,19 @@
         let wtbm_summerySeatIds = $("#wtbm_summerySeatIds").val().trim();
         // console.log( wtbm_summerySeatNumber, wtbm_summerySeatIds );
 
+        if ( wtbm_total_seat_count === 0 ) {
+            alert('Please select any Seats');
+            return;
+        }
+        if (userName === '') {
+            alert('Please enter name');
+            return;
+        }
+        if (userPhoneNum === '') {
+            alert('Please enter phone number');
+            return;
+        }
+
         let button = $(this);
         let action = 'wtbm_theater_ticket_booking';
         const booking_data = {
@@ -442,6 +455,19 @@
 
         let wtbm_seatBookedNameStr = JSON.stringify( wtbm_seatBookedName );
         let wtbm_seatBookedIds = JSON.stringify( wtbm_seatBooked );
+
+        if ( wtbm_total_seat_count === 0 ) {
+            alert('Please select any Seats');
+            return;
+        }
+        if (userName === '') {
+            alert('Please enter name');
+            return;
+        }
+        if (userPhoneNum === '') {
+            alert('Please enter phone number');
+            return;
+        }
 
         let button = $(this);
         let booking_btn_text = button.text();
