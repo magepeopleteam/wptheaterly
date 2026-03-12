@@ -456,10 +456,21 @@
         let wtbm_seatBookedNameStr = JSON.stringify( wtbm_seatBookedName );
         let wtbm_seatBookedIds = JSON.stringify( wtbm_seatBooked );
 
+        if (movieId === '') {
+            alert('Please select any movie');
+            return;
+        }
+
+        if (bookingTime === '') {
+            alert('Please select show time');
+            return;
+        }
+
         if ( wtbm_total_seat_count === 0 ) {
             alert('Please select any Seats');
             return;
         }
+
         if (userName === '') {
             alert('Please enter name');
             return;
