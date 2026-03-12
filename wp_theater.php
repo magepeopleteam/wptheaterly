@@ -29,14 +29,15 @@
 				if (!defined('WTBM_PLUGIN_URL')) {
 					define('WTBM_PLUGIN_URL', plugins_url() . '/' . plugin_basename(dirname(__FILE__)));
 				}
-				
-				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Dependencies.php';
-				
-				if (WTBM_Function::check_woocommerce() == 1) {
+								
+				if ($this->check_woocommerce() == 1) {
 					add_action('activated_plugin', array($this, 'activation_redirect'), 90, 1);
+					require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Dependencies.php';
 				} else {
 					add_action('admin_notices', [$this, 'woocommerce_not_active']);
 					add_action('activated_plugin', array($this, 'activation_redirect_setup'), 90, 1);
+					add_action('admin_enqueue_scripts', [$this, 'wtbm_enqueue_installer_script'], 90);
+
 				}
                 if (!defined('MPCRBM_PLUGIN_DIR_PRO')) {
                     define('MPCRBM_PLUGIN_DIR_PRO', dirname(__FILE__));
@@ -44,6 +45,20 @@
                 if (!defined('MPCRBM_PLUGIN_URL_PRO')) {
                     define('MPCRBM_PLUGIN_URL_PRO', plugins_url() . '/' . plugin_basename(dirname(__FILE__)));
                 }
+
+				add_action('wp_ajax_wtbm_install_woocommerce', [$this, 'wtbm_install_woocommerce_callback']);
+
+			}
+			private static function check_woocommerce(): int {
+				include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+				$plugin_dir = ABSPATH . 'wp-content/plugins/woocommerce';
+				if (is_plugin_active('woocommerce/woocommerce.php')) {
+					return 1;
+				} elseif (is_dir($plugin_dir)) {
+					return 2;
+				} else {
+					return 0;
+				}
 			}
 			public function activation_redirect($plugin) {
 				if ($plugin == plugin_basename(__FILE__)) {
@@ -58,11 +73,22 @@
 					exit(esc_url_raw(wp_safe_redirect(admin_url('admin.php?page=mptrs_quick_setup'))));
 				}
 			}
+
 			public function woocommerce_not_active() {
-				$wc_install_url = get_admin_url() . 'plugin-install.php?s=woocommerce&tab=search&type=term';
-				$text = esc_html__('You Must Install WooCommerce Plugin before activating Tablely Manager, Because It is dependent on Woocommerce Plugin.', 'wptheaterly') . '<a class="btn button" href="' . esc_html($wc_install_url) . '">' . esc_html__('Click Here to Install', 'wptheaterly') . '</a>';
-				printf('<div class="error" style="background:red; color:#fff;"><p>%s</p></div>', wp_kses_post($text));
+				$nonce = wp_create_nonce('wtbm_installer_nonce');
+				?>
+				<div class="notice notice-error is-dismissible" id="wtbm-install-notice">
+					<p>
+						<?php esc_html_e('Theaterly Manager For WooCommerce requires WooCommerce to be installed and active.', 'wptheaterly'); ?>
+						<button class="button button-primary" id="wtbm-install-btn" data-nonce="<?php echo $nonce; ?>">
+							<?php esc_html_e('Install & Activate WooCommerce Now', 'wptheaterly'); ?>
+						</button>
+						<span class="spinner" style="float:none;"></span>
+					</p>
+				</div>
+				<?php
 			}
+
 			public function define_constants() {
 				define('WTBM_Plan_FILE', __FILE__);
 				define('WTBM_Plan_PATH', __DIR__);
@@ -78,6 +104,47 @@
 				}
 				return $classes;
 			}
+
+			function wtbm_install_woocommerce_callback() {
+				check_ajax_referer('wtbm_installer_nonce', 'security');
+				if (!current_user_can('install_plugins')) {
+					wp_send_json_error('Permission denied.');
+				}
+				include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+				include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+				$slug = 'woocommerce';
+				$api = plugins_api('plugin_information', array('slug' => $slug, 'fields' => array('sections' => false)));
+				if (is_wp_error($api)) {
+					wp_send_json_error('API Error: ' . $api->get_error_message());
+				}
+				$upgrader = new Plugin_Upgrader(new Automatic_Upgrader_Skin());
+				$install = $upgrader->install($api->download_link);
+				if (is_wp_error($install)) {
+					wp_send_json_error('Installation failed.');
+				}
+				// Activate the plugin
+				$plugin_path = 'woocommerce/woocommerce.php';
+				$activate = activate_plugin($plugin_path);
+
+				if (is_wp_error($activate)) {
+					wp_send_json_error('Activation failed.');
+				}
+				$finish_quick_setup = get_option('mptrs_finish_quick_setup') ? get_option('mptrs_finish_quick_setup') : 'No';
+				if($finish_quick_setup == 'Yes') {
+					wp_send_json_success(admin_url('admin.php?page=mptrs_main_menu'));
+				} else {
+					wp_send_json_success(admin_url('admin.php?page=mptrs_quick_setup'));
+				}
+			}
+
+			function wtbm_enqueue_installer_script() {
+				wp_enqueue_script('wtbm-installer', WTBM_PLUGIN_URL . '/assets/admin/wc_installer.js', ['jquery'], time(), true);
+				wp_localize_script('wtbm-installer', 'wtbmInstallerData', array(
+					'ajaxurl' => admin_url('admin-ajax.php'),
+					'nonce' => wp_create_nonce('wtbm_installer_nonce')
+				));
+			}
+
 		}
 		new wptheater();
 	}
