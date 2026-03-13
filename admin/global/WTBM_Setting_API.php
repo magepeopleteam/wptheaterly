@@ -357,8 +357,13 @@
 				if ($count > 1) {
 					?>
                     <ul class="tabLists">
-						<?php foreach ($this->settings_sections as $tab) { ?>
-                            <li data-tabs-target="#<?php echo esc_attr($tab['id']); ?>">
+						<?php foreach ($this->settings_sections as $key => $tab) {
+                            $class = '';
+                            if( $key === 0 ){
+                                $class = 'active';
+                            }
+                            ?>
+                            <li data-tabs-target="#<?php echo esc_attr($tab['id']); ?>" class="<?php echo esc_attr( $class );?>">
                                 <span class="<?php echo esc_attr(array_key_exists('icon', $tab) ? $tab['icon'] : ''); ?>"></span><?php echo esc_html($tab['title']); ?>
                             </li>
 						<?php } ?>
@@ -367,15 +372,16 @@
 				}
 			}
 			function show_forms() {
-                $display = 'none';
-				 foreach ($this->settings_sections as $form) {
-                    /*if( $form['id'] === 'mptrs_general_settings' ){
-                        $display = 'block';
-                    }else{
-                        $display = 'none';
-                    }*/
+
+				 foreach ($this->settings_sections as $key => $form) {
+                     $display = 'none';
+                     $class = '';
+                     if( $form['id'] === 'mptrs_general_settings' ){
+                         $display = 'block';
+                         $class = 'active';
+                     }
                     ?>
-                    <div class="tabsItem" data-tabs="#<?php echo esc_attr($form['id']); ?>" style="display: <?php echo esc_attr( $display );?>">
+                    <div class="tabsItem <?php echo esc_attr( $class );?>" data-tabs="#<?php echo esc_attr($form['id']); ?>" style="display: <?php echo esc_attr( $display );?>">
                         <form method="post" action="options.php">
 							<?php
                             // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound

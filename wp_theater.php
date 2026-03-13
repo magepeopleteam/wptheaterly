@@ -79,10 +79,10 @@
 				$nonce = wp_create_nonce('wtbm_installer_nonce');
 				?>
 				<div id="wtbm-dialog-container" style="display:none;text-align: center;" title="Dependency Required">
-					<p><strong>Theaterly Manager</strong> requires WooCommerce to be installed and active to function correctly.</p>
-					<p>Would you like to install and activate it now?</p>
+					<p><strong><?php esc_html_e('Theaterly Manager', 'wptheaterly'); ?></strong> <p> <?php esc_html_e('requires WooCommerce to be installed and active to function correctly', 'wptheaterly'); ?> .</p>
+					<p><?php esc_html_e('Would you like to install and activate it now?', 'wptheaterly'); ?></p>
 					<div style="text-align: center;">
-						<button class="button button-primary" id="wtbm-install-btn" data-nonce="<?php echo $nonce; ?>">
+						<button class="button button-primary" id="wtbm-install-btn" data-nonce="<?php echo esc_attr( $nonce ); ?>">
 							<?php esc_html_e('Install & Activate WooCommerce', 'wptheaterly'); ?>
 						</button>
 						<span class="spinner" style="float:none;"></span>

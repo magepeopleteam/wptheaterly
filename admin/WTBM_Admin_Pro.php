@@ -25,31 +25,25 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
         }
         public function status_notice_sec() {
 
-            // if ( isset( $_GET['wtbm_nonce'] ) ) {
-                // if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['wtbm_nonce'] ) ), 'wtbm_mpdf_plugin_action') ) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            if (isset($_REQUEST['active_mep_pdf_support_plugin']) && $_REQUEST['active_mep_pdf_support_plugin'] == 'yes') {
+                activate_plugin('magepeople-pdf-support-master/mage-pdf.php');
+            }
 
-                    if (isset($_REQUEST['active_mep_pdf_support_plugin']) && $_REQUEST['active_mep_pdf_support_plugin'] == 'yes') {
-                        activate_plugin('magepeople-pdf-support-master/mage-pdf.php');
-                    }
-
-                    if (isset($_REQUEST['install_mep_pdf_support_plugin']) && $_REQUEST['install_mep_pdf_support_plugin'] == 'yes') {
-                        include_once(ABSPATH . 'wp-admin/includes/plugin-install.php');
-                        include_once(ABSPATH . 'wp-admin/includes/file.php');
-                        include_once(ABSPATH . 'wp-admin/includes/misc.php');
-                        include_once(ABSPATH . 'wp-admin/includes/class-wp-upgrader.php');
-                        $title = 'title';
-                        $url = 'url';
-                        $nonce = 'nonce';
-                        $plugin = 'plugin';
-                        $api = 'api';
-                        $upgrades = new Plugin_Upgrader(new Plugin_Installer_Skin(compact('title', 'url', 'nonce', 'plugin', 'api')));
-                        $upgrades->install('https://github.com/magepeopleteam/magepeople-pdf-support/archive/master.zip');
-                    }
-                // }
-            // }else{
-            //     // esc_attr_e( 'Security check failed', 'wptheaterly' );
-            //     wp_die( );
-            // }
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            if (isset($_REQUEST['install_mep_pdf_support_plugin']) && $_REQUEST['install_mep_pdf_support_plugin'] == 'yes') {
+                include_once(ABSPATH . 'wp-admin/includes/plugin-install.php');
+                include_once(ABSPATH . 'wp-admin/includes/file.php');
+                include_once(ABSPATH . 'wp-admin/includes/misc.php');
+                include_once(ABSPATH . 'wp-admin/includes/class-wp-upgrader.php');
+                $title = 'title';
+                $url = 'url';
+                $nonce = 'nonce';
+                $plugin = 'plugin';
+                $api = 'api';
+                $upgrades = new Plugin_Upgrader(new Plugin_Installer_Skin(compact('title', 'url', 'nonce', 'plugin', 'api')));
+                $upgrades->install('https://github.com/magepeopleteam/magepeople-pdf-support/archive/master.zip');
+            }
 
         }
         public function status_table_item_sec() {

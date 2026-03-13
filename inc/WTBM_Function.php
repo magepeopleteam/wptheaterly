@@ -439,12 +439,43 @@
 				return self::get_general_settings('organizer_slug', 'theaterly-organizer');
 			}
 
-            public static function get_order_item_meta( $item_id, $key ): string {
+            /*public static function get_order_item_meta( $item_id, $key ): string {
                 global $wpdb;
                 $table_name = $wpdb->prefix . "woocommerce_order_itemmeta";
                 // PHPCS ignore: trusted WordPress core table
                 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
                 $results    = $wpdb->get_results( $wpdb->prepare( "SELECT meta_value FROM $table_name WHERE order_item_id = %d AND meta_key = %s", $item_id, $key ) );
+                foreach ( $results as $result ) {
+                    $value = $result->meta_value;
+                }
+
+                return $value ?? '';
+            }*/
+
+            public static function get_order_item_meta( $item_id, $key ): string {
+
+                global $wpdb;
+
+                $table_name = $wpdb->prefix . "woocommerce_order_itemmeta";
+
+                // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
+                // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+                // phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
+                // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter
+
+                $results = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT meta_value FROM $table_name WHERE order_item_id = %d AND meta_key = %s",
+                        $item_id,
+                        $key
+                    )
+                );
+
+                // phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery
+                // phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+                // phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching
+                // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
+
                 foreach ( $results as $result ) {
                     $value = $result->meta_value;
                 }

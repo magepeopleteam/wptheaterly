@@ -18,8 +18,8 @@ $wtbm_theater_id        = WTBM_Function::get_post_info($wtbm_attendee_id, 'wtbm_
 $wtbm_theater_name      = get_the_title($wtbm_theater_id);
 $wtbm_movie_id          = WTBM_Function::get_post_info($wtbm_attendee_id, 'wtbm_movie_id');
 $wtbm_movie_name        = get_the_title($wtbm_movie_id);
-$poster_id              = get_post_meta( $wtbm_movie_id, 'wtbp_movie_poster_id', true );
-$poster_url             = wp_get_attachment_url($poster_id);
+$wtbm_poster_id              = get_post_meta( $wtbm_movie_id, 'wtbp_movie_poster_id', true );
+$wtbm_poster_url             = wp_get_attachment_url($wtbm_poster_id);
 $wtbm_logo_img_id       = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_logo');
 if( $wtbm_logo_img_id ){
     $wtbm_logo_url      = wp_get_attachment_url($wtbm_logo_img_id);
@@ -27,9 +27,9 @@ if( $wtbm_logo_img_id ){
     $wtbm_logo_url = 'https://cdn-icons-png.flaticon.com/512/705/705062.png';
 }
 $wtbm_pdf_phone         = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_phone');
-$pdf_address            = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_address');
-$pdf_term_title         = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_tc_title');
-$pdf_term_text          = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_tc_text');
+$wtbm_pdf_address            = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_address');
+$wtbm_pdf_term_title         = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_tc_title');
+$wtbm_pdf_term_text          = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_tc_text');
 
 ?>
 <?php
@@ -232,7 +232,7 @@ $pdf_term_text          = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_
                     <div class="company-info">
                             <p class="company-name"><?php bloginfo('name'); ?></p>
                             <div class="company-address">
-                                <?php echo wp_kses_post($pdf_address); ?><br>
+                                <?php echo wp_kses_post($wtbm_pdf_address); ?><br>
                                 <strong><?php echo esc_html($wtbm_pdf_phone); ?></strong>
                             </div>
                         </div>
@@ -298,8 +298,8 @@ $pdf_term_text          = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_
                     </table>
                 </td>
                 <td style="width: 30%; vertical-align: top; text-align: right;">
-                    <?php if($poster_url): ?>
-                        <img src="<?php echo esc_url($poster_url); ?>" style="width: 160px; height: 230px; border-radius: 8px; border: 1px solid #ddd;" alt="Poster">
+                    <?php if($wtbm_poster_url): ?>
+                        <img src="<?php echo esc_url($wtbm_poster_url); ?>" style="width: 160px; height: 230px; border-radius: 8px; border: 1px solid #ddd;" alt="Poster">
                     <?php else: ?>
                         <div style="width: 160px; height: 230px; background: #f0f0f0; border: 1px dashed #bbb; text-align: center; padding-top: 100px; color: #ccc;">No Poster</div>
                     <?php endif; ?>
@@ -308,9 +308,9 @@ $pdf_term_text          = WTBM_Function::get_settings('wtbm_pdf_settings', 'pdf_
         </table>
         </div>
         <div class="terms-section">
-            <strong style='font-size:15px'><?php echo esc_html($pdf_term_title); ?></strong>
+            <strong style='font-size:15px'><?php echo esc_html($wtbm_pdf_term_title); ?></strong>
             <div style="line-height: 1.4;">
-                <?php echo wp_kses_post($pdf_term_text); ?>
+                <?php echo wp_kses_post($wtbm_pdf_term_text); ?>
             </div>
         </div>
     </div>
