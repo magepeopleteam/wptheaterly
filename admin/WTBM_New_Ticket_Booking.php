@@ -86,7 +86,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                 $data['wtbm_order_date']        = $booking_date;
                 $data['wtbm_order_time']        = $booking_time;
                 $data['wtbm_order_id']          = $order->get_id();
-                $data['wtbm_order_status']      =  $order->get_payment_method();
+                $data['wtbm_order_status']      = 'completed';
                 $data['wtbm_seats']             = $seat_names;
                 $data['wtbm_seat_ids']          = $booked_seat_ids;
                 $data['wtbm_number_of_seats']   = $seat_count;

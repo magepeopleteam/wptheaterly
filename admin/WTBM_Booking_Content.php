@@ -76,14 +76,17 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
 
             $query = new WP_Query( $args );*/
             $data = WTBM_Layout_Functions::wtbm_get_filtered_booking_data( $filters_data = [],[], 10 );
+            $booking_header_data = WTBM_Layout_Functions::wtbm_get_booking_header_statistics( );
+
             $booking_data = $data['booking_data'];
             $total_booking = $data['total_booking'];
 
+            $completed_orders = $booking_header_data['total_orders'] - $booking_header_data['cancelled_orders'];
             $header_data = array(
-              'total_booking' => $total_booking,
-              'total_revenue' => 1522,
-              'total_completed_order' => 10,
-              'total_canceled_order' => 0,
+              'total_booking'           => $booking_header_data['total_orders'],
+              'total_revenue'           => $booking_header_data['total_revenue'],
+              'total_completed_order'   => $completed_orders,
+              'total_canceled_order'    => $booking_header_data['cancelled_orders'],
             );
 
             /*$booking_data = [];
@@ -367,7 +370,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
                     <div class="stat-label"><?php esc_attr_e( 'Total Bookings', 'wptheaterly' ); ?></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" style="color: #059669;" id="stat-total-revenue"><?php echo esc_attr( $header_data['total_revenue']);?></div>
+                    <div class="stat-value" style="color: #059669;" id="stat-total-revenue"><?php echo wp_kses_post( wc_price( $header_data['total_revenue'] ) );?></div>
                     <div class="stat-label"><?php esc_attr_e( 'Total Revenue', 'wptheaterly' ); ?></div>
                 </div>
                 <div class="stat-card">

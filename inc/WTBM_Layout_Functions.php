@@ -912,6 +912,55 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 'total_post_count' => $post_count,
             );
         }
+        public static function wtbm_get_booking_header_statistics() {
+
+            $meta_query = array( 'relation' => 'AND' );
+
+            $args = array(
+                'post_type'      => 'wtbm_booking',
+                'post_status'    => ['publish', 'draft'],
+                'posts_per_page' => -1,
+                'fields'         => 'ids',
+            );
+
+            $query = new WP_Query( $args );
+
+            $total_orders = 0;
+            $total_revenue = 0;
+            $completed_orders = 0;
+            $cancelled_orders = 0;
+            $cancelled_revenue = 0;
+
+            if ( $query->have_posts() ) {
+
+                foreach ( $query->posts as $booking_id ) {
+
+                    $price  = (float) get_post_meta( $booking_id, 'wtbm_tp', true );
+                    $status = get_post_meta( $booking_id, 'wtbm_order_status', true );
+
+                    $total_orders++;
+                    $total_revenue += $price;
+
+                    if ( $status === 'cancelled' ) {
+                        $cancelled_orders++;
+                        $cancelled_revenue += $price;
+                    }
+                    if ( $status === 'completed' ) {
+                        $completed_orders++;
+                    }
+                }
+            }
+
+            wp_reset_postdata();
+
+            return array(
+                'total_orders'        => $total_orders,
+                'total_revenue'       => $total_revenue,
+                'cancelled_orders'    => $cancelled_orders,
+                'cancelled_revenue'   => $cancelled_revenue,
+                'completed_orders'   => $completed_orders,
+            );
+        }
 
         public static function wtbm_get_booking_data_by_booking_id( $booking_id ) {
 
