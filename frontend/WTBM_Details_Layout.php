@@ -80,6 +80,7 @@
 
             public static function display_date_wise_movies( $date = '' ){
                 $movie_ids = self::get_wtbm_show_time_movie_ids_by_date( $date );
+
                 $output = '';
 
                 if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
@@ -112,6 +113,48 @@
                                     </div>
                                 </div>
                                 
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php
+//                    $output = ob_get_clean();
+                }
+
+//                return $output;
+            }
+            public static function display_date_wise_theater_movies( $theater_id ){
+                $movie_ids = self::get_movie_ids_by_theater( $theater_id );
+                $output = '';
+                if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
+                    $movie_data = self::get_movies_data_by_ids( $movie_ids );
+
+                    $total_movie = count( $movie_data );
+
+//                    ob_start(); ?>
+                    <h2 class="section-title">Select Movie (<?php echo esc_attr( $total_movie );?>)</h2>
+                    <div class="wtbm_booking_movies_grid" id="wtbm_moviesGrid">
+                        <?php foreach ( $movie_data as $i => $movie ): ?>
+                            <div class="wtbm_booking_movie_card"
+                                 data-movie-name="<?php echo esc_attr( $movie['title'] );?>"
+                                 data-movie-id="<?php echo esc_attr( $movie['movie_id'] );?>"
+                                 data-movie-duration="<?php echo esc_attr( $movie['movie_duration'] );?>">
+                                <div class="wtbm_booking_movies_poster">
+                                    <?php if( $movie['poster_image_url'] ){?>
+                                        <img src="<?php echo esc_attr( $movie['poster_image_url'] );?>" alt="<?php echo esc_attr( $movie['title'] );?>" >
+                                    <?php }else{?>
+                                        🎬
+                                    <?php }?>
+                                    <span class="slected-moive">
+                                        <i class="mi mi-check"></i>
+                                    </span>
+                                </div>
+                                <div class="wtbm_booking_movies_info">
+                                    <div class="wtbm_booking_movies_title"><?php echo esc_attr( $movie['title'] );?></div>
+                                    <div class="wtbm_booking_movies_details">
+                                        <?php esc_html_e( 'Duration', 'wptheaterly' );?> - <?php echo esc_html( $movie['movie_duration'] );?>
+                                    </div>
+                                </div>
+
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -165,8 +208,6 @@
 
                 return $output;
             }
-
-
 
             public static function display_theater_show_time( $movie_id, $date = ''  ){
                 $show_times = self::get_wtbm_show_time_by_date_and_movie_id( $movie_id, $date );
@@ -333,19 +374,6 @@
                 if ( empty( $date ) ) {
                     $date = current_time( 'Y-m-d' );
                 }
-                /*$args = array(
-                    'post_type'      => 'wtbm_show_time',
-                    'post_status'    => 'publish',
-                    'posts_per_page' => -1,
-                    'meta_query'     => array(
-                        array(
-                            'key'     => 'wtbp_show_time_date',
-                            'value'   => $date,
-                            'compare' => '=',
-                            'type'    => 'DATE',
-                        ),
-                    ),
-                );*/
                 $args = array(
                     'post_type'      => 'wtbm_show_time',
                     'post_status'    => 'publish',
@@ -454,6 +482,37 @@
                 return $result;
             }
 
+            public static function get_movie_ids_by_theater( $theater_id ){
+
+                $args = array(
+                    'post_type'      => 'wtbm_show_time', // change to your CPT if different
+                    'posts_per_page' => -1,
+                    'fields'         => 'ids',
+                    'meta_query'     => array(
+                        array(
+                            'key'     => 'wtbp_show_time_theaterId',
+                            'value'   => $theater_id,
+                            'compare' => '='
+                        )
+                    )
+                );
+
+                $query = new WP_Query($args);
+
+                $movie_ids = array();
+
+                if($query->have_posts()){
+                    foreach($query->posts as $showtime_id){
+                        $movie_id = get_post_meta($showtime_id, 'wtbp_show_time_movieId', true);
+
+                        if($movie_id){
+                            $movie_ids[] = $movie_id;
+                        }
+                    }
+                }
+
+                return array_unique($movie_ids);
+            }
 
             public static function display_theater_seat_mapping( $post_id, $not_available_seats = [] ): string{
 
