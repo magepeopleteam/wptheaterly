@@ -1302,5 +1302,34 @@
         }
     });
 
+    $(document).on('click','.wtbm_copy_shortcode', function(){
+
+        let textToCopy = $(this).text().trim();
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(textToCopy).then(function() {
+                showCopyAlert();
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        } else {
+            let temp = $("<input>");
+            $("body").append(temp);
+            temp.val(textToCopy).select();
+            document.execCommand("copy");
+            temp.remove();
+            showCopyAlert();
+        }
+
+        // function to show alert
+        function showCopyAlert() {
+            $('#wtbm_copy_alert').fadeIn(200);
+            setTimeout(function(){
+                $('#wtbm_copy_alert').fadeOut(500);
+            }, 1500);
+        }
+
+    });
+
 
 }(jQuery));

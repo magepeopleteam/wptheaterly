@@ -3,9 +3,9 @@
 if (!defined('ABSPATH')) {
     die;
 }
-if( !class_exists( 'WTBP_Menu' ) ) {
+if( !class_exists( 'WTBM_Menu' ) ) {
 
-    class WTBP_Menu {
+    class WTBM_Menu {
 
         public function __construct() {
             add_action('admin_menu', [$this, 'register_admin_menu']);
@@ -83,12 +83,24 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                     <!-- Movies Tab -->
                     <div id="wtbm_movies_content" class="tab-content active">
                         <div class="section">
-                            <div class="section-header">
-                                <h3 class="section-title"><?php esc_attr_e( 'Movies Management', 'wptheaterly' ); ?></h3>
-                                <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpAddedMovieForm">
-                                    <i class="mi mi-plus"></i> <?php esc_attr_e( 'Add Movie', 'wptheaterly' ); ?>
-                                </button>
+                            <div class="movie_section_header" ">
+                                <div class="" style="display: flex; justify-content: space-between">
+                                    <h3 class="section-title"><?php esc_attr_e( 'Movies Management', 'wptheaterly' ); ?></h3>
+                                    <button class="btn btn-primary wtbpShowHideAddForm" id="wtbpAddedMovieForm">
+                                        <i class="mi mi-plus"></i> <?php esc_attr_e( 'Add Movie', 'wptheaterly' ); ?>
+                                    </button>
+                                </div>
+                                <div class="">
+                                    <span class="wtbm_copy_shortcode">
+                                        [wtbm_display_running_movie]
+                                    </span>
+                                </div>
+
+                                <div id="wtbm_copy_alert" style="display:none; position:fixed; top:20px; right:20px; background:#4caf50; color:#fff; padding:10px; border-radius:5px; z-index:9999;">
+                                    Copied to clipboard!
+                                </div>
                             </div>
+
                         </div>
 
                         <div id="add-movie-form" class="form-section" style="display: none">
@@ -102,6 +114,7 @@ if( !class_exists( 'WTBP_Menu' ) ) {
                                 <thead>
                                 <tr>
                                     <th><?php esc_attr_e( 'Movie', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Shortcode', 'wptheaterly' ); ?></th>
                                     <th><?php esc_attr_e( 'Genre', 'wptheaterly' ); ?></th>
                                     <th><?php esc_attr_e( 'Duration', 'wptheaterly' ); ?></th>
                                     <th><?php esc_attr_e( 'Rating', 'wptheaterly' ); ?></th>
@@ -257,5 +270,5 @@ if( !class_exists( 'WTBP_Menu' ) ) {
 
     }
 
-    new WTBP_Menu();
+    new WTBM_Menu();
 }

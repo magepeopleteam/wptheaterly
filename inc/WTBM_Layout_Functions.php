@@ -501,6 +501,8 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $poster_img_url = esc_url( $movie['poster_image_url'] );
                 $status         = esc_html( $movie['status'] );
 
+                $shortcode = '[wtbm_single_movie_booking movie_id='.$id.']';
+
                 if( $poster_img_url === '' ){
                     $poster_img_url = $poster;
                 }
@@ -529,6 +531,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             </div>
                         </div>
                     </td>
+                    <td class="text-sm text-gray-900"> <span class="wtbm_copy_shortcode"><?php echo esc_html( $shortcode ); ?></span></td>
                     <td class="text-sm text-gray-900"><?php echo esc_html( $genre ); ?></td>
                     <td class="text-sm text-gray-900"><?php echo esc_html( $duration) ; ?></td>
                     <td class="text-sm font-medium">⭐ <?php echo esc_html( $rating ); ?></td>
@@ -539,6 +542,13 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     </td>
                     <td>
                         <div class="flex gap-2">
+
+                            <a class="btn-icon view wtbm_view_movie" id="wrbm_view_<?php echo esc_attr( $id );?>"
+                               href="<?php echo esc_url( get_permalink( $id ) ); ?>" target="_blank"
+                               title="<?php esc_attr_e( 'View Movie', 'wptheaterly' ); ?>">
+                                <i class="mi mi-eye"></i>
+                            </a>
+
                             <button class="btn-icon edit wtbm_edit_movie" data-edit-movie-id="<?php echo esc_attr( $id );?>" id="wrbm_edit_<?php echo esc_attr( $id );?>"
                                     title="<?php esc_attr_e( 'Edit Movie', 'wptheaterly' ); ?>"><i class="mi mi-pencil"></i></button>
                             <button class="btn-icon delete wtbm_delete_movie" id="wrbm_delete_<?php echo esc_attr( $id );?>"
