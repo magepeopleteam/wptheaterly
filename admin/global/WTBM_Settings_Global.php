@@ -96,12 +96,12 @@
 					),
                     array(
                         'id' => 'wtbm_pdf_settings',
-                        'icon' => 'far fa-file-pdf',
+                        'icon' => 'mi mi-file-pdf',
                         'title' => esc_html__('PDF Settings', 'wptheaterly')
                     ),
                     array(
                         'id' => 'wtbm_email_settings',
-                        'icon' => 'far fa-envelope',
+                        'icon' => 'mi mi-envelope',
                         'title' => esc_html__('Email Settings', 'wptheaterly')
                     ),
 				);
