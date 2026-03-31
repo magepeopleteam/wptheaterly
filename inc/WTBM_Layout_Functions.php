@@ -234,8 +234,10 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     'price'                 => get_post_meta( get_the_ID(), 'wtbp_show_time_price', true ),
                     'show_time_end'         => get_post_meta( get_the_ID(), 'wtbp_show_time_end_date', true ),
                     'show_time_start'       => get_post_meta( get_the_ID(), 'wtbp_show_time_start_date', true ),
+                    
                     'theater_id'            => get_post_meta( get_the_ID(), 'wtbp_show_time_theaterId', true ),
                     'movie_id'              => get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true ),
+
                     'show_time_date'        => get_post_meta( get_the_ID(), 'wtbp_show_time_date', true ),
                     'showtime_start_date'   => get_post_meta( get_the_ID(), 'wtbp_showtime_start_date', true ),
                     'showtime_end_date'     => get_post_meta( get_the_ID(), 'wtbp_showtime_end_date', true ),

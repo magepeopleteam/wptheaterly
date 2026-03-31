@@ -94,24 +94,26 @@
 			}
 
 			public function insert_showtime( $movie_ids, $theater_ids ) {
-				$show_time_data = $this->show_time_data();
-				foreach ( $movie_ids as $index => $movie_id ) {
-					$post_id = wp_insert_post([
-						'post_type'   => 'wtbm_show_time',
-						'post_title'  => get_the_title( $movie_id ),
-						'post_status' => 'publish',
-					], true);
-					if ( is_wp_error( $post_id ) ) {
-						continue;
-					}
-					update_post_meta( $post_id, 'wtbp_show_time_movieId', $movie_id );
-					update_post_meta(
-						$post_id,
-						'wtbp_show_time_theaterId',
-						$theater_ids[ $index % count( $theater_ids ) ]
-					);
-					foreach ( $show_time_data['meta_data'] as $meta_key => $meta_value ) {
-						update_post_meta( $post_id, $meta_key, $meta_value );
+				$show_times_data = $this->show_time_data();
+				foreach ( $show_times_data as $show_time_data ) {
+					foreach ( $movie_ids as $index => $movie_id ) {
+						$post_id = wp_insert_post([
+							'post_type'   => 'wtbm_show_time',
+							'post_title'  => get_the_title( $movie_id ),
+							'post_status' => 'publish',
+						], true);
+						if ( is_wp_error( $post_id ) ) {
+							continue;
+						}
+						update_post_meta( $post_id, 'wtbp_show_time_movieId', $movie_id );
+						update_post_meta(
+							$post_id,
+							'wtbp_show_time_theaterId',
+							$theater_ids[ $index % count( $theater_ids ) ]
+						);
+						foreach ( $show_time_data['meta_data'] as $meta_key => $meta_value ) {
+							update_post_meta( $post_id, $meta_key, $meta_value );
+						}
 					}
 				}
 			}
@@ -344,15 +346,20 @@
 
 			public function show_time_data() {
 				return [
-					'post_title' => 'Show Time',
-					'meta_data'  => [
-						'wtbp_show_time_date'        => gmdate( 'Y-m-d'),
-						'wtbp_show_time_start_date'  => '11:00',
-						'wtbp_showtime_start_date'   => gmdate( 'Y-m-d'),
-						'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
-						'wtbp_show_time_price'       => 0,
-						'wtbp_showtime_off_days'     => ['monday'],
-					],
+					
+					[
+						'meta_data'  => [
+							'wtbp_show_time_date'        => gmdate( 'Y-m-d'),
+							'wtbp_showtime_start_date'   => gmdate( 'Y-m-d'),
+							'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
+
+							'wtbp_show_time_start_date'  => '11:30',
+							'wtbp_show_time_end_date'  => '14:30',
+
+							'wtbp_show_time_price'       => 10,
+							'wtbp_showtime_off_days'     => ['monday'],
+						],
+					]
 				];
 			}
 

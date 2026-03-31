@@ -432,7 +432,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                             </td>
                         <?php }?>
                         <td class="text-sm text-gray-900">
-                            <?php echo esc_html( $showtime['show_time_start'] . ' - ' . $showtime['show_time_end'] ); ?>
+                            <?php echo esc_html( $showtime['show_time_start'] . ( isset( $showtime['show_time_end'] ) ? ' - ' . $showtime['show_time_end'] : '' ) ); ?>
                         </td>
                         <td class="text-sm font-medium text-gray-900">
                             <?php echo esc_html( number_format( (float) $showtime['price'], 2 ) ); ?>
