@@ -201,7 +201,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
 
                     $theater_id = get_post_meta( $post_id, 'wtbp_show_time_theaterId', true );
                     $movie_id   = get_post_meta( $post_id, 'wtbp_show_time_movieId', true );
-                    $start_time = get_post_meta( $post_id, 'wtbp_show_time_start_date', true );
+                    $start_time = get_post_meta( $post_id, 'wtbp_show_starting_time', true );
 
                     $theater_seats = get_post_meta( $theater_id, 'wtbp_theater_seat_map', array() );
 

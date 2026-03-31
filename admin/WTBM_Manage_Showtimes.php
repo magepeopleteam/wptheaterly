@@ -57,8 +57,8 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 update_post_meta( $post_id, 'wtbp_show_time_movieId', $movieId );
                 update_post_meta( $post_id, 'wtbp_show_time_theaterId', $theaterId );
                 update_post_meta( $post_id, 'wtbp_show_time_date', $date );
-                update_post_meta( $post_id, 'wtbp_show_time_start_date', $startTime );
-                update_post_meta( $post_id, 'wtbp_show_time_end_date', $endTime );
+                update_post_meta( $post_id, 'wtbp_show_starting_time', $startTime );
+                update_post_meta( $post_id, 'wtbp_show_ending_time', $endTime );
                 update_post_meta( $post_id, 'wtbp_show_time_price', $price );
                 update_post_meta( $post_id, 'wtbp_showtime_start_date', $start_date );
                 update_post_meta( $post_id, 'wtbp_showtime_end_date', $end_date );
@@ -115,8 +115,8 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                 update_post_meta( $updated_post_id, 'wtbp_show_time_movieId', $movieId );
                 update_post_meta( $updated_post_id, 'wtbp_show_time_theaterId', $theaterId );
                 update_post_meta( $updated_post_id, 'wtbp_show_time_date', $date );
-                update_post_meta( $updated_post_id, 'wtbp_show_time_start_date', $startTime );
-                update_post_meta( $updated_post_id, 'wtbp_show_time_end_date', $endTime );
+                update_post_meta( $updated_post_id, 'wtbp_show_starting_time', $startTime );
+                update_post_meta( $updated_post_id, 'wtbp_show_ending_time', $endTime );
                 update_post_meta( $updated_post_id, 'wtbp_show_time_price', $price );
                 update_post_meta( $updated_post_id, 'wtbp_showtime_start_date', $start_date );
                 update_post_meta( $updated_post_id, 'wtbp_showtime_end_date', $end_date );
@@ -432,7 +432,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                             </td>
                         <?php }?>
                         <td class="text-sm text-gray-900">
-                            <?php echo esc_html( $showtime['show_time_start'] . ' - ' . $showtime['show_time_end'] ); ?>
+                            <?php echo esc_html( $showtime['show_time_start'] . ( isset( $showtime['show_time_end'] ) ? ' - ' . $showtime['show_time_end'] : '' ) ); ?>
                         </td>
                         <td class="text-sm font-medium text-gray-900">
                             <?php echo esc_html( number_format( (float) $showtime['price'], 2 ) ); ?>

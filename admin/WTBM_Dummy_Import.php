@@ -36,6 +36,7 @@
 					update_option('mptrs_dummy_already_inserted', 'yes');
 				}
 			}
+
 			public function dummy_pricing(){
 				return [
 					'taxonomy' => [],
@@ -59,6 +60,7 @@
 					]
 				];
 			}
+
 			public function insert_posts($posts,$post_type){
 				foreach ($posts as $data) {
 					// Insert post
@@ -78,6 +80,7 @@
 				}
 				return $post_ids;
 			}
+
 			public function insert_thumbnails($postsids,$meta_key=''){
 				$attachment_ids = self::dummy_images();
 				foreach ( $postsids as $index => $post_id ) {
@@ -89,25 +92,28 @@
 					
 				}
 			}
+
 			public function insert_showtime( $movie_ids, $theater_ids ) {
-				$show_time_data = $this->show_time_data();
-				foreach ( $movie_ids as $index => $movie_id ) {
-					$post_id = wp_insert_post([
-						'post_type'   => 'wtbm_show_time',
-						'post_title'  => get_the_title( $movie_id ),
-						'post_status' => 'publish',
-					], true);
-					if ( is_wp_error( $post_id ) ) {
-						continue;
-					}
-					update_post_meta( $post_id, 'wtbp_show_time_movieId', $movie_id );
-					update_post_meta(
-						$post_id,
-						'wtbp_show_time_theaterId',
-						$theater_ids[ $index % count( $theater_ids ) ]
-					);
-					foreach ( $show_time_data['meta_data'] as $meta_key => $meta_value ) {
-						update_post_meta( $post_id, $meta_key, $meta_value );
+				$show_times_data = $this->show_time_data();
+				foreach ( $show_times_data as $show_time_data ) {
+					foreach ( $movie_ids as $index => $movie_id ) {
+						$post_id = wp_insert_post([
+							'post_type'   => 'wtbm_show_time',
+							'post_title'  => get_the_title( $movie_id ),
+							'post_status' => 'publish',
+						], true);
+						if ( is_wp_error( $post_id ) ) {
+							continue;
+						}
+						update_post_meta( $post_id, 'wtbp_show_time_movieId', $movie_id );
+						update_post_meta(
+							$post_id,
+							'wtbp_show_time_theaterId',
+							$theater_ids[ $index % count( $theater_ids ) ]
+						);
+						foreach ( $show_time_data['meta_data'] as $meta_key => $meta_value ) {
+							update_post_meta( $post_id, $meta_key, $meta_value );
+						}
 					}
 				}
 			}
@@ -179,53 +185,10 @@
 							'wtbp_movie_active'       => 'true',
 							'wtbp_movie_poster_id'    => [5],
 						],
-					],
-					[
-						'post_title' => 'Crimson Night',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2020-10-31',
-							'wtbp_movie_genre'        => 'Horror, Mystery',
-							'wtbp_movie_duration'     => '2h 05m',
-							'wtbp_movie_rating'       => '7.6',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [6],
-						],
-					],
-					[
-						'post_title' => 'Broken Silence',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2021-11-21',
-							'wtbp_movie_genre'        => 'Drama',
-							'wtbp_movie_duration'     => '1h 55m',
-							'wtbp_movie_rating'       => '7.9',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [7],
-						],
-					],
-					[
-						'post_title' => 'Last Horizon',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2023-07-08',
-							'wtbp_movie_genre'        => 'Sci-Fi, Adventure',
-							'wtbp_movie_duration'     => '2h 40m',
-							'wtbp_movie_rating'       => '8.7',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [8],
-						],
-					],
-					[
-						'post_title' => 'Shadow Protocol',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2022-03-12',
-							'wtbp_movie_genre'        => 'Action, Thriller',
-							'wtbp_movie_duration'     => '2h 15m',
-							'wtbp_movie_rating'       => '8.3',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [9],
-						],
-					],
+					]
 				];
 			}
+
 			public function theater_data(){
 				return [
 					[
@@ -290,6 +253,7 @@
 					],
 				];
 			}
+
 			public function theater_seat_category_data(){
 				return [
 						[
@@ -338,15 +302,59 @@
 
 			public function show_time_data() {
 				return [
-					'post_title' => 'Show Time',
-					'meta_data'  => [
-						'wtbp_show_time_date'        => gmdate( 'Y-m-d', strtotime('+1 day') ),
-						'wtbp_show_time_start_date'  => '11:00',
-						'wtbp_showtime_start_date'   => gmdate( 'Y-m-d', strtotime('+1 day') ),
-						'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
-						'wtbp_show_time_price'       => 0,
-						'wtbp_showtime_off_days'     => ['monday'],
+					
+					[
+						'meta_data'  => [
+							'wtbp_show_time_date'        => gmdate( 'Y-m-d'),
+							'wtbp_showtime_start_date'   => gmdate( 'Y-m-d'),
+							'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
+
+							'wtbp_show_starting_time'  => '21:00',
+							'wtbp_show_ending_time'  => '22:30',
+
+							'wtbp_show_time_price'       => 10,
+							'wtbp_showtime_off_days'     => ['monday'],
+						],
 					],
+					[
+						'meta_data'  => [
+							'wtbp_show_time_date'        => gmdate( 'Y-m-d'),
+							'wtbp_showtime_start_date'   => gmdate( 'Y-m-d'),
+							'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
+
+							'wtbp_show_starting_time'  => '18:00',
+							'wtbp_show_ending_time'  => '20:30',
+
+							'wtbp_show_time_price'       => 10,
+							'wtbp_showtime_off_days'     => ['monday'],
+						],
+					],
+					[
+						'meta_data'  => [
+							'wtbp_show_time_date'        => gmdate( 'Y-m-d'),
+							'wtbp_showtime_start_date'   => gmdate( 'Y-m-d'),
+							'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
+
+							'wtbp_show_starting_time'  => '15:00',
+							'wtbp_show_ending_time'  => '17:30',
+
+							'wtbp_show_time_price'       => 10,
+							'wtbp_showtime_off_days'     => ['monday'],
+						],
+					],
+					[
+						'meta_data'  => [
+							'wtbp_show_time_date'        => gmdate( 'Y-m-d'),
+							'wtbp_showtime_start_date'   => gmdate( 'Y-m-d'),
+							'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
+
+							'wtbp_show_starting_time'  => '11:00',
+							'wtbp_show_ending_time'  => '14:30',
+
+							'wtbp_show_time_price'       => 10,
+							'wtbp_showtime_off_days'     => ['monday'],
+						],
+					]
 				];
 			}
 
@@ -371,6 +379,7 @@
 				}
 				return $image_ids;
 			}
+
 			public function create_dummy_page() {
 				$pages_to_create = [
 					'find' => [
@@ -401,6 +410,7 @@
 					
 				}
 			}
+
 			public static function check_plugin($plugin_dir_name, $plugin_file): int {
 				include_once ABSPATH . 'wp-admin/includes/plugin.php';
 				$plugin_dir = ABSPATH . 'wp-content/plugins/' . $plugin_dir_name;
