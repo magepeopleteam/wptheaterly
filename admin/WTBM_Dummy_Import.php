@@ -36,6 +36,7 @@
 					update_option('mptrs_dummy_already_inserted', 'yes');
 				}
 			}
+
 			public function dummy_pricing(){
 				return [
 					'taxonomy' => [],
@@ -59,6 +60,7 @@
 					]
 				];
 			}
+
 			public function insert_posts($posts,$post_type){
 				foreach ($posts as $data) {
 					// Insert post
@@ -78,6 +80,7 @@
 				}
 				return $post_ids;
 			}
+
 			public function insert_thumbnails($postsids,$meta_key=''){
 				$attachment_ids = self::dummy_images();
 				foreach ( $postsids as $index => $post_id ) {
@@ -89,6 +92,7 @@
 					
 				}
 			}
+
 			public function insert_showtime( $movie_ids, $theater_ids ) {
 				$show_time_data = $this->show_time_data();
 				foreach ( $movie_ids as $index => $movie_id ) {
@@ -226,6 +230,7 @@
 					],
 				];
 			}
+
 			public function theater_data(){
 				return [
 					[
@@ -290,6 +295,7 @@
 					],
 				];
 			}
+
 			public function theater_seat_category_data(){
 				return [
 						[
@@ -340,9 +346,9 @@
 				return [
 					'post_title' => 'Show Time',
 					'meta_data'  => [
-						'wtbp_show_time_date'        => gmdate( 'Y-m-d', strtotime('+1 day') ),
+						'wtbp_show_time_date'        => gmdate( 'Y-m-d'),
 						'wtbp_show_time_start_date'  => '11:00',
-						'wtbp_showtime_start_date'   => gmdate( 'Y-m-d', strtotime('+1 day') ),
+						'wtbp_showtime_start_date'   => gmdate( 'Y-m-d'),
 						'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
 						'wtbp_show_time_price'       => 0,
 						'wtbp_showtime_off_days'     => ['monday'],
@@ -371,6 +377,7 @@
 				}
 				return $image_ids;
 			}
+
 			public function create_dummy_page() {
 				$pages_to_create = [
 					'find' => [
@@ -401,6 +408,7 @@
 					
 				}
 			}
+
 			public static function check_plugin($plugin_dir_name, $plugin_file): int {
 				include_once ABSPATH . 'wp-admin/includes/plugin.php';
 				$plugin_dir = ABSPATH . 'wp-content/plugins/' . $plugin_dir_name;
