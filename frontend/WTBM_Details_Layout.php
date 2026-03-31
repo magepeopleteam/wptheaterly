@@ -402,7 +402,7 @@
                         $query->the_post();
                         $current_movie_id = get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true );
                         $theater_id = get_post_meta( get_the_ID(), 'wtbp_show_time_theaterId', true );
-                        $show_time_start = get_post_meta( get_the_ID(), 'wtbp_show_time_start_date', true );
+                        $show_time_start = get_post_meta( get_the_ID(), 'wtbp_show_starting_time', true );
                         $showtime_off_days = get_post_meta( get_the_ID(), 'wtbp_showtime_off_days', true );
 
 
@@ -461,7 +461,7 @@
                         $query->the_post();
                         $movie_id   = get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true );
                         $theater_id = get_post_meta( get_the_ID(), 'wtbp_show_time_theaterId', true );
-                        $show_time_start = get_post_meta( get_the_ID(), 'wtbp_show_time_start_date', true );
+                        $show_time_start = get_post_meta( get_the_ID(), 'wtbp_show_starting_time', true );
                         if ( empty( $movie_id ) || empty( $theater_id ) || empty( $show_time_start ) ) {
                             continue;
                         }

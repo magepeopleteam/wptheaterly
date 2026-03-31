@@ -353,8 +353,8 @@
 							'wtbp_showtime_start_date'   => gmdate( 'Y-m-d'),
 							'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
 
-							'wtbp_show_time_start_date'  => '11:30',
-							'wtbp_show_time_end_date'  => '14:30',
+							'wtbp_show_starting_time'  => '11:30',
+							'wtbp_show_ending_time'  => '14:30',
 
 							'wtbp_show_time_price'       => 10,
 							'wtbp_showtime_off_days'     => ['monday'],
