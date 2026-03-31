@@ -234,7 +234,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     'price'                 => get_post_meta( get_the_ID(), 'wtbp_show_time_price', true ),
                     'show_time_start'       => get_post_meta( get_the_ID(), 'wtbp_show_starting_time', true ),
                     'show_time_end'         => get_post_meta( get_the_ID(), 'wtbp_show_ending_time', true ),
-                    
+
                     'theater_id'            => get_post_meta( get_the_ID(), 'wtbp_show_time_theaterId', true ),
                     'movie_id'              => get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true ),
 
@@ -414,33 +414,45 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <input type="date" id="movie-release-date" class="form-input"
                                value="<?php echo esc_attr( $data['releaseDate'] ); ?>">
                     </div>
-
-                    <input type="hidden" id="wtbm_movie_poster_id" name="wtbm_movie_poster_id"
-                           value="<?php echo esc_attr( $data['poster_id'] ); ?>">
-                    <div id="wtbm_movie_poste_preview" style="margin-bottom:10px;">
-                        <?php if ( ! empty( $data['poster_id'] ) ) : ?>
-                            <img src="<?php echo esc_url( wp_get_attachment_url( $data['poster_id'] ) ); ?>"
-                                 style="max-width:150px; height:auto;" />
-                        <?php endif; ?>
-                    </div>
-
                 </div>
-
+                <div class="grid grid-cols-2 mb-4">
+                    <div class="form-group mb-4">
+                        <label class="form-label"><?php esc_html_e( 'Description', 'wptheaterly' ); ?></label>
+                        <textarea id="movie-description" class="form-input" rows="4"
+                                placeholder="<?php esc_attr_e( 'Movie description', 'wptheaterly' ); ?>"><?php
+                            echo esc_textarea( $data['description'] );
+                            ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'Poster', 'wptheaterly' ); ?></label>
+                        <input type="hidden" id="wtbm_movie_poster_id" name="wtbm_movie_poster_id"
+                            value="<?php echo esc_attr( $data['poster_id'] ); ?>">
+                        <div id="wtbm_movie_poste_preview" style="margin-bottom:10px;">
+                            <?php if ( ! empty( $data['poster_id'] ) ) : ?>
+                                <img src="<?php echo esc_url( wp_get_attachment_url( $data['poster_id'] ) ); ?>"
+                                    style="max-width:150px; height:auto;" />
+                            <?php endif; ?>
+                        </div>
+                        <div>
+                            <div class="" style="display: flex; gap: 10px" >
+                                <button type="button" class="button" id="wtbm_upload_movie_poster">
+                                    <span class="dashicons dashicons-format-image" style="margin-top: 5px"></span>
+                                    <?php esc_html_e( 'Upload Poster', 'wptheaterly' ); ?>
+                                </button>
+                                <button type="button" class="button" id="wtbm_remove_movie_poster"
+                                        style="<?php echo empty( $data['poster_id'] ) ? 'display:none;' : ''; ?>">
+                                    <span class="dashicons dashicons-trash" style="margin-top: 5px"></span>
+                                    <?php esc_html_e( 'Remove', 'wptheaterly' ); ?>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="flex gap-2 items-center border-top pading-top">
                 <!-- Active -->
-                <div class="form-group mb-4">
-                    <div class="" style="display: flex; gap: 10px" >
-                        <button type="button" class="button" id="wtbm_upload_movie_poster">
-                            <span class="dashicons dashicons-format-image" style="margin-top: 5px"></span>
-                            <?php esc_html_e( 'Upload Poster', 'wptheaterly' ); ?>
-                        </button>
-                        <button type="button" class="button" id="wtbm_remove_movie_poster"
-                                style="<?php echo empty( $data['poster_id'] ) ? 'display:none;' : ''; ?>">
-                            <span class="dashicons dashicons-trash" style="margin-top: 5px"></span>
-                            <?php esc_html_e( 'Remove', 'wptheaterly' ); ?>
-                        </button>
-                    </div>
-                </div>
-                <div class="form-group mb-4">
+                 <div class="">
                     <label class="flex items-center">
                         <input type="checkbox" id="wtbm_movie_active" class="mr-2"
                             <?php
@@ -449,16 +461,6 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <span><?php esc_html_e( 'Active', 'wptheaterly' ); ?></span>
                     </label>
                 </div>
-
-                <div class="form-group mb-4">
-                    <label class="form-label"><?php esc_html_e( 'Description', 'wptheaterly' ); ?></label>
-                    <textarea id="movie-description" class="form-input" rows="3"
-                              placeholder="<?php esc_attr_e( 'Movie description', 'wptheaterly' ); ?>"><?php
-                        echo esc_textarea( $data['description'] );
-                        ?></textarea>
-                </div>
-            </div>
-            <div class="flex gap-2">
                 <?php if( $add === 'add' ){?>
                     <button class="btn btn-success mptrs_add_new_movie" id="mptrs_add_new_movie">Add Movie</button>
                 <?php }else{?>

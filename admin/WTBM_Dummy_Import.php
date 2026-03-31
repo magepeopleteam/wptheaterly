@@ -185,51 +185,7 @@
 							'wtbp_movie_active'       => 'true',
 							'wtbp_movie_poster_id'    => [5],
 						],
-					],
-					[
-						'post_title' => 'Crimson Night',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2020-10-31',
-							'wtbp_movie_genre'        => 'Horror, Mystery',
-							'wtbp_movie_duration'     => '2h 05m',
-							'wtbp_movie_rating'       => '7.6',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [6],
-						],
-					],
-					[
-						'post_title' => 'Broken Silence',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2021-11-21',
-							'wtbp_movie_genre'        => 'Drama',
-							'wtbp_movie_duration'     => '1h 55m',
-							'wtbp_movie_rating'       => '7.9',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [7],
-						],
-					],
-					[
-						'post_title' => 'Last Horizon',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2023-07-08',
-							'wtbp_movie_genre'        => 'Sci-Fi, Adventure',
-							'wtbp_movie_duration'     => '2h 40m',
-							'wtbp_movie_rating'       => '8.7',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [8],
-						],
-					],
-					[
-						'post_title' => 'Shadow Protocol',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2022-03-12',
-							'wtbp_movie_genre'        => 'Action, Thriller',
-							'wtbp_movie_duration'     => '2h 15m',
-							'wtbp_movie_rating'       => '8.3',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [9],
-						],
-					],
+					]
 				];
 			}
 
@@ -353,7 +309,46 @@
 							'wtbp_showtime_start_date'   => gmdate( 'Y-m-d'),
 							'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
 
-							'wtbp_show_starting_time'  => '11:30',
+							'wtbp_show_starting_time'  => '21:00',
+							'wtbp_show_ending_time'  => '22:30',
+
+							'wtbp_show_time_price'       => 10,
+							'wtbp_showtime_off_days'     => ['monday'],
+						],
+					],
+					[
+						'meta_data'  => [
+							'wtbp_show_time_date'        => gmdate( 'Y-m-d'),
+							'wtbp_showtime_start_date'   => gmdate( 'Y-m-d'),
+							'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
+
+							'wtbp_show_starting_time'  => '18:00',
+							'wtbp_show_ending_time'  => '20:30',
+
+							'wtbp_show_time_price'       => 10,
+							'wtbp_showtime_off_days'     => ['monday'],
+						],
+					],
+					[
+						'meta_data'  => [
+							'wtbp_show_time_date'        => gmdate( 'Y-m-d'),
+							'wtbp_showtime_start_date'   => gmdate( 'Y-m-d'),
+							'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
+
+							'wtbp_show_starting_time'  => '15:00',
+							'wtbp_show_ending_time'  => '17:30',
+
+							'wtbp_show_time_price'       => 10,
+							'wtbp_showtime_off_days'     => ['monday'],
+						],
+					],
+					[
+						'meta_data'  => [
+							'wtbp_show_time_date'        => gmdate( 'Y-m-d'),
+							'wtbp_showtime_start_date'   => gmdate( 'Y-m-d'),
+							'wtbp_showtime_end_date'     => gmdate( 'Y-m-d', strtotime('+30 day') ),
+
+							'wtbp_show_starting_time'  => '11:00',
 							'wtbp_show_ending_time'  => '14:30',
 
 							'wtbp_show_time_price'       => 10,
