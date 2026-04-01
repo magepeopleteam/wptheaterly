@@ -9,7 +9,7 @@
 	if (!class_exists('WTBM_Quick_Setup')) {
 		class WTBM_Quick_Setup {
 			public function __construct() {
-				add_action('admin_menu', array($this, 'quick_setup_menu'));
+				// add_action('admin_menu', array($this, 'quick_setup_menu'));
 			}
 			public function quick_setup_menu() {
 				$status = WTBM_Function::check_woocommerce();
@@ -99,9 +99,9 @@
 						];
 						$new_general_settings_data = is_array($general_settings_data) ? array_replace($general_settings_data, $update_general_settings_arr) : $update_general_settings_arr;
 						update_option('mptrs_general_settings', $new_general_settings_data);
-						flush_rewrite_rules();
-						new WTBM_Dummy_Import();
-						update_option('mptrs_finish_quick_setup', 'Yes');
+						// flush_rewrite_rules();
+						// new WTBM_Dummy_Import();
+						// update_option('mptrs_finish_quick_setup', 'Yes');
                         wp_safe_redirect(admin_url('admin.php?page=mptrs_main_menu'));
 						
 					}

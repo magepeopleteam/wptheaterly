@@ -138,10 +138,11 @@
 					wp_send_json_error('Activation failed.');
 				}
 				$finish_quick_setup = get_option('mptrs_finish_quick_setup') ? get_option('mptrs_finish_quick_setup') : 'No';
+				flush_rewrite_rules();
 				if($finish_quick_setup == 'Yes') {
 					wp_send_json_success(admin_url('admin.php?page=mptrs_main_menu'));
 				} else {
-					wp_send_json_success(admin_url('admin.php?page=mptrs_quick_setup'));
+					wp_send_json_success(admin_url('admin.php?page=mptrs_main_menu'));
 				}
 			}
 

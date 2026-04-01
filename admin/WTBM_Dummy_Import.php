@@ -61,19 +61,32 @@
 				];
 			}
 
-			public function insert_posts($posts,$post_type){
+			public function insert_posts($posts, $post_type) {
+				$post_ids = [];
+
+				// Ensure $posts is an array to avoid foreach errors
+				if (!is_array($posts)) {
+					return $post_ids;
+				}
+
 				foreach ($posts as $data) {
-					// Insert post
+					// Use ?? to provide a default empty string if the key is missing
 					$post = [
-						'post_type' => $post_type,
-						'post_title' => $data['post_title'],
+						'post_type'   => $post_type,
+						'post_title'  => $data['post_title'] ?? 'Untitled Post', 
 						'post_status' => 'publish',
 					];
+
 					$post_id = wp_insert_post($post);
-					// Add meta data
+
+					// Add meta data only if the ID is valid and the key exists
 					if (!is_wp_error($post_id)) {
-						foreach ($data['meta_data'] as $meta_key => $meta_value) {
-							update_post_meta($post_id, $meta_key, $meta_value);
+						$meta_data = $data['meta_data'] ?? []; // Default to empty array if missing
+						
+						if (is_array($meta_data)) {
+							foreach ($meta_data as $meta_key => $meta_value) {
+								update_post_meta($post_id, $meta_key, $meta_value);
+							}
 						}
 					}
 					$post_ids[] = $post_id;
