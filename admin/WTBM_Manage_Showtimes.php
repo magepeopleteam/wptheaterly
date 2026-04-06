@@ -90,6 +90,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
             $endTime            = isset( $_POST['endTime'] ) ? sanitize_text_field( wp_unslash( $_POST['endTime'] ) ) : '';
 //            $action_type        = isset( $_POST['action_type'] ) ? sanitize_text_field( wp_unslash( $_POST['action_type'] ) ) : '';
             $price              = isset( $_POST['price'] ) ? floatval( wp_unslash( $_POST['price'] ) ) : '';
+            error_log( print_r( [ '$price' => $price ], true ) );
             $description        = isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
             $showtime_off_days  = isset( $_POST['showtime_off_days'] ) ? sanitize_text_field( wp_unslash( $_POST['showtime_off_days'] ) ) : '';
             $showtime_off_days_ary = [];
@@ -432,7 +433,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                             </td>
                         <?php }?>
                         <td class="text-sm text-gray-900">
-                            <?php echo esc_html( $showtime['show_time_start'] . ( isset( $showtime['show_time_end'] ) ? ' - ' . $showtime['show_time_end'] : '' ) ); ?>
+                            <?php echo esc_html( $showtime['show_time_start'] ) ; ?>
                         </td>
                         <td class="text-sm font-medium text-gray-900">
                             <?php echo esc_html( number_format( (float) $showtime['price'], 2 ) ); ?>
