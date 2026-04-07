@@ -1006,6 +1006,24 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             return $booking_data;
         }
 
+        public static function display_pricing_rules(){
+            $rules = WTBM_Set_Pricing_Rules::load_pricing_rules();
+            $apply_rules = 'no';
+            if( is_array( $rules ) && !empty( $rules ) ) {
+                $apply_rules = 'yes';
+            ?>
+                <div class="wtbm_price_wrapper">
+                    <div class="wtbm_price_trigger">💰</div>
+                    <div class="wtbm_pricing_rules_box">
+                        <?php echo wp_kses_post( WTBM_Pricing_Rules::wtbm_render_pricing_rules( $rules ) ) ; ?>
+                    </div>
+                </div>
+            <?php
+            } ?>
+            <input type="hidden" name="wtbm_apply_pricing_rules" value="<?php echo esc_attr( $apply_rules );?>" />
+            <?php
+        }
+
         public static function display_single_movie_data( $movie_id, $hide_header = 'yes' ){
             if( $movie_id ){
                 $movie_description = get_the_excerpt( $movie_id );
@@ -1115,7 +1133,9 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <div class="wtbm_single_movie_card" id="wtbm_single_movie_booking_card" style="width: 170px; display: none">
                             <div class="wtbm_single_movie_summary">
                                 <div class="wtbm_singleRegistrationSidebar" id="wtbm_registrationSidebar">
+
                                     <h2 class="section-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
+                                    <?php self::display_pricing_rules();?>
 
                                     <div class="wtbm_registrationSummaryCard">
                                         <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="<?php echo esc_attr( $movie_id );?>">

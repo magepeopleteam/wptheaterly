@@ -128,11 +128,16 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
             $rules_min_seats  = isset( $rule_data['rules_min_seats'] ) ? intval( $rule_data['rules_min_seats'] ) : '';
             $rules_priority   = isset( $rule_data['rules_priority'] ) ? intval( $rule_data['rules_priority'] ) : '';
             $rules_multiplier = isset( $rule_data['rules_multiplier'] ) ? esc_attr( $rule_data['rules_multiplier'] ) : '';
-            $rules_active     = ! empty( $rule_data['rules_active'] ) ? 'checked' : '';
+
             $rules_combinable = ! empty( $rule_data['rules_combinable'] ) ? 'checked' : '';
             $rules_theater_type = isset( $rule_data['rules_theater_type'] ) ? esc_attr( $rule_data['rules_theater_type'] ) : '';
 
+            $rules_active = (isset($rule_data['rules_active']) && filter_var($rule_data['rules_active'], FILTER_VALIDATE_BOOLEAN))
+                ? 'checked'
+                : '';
             $title = ( $action_type === 'edit' ) ? __( 'Edit Pricing Rule', 'wptheaterly' ) : __( 'Add New Pricing Rule', 'wptheaterly' );
+
+//            error_log( print_r( [ '$rules_type' => $rules_type ], true ) );
 
             ob_start();
             ?>
@@ -148,8 +153,8 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                     <label class="form-label"><?php esc_html_e( 'Rule Type', 'wptheaterly' ); ?></label>
                     <select id="pricing-type" class="form-input">
                         <option value="day" <?php selected( $rules_type, 'day' ); ?>><?php esc_html_e( 'Day-based', 'wptheaterly' ); ?></option>
-                        <option value="date" <?php selected( $rules_type, 'date_range' ); ?>><?php esc_html_e( 'Date-based', 'wptheaterly' ); ?></option>
-                        <option value="time" <?php selected( $rules_type, 'time_range' ); ?>><?php esc_html_e( 'Time-based', 'wptheaterly' ); ?></option>
+                        <option value="date" <?php selected( $rules_type, 'date' ); ?>><?php esc_html_e( 'Date-based', 'wptheaterly' ); ?></option>
+                        <option value="time" <?php selected( $rules_type, 'time' ); ?>><?php esc_html_e( 'Time-based', 'wptheaterly' ); ?></option>
                         <option value="theater" <?php selected( $rules_type, 'theater' ); ?>><?php esc_html_e( 'Theater-based', 'wptheaterly' ); ?></option>
                     </select>
                 </div>
@@ -329,7 +334,127 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
             return ob_get_clean();
         }
 
+        public static function wtbm_render_pricing_rules_old( $rules ){
 
+            $grouped = [];
+
+            foreach ($rules as $rule) {
+                $grouped[$rule['rules_type']][] = $rule;
+            }
+
+            $html = '<div class="wtbm_pricing_rules_wrapper">';
+
+            foreach ($grouped as $type => $items) {
+
+                $html .= '<div class="wtbm_pricing_rules_group wtbm_pricing_rules_' . esc_attr($type) . '">';
+
+                $html .= '<div class="wtbm_pricing_rules_header">' . ucfirst($type) . '</div>';
+
+                foreach ($items as $rule) {
+
+                    $html .= '<div class="wtbm_pricing_rules_item">';
+
+                    $html .= '<div class="wtbm_pricing_rules_title">'
+                        . esc_html($rule['title']) .
+                        '</div>';
+
+                    $html .= '<div class="wtbm_pricing_rules_meta">';
+                    $html .= 'Multiplier: ' . esc_html($rule['multiplier']);
+
+                    if (!empty($rule['time_range'])) {
+                        $html .= ' | Time: ' . esc_html($rule['time_range']);
+                    }
+
+                    if (!empty($rule['startDate']) || !empty($rule['endDate'])) {
+                        $html .= '<br>Date: ' . esc_html($rule['startDate']) . ' - ' . esc_html($rule['endDate']);
+                    }
+
+                    if (!empty($rule['theaterType'])) {
+                        $html .= '<br>Theater: ' . esc_html($rule['theaterType']);
+                    }
+
+                    if (!empty($rule['days'])) {
+                        $html .= '<br>Days: ' . implode(', ', $rule['days']);
+                    }
+
+                    $html .= '</div>';
+
+                    $html .= '</div>';
+                }
+
+                $html .= '</div>';
+            }
+
+            $html .= '</div>';
+
+            return $html;
+        }
+
+        public static function wtbm_render_pricing_rules($rules){
+
+            $grouped = [];
+
+            foreach ($rules as $rule) {
+                $grouped[$rule['rules_type']][] = $rule;
+            }
+
+            $html = '<div class="wtbm_pricing_rules_wrapper">';
+
+            foreach ($grouped as $type => $items) {
+
+                $html .= '<div class="wtbm_pricing_rules_group wtbm_pricing_rules_' . esc_attr($type) . '">';
+
+                $html .= '<div class="wtbm_pricing_rules_header">' . ucfirst($type) . '</div>';
+
+                foreach ($items as $rule) {
+
+                    $html .= '<div class="wtbm_pricing_rules_item">';
+
+                    $html .= '<div class="wtbm_pricing_rules_title">'
+                        . esc_html($rule['title']) .
+                        '</div>';
+
+                    $html .= '<div class="wtbm_pricing_rules_meta">';
+
+                    // Multiplier
+                    $html .= '💲 Multiplier: ' . esc_html($rule['multiplier']);
+
+                    // ✅ NEW: Min Seats
+                    if (!empty($rule['minSeats'])) {
+                        $html .= '<br>👥 Min Seats: ' . esc_html($rule['minSeats']);
+                    }
+
+                    // Time
+                    if (!empty($rule['time_range'])) {
+                        $html .= '<br>⏰ Time: ' . esc_html($rule['time_range']);
+                    }
+
+                    // Date
+                    if (!empty($rule['startDate']) || !empty($rule['endDate'])) {
+                        $html .= '<br>📅 Date: ' . esc_html($rule['startDate']) . ' → ' . esc_html($rule['endDate']);
+                    }
+
+                    // Theater
+                    if (!empty($rule['theaterType'])) {
+                        $html .= '<br>🎭 Theater: ' . esc_html($rule['theaterType']);
+                    }
+
+                    // Days
+                    if (!empty($rule['days'])) {
+                        $html .= '<br>📆 Days: ' . implode(', ', $rule['days']);
+                    }
+
+                    $html .= '</div>'; // meta
+                    $html .= '</div>'; // item
+                }
+
+                $html .= '</div>'; // group
+            }
+
+            $html .= '</div>';
+
+            return $html;
+        }
 
     }
 

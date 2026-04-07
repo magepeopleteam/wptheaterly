@@ -435,9 +435,6 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
                         <td class="text-sm text-gray-900">
                             <?php echo esc_html( $showtime['show_time_start'] ) ; ?>
                         </td>
-                        <td class="text-sm font-medium text-gray-900">
-                            <?php echo esc_html( number_format( (float) $showtime['price'], 2 ) ); ?>
-                        </td>
                         <td>
                             <div class="flex gap-2">
                                 <button class="btn-icon edit editwtbm_edit_show_time"

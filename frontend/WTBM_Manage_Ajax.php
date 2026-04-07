@@ -26,6 +26,9 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
             add_action( 'wp_ajax_wtbm_theater_ticket_booking', [ $this, 'wtbm_theater_ticket_booking' ] );
             add_action( 'wp_ajax_nopriv_wtbm_theater_ticket_booking', [ $this, 'wtbm_theater_ticket_booking' ] );
 
+            add_action( 'wp_ajax_wtbm_apply_pricing_rules_total_price', [ $this, 'wtbm_apply_pricing_rules_total_price' ] );
+            add_action( 'wp_ajax_nopriv_wtbm_apply_pricing_rules_total_price', [ $this, 'wtbm_apply_pricing_rules_total_price' ] );
+
             add_action( 'wp_ajax_wtbm_theater_ticket_booking_admin', [ $this, 'wtbm_theater_ticket_booking_admin' ] );
             add_action( 'wp_ajax_nopriv_wtbm_theater_ticket_booking_admin', [ $this, 'wtbm_theater_ticket_booking_admin' ] );
 
@@ -114,6 +117,31 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                 'wtbm_seatMaps' => $seat_map,
             ]);
 
+        }
+        function wtbm_apply_pricing_rules_total_price(){
+
+            if ( !isset($_POST['nonce']) || !wp_verify_nonce( sanitize_text_field( wp_unslash($_POST['nonce']) ), 'wtbm_nonce') ) {
+                wp_send_json_error('Security check failed!');
+            }
+
+            if ( empty($_POST['booking_date']) ) {
+                wp_send_json_error('Booking data missing!');
+            }
+
+            $booking_date = isset( $_POST['booking_date'] ) ? sanitize_text_field( wp_unslash($_POST['booking_date'] ) ) : '';
+            $theater_id = isset( $_POST['theater_id'] ) ? sanitize_text_field( wp_unslash($_POST['theater_id'] ) ) : '';
+            $booking_time = isset( $_POST['booking_time'] ) ? sanitize_text_field( wp_unslash($_POST['booking_time'] ) ) : '';
+            $total_amount = isset( $_POST['total_amount'] ) ? sanitize_text_field( wp_unslash($_POST['total_amount'] ) ) : 0 ;
+            $seat_count = isset( $_POST['seat_count'] ) ? sanitize_text_field( wp_unslash($_POST['seat_count'] ) ) : '';
+            $day_of_week = strtolower(date('l', strtotime($booking_date)));;
+//            $total_price = $total_amount;
+
+            $total_price = WTBM_Set_Pricing_Rules::calculate_price_by_rules(  $total_amount, $day_of_week, $booking_date, $theater_id, $booking_time, $seat_count  );
+
+            wp_send_json_success([
+                'rules_price' => $total_price,
+                'message'     => 'Price calculated successfully'
+            ]);
         }
         function wtbm_theater_ticket_booking(){
 

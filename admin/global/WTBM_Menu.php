@@ -211,7 +211,7 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                                     <th><?php esc_attr_e( 'Theater', 'wptheaterly' ); ?></th>
                                     <th><?php esc_attr_e( 'Date', 'wptheaterly' ); ?></th>
                                     <th><?php esc_attr_e( 'Time', 'wptheaterly' ); ?></th>
-                                    <th><?php esc_attr_e( 'Price', 'wptheaterly' ); ?></th>
+<!--                                    <th>--><?php //esc_attr_e( 'Price', 'wptheaterly' ); ?><!--</th>-->
                                     <th><?php esc_attr_e( 'Actions', 'wptheaterly' ); ?></th>
                                 </tr>
                                 </thead>

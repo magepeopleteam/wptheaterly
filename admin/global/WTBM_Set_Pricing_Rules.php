@@ -17,7 +17,7 @@ if (!class_exists('WTBM_Set_Pricing_Rules')) {
         /**
          * Load pricing rules from database (once per request)
          */
-        private static function load_pricing_rules() {
+        public static function load_pricing_rules() {
 
             if (self::$cached_rules !== null) {
                 return self::$cached_rules;
@@ -89,7 +89,7 @@ if (!class_exists('WTBM_Set_Pricing_Rules')) {
                 $theater_type = get_post_meta( $theater_id, 'wtbp_theater_type', true );
                 foreach ($rules as $rule) {
 
-                    if ( $seats <= $rule['minSeats'] ) {
+                    if ( $seats < $rule['minSeats'] ) {
                         continue;
                     }
 
