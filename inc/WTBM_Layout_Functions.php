@@ -1029,157 +1029,153 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
                 ?>
                 <div class="wtbm_single_movie_wrapper">
-
-                    <div class="wtbm_booking_movie_card wtbm_movieActive" style="visibility: hidden"
-                         data-movie-id="<?php echo esc_attr( $movie_id ); ?>">
-                    </div>
-
-                    <!-- <div class="wtbm_single_movie_title"><?php /*echo esc_attr( get_the_title( $movie_id ) );*/?></div>
-                        <div class="wtbm_single_movie_subtitle"><?php /*echo esc_attr( get_the_title( $movie_id ) );*/?></div>
--->
-                    <?php if( $hide_header === 'yes' ){?>
-                    <div class="wtbm_single_movie_card_description">
-                        <div class="wtbm_single_movie_poster">
-                            <img src="<?php echo esc_url( $poster_url );?>" alt="Avatar Poster" />
+                    <div class="wtbm-single-movie-content">
+                        <div class="wtbm_booking_movie_card wtbm_movieActive" style="visibility: visible"
+                            data-movie-id="<?php echo esc_attr( $movie_id ); ?>">
                         </div>
-                        <div class="wtbm_single_movie_container">
-                            <h1 class="wtbm_single_movie_movie_title"><?php echo esc_attr( get_the_title( $movie_id ) );?></h1>
-                            <div class="" style="display: flex; gap: 10px">
-                                <div class="wtbm_single_movie_meta">
-                                    <?php if( $movie_genre_ary ){ ?>
-                                        <div class="wtbm_movie_genery_holder">
-                                        <?php
-                                            foreach( $movie_genre_ary as $genre_ary ){ ?>
-                                                <span class="wtbm_movie_genere"><?php echo esc_attr( $genre_ary );?></span>
-                                            <?php } ?>
+                        <!-- <div class="wtbm_single_movie_title"><?php /*echo esc_attr( get_the_title( $movie_id ) );*/?></div>
+                            <div class="wtbm_single_movie_subtitle"><?php /*echo esc_attr( get_the_title( $movie_id ) );*/?></div> -->
+                        <?php if( $hide_header === 'yes' ){?>
+                        <div class="wtbm_single_movie_card_description" style="background-image: url('<?php echo esc_url( $poster_url );?>')">
+                            
+                            <div class="wtbm_single_movie_poster">
+                                <img src="<?php echo esc_url( $poster_url );?>" alt="Avatar Poster" />
+                            </div>
+                            <div class="wtbm_single_movie_container">
+                                <h1 class="wtbm_single_movie_movie_title"><?php echo esc_attr( get_the_title( $movie_id ) );?></h1>
+                                <div class="" style="display: flex; gap: 10px">
+                                    <div class="wtbm_single_movie_meta">
+                                        <?php if( $movie_genre_ary ){ ?>
+                                            <div class="wtbm_movie_genery_holder">
+                                            <?php
+                                                foreach( $movie_genre_ary as $genre_ary ){ ?>
+                                                    <span class="wtbm_movie_genere"><?php echo esc_attr( $genre_ary );?></span>
+                                                <?php } ?>
+                                            </div>
+                                            <?php  } ?>
+                                    <?php //esc_attr_e( 'Runtime', 'wptheaterly' );?><!--: --><?php //echo esc_attr( $movie_duration );?><!-- | --><?php //esc_attr_e( 'Rating', 'wptheaterly' );?><!--: --><?php //echo esc_attr( $movie_rating );?><!--<br>-->
+
+                                        <div class="wtbm_add_runtime_dating">
+                                            <span class="wtbm_movie_meta">
+                                            <i class="fa-regular fa-clock"></i>
+                                            <?php esc_html_e( 'Runtime', 'wptheaterly' );?>:
+                                            <?php echo esc_html( $movie_duration );?>
+                                            </span>
+                                            <span class="wtbm_movie_meta">
+                                            <i class="fa-solid fa-star"></i>
+                                            <?php esc_html_e( 'Rating', 'wptheaterly' );?>:
+                                            <?php echo esc_html( $movie_rating );?>
+                                            </span>
                                         </div>
-                                        <?php  } ?>
-<!--                                    --><?php //esc_attr_e( 'Runtime', 'wptheaterly' );?><!--: --><?php //echo esc_attr( $movie_duration );?><!-- | --><?php //esc_attr_e( 'Rating', 'wptheaterly' );?><!--: --><?php //echo esc_attr( $movie_rating );?><!--<br>-->
 
-                                    <div class="wtbm_add_runtime_dating">
-                                        <span class="wtbm_movie_meta">
-                                          <i class="fa-regular fa-clock"></i>
-                                          <?php esc_html_e( 'Runtime', 'wptheaterly' );?>:
-                                          <?php echo esc_html( $movie_duration );?>
-                                        </span>
-                                        <span class="wtbm_movie_meta">
-                                          <i class="fa-solid fa-star"></i>
-                                          <?php esc_html_e( 'Rating', 'wptheaterly' );?>:
-                                          <?php echo esc_html( $movie_rating );?>
-                                        </span>
+                                        <div class="wtbm_movie_creator">
+                                            <strong><?php esc_attr_e( 'Director', 'wptheaterly' );?></strong>: <?php echo esc_attr( $movie_director );?> |
+                                            <strong><?php esc_attr_e( 'Starring', 'wptheaterly' );?></strong>: <?php echo esc_attr( $wtbp_movie_actors );?><br>
+                                        </div>
+                                        <?php esc_attr_e( 'Description', 'wptheaterly' );?>: <?php echo esc_html( $movie_description );?>
                                     </div>
-
-                                    <div class="wtbm_movie_creator">
-                                        <strong><?php esc_attr_e( 'Director', 'wptheaterly' );?></strong>: <?php echo esc_attr( $movie_director );?> |
-                                        <strong><?php esc_attr_e( 'Starring', 'wptheaterly' );?></strong>: <?php echo esc_attr( $wtbp_movie_actors );?><br>
-                                    </div>
-                                    <?php esc_attr_e( 'Description', 'wptheaterly' );?>: <?php echo esc_html( $movie_description );?>
                                 </div>
+
+                            </div>
+
+                            <div class="wtbm_movie_maker_info">
+
                             </div>
 
                         </div>
+                        <?php }?>
 
-                        <div class="wtbm_movie_maker_info">
+                        <div class="">
+                            <div class="wtbm_single_movie_section_title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></div>
+                            <div class="wtbm_single_movie_options wtbm_date">
+                                <?php
+                                echo wp_kses_post( WTBM_Details_Layout::booking_date_display_single_movie( $movie_id ) );
+                                ?>
+                            </div>
 
+                            <div class="wtbm_single_movie_section_title" style="margin-top:20px"><?php esc_attr_e( 'Select Time', 'wptheaterly' );?></div>
+                            <div class="wtbm_single_movie_options wtbm_time">
+                                <?php
+                                $today_date = gmdate('M d, y');
+                                echo wp_kses_post( $theater_show_times );
+                                ?>
+                            </div>
                         </div>
 
-                    </div>
-                    <?php }?>
-
-                    <div class="wtbm_single_movie_card">
-                        <div class="wtbm_single_movie_section_title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></div>
-                        <div class="wtbm_single_movie_options wtbm_date">
-                            <?php
-                            echo wp_kses_post( WTBM_Details_Layout::booking_date_display_single_movie( $movie_id ) );
-                            ?>
-                        </div>
-
-                        <div class="wtbm_single_movie_section_title" style="margin-top:20px"><?php esc_attr_e( 'Select Time', 'wptheaterly' );?></div>
-                        <div class="wtbm_single_movie_options wtbm_time">
-                            <?php
-                            $today_date = gmdate('M d, y');
-                            echo wp_kses_post( $theater_show_times );
-                            ?>
-                        </div>
-                    </div>
-
-                    <div class="" style="display: flex; gap: 20px">
-                        <div class="wtbm_single_movie_card" style="width: calc( 100% - 170px)">
+                        <div class="">
                             <div class="wtbm_single_movie_section_title"><?php esc_attr_e( 'Select Your Seats', 'wptheaterly' );?></div>
                             <div class="wtbm_single_movie_screen"><?php esc_attr_e( 'SCREEN', 'wptheaterly' );?></div>
                             <div class="wtbm_single_movie_screen_bar"></div>
-                            <div class="wtbm_single_movie_seats" id="wtbm_single_movie_seats">
-
-                            </div>
+                            <div class="wtbm_single_movie_seats" id="wtbm_single_movie_seats"></div>
                         </div>
-                        <div class="wtbm_single_movie_card" id="wtbm_single_movie_booking_card" style="width: 170px; display: none">
-                            <div class="wtbm_single_movie_summary">
-                                <div class="wtbm_singleRegistrationSidebar" id="wtbm_registrationSidebar">
-                                    <h2 class="section-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
+                    </div>
+                    <div class="wtbm_single_movie_card" id="wtbm_single_movie_booking_card">
+                        <div class="wtbm_single_movie_summary">
+                            <div class="wtbm_singleRegistrationSidebar" id="wtbm_registrationSidebar">
+                                <h2 class="section-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
 
-                                    <div class="wtbm_registrationSummaryCard">
-                                        <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="<?php echo esc_attr( $movie_id );?>">
-                                        <input type="hidden" name="wtbm_summeryTheaterId" id="wtbm_summeryTheaterId" value="">
-                                        <input type="hidden" name="wtbm_summeryDate" id="wtbm_summeryDate" value="<?php echo esc_attr( gmdate("Y-m-d") );?>">
-                                        <input type="hidden" name="wtbm_summeryTime" id="wtbm_summeryTime" value="">
-                                        <input type="hidden" name="wtbm_summerySeatType" id="wtbm_summerySeatType" value="">
-                                        <input type="hidden" name="wtbm_summerySeatNumber" id="wtbm_summerySeatNumber" value="">
-                                        <input type="hidden" name="wtbm_summerySeatIds" id="wtbm_summerySeatIds" value="">
-                                        <input type="hidden" name="wtbm_summeryTotalAmount" id="wtbm_summeryTotalAmount" value="">
+                                <div class="wtbm_registrationSummaryCard">
+                                    <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="<?php echo esc_attr( $movie_id );?>">
+                                    <input type="hidden" name="wtbm_summeryTheaterId" id="wtbm_summeryTheaterId" value="">
+                                    <input type="hidden" name="wtbm_summeryDate" id="wtbm_summeryDate" value="<?php echo esc_attr( gmdate("Y-m-d") );?>">
+                                    <input type="hidden" name="wtbm_summeryTime" id="wtbm_summeryTime" value="">
+                                    <input type="hidden" name="wtbm_summerySeatType" id="wtbm_summerySeatType" value="">
+                                    <input type="hidden" name="wtbm_summerySeatNumber" id="wtbm_summerySeatNumber" value="">
+                                    <input type="hidden" name="wtbm_summerySeatIds" id="wtbm_summerySeatIds" value="">
+                                    <input type="hidden" name="wtbm_summeryTotalAmount" id="wtbm_summeryTotalAmount" value="">
 
-                                        <!--                                            <div id="wtbm_selectedMovieDisplay"></div>-->
+                                    <!--                                            <div id="wtbm_selectedMovieDisplay"></div>-->
 
-                                        <div class="wtbm_registrationSummaryItem" style="display: none">
-                                            <span><i class="mi mi-stage-theatre"></i> <?php esc_attr_e( 'Hall Name:', 'wptheaterly' );?></span>
-                                            <span id="wtbm_summaryTheaterName">--</span>
-                                        </div>
-                                        <div class="wtbm_registrationSummaryItem" style="display: none; flex-direction: column">
-                                            <span><i class="mi mi-calendar"></i> <?php esc_attr_e( 'Show Date:', 'wptheaterly' );?></span>
-                                            <span id="wtbm_summaryDateDisplay"><?php echo esc_attr( $today_date );?></span>
-                                        </div>
-                                        <div class="wtbm_registrationSummaryItem" style="display: none; flex-direction: column">
-                                            <span><i class="mi mi-clock-three"></i> <?php esc_attr_e( 'Show Time:', 'wptheaterly' );?></span>
-                                            <span id="wtbm_summaryTimeSlot">--</span>
-                                        </div>
-
-                                        <div class="wtbm_registrationSummaryItem" style="display: flex; flex-direction: column">
-                                            <span><i class="mi mi-loveseat"></i> <?php esc_attr_e( 'Selected Seat:', 'wptheaterly' );?></span>
-                                            <span id="wtbm_summarySeats">--</span>
-                                        </div>
-
-                                        <div class="wtbm_registrationSummaryItem" style="display: flex; flex-direction: column">
-                                            <span><i class="mi mi-ticket"></i> <?php esc_attr_e( 'Ticket Quantity:', 'wptheaterly' );?></span>
-                                            <span id="wtbm_summaryQuantity">0</span>
-                                        </div>
-
-                                        <div class="wtbm_registrationSummaryItem" style="display: flex; flex-direction: column">
-                                            <span><i class="mi mi-coins"></i> <?php esc_attr_e( 'Total Amount:', 'wptheaterly' );?></span>
-                                            <div class="wtbm_totalPriceSymbol">
-                                                <span id="wtbm_summaryTotal">0 </span>
-                                                <span class="wtbm_currency"><?php echo esc_attr( get_woocommerce_currency_symbol());?></span>
-                                            </div>
-                                        </div>
+                                    <div class="wtbm_registrationSummaryItem" style="display: none">
+                                        <span><i class="mi mi-stage-theatre"></i> <?php esc_attr_e( 'Hall Name:', 'wptheaterly' );?></span>
+                                        <span id="wtbm_summaryTheaterName">--</span>
+                                    </div>
+                                    <div class="wtbm_registrationSummaryItem" style="display: none;">
+                                        <span><i class="mi mi-calendar"></i> <?php esc_attr_e( 'Show Date:', 'wptheaterly' );?></span>
+                                        <span id="wtbm_summaryDateDisplay"><?php echo esc_attr( $today_date );?></span>
+                                    </div>
+                                    <div class="wtbm_registrationSummaryItem" style="display: none;">
+                                        <span><i class="mi mi-clock-three"></i> <?php esc_attr_e( 'Show Time:', 'wptheaterly' );?></span>
+                                        <span id="wtbm_summaryTimeSlot">--</span>
                                     </div>
 
-                                    <div class="booking-form">
-                                        <h2 class="section-title"><?php esc_attr_e( 'Ticket For', 'wptheaterly' );?></h2>
-                                        <div class="form-group">
-                                            <label class="form-label"><?php esc_attr_e( 'Full Name', 'wptheaterly' );?></label>
-                                            <input type="text" class="form-input" id="wtbm_getUserName" placeholder="Enter your name">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label"><?php esc_attr_e( 'Mobile Number', 'wptheaterly' );?></label>
-                                            <input type="tel" class="form-input" id="wtbm_getUserPhone" placeholder="Enter mobile number">
-                                        </div>
+                                    <div class="wtbm_registrationSummaryItem" style="display: flex;">
+                                        <span><i class="mi mi-loveseat"></i> <?php esc_attr_e( 'Selected Seat:', 'wptheaterly' );?></span>
+                                        <span id="wtbm_summarySeats">--</span>
+                                    </div>
 
+                                    <div class="wtbm_registrationSummaryItem" style="display: flex;">
+                                        <span><i class="mi mi-ticket"></i> <?php esc_attr_e( 'Ticket Quantity:', 'wptheaterly' );?></span>
+                                        <span id="wtbm_summaryQuantity">0</span>
+                                    </div>
+
+                                    <div class="wtbm_registrationSummaryItem" style="display: flex;">
+                                        <span><i class="mi mi-coins"></i> <?php esc_attr_e( 'Total Amount:', 'wptheaterly' );?></span>
+                                        <div class="wtbm_totalPriceSymbol">
+                                            <span id="wtbm_summaryTotal">0 </span>
+                                            <span class="wtbm_currency"><?php echo esc_attr( get_woocommerce_currency_symbol());?></span>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <div class="booking-form">
+                                    <h2 class="section-title"><?php esc_attr_e( 'Ticket For', 'wptheaterly' );?></h2>
+                                    <div class="form-group">
+                                        <label class="form-label"><?php esc_attr_e( 'Full Name', 'wptheaterly' );?></label>
+                                        <input type="text" class="form-input" id="wtbm_getUserName" placeholder="Enter your name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label"><?php esc_attr_e( 'Mobile Number', 'wptheaterly' );?></label>
+                                        <input type="tel" class="form-input" id="wtbm_getUserPhone" placeholder="Enter mobile number">
+                                    </div>
+
+                                </div>
                             </div>
-                            <!--                            <button class="wtbm_single_movie_button">COMPLETE BOOKING</button>-->
-                            <button class="wtbm_single_movie_button" id="wtbm_ticketPurchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
-                            <div class="purchase-info">
-                                <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>
-                            </div>
+                        </div>
+                        <!--                            <button class="wtbm_single_movie_button">COMPLETE BOOKING</button>-->
+                        <button class="wtbm_single_movie_button" id="wtbm_ticketPurchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
+                        <div class="purchase-info">
+                            <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>
                         </div>
                     </div>
                 </div>
