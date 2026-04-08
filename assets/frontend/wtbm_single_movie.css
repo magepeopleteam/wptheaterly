@@ -65,7 +65,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image:linear-gradient(180deg,#00000016,var(--mptrs_color_theme));
+    background-image:linear-gradient(180deg,#00000016 60%,var(--mptrs_color_theme) 100%);
 }
 .wtbm_single_movie_container{
     z-index: 1;
