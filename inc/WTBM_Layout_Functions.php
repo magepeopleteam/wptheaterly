@@ -1030,7 +1030,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 ?>
                 <div class="wtbm_single_movie_wrapper">
                     <div class="wtbm-single-movie-content">
-                        <div class="wtbm_booking_movie_card wtbm_movieActive" style="visibility: visible"
+                        <div class="wtbm_movieActive" style="visibility: hidden;"
                             data-movie-id="<?php echo esc_attr( $movie_id ); ?>">
                         </div>
                         <!-- <div class="wtbm_single_movie_title"><?php /*echo esc_attr( get_the_title( $movie_id ) );*/?></div>
