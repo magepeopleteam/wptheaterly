@@ -526,6 +526,7 @@
                 $dynamic_shapes = isset( $plan_data['dynamic_shapes'] ) ? $plan_data['dynamic_shapes'] : '';
 
                 $seat_mapped_width = 0;
+//                $maxLeft = 0;
 //                $seat_mapping_info = get_option( 'mptrs_seat_mapping_info' );
 
                 if (!empty($plan_seats) && is_array( $plan_seats )) {
@@ -544,8 +545,9 @@
                                 $leastTop = $currentTop;
                             }
 
-                            if ($item['row'] == 0) {
-                                $seat_mapped_width = (int) str_replace('px', '', $item['left']);
+                            $left = (int) str_replace('px', '', $item['left']);
+                            if ($left > $seat_mapped_width) {
+                                $seat_mapped_width = $left;
                             }
                         }
                     }
