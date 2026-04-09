@@ -43,7 +43,13 @@ if( !class_exists( 'WTBM_Menu' ) ) {
         /**
          * Main menu page callback
          */
-        public function main_menu_page() {?>
+        public function main_menu_page() {
+                    $mptrs_import_dummy_data = get_option('mptrs_import_dummy_data') ? get_option('mptrs_import_dummy_data') : 'No';
+                    if($mptrs_import_dummy_data == 'No') {
+                        new WTBM_Dummy_Import();
+                        update_option('mptrs_import_dummy_data', 'Yes');
+                    }
+            ?>
 
             <div class="container mptrs-admin">
                 <div class="sidebar">
@@ -205,7 +211,7 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                                     <th><?php esc_attr_e( 'Theater', 'wptheaterly' ); ?></th>
                                     <th><?php esc_attr_e( 'Date', 'wptheaterly' ); ?></th>
                                     <th><?php esc_attr_e( 'Time', 'wptheaterly' ); ?></th>
-                                    <th><?php esc_attr_e( 'Price', 'wptheaterly' ); ?></th>
+<!--                                    <th>--><?php //esc_attr_e( 'Price', 'wptheaterly' ); ?><!--</th>-->
                                     <th><?php esc_attr_e( 'Actions', 'wptheaterly' ); ?></th>
                                 </tr>
                                 </thead>

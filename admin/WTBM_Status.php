@@ -70,20 +70,7 @@ if ( ! class_exists( 'WTBM_Status' ) ) {
                             <tr>
                                 <td data-export-label="WC Version"><?php esc_html_e( 'Woocommerce Version : ', 'wptheaterly' ); ?></td>
                                 <td class="<?php echo esc_attr( $is_modern ? 'textSuccess' : 'textWarning' ); ?>">
-                                    <!--                                    <td class="--><?php //echo esc_attr( $wc_v > 4.8 ? 'textSuccess' : 'textWarning' ); ?><!--">-->
                                     <span class="<?php echo esc_attr( $is_modern ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $wc_v ); ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td data-export-label="WC Version"><?php esc_html_e( 'Name : ', 'wptheaterly' ); ?></td>
-                                <td class="<?php echo esc_attr( $from_name ? 'textSuccess' : 'textWarning' ); ?>">
-                                    <span class="<?php echo esc_attr( $from_name ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $from_name ); ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td data-export-label="WC Version"><?php esc_html_e( 'Email Address : ', 'wptheaterly' ); ?></td>
-                                <td class="<?php echo esc_attr( $from_email ? 'textSuccess' : 'textWarning' ); ?>">
-                                    <span class="<?php echo esc_attr( $from_email ? 'far fa-check-circle' : 'fas fa-exclamation-triangle' ); ?> mR_xs"></span><?php echo esc_html( $from_email ); ?>
                                 </td>
                             </tr>
                         <?php }

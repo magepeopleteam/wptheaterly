@@ -1484,4 +1484,69 @@
 }
 /********************************************************************************************************************/
 @media only screen and (min-width: 10px) {
+	.wtbm_pricing_rules_wrapper{
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		font-size: 13px;
+	}
+
+	.wtbm_pricing_rules_group{
+		border: 1px solid #ddd;
+		border-radius: 6px;
+		overflow: hidden;
+	}
+
+	.wtbm_pricing_rules_header{
+		background: #f5f5f5;
+		padding: 6px 10px;
+		font-weight: bold;
+		text-transform: capitalize;
+	}
+
+	.wtbm_pricing_rules_item{
+		padding: 8px 10px;
+		border-top: 1px solid #eee;
+	}
+
+	.wtbm_pricing_rules_title{
+		font-weight: 600;
+		margin-bottom: 3px;
+	}
+
+	/* TYPE COLORS */
+	.wtbm_pricing_rules_date .wtbm_pricing_rules_header{
+		background: #e3f2fd;
+	}
+
+	.wtbm_pricing_rules_time .wtbm_pricing_rules_header{
+		background: #fce4ec;
+	}
+
+	.wtbm_pricing_rules_day .wtbm_pricing_rules_header{
+		background: #e8f5e9;
+	}
+
+	.wtbm_pricing_rules_theater .wtbm_pricing_rules_header{
+		background: #fff3e0;
+	}
+
+	.wtbm_pricing_rules_box{
+		display: none;
+		position: relative;
+		top: 0;
+		left: 0;
+		width: 100%;
+		background: #fff;
+		border: 1px solid #ddd;
+		box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+		z-index: 999;
+		border-radius: 6px;
+		padding: 10px;
+	}
+
+	/* show on hover of another class */
+	.wtbm_price_wrapper:hover .wtbm_pricing_rules_box{
+		display: block;
+	}
 }

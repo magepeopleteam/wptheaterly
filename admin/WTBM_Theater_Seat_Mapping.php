@@ -46,12 +46,12 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                     <button class="mptrs_mapping_multiselect tooltips" id="mptrs_mapping_multiselect" title="<?php esc_html_e('Select multiple seats at once.', 'wptheaterly'); ?>" data-tooltip="<?php esc_html_e('Multi Select', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($selection); ?>" alt=""></button>
                     <button class="mptrs_mapping_singleSelect  <?php echo esc_html( $select_single_seat_tab );?> tooltips" title="<?php esc_html_e('Select single seats at once.', 'wptheaterly'); ?>" id="mptrs_mapping_singleSelect" data-tooltip="<?php esc_html_e('Single Select', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($choice); ?>" alt=""></button>
                     <button class="mptrs_mapping_set_seat <?php echo esc_html( $select_add_seat_tab );?> tooltips" title="<?php esc_html_e('Enable Added Seats', 'wptheaterly'); ?>" id="mptrs_mapping_set_seat"  data-tooltip="<?php esc_html_e('Add Seat', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($add_seats); ?>" alt=""></button>
-                    <button class="mptrs_mapping_set_shape tooltips" id="mptrs_mapping_set_shape" title="<?php esc_html_e('Draw Shape', 'wptheaterly'); ?>" data-tooltip="<?php esc_html_e('Add Shape', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($shapes); ?>" alt=""></button>
+<!--                    <button class="mptrs_mapping_set_shape tooltips" id="mptrs_mapping_set_shape" title="--><?php //esc_html_e('Draw Shape', 'wptheaterly'); ?><!--" data-tooltip="--><?php //esc_html_e('Add Shape', 'wptheaterly'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($shapes); ?><!--" alt=""></button>-->
                     <button class="mptrs_mapping_setText tooltips" id="mptrs_mapping_setText" title="<?php esc_html_e('Add Label', 'wptheaterly'); ?>" data-tooltip="<?php esc_html_e('Set Text', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($text); ?>" alt=""></button>
                     <button class="mptrs_removeSelected tooltips" id="mptrs_removeSelected" title="<?php esc_html_e('Clear Item Added Seats', 'wptheaterly'); ?>" data-tooltip="<?php esc_html_e('Erase', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($eraser); ?>" alt=""></button>
                     <button class="mptrs_undo tooltips" id="mptrs_undo" title="<?php esc_html_e('Undo', 'wptheaterly'); ?>" data-tooltip="<?php esc_html_e('Undo', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($undo); ?>" alt=""></button>
                     <button class="mptrs_copyPaste tooltips" id="mptrs_copyPaste" title="<?php esc_html_e('Copy Paste', 'wptheaterly'); ?>" data-tooltip="<?php esc_html_e('Paste', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($paste); ?>" alt=""></button>
-                    <button class="mptrs_bindTableWidthChair tooltips" id="mptrs_bindTableWidthChair" data-tooltip="<?php esc_html_e('Group Table', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($group); ?>" alt=""></button>
+<!--                    <button class="mptrs_bindTableWidthChair tooltips" id="mptrs_bindTableWidthChair" data-tooltip="--><?php //esc_html_e('Group Table', 'wptheaterly'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($group); ?><!--" alt=""></button>-->
                     <button class="tooltips" id="mptrs_clearAllPlan"  title="<?php esc_html_e('Remove All', 'wptheaterly'); ?>" data-tooltip="<?php esc_html_e('Clear All', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($reset); ?>" alt=""></button>
                    <?php if( $action_type === 'add' ){?>
                         <button class="mptrs_savePlan tooltips" title="<?php esc_html_e('Save Layout', 'wptheaterly'); ?>" data-theater-id="<?php echo esc_attr( $post_id );?>" id="wtbm_saveSeatPlan" data-tooltip="<?php esc_html_e('Save Plan', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($save_plan); ?>" alt=""></button>
@@ -316,20 +316,9 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                                                 <input type="color" id="mptrs_setShapeColor" value="#3498db">
                                                 <button class="mptrs_removeDynamicShape" id="mptrs_removeDynamicShape">X</button>
                                             </div>
-                                            <div class="mptrs_shapeDisplayIconHolder">
-                                                <div class="mptrs_shapeIconTitleTextHolder"><span class="mptrs_shapeIconTitleText">Add Shape</span></div>
-                                                    <div class="mptrs_shapeDisplayIcons">
-                                                        <img class="mptrs_shapeDisplayIcon" id="table1" src="' . esc_url( WTBM_Plan_ASSETS . 'images/icons/tableIcon/table1.png' ) . '"/>
-                                                        <img class="mptrs_shapeDisplayIcon" id="table2" src="' . esc_url( WTBM_Plan_ASSETS . 'images/icons/tableIcon/table2.png' ) . '"/>
-                                                        <img class="mptrs_shapeDisplayIcon" id="table3" src="'. esc_url( WTBM_Plan_ASSETS.'images/icons/tableIcon/table3.png' ) .'"/>
-                                                        <img class="mptrs_shapeDisplayIcon" id="table4" src="'. esc_url( WTBM_Plan_ASSETS.'images/icons/tableIcon/table4.png' ) .'"/>
-                                                        <img class="mptrs_shapeDisplayIcon" id="dining2" src="'. esc_url( WTBM_Plan_ASSETS.'images/icons/tableIcon/dining2.png' ) .'"/>
-                                                        <img class="mptrs_shapeDisplayIcon" id="dining1" src="'. esc_url( WTBM_Plan_ASSETS.'images/icons/tableIcon/dining1.png' ) .'"/>
-                                                    </div>
-                                                </div>
-                                                <div class="mptrs_copyHolder">
-                                                    <button class="mptrs_shapeCopyStore">Copy</button>
-                                                </div>
+                                            <div class="mptrs_copyHolder">
+                                                <button class="mptrs_shapeCopyStore">Copy</button>
+                                            </div>
                                             </div>
                                         </div>
                                         <div class="mptrs_dynamicTextControlHolder" style="display: none">

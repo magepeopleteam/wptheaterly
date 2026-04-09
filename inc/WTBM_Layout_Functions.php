@@ -1006,6 +1006,24 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             return $booking_data;
         }
 
+        public static function display_pricing_rules(){
+            $rules = WTBM_Set_Pricing_Rules::load_pricing_rules();
+            $apply_rules = 'no';
+            if( is_array( $rules ) && !empty( $rules ) ) {
+                $apply_rules = 'yes';
+            ?>
+                <div class="wtbm_price_wrapper">
+                    <div class="wtbm_price_trigger">💰</div>
+                    <div class="wtbm_pricing_rules_box">
+                        <?php echo wp_kses_post( WTBM_Pricing_Rules::wtbm_render_pricing_rules( $rules ) ) ; ?>
+                    </div>
+                </div>
+            <?php
+            } ?>
+            <input type="hidden" name="wtbm_apply_pricing_rules" value="<?php echo esc_attr( $apply_rules );?>" />
+            <?php
+        }
+
         public static function display_single_movie_data( $movie_id, $hide_header = 'yes' ){
             if( $movie_id ){
                 $movie_description = get_the_excerpt( $movie_id );

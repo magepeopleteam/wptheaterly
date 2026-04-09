@@ -285,7 +285,7 @@
         }
 
         if (wtbm_seatBookedName.includes(seatNum)) {
-            wtbm_seatBookedName = wtbm_seatBookedName.filter(seatName => seatName !== seatNum ); // Remove if exists
+            wtbm_seatBookedName = wtbm_seatBookedName.filter(seatName => seatName !== seatNum );
         } else {
             wtbm_seatBookedName.push( seatNum );
         }
@@ -314,7 +314,60 @@
         }
 
 
-        // console.log(`Seat ID: ${seatId}, Price: $${price}, Seat number: ${seatNum}`, wtbm_total_price, wtbm_total_seat_count );
+        let theaterId = $("#wtbm_summeryTheaterId").val().trim();
+        let apply_pricing_rules = $('input[name="wtbm_apply_pricing_rules"]').val();
+        let bookingDate = $("#wtbm_summeryDate").val().trim();
+        let bookingTime = $("#wtbm_summeryTime").val().trim();
+        let action = 'wtbm_apply_pricing_rules_total_price';
+
+        if( apply_pricing_rules === 'yes' ) {
+            const booking_data = {
+                action: action,
+                theater_id: theaterId,
+                booking_date: bookingDate,
+                booking_time: bookingTime,
+                total_amount: wtbm_total_price,
+                seat_count: wtbm_total_seat_count,
+                nonce: wtbm_ajax.nonce,
+            };
+            // console.log( booking_data );
+            $.ajax({
+                type: 'POST',
+                url: wtbm_ajax.ajax_url,
+                data: booking_data,
+                dataType: 'json',
+
+                beforeSend: function () {
+                    console.log('Request sending...');
+                },
+
+                success: function (response) {
+                    if (response.success) {
+                        $("#wtbm_summaryTotal").text(response.data.rules_price + '' + wtbm_ajax.wc_currency_symbol);
+                    } else {
+                        console.error('Server Error:', response.data);
+                        alert(response.data || 'Something went wrong!');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX Error:', error);
+                    console.error('Status:', status);
+                    console.error('Response:', xhr.responseText);
+
+                    if (xhr.status === 0) {
+                        alert('Network error! Check your internet.');
+                    } else if (xhr.status == 404) {
+                        alert('Requested URL not found (404)');
+                    } else if (xhr.status == 500) {
+                        alert('Internal Server Error (500)');
+                    } else {
+                        alert('Unexpected error: ' + error);
+                    }
+                }
+            });
+        }
+
+
     });
 
     function wtbm_selected_seat_floting_add( seatSummary, $this ){
@@ -412,7 +465,7 @@
             userPhoneNum: userPhoneNum,
             nonce: wtbm_ajax.nonce,
         };
-        console.log( booking_data );
+        // console.log( booking_data );
         $.ajax({
             type: 'POST',
             url: wtbm_ajax.ajax_url,

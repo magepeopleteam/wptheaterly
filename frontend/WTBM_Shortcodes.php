@@ -109,7 +109,11 @@
                         </div>
                     </div>
                     <div class="wtbm_registrationSidebar" id="wtbm_registrationSidebar">
+
                         <h2 class="section-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
+                        <?php
+                        WTBM_Layout_Functions::display_pricing_rules();
+                        ?>
 
                         <div class="wtbm_registrationSummaryCard">
                             <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="">
@@ -231,6 +235,11 @@
                     </div>
                     <div class="wtbm_registrationSidebar" id="wtbm_registrationSidebar">
                         <h2 class="section-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
+
+                        <?php
+                        WTBM_Layout_Functions::display_pricing_rules();
+                        ?>
+
 
                         <div class="wtbm_registrationSummaryCard">
                             <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="">
