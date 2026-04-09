@@ -29,15 +29,18 @@
 				if (!defined('WTBM_PLUGIN_URL')) {
 					define('WTBM_PLUGIN_URL', plugins_url() . '/' . plugin_basename(dirname(__FILE__)));
 				}
-								
+					add_action('admin_enqueue_scripts', [$this, 'wtbm_enqueue_installer_script'], 90);
+					require_once WTBM_PLUGIN_DIR . '/inc/required-plugin.php';
+													
 				if ($this->check_woocommerce() == 1) {
 					add_action('activated_plugin', array($this, 'activation_redirect'), 90, 1);
 					require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Dependencies.php';
+
 				} else {
 					add_action('admin_notices', [$this, 'woocommerce_not_active']);
 					add_action('activated_plugin', array($this, 'activation_redirect_setup'), 90, 1);
-					add_action('admin_enqueue_scripts', [$this, 'wtbm_enqueue_installer_script'], 90);
 					add_action('admin_enqueue_scripts', [$this, 'my_plugin_admin_scripts']);
+			
 
 				}
                 if (!defined('MPCRBM_PLUGIN_DIR_PRO')) {
@@ -47,7 +50,7 @@
                     define('MPCRBM_PLUGIN_URL_PRO', plugins_url() . '/' . plugin_basename(dirname(__FILE__)));
                 }
 
-				add_action('wp_ajax_wtbm_install_woocommerce', [$this, 'wtbm_install_woocommerce_callback']);
+				// add_action('wp_ajax_wtbm_install_woocommerce', [$this, 'wtbm_install_woocommerce_callback']);
 
 			}
 			private static function check_woocommerce(): int {

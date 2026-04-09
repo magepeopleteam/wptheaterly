@@ -13,7 +13,7 @@ if ( ! class_exists('WTBM_Admin_Pro') ) {
             $this->load_file();
             add_action( 'wtbm_status_notice_sec', array( $this, 'status_notice_sec' ) );
             add_action( 'wtbm_status_table_item_sec', array( $this, 'status_table_item_sec' ) );
-            add_action( 'admin_notices', array( $this, 'pdf_admin_notice' ) );
+            // add_action( 'admin_notices', array( $this, 'pdf_admin_notice' ) );
         }
 
         private function load_file(): void {
