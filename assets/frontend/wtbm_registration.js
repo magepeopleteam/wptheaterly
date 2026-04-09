@@ -49,7 +49,7 @@
         $(this).addClass('active');
 
         $("#wtbm_single_movie_seats").empty();
-        $("#wtbm_single_movie_booking_card").fadeOut();
+        // $("#wtbm_single_movie_booking_card").fadeOut();
 
         let date = $(this).data('date').trim();
         let movieId = $("#wtbm_summeryMovieId").val().trim();
