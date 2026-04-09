@@ -675,7 +675,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         : esc_html__( 'Add New Theater', 'wptheaterly' );
                     ?>
                 </h4>
-                <input type="hidden" name="wtbp_theater_id" value="<?php echo esc_attr( $theater_id ); ?>">
+                <input type="hidden" id="wtbp_theater_id" name="wtbp_theater_id" value="<?php echo esc_attr( $theater_id ); ?>">
 
                 <?php wp_nonce_field( 'wtbp_theater_action', 'wtbp_theater_nonce' ); ?>
 

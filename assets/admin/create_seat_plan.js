@@ -494,43 +494,76 @@ jQuery(document).ready(function ($) {
 
     $(document).on('click', '#mptrs_clearAllPlan', function ( e ) {
         e.preventDefault();
-        $('.mptrs_mappingSeat').removeClass('save');
-        $('.mptrs_mappingSeat').removeClass('selected');
-        $('.mptrs_mappingSeat').css({
-            "background": "",
-            "transform": "rotate(0deg)",
-            "z-index" : 'auto',
+
+        let post_id = $("#mptrs_mapping_plan_id").val();
+        const rows = parseInt(document.getElementById('theater-rows').value);
+        const seatsPerRow = parseInt(document.getElementById('theater-seats-per-row').value);
+
+        let action = 'mptrs_refresh_theater_seat_mapp';
+
+        let theater = {
+            action: action,
+            post_id: post_id,
+            rows: rows,
+            seatsPerRow: seatsPerRow,
+            _ajax_nonce: mptrs_admin_ajax.nonce
+        };
+
+        $.ajax({
+            url: mptrs_admin_ajax.ajax_url,
+            type: "POST",
+            data: theater,
+            success: function (response) {
+                if (response.success) {
+                    if (post_id) {
+                        $("#wtbm_SeatMappingSection").html(response.data.seat_map);
+
+                        $('.mptrs_mappingSeat').removeClass('save');
+                        $('.mptrs_mappingSeat').removeClass('selected');
+                        $('.mptrs_mappingSeat').css({
+                            "background": "",
+                            "transform": "rotate(0deg)",
+                            "z-index" : 'auto',
+                        });
+                        $('.mptrs_mappingSeat').attr({
+                            'data-seat-num': '',
+                            'data-price': 0,
+                            'title': 0,
+                        });
+
+                        // $('.mptrs_mappingSeat').text('');
+                        seat_num = 0;
+                        selectedDivs = [];
+                        selectedDraggableDivs = [];
+                        selectedSeatsDivs = [];
+
+                        $('.mptrs_dynamicShape, .mptrs_text-wrapper').each( function () {
+                            $(this).remove();
+                        });
+
+
+                        let previousPosition = 0;
+                        selectionOrder.forEach((id, index) => {
+                            previousPosition = forReverse[id].position;
+                            let angle = 0;
+                            $(`#${id}`).css({
+                                transform: `rotate(${angle}deg)`,
+                                left: `${previousPosition}px`,
+                                'z-index': 0,
+                            });
+                        });
+                        rotationData = forReverse = {};
+                        selectionOrder = [];
+                    }
+                } else {
+                    alert("Error: " + response.data);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+                alert("Something went wrong!");
+            }
         });
-        $('.mptrs_mappingSeat').attr({
-            'data-seat-num': '',
-            'data-price': 0,
-            'title': 0,
-        });
-
-        // $('.mptrs_mappingSeat').text('');
-        seat_num = 0;
-        selectedDivs = [];
-        selectedDraggableDivs = [];
-        selectedSeatsDivs = [];
-
-        $('.mptrs_dynamicShape, .mptrs_text-wrapper').each( function () {
-            $(this).remove();
-        });
-
-
-        let previousPosition = 0;
-        selectionOrder.forEach((id, index) => {
-            previousPosition = forReverse[id].position;
-            let angle = 0;
-            $(`#${id}`).css({
-                transform: `rotate(${angle}deg)`,
-                left: `${previousPosition}px`,
-                'z-index': 0,
-            });
-        });
-        rotationData = forReverse = {};
-        selectionOrder = [];
-
     });
     function hide_remove_shape_text_sellection(){
         $("#mptrs_parentDiv").find('.mptrs_text-wrapper').removeClass('mptrs_textSelected');
