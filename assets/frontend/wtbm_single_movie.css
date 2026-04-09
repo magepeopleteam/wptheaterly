@@ -54,7 +54,11 @@
     background-position: center;
     border-radius:14px;
     padding:20px;
-    margin-bottom:2px;
+    margin-bottom:10px;
+}
+
+.wtbm_single_movie_select_date{
+    margin-bottom: 10px;
 }
 
 .wtbm_single_movie_card_description::before{
@@ -79,17 +83,15 @@
 }
 
 .wtbm_single_movie_poster{
-    border: 1px solid #fff;
-    border-radius: 10px;
     z-index: 1;
 }
 
 .wtbm_single_movie_poster img{
-    width: auto;
-    border-radius: 10px;
-    height: 180px;
-    
+    width: 100%;
+    height: auto;
     max-width: 220px;
+    border: 1px solid #fff;
+    border-radius: 8px;
 }
 
 .wtbm_single_movie_meta{
@@ -99,7 +101,7 @@
     color: #fff;
 }
 .wtbm_single_movie_section_title{
-    color:var(--wtbm-gold);
+    margin:20px 0;
     margin-bottom:10px;
 }
 .wtbm_single_movie_options{
@@ -406,6 +408,22 @@
 }
 
 @media (max-width: 640px) {
+
+    .wtbm_single_movie_wrapper{
+        flex-direction: column;
+    }
+
+    .wtbm-single-movie-content{
+        width: 100%;
+    }
+
+    .wtbm_single_movie_card{
+        width: 100%;
+    }
+    .wtbm_single_movie_poster img {
+        max-width: 400px;
+        width: 100%;
+    }
     .wtbm_show_movie_controls {
         justify-content: center;
     }

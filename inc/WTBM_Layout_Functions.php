@@ -1085,7 +1085,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         </div>
                         <?php }?>
 
-                        <div class="">
+                        <div class="wtbm_single_movie_select_date">
                             <div class="wtbm_single_movie_section_title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></div>
                             <div class="wtbm_single_movie_options wtbm_date">
                                 <?php
@@ -1093,7 +1093,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                 ?>
                             </div>
 
-                            <div class="wtbm_single_movie_section_title" style="margin-top:20px"><?php esc_attr_e( 'Select Time', 'wptheaterly' );?></div>
+                            <div class="wtbm_single_movie_section_title"><?php esc_attr_e( 'Select Time', 'wptheaterly' );?></div>
                             <div class="wtbm_single_movie_options wtbm_time">
                                 <?php
                                 $today_date = gmdate('M d, y');
