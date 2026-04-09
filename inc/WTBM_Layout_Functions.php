@@ -1036,7 +1036,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <!-- <div class="wtbm_single_movie_title"><?php /*echo esc_attr( get_the_title( $movie_id ) );*/?></div>
                             <div class="wtbm_single_movie_subtitle"><?php /*echo esc_attr( get_the_title( $movie_id ) );*/?></div> -->
                         <?php if( $hide_header === 'yes' ){?>
-                        <div class="wtbm_single_movie_card_description" style="background-image: url('<?php echo esc_url( $poster_url );?>')">
+                        <div class="wtbm_single_movie_card_description">
                             
                             <div class="wtbm_single_movie_poster">
                                 <img src="<?php echo esc_url( $poster_url );?>" alt="Avatar Poster" />
