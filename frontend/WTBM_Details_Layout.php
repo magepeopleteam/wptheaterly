@@ -525,6 +525,8 @@
                 $plan_seat_texts = isset( $plan_data['seat_text_data'] ) ? $plan_data['seat_text_data'] : array();
                 $dynamic_shapes = isset( $plan_data['dynamic_shapes'] ) ? $plan_data['dynamic_shapes'] : '';
 
+                $seat_mapped_width = 0;
+//                $seat_mapping_info = get_option( 'mptrs_seat_mapping_info' );
 
                 if (!empty($plan_seats) && is_array( $plan_seats )) {
                     $leastLeft = PHP_INT_MAX;
@@ -541,8 +543,14 @@
                             if ($currentTop < $leastTop) {
                                 $leastTop = $currentTop;
                             }
+
+                            if ($item['row'] == 0) {
+                                $seat_mapped_width = (int) str_replace('px', '', $item['left']);
+                            }
                         }
                     }
+
+                    $total_width = $seat_mapped_width + 50;
 
                     $data_tableBindIds = [];
                     $height = $leastTop + 200;
@@ -550,7 +558,7 @@
                     $seat_grid_height = $leastTop + 1;
                     // Start building custom content
                     $custom_content = '
-                        <div id="wtbm_seatGrid" /*style="height: '.$height.'px"*/>
+                        <div id="wtbm_seatGrid" style="min-width: '.$total_width.'px">
                             <div id="mptrs_seatMapHolder-'.$post_id.'" class="mptrs_seatMapHolder">';
                                 if( is_array( $plan_seat_texts ) && count( $plan_seat_texts ) > 0 ) {
                                     foreach ($plan_seat_texts as $plan_seat_text) {
