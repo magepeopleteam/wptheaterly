@@ -10,6 +10,9 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
             add_action('wp_ajax_mptrs_insert_theater_post', [ $this, 'mptrs_insert_theater_post' ]);
             add_action('wp_ajax_nopriv_mptrs_insert_theater_post', [ $this, 'mptrs_insert_theater_post' ]);
 
+            add_action('wp_ajax_mptrs_refresh_theater_seat_mapp', [ $this, 'mptrs_refresh_theater_seat_mapp' ]);
+            add_action('wp_ajax_nopriv_mptrs_refresh_theater_seat_mapp', [ $this, 'mptrs_refresh_theater_seat_mapp' ]);
+
             add_action('wp_ajax_wtbp_add_edit_theater_form', [ $this, 'wtbp_add_edit_theater_form' ]);
             add_action('wp_ajax_nopriv_wtbp_add_edit_theater_form', [ $this, 'wtbp_add_edit_theater_form' ]);
 
@@ -49,6 +52,21 @@ if ( ! class_exists( 'WTBM_Manage_Theater' ) ) {
 
         }
 
+
+        function mptrs_refresh_theater_seat_mapp() {
+            check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
+
+            $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
+            $rows = isset( $_POST['rows'] ) ? sanitize_text_field( wp_unslash( $_POST['rows'] ) ) : '';
+            $seatsPerRow = isset( $_POST['seatsPerRow'] ) ? sanitize_text_field( wp_unslash( $_POST['seatsPerRow'] ) ) : '';
+            $seat_map = WTBM_Theater_Seat_Mapping::clear_render_seat_mapping_meta_box( $post_id, 'add', $rows, $seatsPerRow, );
+
+            $result = array(
+                'seat_map' => $seat_map,
+            );
+
+            wp_send_json_success( $result );
+        }
 
         function mptrs_insert_theater_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
