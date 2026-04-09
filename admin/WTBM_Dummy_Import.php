@@ -67,6 +67,7 @@
 					$post = [
 						'post_type' => $post_type,
 						'post_title' => $data['post_title'],
+						'post_content' => isset($data['post_content']) ? $data['post_content'] : '',
 						'post_status' => 'publish',
 					];
 					$post_id = wp_insert_post($post);
@@ -119,74 +120,98 @@
 			}
 
 			public function movie_data(){
-				return [
-					[
-						'post_title' => 'Midnight Café',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2020-12-05',
-							'wtbp_movie_genre'        => 'Comedy, Slice of Life',
-							'wtbp_movie_duration'     => '1h 45m',
-							'wtbp_movie_rating'       => '7.5',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [0],
+				return[
+						[
+							'post_title' => 'Midnight Café',
+							'post_content' => 'A cozy story set in a quaint café where strangers become friends over coffee and conversations.',
+							'meta_data' => [
+								'wtbp_movie_release_date' => '2020-12-05',
+								'wtbp_movie_genre'        => 'Comedy, Slice of Life',
+								'wtbp_movie_duration'     => '1h 45m',
+								'wtbp_movie_director'     => 'John Doe',
+								'wtbp_movie_actors'       => 'Jane Smith, Bob Johnson',
+								'wtbp_movie_writer'       => 'Alice Brown',
+								'wtbp_movie_rating'       => '7.5',
+								'wtbp_movie_active'       => 'true',
+								'wtbp_movie_poster_id'    => [0],
+							],
 						],
-					],
-					[
-						'post_title' => 'The Final Pitch',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2021-08-20',
-							'wtbp_movie_genre'        => 'Sports, Drama',
-							'wtbp_movie_duration'     => '1h 58m',
-							'wtbp_movie_rating'       => '7.8',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [1],
+						[
+							'post_title' => 'The Final Pitch',
+							'post_content' => 'An inspiring sports drama about a young team striving to win their last championship.',
+							'meta_data' => [
+								'wtbp_movie_release_date' => '2021-08-20',
+								'wtbp_movie_genre'        => 'Sports, Drama',
+								'wtbp_movie_duration'     => '1h 58m',
+								'wtbp_movie_director'     => 'Michael Green',
+								'wtbp_movie_actors'       => 'Tom Hardy, Chris Evans',
+								'wtbp_movie_writer'       => 'Laura King',
+								'wtbp_movie_rating'       => '7.8',
+								'wtbp_movie_active'       => 'true',
+								'wtbp_movie_poster_id'    => [1],
+							],
 						],
-					],
-					[
-						'post_title' => 'Neon City',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2024-06-01',
-							'wtbp_movie_genre'        => 'Cyberpunk, Sci-Fi',
-							'wtbp_movie_duration'     => '2h 20m',
-							'wtbp_movie_rating'       => '8.6',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [2],
+						[
+							'post_title' => 'Neon City',
+							'post_content' => 'A cyberpunk adventure exploring the dark and vibrant streets of a futuristic metropolis.',
+							'meta_data' => [
+								'wtbp_movie_release_date' => '2024-06-01',
+								'wtbp_movie_genre'        => 'Cyberpunk, Sci-Fi',
+								'wtbp_movie_duration'     => '2h 20m',
+								'wtbp_movie_director'     => 'Samantha Lee',
+								'wtbp_movie_actors'       => 'Keanu Reeves, Emma Stone',
+								'wtbp_movie_writer'       => 'David Wong',
+								'wtbp_movie_rating'       => '8.6',
+								'wtbp_movie_active'       => 'true',
+								'wtbp_movie_poster_id'    => [2],
+							],
 						],
-					],
-					[
-						'post_title' => 'Iron Divide',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2019-09-09',
-							'wtbp_movie_genre'        => 'War, History',
-							'wtbp_movie_duration'     => '2h 50m',
-							'wtbp_movie_rating'       => '8.0',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [3],
+						[
+							'post_title' => 'Iron Divide',
+							'post_content' => 'A gripping historical war drama portraying the struggles of divided nations.',
+							'meta_data' => [
+								'wtbp_movie_release_date' => '2019-09-09',
+								'wtbp_movie_genre'        => 'War, History',
+								'wtbp_movie_duration'     => '2h 50m',
+								'wtbp_movie_director'     => 'Robert Martin',
+								'wtbp_movie_actors'       => 'Matt Damon, Scarlett Johansson',
+								'wtbp_movie_writer'       => 'Helen Clark',
+								'wtbp_movie_rating'       => '8.0',
+								'wtbp_movie_active'       => 'true',
+								'wtbp_movie_poster_id'    => [3],
+							],
 						],
-					],
-					[
-						'post_title' => 'Echoes of Time',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2023-02-14',
-							'wtbp_movie_genre'        => 'Fantasy, Romance',
-							'wtbp_movie_duration'     => '2h 25m',
-							'wtbp_movie_rating'       => '8.5',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [4],
+						[
+							'post_title' => 'Echoes of Time',
+							'post_content' => 'A fantasy romance that travels across timelines, exploring love and destiny.',
+							'meta_data' => [
+								'wtbp_movie_release_date' => '2023-02-14',
+								'wtbp_movie_genre'        => 'Fantasy, Romance',
+								'wtbp_movie_duration'     => '2h 25m',
+								'wtbp_movie_director'     => 'Natalie Portman',
+								'wtbp_movie_actors'       => 'Ryan Gosling, Emma Watson',
+								'wtbp_movie_writer'       => 'Sophia Turner',
+								'wtbp_movie_rating'       => '8.5',
+								'wtbp_movie_active'       => 'true',
+								'wtbp_movie_poster_id'    => [4],
+							],
 						],
-					],
-					[
-						'post_title' => 'Velocity',
-						'meta_data' => [
-							'wtbp_movie_release_date' => '2022-05-18',
-							'wtbp_movie_genre'        => 'Action, Crime',
-							'wtbp_movie_duration'     => '2h 10m',
-							'wtbp_movie_rating'       => '8.1',
-							'wtbp_movie_active'       => 'true',
-							'wtbp_movie_poster_id'    => [5],
-						],
-					]
-				];
+						[
+							'post_title' => 'Velocity',
+							'post_content' => 'A high-octane action thriller about a heist that tests the limits of speed and trust.',
+							'meta_data' => [
+								'wtbp_movie_release_date' => '2022-05-18',
+								'wtbp_movie_genre'        => 'Action, Crime',
+								'wtbp_movie_duration'     => '2h 10m',
+								'wtbp_movie_director'     => 'Chris Nolan',
+								'wtbp_movie_actors'       => 'Tom Cruise, Gal Gadot',
+								'wtbp_movie_writer'       => 'James Cameron',
+								'wtbp_movie_rating'       => '8.1',
+								'wtbp_movie_active'       => 'true',
+								'wtbp_movie_poster_id'    => [5],
+							],
+						]
+					];
 			}
 
 			public function theater_data(){
