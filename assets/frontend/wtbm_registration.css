@@ -18,16 +18,17 @@ body{
 }
 
 .section-title{
-    margin-top:30px;
-    font-size: 20px; 
+    font-size: .875rem; 
     margin:15px 0; 
-    color: var(--mptrs_color_d);
+    color: #71717b;
+    font-weight: 500;
+    text-transform: uppercase;
 }
 
 .wtbm_registrationSidebar {
     width: auto;
     background: #fff;
-    border: 1px solid var(--mptrs_color_theme);
+    border: 1px solid  #e9d4ff;
     border-radius:10px;
     padding:15px;
     height: fit-content;
@@ -55,8 +56,9 @@ body{
 
 .wtbm_booking_date_date_selector {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     flex-wrap: wrap;
+    margin-bottom: calc(.25em * 12 );
 }
 .wtbm_single_movie_booking_date{
     display: flex;
@@ -65,13 +67,14 @@ body{
 }
 
 .wtbm_booking_date_date_card {
-    background:var(--mptrs_color_theme_22);
+    background:#faf5ff;
     border: 1px solid  transparent;
-    border-radius: 4px;
-    padding:5px;
+    border-radius:.625rem;
+    padding:15px 25px;
     cursor: pointer;
-    width: 80px;
     box-shadow: 0 2px 0px #ddd;
+    text-align: center;
+    color: #59168b;
 }
 
 .wtbm_booking_date_date_card:hover {
@@ -109,18 +112,22 @@ body{
 }
 
 .wtbm_booking_date_date_card .day {
-    font-size: 14px;
-    text-align: left;
+    font-size: .75rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    
 }
 
 .wtbm_booking_date_date_card .date {
-    font-size:18px;
-    font-weight: 500;
+    font-size:1.5rem;
+    font-weight: 600;
+    margin: 5px 0;
 }
 
 .wtbm_booking_date_date_card .month {
-    font-size: 14px;
-    opacity: 0.8;
+    font-size: .75rem;
+    font-weight: 500;
+
 }
 
 .wtbm_single_movie_booking_date_card .day {
@@ -404,50 +411,56 @@ body{
     font-size: 14px;
     padding:5px 0;
     margin: 10px 0;
-    color: var(--mptrs_color_d);
+    font-weight: 500;
+    color: oklch(44.2% .017 285.786);
 }
 .wtbm_registrationSummaryItem i{
-    color: var(--mptrs_color_theme);
+    color: #b0b0b0;
     font-size: 18px;
     vertical-align: middle;
     margin-right: 5px;
 }
 .wtbm_registrationSummaryItem span:last-child{
-    color: var(--mptrs_color_theme);
-    font-weight: 600;
+    color: oklch(21% .006 285.885);
+    font-weight: 500;
 }
-  
+.booking-summary-title{
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: oklch(21% .006 285.885);
+}
+
 .wtbm_totalPriceSymbol{
-    color: var(--mptrs_color_theme);
+    color: oklch(21% .006 285.885);
     font-weight: 600;
 }
 .selected-movie{
     display: flex;
     justify-content: start;
-    align-items: center;
+    align-items: start;
     gap: 10px;
-    background-color: var(--mptrs_color_theme_33);
-    padding:5px;
     border-radius: 8px;
     margin: 10px 0;
 }
 .selected-movie img{
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 112px;
     object-fit: cover;
     border-radius: 5px;
 }
 #wtbm_movieName{
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
+    text-transform: uppercase;
 }
 #wtbm_movieName,
 #wtbm_movieDuration{
-    color:var(--mptrs_color_d);
+    color: oklch(21% .006 285.885);
 }
 
 #wtbm_movieDuration{
-    font-size: 14px;
+    font-size: .875rem;
+    color:oklch(44.2% .017 285.786);
 }
 
 .form-group {

@@ -110,7 +110,7 @@
                     </div>
                     <div class="wtbm_registrationSidebar" id="wtbm_registrationSidebar">
 
-                        <h2 class="section-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
+                        <h2 class="booking-summary-title"><?php esc_attr_e( 'Booking Summary', 'wptheaterly' );?></h2>
                         <?php
                         WTBM_Layout_Functions::display_pricing_rules();
                         ?>
