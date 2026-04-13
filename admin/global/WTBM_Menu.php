@@ -49,6 +49,10 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                         new WTBM_Dummy_Import();
                         update_option('mptrs_import_dummy_data', 'Yes');
                     }
+
+
+            $current_tab = isset($_GET['tab_name']) ? sanitize_text_field($_GET['tab_name']) : 'wtbm_movies';
+
             ?>
 
             <div class="container mptrs-admin">
@@ -57,48 +61,80 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                         <h1 class="sidebar-title"><i class="mi mi-settings"></i> <?php esc_attr_e( 'Theaterly', 'wptheaterly' ); ?></h1>
                     </div>
 
-                    <nav class="nav-menu">
+                    <!--<nav class="nav-menu">
                         <button class="nav-item active" data-tab="wtbm_movies">
-                            <i class="mi mi-films"></i> <?php esc_attr_e( 'Movies', 'wptheaterly' ); ?>
+                            <i class="mi mi-films"></i> <?php /*esc_attr_e( 'Movies', 'wptheaterly' ); */?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_theaters">
-                            <i class="mi mi-bank"></i> <?php esc_attr_e( 'Theaters', 'wptheaterly' ); ?>
+                            <i class="mi mi-bank"></i> <?php /*esc_attr_e( 'Theaters', 'wptheaterly' ); */?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_showtimes">
-                            <i class="mi mi-calendar-clock"></i> <?php esc_attr_e( 'Showtimes', 'wptheaterly' ); ?>
+                            <i class="mi mi-calendar-clock"></i> <?php /*esc_attr_e( 'Showtimes', 'wptheaterly' ); */?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_pricing">
-                            <i class="mi mi-coins"></i> <?php esc_attr_e( 'Pricing', 'wptheaterly' ); ?>
+                            <i class="mi mi-coins"></i> <?php /*esc_attr_e( 'Pricing', 'wptheaterly' ); */?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_bookings">
-                            <i class="mi mi-calendar-check"></i> <?php esc_attr_e( 'Bookings', 'wptheaterly' ); ?>
+                            <i class="mi mi-calendar-check"></i> <?php /*esc_attr_e( 'Bookings', 'wptheaterly' ); */?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_new_ticket_sale">
-                            <i class="mi mi-ticket"></i> <?php esc_attr_e( 'New Ticket Sale', 'wptheaterly' ); ?>
+                            <i class="mi mi-ticket"></i> <?php /*esc_attr_e( 'New Ticket Sale', 'wptheaterly' ); */?>
                         </button>
                         <button class="nav-item" data-tab="wtbm_sales_report">
-                            <i class="mi mi-chart-histogram"></i> <?php esc_attr_e( 'Sales Report', 'wptheaterly' ); ?>
+                            <i class="mi mi-chart-histogram"></i> <?php /*esc_attr_e( 'Sales Report', 'wptheaterly' ); */?>
                         </button>
+                    </nav>-->
+
+                    <nav class="nav-menu">
+
+                        <button class="nav-item <?php echo ($current_tab == 'wtbm_movies') ? 'active' : ''; ?>" data-tab="wtbm_movies">
+                            <i class="mi mi-films"></i> <?php esc_attr_e('Movies', 'wptheaterly'); ?>
+                        </button>
+
+                        <button class="nav-item <?php echo ($current_tab == 'wtbm_theaters') ? 'active' : ''; ?>" data-tab="wtbm_theaters">
+                            <i class="mi mi-bank"></i> <?php esc_attr_e('Theaters', 'wptheaterly'); ?>
+                        </button>
+
+                        <button class="nav-item <?php echo ($current_tab == 'wtbm_showtimes') ? 'active' : ''; ?>" data-tab="wtbm_showtimes">
+                            <i class="mi mi-calendar-clock"></i> <?php esc_attr_e('Showtimes', 'wptheaterly'); ?>
+                        </button>
+
+                        <button class="nav-item <?php echo ($current_tab == 'wtbm_pricing') ? 'active' : ''; ?>" data-tab="wtbm_pricing">
+                            <i class="mi mi-coins"></i> <?php esc_attr_e('Pricing', 'wptheaterly'); ?>
+                        </button>
+
+                        <button class="nav-item <?php echo ($current_tab == 'wtbm_bookings') ? 'active' : ''; ?>" data-tab="wtbm_bookings">
+                            <i class="mi mi-calendar-check"></i> <?php esc_attr_e('Bookings', 'wptheaterly'); ?>
+                        </button>
+
+                        <button class="nav-item <?php echo ($current_tab == 'wtbm_new_ticket_sale') ? 'active' : ''; ?>" data-tab="wtbm_new_ticket_sale">
+                            <i class="mi mi-ticket"></i> <?php esc_attr_e('New Ticket Sale', 'wptheaterly'); ?>
+                        </button>
+
+                        <button class="nav-item <?php echo ($current_tab == 'wtbm_sales_report') ? 'active' : ''; ?>" data-tab="wtbm_sales_report">
+                            <i class="mi mi-chart-histogram"></i> <?php esc_attr_e('Sales Report', 'wptheaterly'); ?>
+                        </button>
+
                     </nav>
                 </div>
 
                 <!-- Main Content -->
                 <div class="main-content">
- <?php if( ! function_exists( 'Mage_PDF_Support_init' ) ) { ?> 
-    
-<div id="wtbm-dialog-container" style="display:none;" title="Required Component Missing">
-    <p><strong>MagePeople PDF Support</strong> is required to generate and download PDF tickets.</p>
-    <div style="text-align: right; margin-top: 20px;">
-        <button class="button button-primary" id="wtbm-install-pdf-btn" data-nonce="<?php echo wp_create_nonce('wtbm_installer_nonce'); ?>">
-            <?php esc_html_e('Install PDF Support', 'wptransitly'); ?>
-        </button>
-        <span class="spinner" style="float:none;"></span>
-    </div>
-</div>
-<?php } ?>
+                 <?php if( ! function_exists( 'Mage_PDF_Support_init' ) ) { ?>
+
+                <div id="wtbm-dialog-container" style="display:none;" title="Required Component Missing">
+                    <p><strong>MagePeople PDF Support</strong> is required to generate and download PDF tickets.</p>
+                    <div style="text-align: right; margin-top: 20px;">
+                        <button class="button button-primary" id="wtbm-install-pdf-btn" data-nonce="<?php echo wp_create_nonce('wtbm_installer_nonce'); ?>">
+                            <?php esc_html_e('Install PDF Support', 'wptransitly'); ?>
+                        </button>
+                        <span class="spinner" style="float:none;"></span>
+                    </div>
+                </div>
+                <?php } ?>
                     <?php do_action( 'wtbm_movie_content');?>
                     <!-- Movies Tab -->
-                    <div id="wtbm_movies_content" class="tab-content active">
+                    <div id="wtbm_movies_content" class="tab-content <?php echo ($current_tab == 'wtbm_movies') ? 'active' : ''; ?>">
                         <div class="section">
                             <div class="movie_section_header" ">
                                 <div class="" style="display: flex; justify-content: space-between">
@@ -151,7 +187,7 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                     </div>
 
                     <!-- Theaters Tab -->
-                    <div id="wtbm_theaters_content" class="tab-content">
+                    <div id="wtbm_theaters_content" class="tab-content <?php echo ($current_tab == 'wtbm_theaters') ? 'active' : ''; ?>">
                         <div class="section">
                             <div class="section-header">
                                 <h3 class="section-title"><?php esc_attr_e( 'Theater Management', 'wptheaterly' ); ?></h3>
@@ -162,7 +198,7 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                         </div>
 
                         <!-- Add Theater Form -->
-                        <div id="wtbmAddTheaterForm" class="form-section" style="display: none">
+                        <div id="wtbmAddTheaterForm" class="form-section <?php echo ($current_tab == 'wtbm_movies') ? 'active' : ''; ?>" style="display: none">
                             <!--Here-->
                             <?php
 //                                echo WTBM_Layout_Functions::add_edit_theater_html( 'add', '' );
@@ -195,7 +231,7 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                     </div>
 
                     <!-- Showtimes Tab -->
-                    <div id="wtbm_showtimes_content" class="tab-content">
+                    <div id="wtbm_showtimes_content" class="tab-content <?php echo ($current_tab == 'wtbm_showtimes') ? 'active' : ''; ?>">
                         <div class="section">
                             <div class="section-header">
                                 <h3 class="section-title"><?php esc_attr_e( 'Showtimes Management', 'wptheaterly' ); ?></h3>
@@ -237,7 +273,7 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                     </div>
 
                     <!-- Pricing Tab -->
-                    <div id="wtbm_pricing_content" class="tab-content">
+                    <div id="wtbm_pricing_content" class="tab-content <?php echo ($current_tab == 'wtbm_pricing') ? 'active' : ''; ?>">
                         <div class="section">
                             <div class="section-header">
                                 <h3 class="section-title"><?php esc_attr_e( 'Pricing Rules', 'wptheaterly' ); ?></h3>
@@ -273,11 +309,11 @@ if( !class_exists( 'WTBM_Menu' ) ) {
 
                     <!-- Bookings Tab -->
                     <?php
-                        do_action( 'wtbm_bookings_content', 'Booking Management' );
+                        do_action( 'wtbm_bookings_content', 'Booking Management', $current_tab );
 
-                        do_action( 'wtbm_new_ticket_booking', 'New Ticket Booking' );
+                        do_action( 'wtbm_new_ticket_booking', 'New Ticket Booking', $current_tab );
 
-                        do_action( 'wtbm_sales_report', 'Sales Report' );
+                        do_action( 'wtbm_sales_report', 'Sales Report', $current_tab );
                     ?>
 
                 </div>

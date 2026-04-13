@@ -6,7 +6,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
     class WTBM_Booking_Content{
 
         public function __construct(){
-            add_action( 'wtbm_bookings_content', [$this, 'my_bookings_content_handler'], 10, 1 );
+            add_action( 'wtbm_bookings_content', [$this, 'my_bookings_content_handler'], 10, 2 );
             add_action( 'wtbm_booking_header', [$this, 'wtbm_booking_header_display'], 10, 1 );
             add_action( 'wtbm_booking_filter', [$this, 'wtbm_booking_filter_display'], 10, 1 );
 
@@ -66,7 +66,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
             ));
         }
 
-        public function my_bookings_content_handler( $header_title ){
+        public function my_bookings_content_handler( $header_title, $current_tab ){
 
             /*$args = array(
                 'post_type'      => 'wtbm_booking',
@@ -107,7 +107,7 @@ if( !class_exists( 'WTBM_Booking_Content' ) ){
             $filter_data = [];
 
             ?>
-            <div id="wtbm_bookings_content" class="tab-content">
+            <div id="wtbm_bookings_content" class="tab-content <?php echo ($current_tab == 'wtbm_bookings') ? 'active' : ''; ?>">
                 <?php
                 do_action('wtbm_booking_header', $header_data );
                 ?>
