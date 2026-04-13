@@ -155,7 +155,9 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                     ?>
 
                     <div class="section" id="wtbm_movieSection">
-                        <?php WTBM_Details_Layout::display_date_wise_movies() ;?>
+                        <?php
+                        $screening_status = 'showing';
+                        WTBM_Details_Layout::display_date_wise_movies( $screening_status ) ;?>
                     </div>
 
                     <div class="section" id="wtbm_hallSection" style="display: none">

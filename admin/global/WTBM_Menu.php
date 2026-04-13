@@ -172,6 +172,7 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                                     <th><?php esc_attr_e( 'Duration', 'wptheaterly' ); ?></th>
                                     <th><?php esc_attr_e( 'Rating', 'wptheaterly' ); ?></th>
                                     <th><?php esc_attr_e( 'Status', 'wptheaterly' ); ?></th>
+                                    <th><?php esc_attr_e( 'Screening Status', 'wptheaterly' ); ?></th>
                                     <th><?php esc_attr_e( 'Actions', 'wptheaterly' ); ?></th>
                                 </tr>
                                 </thead>

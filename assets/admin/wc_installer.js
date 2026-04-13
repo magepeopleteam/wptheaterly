@@ -1,7 +1,7 @@
 jQuery(document).ready(function($) {
 
     // 1. Initialize the Dialog
-    var $dialog = $("#wtbm-dialog-container").dialog({
+    /*var $dialog = $("#wtbm-dialog-container").dialog({
         autoOpen: true,
         modal: true,
         width: 400,
@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
         open: function(event, ui) {
             $(".ui-dialog-titlebar-close", ui.dialog || ui).hide();
         }
-    });
+    });*/
 
     // 2. Handle the Installation
     $('#wtbm-install-btn').on('click', function(e) {

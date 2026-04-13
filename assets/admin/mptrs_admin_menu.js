@@ -364,6 +364,7 @@
             poster: $("#movie-poster").val(),
             poster_id: $("#wtbm_movie_poster_id").val(),
             description: $("#movie-description").val(),
+            movie_status: $("#wtbm_movie_status").val(),
             status: "publish",
             _ajax_nonce: mptrs_admin_ajax.nonce
         };

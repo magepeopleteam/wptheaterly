@@ -45,6 +45,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     'poster'            => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
                     'poster_image_url'  => esc_url( wp_get_attachment_url( $poster_id ) ),
                     'poster_id'         => get_post_meta( get_the_ID(), 'wtbp_movie_poster_id', true ),
+                    'screening_status'  => get_post_meta( get_the_ID(), 'wtbp_movie_status', true ),
                     'status'            => get_post_meta( get_the_ID(), 'wtbp_movie_active', true ) == 'true' ? 'active' : 'inactive',
 
                 ];
@@ -88,6 +89,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     'director'      => get_post_meta( get_the_ID(), 'wtbp_movie_director', true ) ?: false,
                     'actor_actress' => get_post_meta( get_the_ID(), 'wtbp_movie_actors', true ) ?: false,
                     'movie_writer'  => get_post_meta( get_the_ID(), 'wtbp_movie_writer', true ) ?: false,
+                    'movie_status'  => get_post_meta( get_the_ID(), 'wtbp_movie_status', true ) ?: false,
                 ];
             }
             wp_reset_postdata();
@@ -348,6 +350,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 'director'    => '',
                 'actor_actress' => '',
                 'movie_writer'  => '',
+                'movie_status'  => '',
             ];
             $data = wp_parse_args( $data, $defaults );
             $post_id = $data['id'];
@@ -407,6 +410,18 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <input type="text" id="movie_writer" class="form-input" step="0.1"
                                placeholder="<?php esc_attr_e( 'Actor Actress name', 'wptheaterly' ); ?>"
                                value="<?php echo esc_attr( $data['movie_writer'] ); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php esc_html_e( 'Movie Status', 'wptheaterly' ); ?></label>
+                        <select id="wtbm_movie_status" name="wtbm_movie_status">
+                            <option value="showing" <?php selected($data['movie_status'], 'showing'); ?>>
+                                <?php esc_attr_e('Showing', 'wptheaterly'); ?>
+                            </option>
+                            <option value="coming_soon" <?php selected($data['movie_status'], 'coming_soon'); ?>>
+                                <?php esc_attr_e('Coming Soon', 'wptheaterly'); ?>
+                            </option>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -490,6 +505,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     'poster_image_url'  => '',
                     'poster'            => 'https://via.placeholder.com/200x300/4A90E2/ffffff?text=No+Poster',
                     'status'            => 'active',
+                    'screening_status'  => 'showing',
                 ];
                 $movie = wp_parse_args( $movie, $defaults );
 
@@ -504,6 +520,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $poster         = esc_url( $movie['poster'] );
                 $poster_img_url = esc_url( $movie['poster_image_url'] );
                 $status         = esc_html( $movie['status'] );
+                $screening_status  = esc_html( $movie['screening_status'] );
 
                 $shortcode = '[wtbm_single_movie_booking movie_id='.$id.']';
 
@@ -540,9 +557,14 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <td class="text-sm text-gray-900"><?php echo esc_html( $duration) ; ?></td>
                     <td class="text-sm font-medium">⭐ <?php echo esc_html( $rating ); ?></td>
                     <td>
-                <span class="status-badge status-<?php echo esc_attr( strtolower( $status ) ); ?>">
-                    <?php echo esc_attr( $status); ?>
-                </span>
+                        <span class="status-badge status-<?php echo esc_attr( strtolower( $status ) ); ?>">
+                            <?php echo esc_attr( $status); ?>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge status-<?php echo esc_attr( strtolower( $screening_status ) ); ?>">
+                            <?php echo esc_attr( $screening_status); ?>
+                        </span>
                     </td>
                     <td>
                         <div class="flex gap-2">
@@ -1036,6 +1058,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $movie_genre = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_genre', '');
                 $movie_director = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_director', '');
                 $wtbp_movie_actors = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_actors', '');
+                $wtbp_screening_status = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_status', '');
 //                    $date = '2026-02-02';
                 $date = gmdate("Y-m-d");
                 $theater_show_times = WTBM_Details_Layout::display_theater_show_time_single_movie( $movie_id, $date );
@@ -1047,7 +1070,11 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
                 ?>
                 <div class="wtbm_single_movie_wrapper">
+                <?php if( $wtbp_screening_status === 'showing' ){ ?>
                     <div class="wtbm-single-movie-content">
+                        <?php } else{?>
+                            <div class="wtbm-single-movie-content" style="margin: auto;">
+                        <?php }?>
                         <div class="wtbm_movieActive" style="visibility: hidden;"
                             data-movie-id="<?php echo esc_attr( $movie_id ); ?>">
                         </div>
@@ -1101,7 +1128,9 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             </div>
 
                         </div>
-                        <?php }?>
+                        <?php }
+                        if( $wtbp_screening_status === 'showing' ){
+                        ?>
 
                         <div class="wtbm_single_movie_select_date">
                             <div class="wtbm_single_movie_section_title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></div>
@@ -1126,7 +1155,11 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             <div class="wtbm_single_movie_screen_bar"></div>
                             <div class="wtbm_single_movie_seats" id="wtbm_single_movie_seats"></div>
                         </div>
+                        <?php }else{?>
+                            <div class=" wtbm_up_coming_movie"></div>
+                        <?php }?>
                     </div>
+                    <?php if( $wtbp_screening_status === 'showing' ){ ?>
                     <div class="wtbm_single_movie_card" id="wtbm_single_movie_booking_card">
                         <div class="wtbm_single_movie_summary">
                             <div class="wtbm_singleRegistrationSidebar" id="wtbm_registrationSidebar">
@@ -1196,13 +1229,14 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>
                         </div>
                     </div>
+                    <?php }?>
                 </div>
 
                 <?php
             }
         }
 
-        public static function display_running_movie_data( $date, $view, $list_grid_btn, $columns = 3 ){
+        public static function display_running_movie_data( $date, $view, $list_grid_btn, $screening_status, $columns = 3 ){
 
             if( !$date ){
                 $date_formatted = current_time( 'Y-m-d' );
@@ -1210,7 +1244,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $date_formatted = gmdate('Y-m-d', $date);
             }
 
-            $movie_ids = WTBM_Details_Layout::get_wtbm_show_time_movie_ids_by_date( $date_formatted );
+            $movie_ids = WTBM_Details_Layout::get_wtbm_show_time_movie_ids_by_date( $screening_status, $date_formatted );
             $movie_data = [];
 
             if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
@@ -1226,6 +1260,74 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <div class="wtbm_show_movie_content">
                         <?php if( $list_grid_btn === 'yes' ){?>
                             <div class="wtbm_show_movie_controls">
+                                <button class="wtbm_show_movie_toggle <?php echo ( $view === 'grid' ) ? 'active' : ''; ?>" data-view="grid">
+                                    <?php esc_attr_e( 'Grid', 'wptheaterly' );?>
+                                </button>
+                                <button class="wtbm_show_movie_toggle <?php echo ( $view === 'list' ) ? 'active' : ''; ?>" data-view="list">
+                                    <?php esc_attr_e( 'List', 'wptheaterly' );?>
+                                </button>
+                            </div>
+                        <?php }?>
+
+                        <div class="wtbm_show_movie_list <?php echo esc_html( $list_grid );?>">
+
+                            <?php
+                             foreach ( $movie_data as $i => $movie ): ?>
+                                 <div class="wtbm_show_movie_card" data-genre="action" style="display: none"
+                                     data-movie-id="<?php echo esc_attr( $movie['movie_id'] );?>">
+                                     <div class="wtbm_show_image">
+                                         <a href="<?php echo esc_url( $movie['permalink'] );?>" target="_blank">
+                                            <?php if( $movie['poster_image_url'] ){?>
+                                                <img src="<?php echo esc_attr( $movie['poster_image_url'] );?>" alt="<?php echo esc_attr( $movie['title'] );?>" >
+                                            <?php }else{?>
+                                                🎬
+                                            <?php }?>
+                                        </a>
+                                     </div>
+                                    <div class="wtbm_show_movie_info">
+                                        <h2 class="wtbm_booking_movies_title" style="text-decoration: none"><?php echo esc_attr( $movie['title'] );?></h2>
+                                        <div class="wtbm_movie_desc" style="text-decoration: none"><?php echo esc_html( $movie['movie_description']  );?></div>
+                                        <div class="wtbm_booking_movies_details">
+                                            <?php esc_html_e( 'Duration', 'wptheaterly' );?> - <?php echo esc_html( $movie['movie_duration'] );?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <button class="wtbm_show_movie_loadmore" style="display: none"><?php esc_attr_e( 'Load More', 'wptheaterly' );?></button>
+                    </div>
+                </div>
+                <?php
+            }else{ ?>
+                <div class="wtbm_empty_movie"><?php esc_attr_e( 'No Movie Found', 'wptheaterly' );?></div>
+        <?php
+            }
+        }
+
+        public static function display_up_coming_movie_data( $date, $view, $list_grid_btn, $screening_status, $columns = 3 ){
+
+            if( !$date ){
+                $date_formatted = current_time( 'Y-m-d' );
+            }else{
+                $date_formatted = gmdate('Y-m-d', $date);
+            }
+
+            $movie_ids = WTBM_Details_Layout::get_wtbm_show_time_movie_ids_by_date( $screening_status, $date_formatted );
+            $movie_data = [];
+
+            if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
+                $movie_data = WTBM_Details_Layout::get_movies_data_by_ids( $movie_ids );
+
+                if( $view === 'grid' ){
+                    $list_grid = 'grid-view';
+                }else{
+                    $list_grid = 'list-view';
+                }
+                ?>
+                <div class="wtbm_show_movie_wrapper" data-columns="<?php echo esc_attr( $columns );?>">
+                    <div class="wtbm_show_movie_content">
+                        <?php if( $list_grid_btn === 'yes' ){?>
+                            <div class="wtbm_show_movie_controls" style="display: none">
                                 <button class="wtbm_show_movie_toggle <?php echo ( $view === 'grid' ) ? 'active' : ''; ?>" data-view="grid">
                                     <?php esc_attr_e( 'Grid', 'wptheaterly' );?>
                                 </button>

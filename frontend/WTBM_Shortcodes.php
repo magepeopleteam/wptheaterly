@@ -13,6 +13,7 @@
 //                add_shortcode( 'wtbm_get_movies_by_theater', array( $this, 'get_movies_by_theater' ) ); pending
                 add_shortcode('wtbm_single_movie_booking', array( $this, 'single_movie_booking' ) );
                 add_shortcode('wtbm_display_running_movie', array( $this, 'display_running_movie' ) );
+                add_shortcode('wtbm_display_upcoming_movie', array( $this, 'display_upcoming_movie' ) );
 			}
 
             function get_movies_by_theater( $attr ) {
@@ -43,9 +44,22 @@
                 $date = isset( $attr['date'] ) ? $attr['date'] : '';
                 $number_column = isset( $attr['column'] ) ? $attr['column'] : 3;
                 $view = isset( $attr['view'] ) ? $attr['view'] : 'grid';
+                $screening_status = isset( $attr['screening_status'] ) ? $attr['screening_status'] : 'showing';
                 $list_grid_btn = isset( $attr['list_grid_btn'] ) ? $attr['list_grid_btn'] : 'yes';
                 ob_start();
-                WTBM_Layout_Functions::display_running_movie_data( $date, $view, $list_grid_btn, $number_column );
+                WTBM_Layout_Functions::display_running_movie_data( $date, $view, $list_grid_btn, $screening_status, $number_column );
+
+                return ob_get_clean();
+            }
+            function display_upcoming_movie( $attr ) {
+
+                $date = isset( $attr['date'] ) ? $attr['date'] : '';
+                $number_column = isset( $attr['column'] ) ? $attr['column'] : 3;
+                $view = isset( $attr['view'] ) ? $attr['view'] : 'grid';
+                $screening_status = isset( $attr['screening_status'] ) ? $attr['screening_status'] : 'coming_soon';
+                $list_grid_btn = isset( $attr['list_grid_btn'] ) ? $attr['list_grid_btn'] : 'yes';
+                ob_start();
+                WTBM_Layout_Functions::display_up_coming_movie_data( $date, $view, $list_grid_btn, $screening_status, $number_column );
 
                 return ob_get_clean();
             }
@@ -75,7 +89,9 @@
                         ?>
 
                         <div class="section" id="wtbm_movieSection">
-                            <?php WTBM_Details_Layout::display_date_wise_movies() ;?>
+                            <?php
+                            $screening_status = 'showing';
+                            WTBM_Details_Layout::display_date_wise_movies( $screening_status ) ;?>
                         </div>
 
                         <div class="section" id="wtbm_hallSection" style="display: none">

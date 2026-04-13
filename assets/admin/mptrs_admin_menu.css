@@ -383,6 +383,15 @@
     background-color: #fef3c7;
     color: #92400e;
 }
+.status-coming_soon {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-showing {
+    background-color: #dcfce7;
+    color: #166534;
+}
 
 .status-paid {
     background-color: #dcfce7;
