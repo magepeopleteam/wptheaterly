@@ -154,18 +154,18 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                     WTBM_Details_Layout::booking_date_display();
                     ?>
 
-                    <div class="section" id="wtbm_movieSection">
+                    <div class="section wtbm_movieSection" id="wtbm_movieSection">
                         <?php
                         $screening_status = 'showing';
                         WTBM_Details_Layout::display_date_wise_movies( $screening_status ) ;?>
                     </div>
 
-                    <div class="section" id="wtbm_hallSection" style="display: none">
+                    <div class="section wtbm_hallSection" id="wtbm_hallSection" style="display: none">
                         <h2 class="section-title"><?php esc_attr_e( 'Select Show Time', 'wptheaterly' );?></h2>
                         <div class="halls-list" id="wtbm_displayHallsList">
                         </div>
                     </div>
-
+                    
                     <div class="wtbm_seat_loader" id="wtbm_seat_loader" style="display: none"></div>
 
                     <div class="section" id="wtbm_seatSection" style="display: none">
