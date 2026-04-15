@@ -76,8 +76,9 @@
                 return ob_get_clean();
             }
 
-            public static function display_date_wise_movies( $date = '' ){
-                $movie_ids = self::get_wtbm_show_time_movie_ids_by_date( $date );
+            public static function display_date_wise_movies( $screening_status ,$date = '' ){
+
+                $movie_ids = self::get_wtbm_show_time_movie_ids_by_date( $screening_status, $date );
 
                 $output = '';
 
@@ -164,7 +165,9 @@
             }
 
             public static function display_date_wise_movies_ajax( $date = '' ){
-                $movie_ids = self::get_wtbm_show_time_movie_ids_by_date( $date );
+
+                $screening_status = 'showing';
+                $movie_ids = self::get_wtbm_show_time_movie_ids_by_date( $screening_status, $date );
                 $output = '';
 
                 if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
@@ -306,24 +309,12 @@
 
                 return $movies_data;
             }
-            public static function get_wtbm_show_time_movie_ids_by_date( $date = '' ) {
+            public static function get_wtbm_show_time_movie_ids_by_date( $screening_status, $date = '' ) {
                 global $wpdb;
                 if ( empty( $date ) ) {
                     $date = current_time( 'Y-m-d' );
                 }
-                /*$args = array(
-                    'post_type'      => 'wtbm_show_time',
-                    'post_status'    => 'publish',
-                    'posts_per_page' => -1,
-                    'meta_query'     => array(
-                        array(
-                            'key'     => 'wtbp_show_time_date',
-                            'value'   => $date,
-                            'compare' => '=',
-                            'type'    => 'DATE',
-                        ),
-                    ),
-                );*/
+
                 $args = array(
                     'post_type'      => 'wtbm_show_time',
                     'post_status'    => 'publish',
@@ -353,7 +344,13 @@
                     while ( $query->have_posts() ) {
                         $query->the_post();
                         $movie_id = get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true );
-                        if ( ! empty( $movie_id ) ) {
+                        $movie_active_status = get_post_meta( $movie_id, 'wtbp_movie_active', true );
+                        $movie_show_status = get_post_meta( $movie_id, 'wtbp_movie_status', true );
+                        if( !$movie_show_status ){
+                            $movie_show_status = 'showing';
+                        }
+
+                        if ( ! empty( $movie_id ) && $movie_active_status === 'true' && $movie_show_status == $screening_status ) {
                             $movie_id = intval( $movie_id );
                             if ( ! in_array( $movie_id, $movie_ids, true ) ) {
                                 $movie_ids[] = $movie_id;
@@ -481,17 +478,22 @@
             }
 
             public static function get_movie_ids_by_theater( $theater_id ){
-
                 $args = array(
                     'post_type'      => 'wtbm_show_time', // change to your CPT if different
                     'posts_per_page' => -1,
                     'fields'         => 'ids',
                     'meta_query'     => array(
+                        'relation' => 'AND',
                         array(
                             'key'     => 'wtbp_show_time_theaterId',
                             'value'   => $theater_id,
                             'compare' => '='
-                        )
+                        ),
+                        array(
+                            'key'     => 'wtbp_movie_status',
+                            'value'   => 'showing',
+                            'compare' => '=='
+                        ),
                     )
                 );
 

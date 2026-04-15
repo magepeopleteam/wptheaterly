@@ -39,9 +39,17 @@
         $('.nav-item').removeClass('active');
         $('.tab-content').hide();
         let nav_name = $(this).attr('data-tab').trim();
+        // alert( nav_name );
         let nav_container = nav_name+'_content';
         $("#"+nav_container).fadeIn();
         $(this).addClass('active');
+
+
+        let url = new URL(window.location.href);
+        url.searchParams.set('tab_name', nav_name);
+
+        // Update URL without reloading
+        window.history.pushState({}, '', url);
         let alreadyLoadedBookingIds = [];
 
         /*if( nav_name === 'wtbm_bookings' ){
@@ -356,6 +364,7 @@
             poster: $("#movie-poster").val(),
             poster_id: $("#wtbm_movie_poster_id").val(),
             description: $("#movie-description").val(),
+            movie_status: $("#wtbm_movie_status").val(),
             status: "publish",
             _ajax_nonce: mptrs_admin_ajax.nonce
         };

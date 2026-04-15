@@ -74,6 +74,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
             $director      = isset( $_POST['director'] ) ? sanitize_textarea_field( wp_unslash( $_POST['director'] ) ) : '';
             $actor_actress = isset( $_POST['actor_actress'] ) ? sanitize_textarea_field( wp_unslash( $_POST['actor_actress'] ) ) : '';
             $writer        = isset( $_POST['writer'] ) ? sanitize_textarea_field( wp_unslash( $_POST['writer'] ) ) : '';
+            $movie_status        = isset( $_POST['movie_status'] ) ? sanitize_textarea_field( wp_unslash( $_POST['movie_status'] ) ) : '';
 
             $post_id = wp_insert_post([
                 'post_title'   => $title,
@@ -94,6 +95,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 update_post_meta($post_id, 'wtbp_movie_director', $director);
                 update_post_meta($post_id, 'wtbp_movie_actors', $actor_actress);
                 update_post_meta($post_id, 'wtbp_movie_writer', $writer);
+                update_post_meta($post_id, 'wtbp_movie_status', $movie_status);
 
 
                 $added_movie[0] = array(
@@ -139,6 +141,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
             $director      = isset( $_POST['director'] ) ? sanitize_textarea_field( wp_unslash( $_POST['director'] ) ) : '';
             $actor_actress = isset( $_POST['actor_actress'] ) ? sanitize_textarea_field( wp_unslash( $_POST['actor_actress'] ) ) : '';
             $writer        = isset( $_POST['writer'] ) ? sanitize_textarea_field( wp_unslash( $_POST['writer'] ) ) : '';
+            $movie_status        = isset( $_POST['movie_status'] ) ? sanitize_textarea_field( wp_unslash( $_POST['movie_status'] ) ) : '';
             $post_data = [
                 'post_title'   => $title,
                 'post_type'    => $cpt,
@@ -160,6 +163,8 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 update_post_meta( $post_id, 'wtbp_movie_director', $director );
                 update_post_meta( $post_id, 'wtbp_movie_actors', $actor_actress );
                 update_post_meta( $post_id, 'wtbp_movie_writer', $writer );
+
+                update_post_meta( $post_id, 'wtbp_movie_status', $movie_status );
 
                 $status = 'inactive';
                 if( $active === 'true' ){

@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
     class WTBM_New_Ticket_Booking{
         public function __construct(){
-            add_action( 'wtbm_new_ticket_booking', array( $this, 'new_ticket_booking_display' ), 10, 1 );
+            add_action( 'wtbm_new_ticket_booking', array( $this, 'new_ticket_booking_display' ), 10, 2 );
 
 
             add_action( 'wp_ajax_wtbm_theater_ticket_booking_admin', [ $this, 'wtbm_theater_ticket_booking_admin' ] );
@@ -128,10 +128,10 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
 
 
 
-        public function new_ticket_booking_display( $args ){
+        public function new_ticket_booking_display( $args, $current_tab ){
 
             ?>
-            <div id="wtbm_new_ticket_sale_content" class="tab-content">
+            <div id="wtbm_new_ticket_sale_content" class="tab-content <?php echo ($current_tab == 'wtbm_new_ticket_sale') ? 'active' : ''; ?>">
                 <div class="section">
                     <div class="section-header">
                         <h3 class="section-title"><?php esc_attr_e( 'New Ticket Sale', 'wptheaterly' ); ?></h3>
@@ -155,7 +155,9 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                     ?>
 
                     <div class="section" id="wtbm_movieSection">
-                        <?php WTBM_Details_Layout::display_date_wise_movies() ;?>
+                        <?php
+                        $screening_status = 'showing';
+                        WTBM_Details_Layout::display_date_wise_movies( $screening_status ) ;?>
                     </div>
 
                     <div class="section" id="wtbm_hallSection" style="display: none">

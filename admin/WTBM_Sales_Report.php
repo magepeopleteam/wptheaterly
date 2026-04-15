@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
     class WTBM_Sales_Report{
         public function __construct(){
-            add_action('wtbm_sales_report', [ $this, 'sales_report_display' ]);
+            add_action('wtbm_sales_report', [ $this, 'sales_report_display' ], 10, 2);
 
         }
 
@@ -368,7 +368,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
         }
 
 
-        public function sales_report_display(){
+        public function sales_report_display( $content_title ,$current_tab ){
             $today = 'today';
             $week = 'week';
             $date = gmdate( 'Y-m-d' );
@@ -394,7 +394,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
 
             ?>
 
-            <div id="wtbm_sales_report_content"  class="tab-content">
+            <div id="wtbm_sales_report_content"  class="tab-content <?php echo ($current_tab == 'wtbm_sales_report') ? 'active' : ''; ?>">
                         <div class="mb-6">
                             <h2 class="text-2xl font-bold text-gray-900"><?php esc_attr_e( 'Sales Report', 'wptheaterly' );?></h2>
                             <p class="text-gray-600"><?php esc_attr_e( 'View sales analytics and generate detailed reports', 'wptheaterly' );?></p>
