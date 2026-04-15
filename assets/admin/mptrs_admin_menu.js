@@ -1340,5 +1340,33 @@
 
     });
 
+    $('#movieFilter, #theaterFilter').on('change', function () {
+
+        var movieId = $('#movieFilter').val();
+        var theaterId = $('#theaterFilter').val();
+
+        $('.wtbm_show_time_data').each(function () {
+
+            var itemMovie = $(this).data('filter-movie-id');
+            var itemTheater = $(this).data('filter-theater-id');
+
+            var matchMovie = (movieId === "" || itemMovie == movieId);
+            var matchTheater = (theaterId === "" || itemTheater == theaterId);
+
+            if (matchMovie && matchTheater) {
+                $(this).stop(true, true).fadeIn(300);
+            } else {
+                $(this).stop(true, true).fadeOut(300);
+            }
+
+        });
+
+    });
+
+    $('#wtbm_show_time_resetFilter').click(function () {
+        $('#movieFilter, #theaterFilter').val('');
+        $('.wtbm_show_time_data').fadeIn(250);
+    });
+
 
 }(jQuery));
