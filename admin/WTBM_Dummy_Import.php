@@ -140,6 +140,7 @@
 							'meta_data' => [
 								'wtbp_movie_release_date' => '2020-12-05',
 								'wtbp_movie_genre'        => 'Comedy',
+								'wtbm_movie_status'			=>'showing',
 								'wtbp_movie_duration'     => '1h 45m',
 								'wtbp_movie_director'     => 'John Doe',
 								'wtbp_movie_actors'       => 'Jane Smith, Bob Johnson',
@@ -155,6 +156,7 @@
 							'meta_data' => [
 								'wtbp_movie_release_date' => '2021-08-20',
 								'wtbp_movie_genre'        => 'Sports',
+								'wtbm_movie_status'        => 'showing',
 								'wtbp_movie_duration'     => '1h 58m',
 								'wtbp_movie_director'     => 'Michael Green',
 								'wtbp_movie_actors'       => 'Tom Hardy, Chris Evans',
@@ -170,6 +172,7 @@
 							'meta_data' => [
 								'wtbp_movie_release_date' => '2024-06-01',
 								'wtbp_movie_genre'        => 'Sci-Fi',
+								'wtbm_movie_status'        => 'showing',
 								'wtbp_movie_duration'     => '2h 20m',
 								'wtbp_movie_director'     => 'Samantha Lee',
 								'wtbp_movie_actors'       => 'Keanu Reeves, Emma Stone',
@@ -185,6 +188,7 @@
 							'meta_data' => [
 								'wtbp_movie_release_date' => '2019-09-09',
 								'wtbp_movie_genre'        => 'History',
+								'wtbm_movie_status'        => 'showing',
 								'wtbp_movie_duration'     => '2h 50m',
 								'wtbp_movie_director'     => 'Robert Martin',
 								'wtbp_movie_actors'       => 'Matt Damon, Scarlett Johansson',
@@ -200,6 +204,7 @@
 							'meta_data' => [
 								'wtbp_movie_release_date' => '2023-02-14',
 								'wtbp_movie_genre'        => 'Romance',
+								'wtbm_movie_status'        => 'showing',
 								'wtbp_movie_duration'     => '2h 25m',
 								'wtbp_movie_director'     => 'Natalie Portman',
 								'wtbp_movie_actors'       => 'Ryan Gosling, Emma Watson',
@@ -215,6 +220,7 @@
 							'meta_data' => [
 								'wtbp_movie_release_date' => '2022-05-18',
 								'wtbp_movie_genre'        => 'Action',
+								'wtbm_movie_status'        => 'showing',
 								'wtbp_movie_duration'     => '2h 10m',
 								'wtbp_movie_director'     => 'Chris Nolan',
 								'wtbp_movie_actors'       => 'Tom Cruise, Gal Gadot',
