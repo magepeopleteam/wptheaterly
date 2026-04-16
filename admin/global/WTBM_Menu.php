@@ -223,7 +223,6 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                                     <!--Here Theater Data-->
                                 <?php
                                     $theater_data = WTBM_Layout_Functions::get_and_display_theater_date();
-//                                    error_log( print_r( [ '$theater_data' => $theater_data ], true ) );
                                     echo wp_kses_post( WTBM_Layout_Functions::display_theater_date( $theater_data ) );
                                 ?>
                                 </tbody>
@@ -251,7 +250,20 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                         </div>
 
                         <!-- Showtimes Table -->
+
+
                         <div class="section">
+                            <?php
+                            $show_time_data = WTBM_Layout_Functions::get_show_time_data();
+                            $filter_movie_theater_date = WTBM_Layout_Functions::get_movie_and_theater_from_show_time_data( $show_time_data );
+
+                            $theater_data = $filter_movie_theater_date['theater_data'];
+                            $movies_data = $filter_movie_theater_date['movies_data'];
+                            ?>
+                            <?php
+                            WTBM_Layout_Functions::display_movie_theater_data_show_time_filter( $movies_data, $theater_data );
+                            ?>
+
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -265,7 +277,6 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                                 </thead>
                                 <tbody id="showtimes-table-body">
                                     <?php
-                                        $show_time_data = WTBM_Layout_Functions::get_show_time_data();
                                         echo wp_kses_post( WTBM_Manage_Showtimes::display_show_times_data( $show_time_data ) );
                                     ?>
                                 </tbody>

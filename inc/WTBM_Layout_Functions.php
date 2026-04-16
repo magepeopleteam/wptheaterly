@@ -133,6 +133,106 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
             return $movie_data;
         }
+
+        public static function get_movie_theater_data_by_ids( $post_ids, $cpt_type ) {
+
+            $theaters = [];
+            if( $cpt_type && !empty( $post_ids ) ) {
+
+                if( $cpt_type === 'movie' ){
+                     $cpt = WTBM_Function::get_movie_cpt();
+                }else{
+                    $cpt = WTBM_Function::get_theater_cpt();
+                }
+
+                $args = [
+                    'post_type' => $cpt,
+                    'post_status' => 'publish',
+                    'post__in' => $post_ids,
+                    'posts_per_page' => -1,
+                ];
+
+                $query = new WP_Query($args);
+
+                while ($query->have_posts()) {
+                    $query->the_post();
+                    $theaters[] = [
+                        'id' => get_the_ID(),
+                        'name' => get_the_title(),
+                    ];
+                }
+
+                wp_reset_postdata();
+            }
+
+            return $theaters;
+        }
+
+        public static function display_movie_theater_data_show_time_filter( $movies_data, $theater_data ) {
+
+            ?>
+
+            <div class="wtbm_show_time_filter_box">
+
+                <div class="wtbm_show_time_filter_header">
+                    <span class="wtbm_show_time_filter_icon">🎬</span>
+                    <h3>Filter Show Time</h3>
+                </div>
+                <div class="wtbm_show_time_filter_body">
+                    <div class="wtbm_show_time_filter_group">
+
+                        <label>Movie</label>
+                        <select id="movieFilter" class="wtbm_show_time_filter_select">
+                            <option value="">All Movies</option>
+                            <?php if( !empty( $movies_data ) ){
+                                foreach( $movies_data as $movie_data ){ ?>}
+                                ?>
+                                <option value="<?php echo esc_attr( $movie_data['id'] );?>"> <?php echo esc_attr( $movie_data['name'] );?> </option>
+                            <?php } }?>
+                        </select>
+                    </div>
+                    <div class="wtbm_show_time_filter_group">
+                        <label>Theater</label>
+                        <select id="theaterFilter" class="wtbm_show_time_filter_select">
+                            <option value="">All Theater</option>
+                            <?php if( !empty( $theater_data ) ){
+                                foreach( $theater_data as $theater ){ ?>}
+                                ?>
+                                <option value="<?php echo esc_attr( $theater['id'] );?>"> <?php echo esc_attr( $theater['name'] );?> </option>
+                            <?php } }?>
+                        </select>
+                    </div>
+                    <div class="wtbm_show_time_filter_group">
+                        <button id="wtbm_show_time_resetFilter" class="wtbm_show_time_reset_btn">Reset Filter</button>
+                    </div>
+                </div>
+            </div>
+
+        <?php
+        }
+
+
+          public static function get_movie_and_theater_from_show_time_data( $show_time_data ){
+                $movie_ids = [];
+                $theater_ids = [];
+
+                if( is_array( $show_time_data ) && !empty( $show_time_data ) ) {
+                    foreach ($show_time_data as $item) {
+                        $movie_ids[] = $item['movie_id'];
+                        $theater_ids[] = $item['theater_id'];
+                    }
+
+                    $movie_ids = array_values( array_unique( $movie_ids ) );
+                    $theater_ids = array_values( array_unique( $theater_ids ) );
+
+                }
+
+                return array(
+                        'movies_data' => self::get_movie_theater_data_by_ids( $movie_ids, 'movie' ),
+                        'theater_data' => self::get_movie_theater_data_by_ids( $theater_ids, 'theater' ),
+                );
+            }
+
         public static function get_and_display_theater_date( $limit = -1 ) {
             // WP_Query args
             $args = [

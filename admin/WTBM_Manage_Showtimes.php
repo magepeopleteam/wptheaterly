@@ -402,12 +402,16 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
             return ob_get_clean();
         }
         public static function display_show_times_data( $show_time_data ) {
-            ob_start();
+//            error_log( print_r( [ '$show_time_data' => $show_time_data ], true ) );
 
+            ob_start();
             if ( ! empty( $show_time_data ) && is_array( $show_time_data ) ) {
                 foreach ( $show_time_data as $showtime ) {
                     ?>
-                    <tr id="show_time_content_<?php echo esc_attr( $showtime['id'] );?>">
+                    <tr class="wtbm_show_time_data" id="show_time_content_<?php echo esc_attr( $showtime['id'] );?>"
+                        data-filter-theater-id="<?php echo esc_attr( $showtime['theater_id'])?>"
+                        data-filter-movie-id="<?php echo esc_attr( $showtime['movie_id'])?>"
+                    >
                         <td>
                             <div class="text-sm font-medium text-gray-900">
                                 <?php echo esc_html( $showtime['name'] ); ?>
