@@ -54,7 +54,7 @@
     background-position: center;
     border-radius:14px;
     padding:20px;
-    margin-bottom:10px;
+    margin-bottom:calc(.25em * 12 );
 }
 
 .wtbm_single_movie_select_date{
@@ -69,7 +69,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right,#1a0a2e 40%,var(--mptrs_color_theme) 100%);
+    background: linear-gradient(to right,var(--mptrs_color_theme) 100%, #f3e9ff 40%);
 }
 .wtbm_single_movie_container{
     z-index: 1;
@@ -89,7 +89,7 @@
 .wtbm_single_movie_poster img{
     width: 100%;
     height: auto;
-    max-width: 220px;
+    max-width:120px;
     border: 1px solid #fff;
     border-radius: 8px;
 }

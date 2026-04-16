@@ -17,7 +17,7 @@
 //                ob_start();
                 ?>
                 <div class="wtbm_booking_date_section" id="wtbm_bookingDateSection">
-                    <h2 class="section-title"><i class="mi mi-calendar"></i> <?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
+                    <h2 class="section-title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
                     <div class="wtbm_booking_date_date_selector" id="wtbm_bookingDateSelector">
                         <?php
                         for ( $i = 0; $i < 7; $i++ ) {
@@ -48,6 +48,7 @@
                 ob_start();
                 ?>
                 <div class="wtbm_booking_date_section">
+                    <h2 class="section-title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
                     <div class="wtbm_single_movie_booking_date" id="wtbm_bookingSingleMovieDate">
                         <?php
                         for ( $i = 0; $i < 7; $i++ ) {
@@ -59,12 +60,10 @@
                             $month = $date->format('M');
                             $full  = $date->format('Y-m-d');
                             ?>
-                            <div class="wtbm_single_movie_booking_date_card <?php echo $i === 0 ? 'active' : ''; ?>" data-date="<?php echo esc_attr($full); ?>">
+                            <div class="wtbm_single_movie_booking_date_card wtbm_booking_date_date_card <?php echo $i === 0 ? 'active' : ''; ?>" data-date="<?php echo esc_attr($full); ?>">
                                 <div class="day"><?php echo esc_html($day); ?></div>
-                                <div>
-                                    <span class="date"><?php echo esc_html($dayNo); ?></span>
-                                    <span class="month"><?php echo esc_html($month); ?></span>
-                                </div>
+                                <div class="date"><?php echo esc_html($dayNo); ?></div>
+                                <div class="month"><?php echo esc_html($month); ?></div>
                             </div>
                             <?php
                         }

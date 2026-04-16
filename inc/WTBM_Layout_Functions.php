@@ -1240,27 +1240,31 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         ?>
 
                         <div class="wtbm_single_movie_select_date">
-                            <div class="wtbm_single_movie_section_title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></div>
+                            
                             <div class="wtbm_single_movie_options wtbm_date">
+                                
                                 <?php
                                 echo wp_kses_post( WTBM_Details_Layout::booking_date_display_single_movie( $movie_id ) );
                                 ?>
                             </div>
 
-                            <div class="wtbm_single_movie_section_title"><?php esc_attr_e( 'Select Time', 'wptheaterly' );?></div>
+                            
                             <div class="wtbm_single_movie_options wtbm_time">
-                                <?php
-                                $today_date = gmdate('M d, y');
-                                echo wp_kses_post( $theater_show_times );
-                                ?>
+                                <div class=" section wtbm_hallSection">
+                                    <h2 class="section-title"><?php esc_attr_e( 'Select Time', 'wptheaterly' );?></h2>
+                                    <?php
+                                    $today_date = gmdate('M d, y');
+                                    echo wp_kses_post( $theater_show_times );
+                                    ?>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="">
-                            <div class="wtbm_single_movie_section_title"><?php esc_attr_e( 'Select Your Seats', 'wptheaterly' );?></div>
-                            <div class="wtbm_single_movie_screen"><?php esc_attr_e( 'SCREEN', 'wptheaterly' );?></div>
-                            <div class="wtbm_single_movie_screen_bar"></div>
-                            <div class="wtbm_single_movie_seats" id="wtbm_single_movie_seats"></div>
+                        <h2 class="section-title"><?php esc_attr_e( 'Select Your Seats', 'wptheaterly' );?></h2>            
+                        <div class="wtbm_seat_map">
+                            <div class="screen"><?php esc_attr_e( 'SCREEN', 'wptheaterly' );?></div>
+                            
+                            <div class="wtbm_single_movie_seats wtbm_SeatsGrid" id="wtbm_single_movie_seats"></div>
                         </div>
                         <?php }else{?>
                             <div class=" wtbm_up_coming_movie"></div>
@@ -1269,8 +1273,8 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <?php if( $wtbp_screening_status === 'showing' ){ ?>
                     <div class="wtbm_single_movie_card" id="wtbm_single_movie_booking_card">
                         <div class="wtbm_single_movie_summary">
-                            <div class="wtbm_singleRegistrationSidebar" id="wtbm_registrationSidebar">
-                                <h2 class="section-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
+                            <div class=" wtbm_registrationSidebar" id="wtbm_registrationSidebar">
+                                <h2 class="booking-summary-title"><?php esc_attr_e( 'Booking Summary', 'wptheaterly' );?></h2>
 
                                 <div class="wtbm_registrationSummaryCard">
                                     <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="<?php echo esc_attr( $movie_id );?>">
@@ -1328,13 +1332,14 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                     </div>
 
                                 </div>
+                                <!--                            <button class="wtbm_single_movie_button">COMPLETE BOOKING</button>-->
+                                <button class="wtbm_single_movie_button" id="wtbm_ticketPurchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
+                                <div class="purchase-info">
+                                    <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>
+                                </div>
                             </div>
                         </div>
-                        <!--                            <button class="wtbm_single_movie_button">COMPLETE BOOKING</button>-->
-                        <button class="wtbm_single_movie_button" id="wtbm_ticketPurchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
-                        <div class="purchase-info">
-                            <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>
-                        </div>
+                        
                     </div>
                     <?php }?>
                 </div>
