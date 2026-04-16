@@ -45,7 +45,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     'poster'            => get_post_meta( get_the_ID(), 'wtbp_movie_poster', true ),
                     'poster_image_url'  => esc_url( wp_get_attachment_url( $poster_id ) ),
                     'poster_id'         => get_post_meta( get_the_ID(), 'wtbp_movie_poster_id', true ),
-                    'screening_status'  => get_post_meta( get_the_ID(), 'wtbp_movie_status', true ),
+                    'screening_status'  => get_post_meta( get_the_ID(), 'wtbp_movie_screening_status', true ),
                     'status'            => get_post_meta( get_the_ID(), 'wtbp_movie_active', true ) == 'true' ? 'active' : 'inactive',
 
                 ];
@@ -89,7 +89,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     'director'      => get_post_meta( get_the_ID(), 'wtbp_movie_director', true ) ?: false,
                     'actor_actress' => get_post_meta( get_the_ID(), 'wtbp_movie_actors', true ) ?: false,
                     'movie_writer'  => get_post_meta( get_the_ID(), 'wtbp_movie_writer', true ) ?: false,
-                    'movie_status'  => get_post_meta( get_the_ID(), 'wtbp_movie_status', true ) ?: false,
+                    'movie_status'  => get_post_meta( get_the_ID(), 'wtbp_movie_screening_status', true ) ?: false,
                 ];
             }
             wp_reset_postdata();
@@ -1058,7 +1058,10 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $movie_genre = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_genre', '');
                 $movie_director = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_director', '');
                 $wtbp_movie_actors = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_actors', '');
-                $wtbp_screening_status = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_status', '');
+                $wtbp_screening_status = WTBM_Function::get_post_info( $movie_id, 'wtbp_movie_screening_status', '');
+                if( !$wtbp_screening_status ){
+                    $wtbp_screening_status = 'showing';
+                }
 //                    $date = '2026-02-02';
                 $date = gmdate("Y-m-d");
                 $theater_show_times = WTBM_Details_Layout::display_theater_show_time_single_movie( $movie_id, $date );

@@ -347,7 +347,7 @@
                         $query->the_post();
                         $movie_id = get_post_meta( get_the_ID(), 'wtbp_show_time_movieId', true );
                         $movie_active_status = get_post_meta( $movie_id, 'wtbp_movie_active', true );
-                        $movie_show_status = get_post_meta( $movie_id, 'wtbp_movie_status', true );
+                        $movie_show_status = get_post_meta( $movie_id, 'wtbp_movie_screening_status', true );
                         if( !$movie_show_status ){
                             $movie_show_status = 'showing';
                         }
@@ -492,7 +492,7 @@
                             'compare' => '='
                         ),
                         array(
-                            'key'     => 'wtbp_movie_status',
+                            'key'     => 'wtbp_movie_screening_status',
                             'value'   => 'showing',
                             'compare' => '=='
                         ),

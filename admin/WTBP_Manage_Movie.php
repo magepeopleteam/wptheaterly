@@ -95,7 +95,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 update_post_meta($post_id, 'wtbp_movie_director', $director);
                 update_post_meta($post_id, 'wtbp_movie_actors', $actor_actress);
                 update_post_meta($post_id, 'wtbp_movie_writer', $writer);
-                update_post_meta($post_id, 'wtbp_movie_status', $movie_status);
+                update_post_meta($post_id, 'wtbp_movie_screening_status', $movie_status);
 
 
                 $added_movie[0] = array(
@@ -164,7 +164,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
                 update_post_meta( $post_id, 'wtbp_movie_actors', $actor_actress );
                 update_post_meta( $post_id, 'wtbp_movie_writer', $writer );
 
-                update_post_meta( $post_id, 'wtbp_movie_status', $movie_status );
+                update_post_meta( $post_id, 'wtbp_movie_screening_status', $movie_status );
 
                 $status = 'inactive';
                 if( $active === 'true' ){
