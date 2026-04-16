@@ -255,7 +255,6 @@ body{
     gap:40px;
     justify-content: start;
     align-items: center;
-    
 }
 .wtbm_hallName{
     position: relative;
@@ -335,14 +334,15 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #000000;
-    color: #fff;
+    background: #faf5ff;
+    color: #333;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 5;
     height: 100%;
+    border-radius: 10px;
 }
 .seat-generating-area{
     position: relative;
@@ -682,6 +682,18 @@ body{
     border-radius: 6px;
 }
 
+@media (max-width:540px) {
+    .wtbm_hallCard{
+        flex-direction: column;
+    }
+    .wtbm_hallName{
+        border-radius: 100px;
+        padding: 5px 16px;
+    }
+    .wtbm_hallName::after{
+        border: 0;
+    }
+}
 @media (min-width:768px) {
     .wtbm_registrationContainer{
         flex-direction: row;
