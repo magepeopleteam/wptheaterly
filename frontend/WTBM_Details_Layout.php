@@ -239,28 +239,40 @@
                 return ob_get_clean();
             }
 
-            public static function display_theater_show_time_single_movie( $movie_id, $date = ''  ){
-
+            public static function display_theater_show_time_single_movie( $movie_id, $date = '', $is_load = ''  ){
                 $show_times = self::get_wtbm_show_time_by_date_and_movie_id( $movie_id, $date );
                 ob_start();
+
                 if( is_array( $show_times ) && !empty( $show_times ) ){
+                    $i= 0;
+                    $j= 0;
                     foreach ( $show_times as $theater_id => $show_time  ){
                         $post_title = get_the_title( $theater_id );
                         ?>
+
+                        <div class="wtbm_theater_title"><?php echo esc_attr( $post_title );?></div>
                         <div class="wtbm_hallCard">
+
                             <div class="wtbm_single_move_timeSlots">
                                 <?php
                                 if( is_array( $show_time ) && !empty( $show_time ) ){
-                                    foreach ( $show_time as $time ){
+                                    foreach ( $show_time as $key => $time ){
+                                        if( $is_load === 'load' && $i === 0 && $j === 0 ){
+                                            $time_selected_class = 'selected';
+                                        }else{
+                                            $time_selected_class = '';
+                                        }
                                         $formatted_time = gmdate('h:i A', strtotime( esc_attr( $time ) ));
                                         ?>
-                                        <div class="wtbm_single_timeSlot" data-wtbm-theater-name = "<?php echo esc_attr( $post_title );?>" data-wtbm-theater="<?php echo esc_attr( $theater_id );?>" data-time-slot="<?php echo esc_attr( $time );?>">
+                                        <div class="wtbm_single_timeSlot <?php echo esc_attr( $time_selected_class );?>" data-wtbm-theater-name = "<?php echo esc_attr( $post_title );?>" data-wtbm-theater="<?php echo esc_attr( $theater_id );?>" data-time-slot="<?php echo esc_attr( $time );?>">
                                             <?php echo esc_attr( $formatted_time );?>
                                         </div>
-                                <?php } }?>
+                                <?php $j++; }
+                                }?>
                             </div>
                         </div>
                     <?php
+                        $i++;
                     }
                 }
                 return ob_get_clean();

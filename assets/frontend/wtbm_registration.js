@@ -46,6 +46,7 @@
 
     $(document).on('click', '.wtbm_single_movie_booking_date_card', function () {
         $('.wtbm_single_movie_booking_date_card').removeClass('active');
+        $(".wtbm_theater_show_times").empty();
         $(this).addClass('active');
 
         $("#wtbm_single_movie_seats").empty();
@@ -65,9 +66,9 @@
             success: function(response) {
                 if( response.data  ) {
                     // wtbm_displayHallsList.html(response.data);
-                    $(".wtbm_single_move_timeSlots").html( response.data );
+                    $("#wtbm_theater_show_times").html( response.data );
                 }else{
-                    $(".wtbm_single_move_timeSlots").html( '<h6>No Time Slot Found</h6>');
+                    $("#wtbm_theater_show_times").html( '<h6>No Time Slot Found</h6>');
                 }
                 $("#wtbm_hallSection").fadeIn();
             },
@@ -219,7 +220,8 @@
         wtbm_seat_loader.empty();
         wtbm_seat_loader.append( wtbm_loader( 'Seat Map Loading...' ) );
 
-        let activeMovieId = $(".wtbm_booking_movie_card.wtbm_movieActive").data("movie-id");
+        // let activeMovieId = $(".wtbm_booking_movie_card.wtbm_movieActive").data("movie-id");
+        let activeMovieId = $("#wtbm_summeryMovieId").val();
 
         $.ajax({
             url: wtbm_ajax.ajax_url,

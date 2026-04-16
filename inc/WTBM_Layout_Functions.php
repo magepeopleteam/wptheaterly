@@ -1171,8 +1171,19 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 }
 //                    $date = '2026-02-02';
                 $date = gmdate("Y-m-d");
-                $theater_show_times = WTBM_Details_Layout::display_theater_show_time_single_movie( $movie_id, $date );
+                $theater_show_times = WTBM_Details_Layout::display_theater_show_time_single_movie( $movie_id, $date, 'load' );
 
+                $show_times = WTBM_Details_Layout::get_wtbm_show_time_by_date_and_movie_id( $movie_id, $date );
+
+                $theater_id = '';
+                $search_time = '';
+                if( is_array( $show_times ) && !empty( $show_times ) ){
+                    foreach ($show_times as $theater_id => $times) {
+                        $search_time = $times[0];
+                        break;
+                    }
+                }
+//                error_log( print_r( [ '$show_times' => $show_times ], true ) );
 
                 if( $movie_genre ){
                     $movie_genre_ary = explode( ',', $movie_genre );
@@ -1239,6 +1250,15 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
                         </div>
                         <?php }
+
+                        if( $wtbp_screening_status === 'coming_soon' ){ ?>
+                        <div class="mptbm_container">
+                              <div class="mptbm_status">COMING SOON</div>
+
+                              <div class="mptbm_release_date"><?php echo esc_attr( date("d F Y", strtotime( $movie_release_date )) );?></div>
+                        </div>
+                        <?php }
+
                         if( $wtbp_screening_status === 'showing' ){
                         ?>
 
@@ -1256,9 +1276,12 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                 <div class=" section wtbm_hallSection">
                                     <h2 class="section-title"><?php esc_attr_e( 'Select Time', 'wptheaterly' );?></h2>
                                     <?php
-                                    $today_date = gmdate('M d, y');
-                                    echo wp_kses_post( $theater_show_times );
-                                    ?>
+                                    $today_date = gmdate('M d, y'); ?>
+                                    <div class="wtbm_theater_show_times" id="wtbm_theater_show_times">
+                                        <?php
+                                        echo wp_kses_post( $theater_show_times );
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1267,7 +1290,23 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <div class="wtbm_seat_map">
                             <div class="screen"><?php esc_attr_e( 'SCREEN', 'wptheaterly' );?></div>
                             
-                            <div class="wtbm_single_movie_seats wtbm_SeatsGrid" id="wtbm_single_movie_seats"></div>
+                            <div class="wtbm_single_movie_seats wtbm_SeatsGrid" id="wtbm_single_movie_seats">
+
+                            <?php
+                            $get_date = $date;
+                            if( $theater_id && $movie_id &&  $get_date && $search_time ){
+                                $not_available = WTBM_Manage_Ajax::getAvailableSeats( $theater_id, $movie_id, $get_date, $search_time );
+                            }else{
+                                $not_available = [];
+                            }
+
+                            if( $theater_id ){
+                                $seat_map = WTBM_Details_Layout::display_theater_seat_mapping( $theater_id, $not_available );
+                                echo $seat_map;
+                            }
+                            ?>
+
+                            </div>
                         </div>
                         <?php }else{?>
                             <div class=" wtbm_up_coming_movie"></div>
@@ -1281,9 +1320,9 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
                                 <div class="wtbm_registrationSummaryCard">
                                     <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="<?php echo esc_attr( $movie_id );?>">
-                                    <input type="hidden" name="wtbm_summeryTheaterId" id="wtbm_summeryTheaterId" value="">
+                                    <input type="hidden" name="wtbm_summeryTheaterId" id="wtbm_summeryTheaterId" value="<?php echo esc_attr( $theater_id );?>">
                                     <input type="hidden" name="wtbm_summeryDate" id="wtbm_summeryDate" value="<?php echo esc_attr( gmdate("Y-m-d") );?>">
-                                    <input type="hidden" name="wtbm_summeryTime" id="wtbm_summeryTime" value="">
+                                    <input type="hidden" name="wtbm_summeryTime" id="wtbm_summeryTime" value="<?php echo esc_attr( $search_time );?>">
                                     <input type="hidden" name="wtbm_summerySeatType" id="wtbm_summerySeatType" value="">
                                     <input type="hidden" name="wtbm_summerySeatNumber" id="wtbm_summerySeatNumber" value="">
                                     <input type="hidden" name="wtbm_summerySeatIds" id="wtbm_summerySeatIds" value="">
