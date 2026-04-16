@@ -514,12 +514,19 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
                     <div class="form-group">
                         <label class="form-label"><?php esc_html_e( 'Movie Status', 'wptheaterly' ); ?></label>
+                        <?php
+                            $movie_status = [
+                                'showing' => esc_html__( 'Showing', 'wptheaterly' ),
+                                'coming_soon' => esc_html__( 'Coming Soon', 'wptheaterly' ),
+                            ];
+                            $wtbm_movie_status = get_post_meta( $post_id, 'wtbm_movie_status', true );
+                        ?>
                         <select id="wtbm_movie_status" name="wtbm_movie_status">
-                            <option value="showing" <?php selected($data['movie_status'], 'showing'); ?>>
-                                <?php esc_attr_e('Showing', 'wptheaterly'); ?>
-                            </option>
-                            <option value="coming_soon" <?php selected($data['movie_status'], 'coming_soon'); ?>>
-                                <?php esc_attr_e('Coming Soon', 'wptheaterly'); ?>
+                            <?php foreach ($movie_status as $value => $label) : ?>
+                                <option value="<?php echo esc_attr($value); ?>" <?php selected($wtbm_movie_status, $value); ?>>
+                                    <?php echo esc_html($label); ?>
+                                </option>
+                            <?php endforeach; ?>
                             </option>
                         </select>
                     </div>

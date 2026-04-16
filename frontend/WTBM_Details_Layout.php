@@ -17,7 +17,7 @@
 //                ob_start();
                 ?>
                 <div class="wtbm_booking_date_section" id="wtbm_bookingDateSection">
-                    <h2 class="section-title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
+                    <h2 class="section-title"><i class="mi mi-calendar"></i> <?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
                     <div class="wtbm_booking_date_date_selector" id="wtbm_bookingDateSelector">
                         <?php
                         for ( $i = 0; $i < 7; $i++ ) {
@@ -31,10 +31,8 @@
                             ?>
                             <div class="wtbm_booking_date_date_card <?php echo $i === 0 ? 'active' : ''; ?>" data-date="<?php echo esc_attr($full); ?>">
                                 <div class="day"><?php echo esc_html($day); ?></div>
-                                <div>
-                                    <span class="date"><?php echo esc_html($dayNo); ?></span>
-                                    <span class="month"><?php echo esc_html($month); ?></span>
-                                </div>
+                                <div class="date"><?php echo esc_html($dayNo); ?></div>
+                                <div class="month"><?php echo esc_html($month); ?></div>
                             </div>
                             <?php
                         }
@@ -86,7 +84,6 @@
 
                 if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
                     $movie_data = self::get_movies_data_by_ids( $movie_ids );
-
                     $total_movie = count( $movie_data );
 
 //                    ob_start(); ?>
@@ -96,7 +93,8 @@
                             <div class="wtbm_booking_movie_card"
                                  data-movie-name="<?php echo esc_attr( $movie['title'] );?>"
                                  data-movie-id="<?php echo esc_attr( $movie['movie_id'] );?>"
-                                 data-movie-duration="<?php echo esc_attr( $movie['movie_duration'] );?>">
+                                 data-movie-duration="<?php echo esc_attr( $movie['movie_duration'] );?>" 
+                                 title="<?php echo esc_attr( $movie['title'] ); ?>">
                                 <div class="wtbm_booking_movies_poster">
                                     <?php if( $movie['poster_image_url'] ){?>
                                         <img src="<?php echo esc_attr( $movie['poster_image_url'] );?>" alt="<?php echo esc_attr( $movie['title'] );?>" >
@@ -108,9 +106,12 @@
                                     </span>
                                 </div>
                                 <div class="wtbm_booking_movies_info">
-                                    <div class="wtbm_booking_movies_title"><?php echo esc_attr( $movie['title'] );?></div>
+                                    <div class="wtbm_booking_movies_title" >
+                                        <?php $title = $movie['title'];
+                                            echo esc_html( strlen($title) > 10 ? substr($title, 0, 10) . '...' : $title );
+                                        ?></div>
                                     <div class="wtbm_booking_movies_details">
-                                        <?php esc_html_e( 'Duration', 'wptheaterly' );?> - <?php echo esc_html( $movie['movie_duration'] );?>
+                                        <?php echo esc_html( $movie['movie_genre'] );?>
                                     </div>
                                 </div>
                                 
