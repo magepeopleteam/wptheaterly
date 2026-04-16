@@ -612,3 +612,64 @@ div.mpwpb_category_header, div.mpwpb_category_header div.mpwpb_service_area {
 .wtbm_status tr:nth-child(odd) {
   background-color: #f4f4f4;
 }
+
+
+.wtbm_show_time_filter_box {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  width: 100%;
+  margin-bottom: 20px;
+}
+.wtbm_show_time_filter_header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.wtbm_show_time_filter_header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+.wtbm_show_time_filter_icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+.wtbm_show_time_filter_body {
+  display: flex;
+  /*flex-direction: column;*/
+  gap: 12px;
+}
+.wtbm_show_time_filter_group label {
+  font-size: 13px;
+  margin-bottom: 4px;
+  display: block;
+  color: #555;
+}
+.wtbm_show_time_filter_select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: 0.2s;
+}
+.wtbm_show_time_filter_select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+.wtbm_show_time_reset_btn {
+  width: 100%;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 8px;
+  background: #f44336;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 22px;
+}
+
+.wtbm_show_time_reset_btn:hover {
+  background: #d32f2f;
+}

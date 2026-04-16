@@ -133,6 +133,106 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
             return $movie_data;
         }
+
+        public static function get_movie_theater_data_by_ids( $post_ids, $cpt_type ) {
+
+            $theaters = [];
+            if( $cpt_type && !empty( $post_ids ) ) {
+
+                if( $cpt_type === 'movie' ){
+                     $cpt = WTBM_Function::get_movie_cpt();
+                }else{
+                    $cpt = WTBM_Function::get_theater_cpt();
+                }
+
+                $args = [
+                    'post_type' => $cpt,
+                    'post_status' => 'publish',
+                    'post__in' => $post_ids,
+                    'posts_per_page' => -1,
+                ];
+
+                $query = new WP_Query($args);
+
+                while ($query->have_posts()) {
+                    $query->the_post();
+                    $theaters[] = [
+                        'id' => get_the_ID(),
+                        'name' => get_the_title(),
+                    ];
+                }
+
+                wp_reset_postdata();
+            }
+
+            return $theaters;
+        }
+
+        public static function display_movie_theater_data_show_time_filter( $movies_data, $theater_data ) {
+
+            ?>
+
+            <div class="wtbm_show_time_filter_box">
+
+                <div class="wtbm_show_time_filter_header">
+                    <span class="wtbm_show_time_filter_icon">🎬</span>
+                    <h3>Filter Show Time</h3>
+                </div>
+                <div class="wtbm_show_time_filter_body">
+                    <div class="wtbm_show_time_filter_group">
+
+                        <label>Movie</label>
+                        <select id="movieFilter" class="wtbm_show_time_filter_select">
+                            <option value="">All Movies</option>
+                            <?php if( !empty( $movies_data ) ){
+                                foreach( $movies_data as $movie_data ){ ?>}
+                                ?>
+                                <option value="<?php echo esc_attr( $movie_data['id'] );?>"> <?php echo esc_attr( $movie_data['name'] );?> </option>
+                            <?php } }?>
+                        </select>
+                    </div>
+                    <div class="wtbm_show_time_filter_group">
+                        <label>Theater</label>
+                        <select id="theaterFilter" class="wtbm_show_time_filter_select">
+                            <option value="">All Theater</option>
+                            <?php if( !empty( $theater_data ) ){
+                                foreach( $theater_data as $theater ){ ?>}
+                                ?>
+                                <option value="<?php echo esc_attr( $theater['id'] );?>"> <?php echo esc_attr( $theater['name'] );?> </option>
+                            <?php } }?>
+                        </select>
+                    </div>
+                    <div class="wtbm_show_time_filter_group">
+                        <button id="wtbm_show_time_resetFilter" class="wtbm_show_time_reset_btn">Reset Filter</button>
+                    </div>
+                </div>
+            </div>
+
+        <?php
+        }
+
+
+          public static function get_movie_and_theater_from_show_time_data( $show_time_data ){
+                $movie_ids = [];
+                $theater_ids = [];
+
+                if( is_array( $show_time_data ) && !empty( $show_time_data ) ) {
+                    foreach ($show_time_data as $item) {
+                        $movie_ids[] = $item['movie_id'];
+                        $theater_ids[] = $item['theater_id'];
+                    }
+
+                    $movie_ids = array_values( array_unique( $movie_ids ) );
+                    $theater_ids = array_values( array_unique( $theater_ids ) );
+
+                }
+
+                return array(
+                        'movies_data' => self::get_movie_theater_data_by_ids( $movie_ids, 'movie' ),
+                        'theater_data' => self::get_movie_theater_data_by_ids( $theater_ids, 'theater' ),
+                );
+            }
+
         public static function get_and_display_theater_date( $limit = -1 ) {
             // WP_Query args
             $args = [
@@ -414,12 +514,19 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
                     <div class="form-group">
                         <label class="form-label"><?php esc_html_e( 'Movie Status', 'wptheaterly' ); ?></label>
+                        <?php
+                            $movie_status = [
+                                'showing' => esc_html__( 'Showing', 'wptheaterly' ),
+                                'coming_soon' => esc_html__( 'Coming Soon', 'wptheaterly' ),
+                            ];
+                            $wtbm_movie_status = get_post_meta( $post_id, 'wtbm_movie_status', true );
+                        ?>
                         <select id="wtbm_movie_status" name="wtbm_movie_status">
-                            <option value="showing" <?php selected($data['movie_status'], 'showing'); ?>>
-                                <?php esc_attr_e('Showing', 'wptheaterly'); ?>
-                            </option>
-                            <option value="coming_soon" <?php selected($data['movie_status'], 'coming_soon'); ?>>
-                                <?php esc_attr_e('Coming Soon', 'wptheaterly'); ?>
+                            <?php foreach ($movie_status as $value => $label) : ?>
+                                <option value="<?php echo esc_attr($value); ?>" <?php selected($wtbm_movie_status, $value); ?>>
+                                    <?php echo esc_html($label); ?>
+                                </option>
+                            <?php endforeach; ?>
                             </option>
                         </select>
                     </div>
@@ -1136,27 +1243,31 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         ?>
 
                         <div class="wtbm_single_movie_select_date">
-                            <div class="wtbm_single_movie_section_title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></div>
+                            
                             <div class="wtbm_single_movie_options wtbm_date">
+                                
                                 <?php
                                 echo wp_kses_post( WTBM_Details_Layout::booking_date_display_single_movie( $movie_id ) );
                                 ?>
                             </div>
 
-                            <div class="wtbm_single_movie_section_title"><?php esc_attr_e( 'Select Time', 'wptheaterly' );?></div>
+                            
                             <div class="wtbm_single_movie_options wtbm_time">
-                                <?php
-                                $today_date = gmdate('M d, y');
-                                echo wp_kses_post( $theater_show_times );
-                                ?>
+                                <div class=" section wtbm_hallSection">
+                                    <h2 class="section-title"><?php esc_attr_e( 'Select Time', 'wptheaterly' );?></h2>
+                                    <?php
+                                    $today_date = gmdate('M d, y');
+                                    echo wp_kses_post( $theater_show_times );
+                                    ?>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="">
-                            <div class="wtbm_single_movie_section_title"><?php esc_attr_e( 'Select Your Seats', 'wptheaterly' );?></div>
-                            <div class="wtbm_single_movie_screen"><?php esc_attr_e( 'SCREEN', 'wptheaterly' );?></div>
-                            <div class="wtbm_single_movie_screen_bar"></div>
-                            <div class="wtbm_single_movie_seats" id="wtbm_single_movie_seats"></div>
+                        <h2 class="section-title"><?php esc_attr_e( 'Select Your Seats', 'wptheaterly' );?></h2>            
+                        <div class="wtbm_seat_map">
+                            <div class="screen"><?php esc_attr_e( 'SCREEN', 'wptheaterly' );?></div>
+                            
+                            <div class="wtbm_single_movie_seats wtbm_SeatsGrid" id="wtbm_single_movie_seats"></div>
                         </div>
                         <?php }else{?>
                             <div class=" wtbm_up_coming_movie"></div>
@@ -1165,8 +1276,8 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     <?php if( $wtbp_screening_status === 'showing' ){ ?>
                     <div class="wtbm_single_movie_card" id="wtbm_single_movie_booking_card">
                         <div class="wtbm_single_movie_summary">
-                            <div class="wtbm_singleRegistrationSidebar" id="wtbm_registrationSidebar">
-                                <h2 class="section-title"><?php esc_attr_e( 'Tickets Summary', 'wptheaterly' );?></h2>
+                            <div class=" wtbm_registrationSidebar" id="wtbm_registrationSidebar">
+                                <h2 class="booking-summary-title"><?php esc_attr_e( 'Booking Summary', 'wptheaterly' );?></h2>
 
                                 <div class="wtbm_registrationSummaryCard">
                                     <input type="hidden" name="wtbm_summeryMovieId" id="wtbm_summeryMovieId" value="<?php echo esc_attr( $movie_id );?>">
@@ -1224,13 +1335,14 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                     </div>
 
                                 </div>
+                                <!--                            <button class="wtbm_single_movie_button">COMPLETE BOOKING</button>-->
+                                <button class="wtbm_single_movie_button" id="wtbm_ticketPurchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
+                                <div class="purchase-info">
+                                    <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>
+                                </div>
                             </div>
                         </div>
-                        <!--                            <button class="wtbm_single_movie_button">COMPLETE BOOKING</button>-->
-                        <button class="wtbm_single_movie_button" id="wtbm_ticketPurchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
-                        <div class="purchase-info">
-                            <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>
-                        </div>
+                        
                     </div>
                     <?php }?>
                 </div>

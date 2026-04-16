@@ -13,8 +13,8 @@
 				add_action('admin_head', array($this, 'add_global_style'), 100);
 			}
 			public function add_global_style() {
-				$default_color = WTBM_Function::get_style_settings('default_text_color', '#333');
-				$theme_color = WTBM_Function::get_style_settings('theme_color', '#a855f7');
+				$default_color = WTBM_Function::get_style_settings('default_text_color', '#71717b');
+				$theme_color = WTBM_Function::get_style_settings('theme_color', '#9810fa');
 				$alternate_color = WTBM_Function::get_style_settings('theme_alternate_color', '#fff');
 				?>
                 <style>
