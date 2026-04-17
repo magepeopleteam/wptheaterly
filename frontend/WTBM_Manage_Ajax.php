@@ -82,7 +82,26 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                     // Fetch movies or showtimes based on date
                     $theater_show_times = WTBM_Details_Layout::display_theater_show_time_single_movie( $movie_id, $date );
 
-                    wp_send_json_success($theater_show_times);
+                    $search_time = '';
+                    $theater_id = '';
+                    $show_times = WTBM_Details_Layout::get_wtbm_show_time_by_date_and_movie_id( $movie_id, $date );
+                    if( is_array( $show_times ) && !empty( $show_times ) ){
+                        foreach ($show_times as $theater_id => $times) {
+                            $search_time = $times[0];
+                            break;
+                        }
+                    }
+
+                    $seat_maps = WTBM_Manage_Ajax::get_seat_map_by_date_time_movie_theater_id( $theater_id, $movie_id,  $date, $search_time );
+
+                    $result = array(
+                        'theater_show_times' => $theater_show_times,
+                        'seat_maps' => $seat_maps,
+                        'theater_id' => $theater_id,
+                        'show_time' => $search_time,
+                    );
+
+                    wp_send_json_success( $result );
                 } else {
                     wp_send_json_error('No date provided');
                 }
@@ -101,7 +120,7 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                 $search_time = isset( $_POST['movie_time_slot']) ? sanitize_text_field( wp_unslash($_POST['movie_time_slot'] ) ) : '';
                 $get_date = isset( $_POST['movie_date']) ? sanitize_text_field( wp_unslash($_POST['movie_date'] ) ) : '';
 
-                if( $theater_id && $movie_id &&  $get_date && $search_time ){
+                /*if( $theater_id && $movie_id &&  $get_date && $search_time ){
                     $not_available = self::getAvailableSeats( $theater_id, $movie_id, $get_date, $search_time );
                 }else{
                     $not_available = [];
@@ -109,7 +128,9 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
 
                 if( $theater_id ){
                     $seat_map = WTBM_Details_Layout::display_theater_seat_mapping( $theater_id, $not_available );
-                }
+                }*/
+                $seat_map = self::get_seat_map_by_date_time_movie_theater_id( $theater_id, $movie_id,  $get_date, $search_time );
+
             }
 
             wp_send_json_success([
@@ -118,6 +139,22 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
             ]);
 
         }
+
+        public static function get_seat_map_by_date_time_movie_theater_id( $theater_id, $movie_id,  $get_date, $search_time ){
+            $seat_map = '';
+            if( $theater_id && $movie_id &&  $get_date && $search_time ){
+                $not_available = self::getAvailableSeats( $theater_id, $movie_id, $get_date, $search_time );
+            }else{
+                $not_available = [];
+            }
+
+            if( $theater_id ){
+                $seat_map = WTBM_Details_Layout::display_theater_seat_mapping( $theater_id, $not_available );
+            }
+
+            return $seat_map;
+        }
+
         function wtbm_apply_pricing_rules_total_price(){
 
             if ( !isset($_POST['nonce']) || !wp_verify_nonce( sanitize_text_field( wp_unslash($_POST['nonce']) ), 'wtbm_nonce') ) {

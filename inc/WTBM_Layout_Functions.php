@@ -1293,7 +1293,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             <div class="wtbm_single_movie_seats wtbm_SeatsGrid" id="wtbm_single_movie_seats">
 
                             <?php
-                            $get_date = $date;
+                            /*$get_date = $date;
                             if( $theater_id && $movie_id &&  $get_date && $search_time ){
                                 $not_available = WTBM_Manage_Ajax::getAvailableSeats( $theater_id, $movie_id, $get_date, $search_time );
                             }else{
@@ -1303,7 +1303,9 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             if( $theater_id ){
                                 $seat_map = WTBM_Details_Layout::display_theater_seat_mapping( $theater_id, $not_available );
                                 echo $seat_map;
-                            }
+                            }*/
+
+                            echo WTBM_Manage_Ajax::get_seat_map_by_date_time_movie_theater_id( $theater_id, $movie_id,  $date, $search_time );
                             ?>
 
                             </div>

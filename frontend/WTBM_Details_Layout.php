@@ -239,7 +239,7 @@
                 return ob_get_clean();
             }
 
-            public static function display_theater_show_time_single_movie( $movie_id, $date = '', $is_load = ''  ){
+            public static function display_theater_show_time_single_movie( $movie_id, $date = '', $is_load = 'load'  ){
                 $show_times = self::get_wtbm_show_time_by_date_and_movie_id( $movie_id, $date );
                 ob_start();
 

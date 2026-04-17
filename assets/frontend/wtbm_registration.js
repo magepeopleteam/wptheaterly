@@ -66,7 +66,10 @@
             success: function(response) {
                 if( response.data  ) {
                     // wtbm_displayHallsList.html(response.data);
-                    $("#wtbm_theater_show_times").html( response.data );
+                    $("#wtbm_summeryTheaterId").val( response.data.theater_id );
+                    $("#wtbm_summeryTime").val( response.data.show_time );
+                    $("#wtbm_theater_show_times").html( response.data.theater_show_times );
+                    $("#wtbm_single_movie_seats").html( response.data.seat_maps );
                 }else{
                     $("#wtbm_theater_show_times").html( '<h6>No Time Slot Found</h6>');
                 }
