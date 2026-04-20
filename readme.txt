@@ -14,6 +14,26 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Simplify your Theater booking plugin
 
 == Description ==
+Online Movie & Theater Reservation System is a powerful WordPress plugin that lets you create a complete cinema and event ticket booking platform with seat selection, showtime management, and secure online woocommerce payment system. Easily manage movie schedules, theater layouts, and customer bookings with a user-friendly interface.
+
+### Feature list
+🎬 Easy movie and showtime management
+🪑 Interactive seat selection with visual seat map
+🎟️ Multiple ticket types regular, premium, vip etc
+💰 Flexible pricing rules (seat-based, time-based, special shows)
+📅 Schedule shows by date and time with recurring options
+🏢 Theater and screen management (multiple halls/screens)
+👥 Customer booking and attendee management
+💳 Secure online payments (WooCommerce integration supported)
+📩 Automatic email notifications and e-ticket delivery
+📱 Mobile-friendly and responsive booking interface
+🔍 Advanced search and filtering for movies and showtimes
+🎫 QR code / barcode ticket generation and validation
+📊 Booking reports and sales analytics dashboard
+🔄 Real-time seat availability updates
+🌐 Multi-language and translation ready
+⚙️ Easy setup with beginner-friendly admin panel
+
 
 ### shortcode guildeline
 [wtbm_ticket_booking]
