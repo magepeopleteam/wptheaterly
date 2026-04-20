@@ -11,7 +11,7 @@ Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Simplify your Theater booking plugin
+A simple WordPress plugin to manage movie and theater bookings with seat selection, showtimes, and online payments.
 
 == Description ==
 Online Movie & Theater Reservation System is a powerful WordPress plugin that lets you create a complete cinema and event ticket booking platform with seat selection, showtime management, and secure online woocommerce payment system. Easily manage movie schedules, theater layouts, and customer bookings with a user-friendly interface.
