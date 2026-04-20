@@ -79,6 +79,8 @@
 
                 $movie_ids = self::get_wtbm_show_time_movie_ids_by_date( $screening_status, $date );
 
+                error_log( print_r( [ '$movie_ids' => $movie_ids ], true ) );
+
                 $output = '';
 
                 if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
@@ -230,7 +232,12 @@
                                         <div class="wtbm_timeSlot" data-wtbm-theater-name = "<?php echo esc_attr( $post_title );?>" data-wtbm-theater="<?php echo esc_attr( $theater_id );?>" data-time-slot="<?php echo esc_attr( $time );?>">
                                             <?php echo esc_attr( $formatted_time );?>
                                         </div>
-                                <?php } }?>
+                                <?php }
+                                }else{ ?>
+                                    <div class="wtbm_timeSlot" ">
+                                        <?php esc_html_e( 'No show times available', 'wptheaterly' );?>
+                                    </div>
+                                <?php }?>
                             </div>
                         </div>
                     <?php
