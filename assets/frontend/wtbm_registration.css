@@ -662,6 +662,9 @@ body{
     font-size: 20px;
     margin-top: 10px;
 }
+h1.wp-block-post-title {
+    text-align: left;
+}
 
 @media (max-width:540px) {
     .wtbm_hallCard{
