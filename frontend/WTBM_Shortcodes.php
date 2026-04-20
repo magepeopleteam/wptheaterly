@@ -91,7 +91,7 @@
                         <div class="section wtbm_movieSection" id="wtbm_movieSection">
                             <?php
                             $screening_status = 'showing';
-                            WTBM_Details_Layout::display_date_wise_movies( $screening_status ) ;?>
+                            WTBM_Details_Layout::display_date_wise_movies( $screening_status, date("Y-m-d") ) ;?>
                         </div>
 
                         <div class="section wtbm_hallSection" id="wtbm_hallSection" style="display: none">

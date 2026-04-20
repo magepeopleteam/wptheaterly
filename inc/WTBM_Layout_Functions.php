@@ -1179,11 +1179,10 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $search_time = '';
                 if( is_array( $show_times ) && !empty( $show_times ) ){
                     foreach ($show_times as $theater_id => $times) {
-                        $search_time = $times[0];
+                        $search_time = isset( $times[0] ) ? $times[0] : '';
                         break;
                     }
                 }
-//                error_log( print_r( [ '$show_times' => $show_times ], true ) );
 
                 if( $movie_genre ){
                     $movie_genre_ary = explode( ',', $movie_genre );
@@ -1199,8 +1198,6 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                         <div class="wtbm_movieActive" style="visibility: hidden;"
                             data-movie-id="<?php echo esc_attr( $movie_id ); ?>">
                         </div>
-                        <!-- <div class="wtbm_single_movie_title"><?php /*echo esc_attr( get_the_title( $movie_id ) );*/?></div>
-                            <div class="wtbm_single_movie_subtitle"><?php /*echo esc_attr( get_the_title( $movie_id ) );*/?></div> -->
                         <?php if( $hide_header === 'yes' ){?>
                         <div class="wtbm_single_movie_card_description">
                             
@@ -1219,25 +1216,23 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                                                 <?php } ?>
                                             </div>
                                             <?php  } ?>
-                                    <?php //esc_attr_e( 'Runtime', 'wptheaterly' );?><!--: --><?php //echo esc_attr( $movie_duration );?><!-- | --><?php //esc_attr_e( 'Rating', 'wptheaterly' );?><!--: --><?php //echo esc_attr( $movie_rating );?><!--<br>-->
+                                            <div class="wtbm_add_runtime_dating">
+                                                <span class="wtbm_movie_meta">
+                                                <i class="fa-regular fa-clock"></i>
+                                                <?php esc_html_e( 'Runtime', 'wptheaterly' );?>:
+                                                <?php echo esc_html( $movie_duration );?>
+                                                </span>
+                                                <span class="wtbm_movie_meta">
+                                                <i class="fa-solid fa-star"></i>
+                                                <?php esc_html_e( 'Rating', 'wptheaterly' );?>:
+                                                <?php echo esc_html( $movie_rating );?>
+                                                </span>
+                                            </div>
 
-                                        <div class="wtbm_add_runtime_dating">
-                                            <span class="wtbm_movie_meta">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <?php esc_html_e( 'Runtime', 'wptheaterly' );?>:
-                                            <?php echo esc_html( $movie_duration );?>
-                                            </span>
-                                            <span class="wtbm_movie_meta">
-                                            <i class="fa-solid fa-star"></i>
-                                            <?php esc_html_e( 'Rating', 'wptheaterly' );?>:
-                                            <?php echo esc_html( $movie_rating );?>
-                                            </span>
-                                        </div>
-
-                                        <div class="wtbm_movie_creator">
-                                            <strong><?php esc_attr_e( 'Director', 'wptheaterly' );?></strong>: <?php echo esc_attr( $movie_director );?> |
-                                            <strong><?php esc_attr_e( 'Starring', 'wptheaterly' );?></strong>: <?php echo esc_attr( $wtbp_movie_actors );?><br>
-                                        </div>
+                                            <div class="wtbm_movie_creator">
+                                                <strong><?php esc_attr_e( 'Director', 'wptheaterly' );?></strong>: <?php echo esc_attr( $movie_director );?> |
+                                                <strong><?php esc_attr_e( 'Starring', 'wptheaterly' );?></strong>: <?php echo esc_attr( $wtbp_movie_actors );?><br>
+                                            </div>
                                         <?php esc_attr_e( 'Description', 'wptheaterly' );?>: <?php echo esc_html( $movie_description );?>
                                     </div>
                                 </div>
@@ -1253,7 +1248,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
                         if( $wtbp_screening_status === 'coming_soon' ){ ?>
                         <div class="mptbm_container">
-                              <div class="mptbm_status">COMING SOON</div>
+                              <div class="mptbm_status"><?php esc_attr_e( 'COMING SOON', 'wptheaterly' );?></div>
 
                               <div class="mptbm_release_date"><?php echo esc_attr( date("d F Y", strtotime( $movie_release_date )) );?></div>
                         </div>
@@ -1293,19 +1288,10 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                             <div class="wtbm_single_movie_seats wtbm_SeatsGrid" id="wtbm_single_movie_seats">
 
                             <?php
-                            /*$get_date = $date;
-                            if( $theater_id && $movie_id &&  $get_date && $search_time ){
-                                $not_available = WTBM_Manage_Ajax::getAvailableSeats( $theater_id, $movie_id, $get_date, $search_time );
-                            }else{
-                                $not_available = [];
+
+                            if( $theater_id && $search_time ){
+                                echo WTBM_Manage_Ajax::get_seat_map_by_date_time_movie_theater_id( $theater_id, $movie_id,  $date, $search_time );
                             }
-
-                            if( $theater_id ){
-                                $seat_map = WTBM_Details_Layout::display_theater_seat_mapping( $theater_id, $not_available );
-                                echo $seat_map;
-                            }*/
-
-                            echo WTBM_Manage_Ajax::get_seat_map_by_date_time_movie_theater_id( $theater_id, $movie_id,  $date, $search_time );
                             ?>
 
                             </div>

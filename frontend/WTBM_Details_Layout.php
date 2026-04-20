@@ -79,16 +79,13 @@
 
                 $movie_ids = self::get_wtbm_show_time_movie_ids_by_date( $screening_status, $date );
 
-                error_log( print_r( [ '$movie_ids' => $movie_ids ], true ) );
-
                 $output = '';
-
                 if( is_array( $movie_ids ) && !empty( $movie_ids ) ){
                     $movie_data = self::get_movies_data_by_ids( $movie_ids );
                     $total_movie = count( $movie_data );
 
-//                    ob_start(); ?>
-                    <h2 class="section-title">Select Movie (<?php echo esc_attr( $total_movie );?>)</h2>
+                 ?>
+                    <h2 class="section-title"><?php esc_html_e( 'Select Movie', 'wptheaterly' );?> (<?php echo esc_attr( $total_movie );?>)</h2>
                     <div class="wtbm_booking_movies_grid" id="wtbm_moviesGrid">
                         <?php foreach ( $movie_data as $i => $movie ): ?>
                             <div class="wtbm_booking_movie_card"
@@ -121,7 +118,11 @@
                     </div>
                     <?php
 //                    $output = ob_get_clean();
-                }
+                }else{ ?>
+                    <div class="wtbm_booking_movies_grid" id="wtbm_moviesGrid">
+                        <h6><?php esc_html_e( 'No Movies Found', 'wptheaterly' );?></h6>
+                    </div>
+                <?php }
 
 //                return $output;
             }
@@ -373,7 +374,17 @@
 
                         if ( ! empty( $movie_id ) && $movie_active_status === 'true' && $movie_show_status == $screening_status ) {
                             $movie_id = intval( $movie_id );
-                            if ( ! in_array( $movie_id, $movie_ids, true ) ) {
+
+                            $hasShowTimeData = false;
+                            $show_times = self::get_wtbm_show_time_by_date_and_movie_id( $movie_id, $date );
+                            foreach ($show_times as $time) {
+                                if (!empty($time)) {
+                                    $hasShowTimeData = true;
+                                    break;
+                                }
+                            }
+
+                            if ( ! in_array( $movie_id, $movie_ids, true ) && $hasShowTimeData ) {
                                 $movie_ids[] = $movie_id;
                             }
                         }

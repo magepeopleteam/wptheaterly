@@ -86,12 +86,16 @@ if ( ! class_exists( 'WTBM_Manage_Ajax' ) ) {
                     $show_times = WTBM_Details_Layout::get_wtbm_show_time_by_date_and_movie_id( $movie_id, $date );
                     if( is_array( $show_times ) && !empty( $show_times ) ){
                         foreach ($show_times as $theater_id => $times) {
-                            $search_time = $times[0];
+                            $search_time = isset( $times[0] ) ? $times[0] : '';
                             break;
                         }
                     }
 
-                    $seat_maps = WTBM_Manage_Ajax::get_seat_map_by_date_time_movie_theater_id( $theater_id, $movie_id,  $date, $search_time );
+                    $seat_maps = '';
+                    if( $theater_id && $search_time ){
+                        $seat_maps = WTBM_Manage_Ajax::get_seat_map_by_date_time_movie_theater_id( $theater_id, $movie_id,  $date, $search_time );
+                    }
+
 
                     $result = array(
                         'theater_show_times' => $theater_show_times,
