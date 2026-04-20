@@ -440,7 +440,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                     }
 
                     // Days
-                    if (!empty($rule['days'])) {
+                    if ( is_array( $rule['days'] ) && !empty($rule['days'])) {
                         $html .= '<br>📆 Days: ' . implode(', ', $rule['days']);
                     }
 
