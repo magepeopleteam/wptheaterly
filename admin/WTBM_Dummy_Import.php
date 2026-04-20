@@ -47,8 +47,8 @@
 								'meta_data' => [
 									'wtbp_pricing_rules_theaterType' => '101',
 									'wtbp_pricing_rules_type' => '144',
-									'wtbp_pricing_rules_dateRange' => gmdate('Y-m-d', strtotime(' +1 day')),
-									'wtbp_pricing_rules_startDate' => gmdate('Y-m-d', strtotime(' +1 day')),
+									'wtbp_pricing_rules_dateRange' => gmdate('Y-m-d', strtotime(' +0 day')),
+									'wtbp_pricing_rules_startDate' => gmdate('Y-m-d', strtotime(' +0 day')),
 									'wtbp_pricing_rules_endDate' => gmdate('Y-m-d', strtotime(' +30 day')),
 									'wtbp_pricing_rules_priority' => '5',
 									'wtbp_pricing_rules_multiplier' => '5',
@@ -73,7 +73,7 @@
 					// Use ?? to provide a default empty string if the key is missing
 					$post = [
 						'post_type' => $post_type,
-						'post_title' => $data['post_title'],
+						'post_title' => isset($data['post_title']) ? $data['post_title'] : '',
 						'post_content' => isset($data['post_content']) ? $data['post_content'] : '',
 						'post_status' => 'publish',
 					];
