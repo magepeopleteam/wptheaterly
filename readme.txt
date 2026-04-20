@@ -22,7 +22,8 @@ After choosing a movie, showtimes will be listed according to available theaters
 Users can then select a preferred showtime and complete their movie ticket booking accordingly.
 
 [wtbm_display_running_movie view="grid" list_grid_btn="yes" column="3"]
-The [wtbm_display_running_movie] shortcode is used to display currently running movies in a modern grid or list layout, with optional view toggle and customizable columns.
+The [wtbm_display_running_movie] shortcode is used to display currently running movies in a modern grid or list layout, with optional view toggle and customizable columns.uus
+also shortcode [wtbm_display_upcoming_movie] is use for showing upcoming movie list.
 What this does:
 1. Displays movies in grid view by default
 2. Shows Grid / List toggle buttons
