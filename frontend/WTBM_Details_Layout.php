@@ -228,7 +228,7 @@
                                         $formatted_time = gmdate('h:i A', strtotime( esc_attr( $time ) ));
                                         ?>
                                         <div class="wtbm_timeSlot" data-wtbm-theater-name = "<?php echo esc_attr( $post_title );?>" data-wtbm-theater="<?php echo esc_attr( $theater_id );?>" data-time-slot="<?php echo esc_attr( $time );?>">
-                                            <?php echo esc_attr( $formatted_time );?>
+                                            <i class="mi mi-clock"></i> <?php echo esc_attr( $formatted_time );?>
                                         </div>
                                 <?php } }?>
                             </div>
