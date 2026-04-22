@@ -196,6 +196,7 @@
 								'wtbp_movie_rating'       => '8.0',
 								'wtbp_movie_active'       => 'true',
 								'wtbp_movie_poster_id'    => [3],
+								'wtbp_movie_screening_status'    => 'showing',
 							],
 						],
 						[
@@ -212,6 +213,7 @@
 								'wtbp_movie_rating'       => '8.5',
 								'wtbp_movie_active'       => 'true',
 								'wtbp_movie_poster_id'    => [4],
+                                'wtbp_movie_screening_status'    => 'showing',
 							],
 						],
 						[
@@ -228,6 +230,7 @@
 								'wtbp_movie_rating'       => '8.1',
 								'wtbp_movie_active'       => 'true',
 								'wtbp_movie_poster_id'    => [5],
+                                'wtbp_movie_screening_status'    => 'showing',
 							],
 						]
 					];
