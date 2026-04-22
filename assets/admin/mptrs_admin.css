@@ -33,7 +33,9 @@
     text-align: center;
     margin: 0 auto;
 }
-
+.ui-dialog .ui-icon-closethick {
+  background-position: center;
+}
 .wp-core-ui .button-primary {
     display: block !important;
     margin: 0 auto !important;
