@@ -258,9 +258,9 @@
                         $post_title = get_the_title( $theater_id );
                         ?>
 
-                        <div class="wtbm_theater_title"><?php echo esc_attr( $post_title );?></div>
+                        
                         <div class="wtbm_hallCard">
-
+                            <div class="wtbm_hallName"><?php echo esc_attr( $post_title );?></div>
                             <div class="wtbm_single_move_timeSlots">
                                 <?php
                                 if( is_array( $show_time ) && !empty( $show_time ) ){

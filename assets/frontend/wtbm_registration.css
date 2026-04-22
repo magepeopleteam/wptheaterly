@@ -674,12 +674,17 @@ h1.wp-block-post-title {
         flex-direction: column;
     }
     .wtbm_hallName{
-        border-radius: 100px;
-        padding: 5px 16px;
+        text-align: center;
+        clip-path: none;
+        padding: 10px 15px;
     }
-    .wtbm_hallName::after{
-        border: 0;
+    .wtbm_booking_movies_poster {
+        height: 230px;
     }
+    .wtbm_booking_movie_card {
+        width: 155px;
+    }
+
 }
 @media (min-width:768px) {
     .wtbm_registrationContainer{

@@ -69,7 +69,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right,var(--mptrs_color_theme) 100%, #f3e9ff 40%);
+    background: linear-gradient(to right,#7d7d7d 100%, #06000c 40%);
 }
 .wtbm_single_movie_container{
     z-index: 1;
@@ -200,6 +200,10 @@
 .wtbm_single_move_timeSlots{
     display: flex;
     gap: 15px;
+    flex-wrap: wrap;
+}
+.wtbm_theater_title{
+    margin-bottom: 10px;
 }
 .wtbm_movie_genery_holder{
     display: flex;
@@ -419,10 +423,6 @@
     }
 
     .wtbm_single_movie_card{
-        width: 100%;
-    }
-    .wtbm_single_movie_poster img {
-        max-width: 400px;
         width: 100%;
     }
     .wtbm_show_movie_controls {
