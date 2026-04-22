@@ -165,26 +165,27 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                         <div class="halls-list" id="wtbm_displayHallsList">
                         </div>
                     </div>
-                    
-                    <div class="wtbm_seat_loader" id="wtbm_seat_loader" style="display: none"></div>
+                    <div class="seat-generating-area">
+                        <div class="wtbm_seat_loader" id="wtbm_seat_loader" style="display: none"></div>
 
-                    <div class="section" id="wtbm_seatSection" style="display: none">
-                        <h2 class="section-title"><?php esc_attr_e( 'Select Seats', 'wptheaterly' );?></h2>
-                        <div class="wtbm_seat_map" id="wtbm_seat_map">
-                            <div class="screen"><?php esc_attr_e( 'Theater Screen', 'wptheaterly' );?></div>
-                            <div class="wtbm_SeatsGrid" id="wtbm_seatsGrid"></div>
-                            <div class="seat-legend">
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background: #28a745;"></div>
-                                    <span><?php esc_attr_e( 'Available', 'wptheaterly' );?></span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background: #667eea;"></div>
-                                    <span><?php esc_attr_e( 'Selected', 'wptheaterly' );?></span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background: #dc3545;"></div>
-                                    <span><?php esc_attr_e( 'Occupied', 'wptheaterly' );?></span>
+                        <div class="section" id="wtbm_seatSection" style="display: none">
+                            <h2 class="section-title"><?php esc_attr_e( 'Select Seats', 'wptheaterly' );?></h2>
+                            <div class="wtbm_seat_map" id="wtbm_seat_map">
+                                <div class="screen"><?php esc_attr_e( 'Theater Screen', 'wptheaterly' );?></div>
+                                <div class="wtbm_SeatsGrid" id="wtbm_seatsGrid"></div>
+                                <div class="seat-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background: #28a745;"></div>
+                                        <span><?php esc_attr_e( 'Available', 'wptheaterly' );?></span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background: #667eea;"></div>
+                                        <span><?php esc_attr_e( 'Selected', 'wptheaterly' );?></span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background: #dc3545;"></div>
+                                        <span><?php esc_attr_e( 'Occupied', 'wptheaterly' );?></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
