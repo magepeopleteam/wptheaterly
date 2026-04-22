@@ -395,10 +395,7 @@ if ( ! class_exists( 'WTBM_Sales_Report' ) ) {
             ?>
 
             <div id="wtbm_sales_report_content"  class="tab-content <?php echo ($current_tab == 'wtbm_sales_report') ? 'active' : ''; ?>">
-                        <div class="mb-6">
-                            <h2 class="text-2xl font-bold text-gray-900"><?php esc_attr_e( 'Sales Report', 'wptheaterly' );?></h2>
-                            <p class="text-gray-600"><?php esc_attr_e( 'View sales analytics and generate detailed reports', 'wptheaterly' );?></p>
-                        </div>
+
 
                         <div class="wtbm_sales_report_card">
                             <div class="flex items-center mb-4">

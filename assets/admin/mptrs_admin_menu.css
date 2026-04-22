@@ -218,7 +218,7 @@
 }
 
 .mptrs-admin .wtbm_registrationSidebar{
-    margin:15px 0;
+    margin:15px;
 
 }
 
@@ -259,7 +259,7 @@
 
 
 .mptrs-admin .wtbm_booking_date_date_card{
-    padding:10px 5px;
+    padding:10px 20px;
     color: var(--mptrs_color_d)
 }
 
