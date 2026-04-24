@@ -120,18 +120,6 @@ if( !class_exists( 'WTBM_Menu' ) ) {
 
                 <!-- Main Content -->
                 <div class="main-content">
-                 <?php if( ! function_exists( 'Mage_PDF_Support_init' ) ) { ?>
-
-                <div id="wtbm-dialog-container" style="display:none;" title="Required Component Missing">
-                    <p><strong>MagePeople PDF Support</strong> is required to generate and download PDF tickets.</p>
-                    <div style="text-align: right; margin-top: 20px;">
-                        <button class="button button-primary" id="wtbm-install-pdf-btn" data-nonce="<?php echo wp_create_nonce('wtbm_installer_nonce'); ?>">
-                            <?php esc_html_e('Install PDF Support', 'wptransitly'); ?>
-                        </button>
-                        <span class="spinner" style="float:none;"></span>
-                    </div>
-                </div>
-                <?php } ?>
                     <?php do_action( 'wtbm_movie_content');?>
                     <!-- Movies Tab -->
                     <div id="wtbm_movies_content" class="tab-content <?php echo ($current_tab == 'wtbm_movies') ? 'active' : ''; ?>">

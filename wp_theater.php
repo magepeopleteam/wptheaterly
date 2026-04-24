@@ -20,6 +20,8 @@
 				$this->load_plugin();
 				$this->define_constants();
 				add_filter('admin_body_class', [$this, 'add_body_class']);
+				register_activation_hook( __FILE__, 'wtbm_on_plugin_activation' );
+
 			}
 			private function load_plugin() {
 				include_once(ABSPATH . 'wp-admin/includes/plugin.php');
@@ -29,9 +31,26 @@
 				if (!defined('WTBM_PLUGIN_URL')) {
 					define('WTBM_PLUGIN_URL', plugins_url() . '/' . plugin_basename(dirname(__FILE__)));
 				}
-					add_action('admin_enqueue_scripts', [$this, 'wtbm_enqueue_installer_script'], 90);
-					require_once WTBM_PLUGIN_DIR . '/inc/required-plugin.php';
 													
+					/**
+					 * Set a transient on plugin activation to trigger the
+					 * WooCommerce check / redirect on next admin page load.
+					 */
+					function wtbm_on_plugin_activation() {
+						set_transient( 'wtbm_plugin_activated', true, 60 );
+					}
+
+					/**
+					 * Always load the WooCommerce Installer module in admin.
+					 * It handles: activation redirect when WooCommerce IS active,
+					 * and shows the beautiful popup when WooCommerce is NOT active.
+					 */
+					if ( is_admin() ) {
+						require_once WTBM_PLUGIN_DIR . '/inc/MPWEM_Woo_Installer.php';
+					require_once WTBM_PLUGIN_DIR . '/inc/WTBM_PDF_Installer.php';
+					}
+
+
 				if ($this->check_woocommerce() == 1) {
 					add_action('activated_plugin', array($this, 'activation_redirect'), 90, 1);
 					require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Dependencies.php';
@@ -148,15 +167,6 @@
 					wp_send_json_success(admin_url('admin.php?page=mptrs_main_menu'));
 				}
 			}
-
-			function wtbm_enqueue_installer_script() {
-				wp_enqueue_script('wtbm-installer', WTBM_PLUGIN_URL . '/assets/admin/wc_installer.js', ['jquery'], time(), true);
-				wp_localize_script('wtbm-installer', 'wtbmInstallerData', array(
-					'ajaxurl' => admin_url('admin-ajax.php'),
-					'nonce' => wp_create_nonce('wtbm_installer_nonce')
-				));
-			}
-
 		}
 		new wptheater();
 	}
