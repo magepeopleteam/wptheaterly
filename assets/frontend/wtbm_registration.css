@@ -668,7 +668,9 @@ body{
 h1.wp-block-post-title {
     text-align: left;
 }
-
+.wp-theme-twentytwentythree h1.wp-block-post-title {
+    max-width: 1400px;
+}
 @media (max-width:540px) {
     .wtbm_hallCard{
         flex-direction: column;
