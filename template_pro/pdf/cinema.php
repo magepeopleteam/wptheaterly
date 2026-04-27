@@ -227,8 +227,8 @@ $wtbm_pdf_term_text          = WTBM_Function::get_settings('wtbm_pdf_settings', 
             <table style="width: 100%; border-collapse: collapse; padding: 30px 40px;">
                 <tr>
                     <td style="width: 70%; vertical-align: top; padding-right: 20px;">            
-                        <div class="company-logo">
-                            <img src="<?php echo esc_url( $wtbm_logo_url );?>" alt="Logo">
+                        <div class="company-logo">                            
+                            <img src="<?php echo esc_url( $wtbm_logo_url );?>" alt="Logo" style='max-height:90px'>
                         </div>        
                     </td>
                     <td style="width: 30%; vertical-align: top; text-align: right;padding-top: 15px;">           
