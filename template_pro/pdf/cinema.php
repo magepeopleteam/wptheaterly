@@ -10,6 +10,9 @@ $wtbm_payment_method    = WTBM_Function::get_post_info($wtbm_attendee_id, 'wtbm_
 $wtbm_number_of_seats   = WTBM_Function::get_post_info($wtbm_attendee_id, 'wtbm_number_of_seats');
 $wtbm_seat_ids          = WTBM_Function::get_post_info($wtbm_attendee_id, 'wtbm_seat_ids');
 $wtbm_seat_numbers      = WTBM_Function::get_post_info($wtbm_attendee_id, 'wtbm_seats');
+$wtbm_billing_phone      = WTBM_Function::get_post_info($wtbm_attendee_id, 'wtbm_billing_phone');
+$wtbm_billing_name      = WTBM_Function::get_post_info($wtbm_attendee_id, 'wtbm_billing_name');
+
 $wtbm_seat_names        = '';
 if( !empty( $wtbm_seat_numbers ) && is_array( $wtbm_seat_numbers ) ){
     $wtbm_seat_names = implode(", ", $wtbm_seat_numbers );
@@ -247,6 +250,16 @@ $wtbm_pdf_term_text          = WTBM_Function::get_settings('wtbm_pdf_settings', 
                 <td style="width: 70%; vertical-align: top; padding-right: 20px;">
                     
                     <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="padding-bottom: 15px;">
+                                <span style="display: block; font-size: 13px; color: #101010ff; text-transform: uppercase;font-weight: bold;">Customer name</span>
+                                <span style="font-size: 14px; "><?php echo esc_html($wtbm_billing_name); ?></span>
+                            </td>
+                            <td style="padding-bottom: 15px;">
+                                <span style="display: block; font-size: 13px; color: #101010ff; text-transform: uppercase;font-weight: bold;">Phone</span>
+                                <span style="font-size: 14px; "><?php echo esc_html($wtbm_billing_phone); ?></span>
+                            </td>
+                        </tr>
                         <tr>
                             <td style="padding-bottom: 15px;">
                                 <span style="display: block; font-size: 13px; color: #101010ff; text-transform: uppercase;font-weight: bold;">Date</span>

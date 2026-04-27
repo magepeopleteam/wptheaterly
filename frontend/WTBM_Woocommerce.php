@@ -94,6 +94,12 @@
                     $theater = get_the_title( $values['theater_id'] );
                     $movie = get_the_title( $values['wtbm_movie_id'] );
 
+                    $user_name =  isset( $values['user_name'] ) ? $values['user_name'] : '' ;
+                    $phone_number =  isset( $values['user_phone_num'] ) ? $values['user_phone_num'] : '' ;
+
+
+                    $item->add_meta_data(esc_html__('User Name ', 'wptheaterly'), esc_html( $user_name ) );
+                    $item->add_meta_data(esc_html__('Phone number ', 'wptheaterly'), esc_html( $phone_number ) );
 					$item->add_meta_data(esc_html__('Date ', 'wptheaterly'), esc_html(WTBM_Function::date_format( $date, 'date' ) ) );
 					$item->add_meta_data(esc_html__('Time ', 'wptheaterly'), esc_html(WTBM_Function::date_format( $time, 'time' ) ) );
 					$item->add_meta_data(esc_html__('Movie ', 'wptheaterly'), esc_html( $movie ) );
@@ -174,11 +180,28 @@
 
                 $theater = get_the_title( $cart_item['theater_id'] );
                 $movie = get_the_title( $cart_item['wtbm_movie_id'] );
+
+                $user_phone_num =  isset( $cart_item['user_phone_num'] ) ? $cart_item['user_phone_num'] : '' ;
+                $user_name =  isset( $cart_item['user_name'] ) ? $cart_item['user_name'] : '' ;
+
 				?>
                 <div class="mptrs_area">
 					<?php do_action('wtbm_before_cart_item_display', $cart_item, $post_id ); ?>
                     <div class="dLayout_xs">
                         <ul class="cart_list">
+                            <?php if( $user_name ){?>
+                            <li>
+                                <span class="far fa-user"></span>
+                                <h6><?php esc_html_e('User name', 'wptheaterly'); ?>&nbsp;:&nbsp;</h6>
+                                <span><?php echo esc_html( $user_name ); ?></span>
+                            </li>
+                            <?php } if($user_phone_num){?>
+                            <li>
+                                <span class="fas fa-phone"></span>
+                                <h6><?php esc_html_e('Phone', 'wptheaterly'); ?>&nbsp;:&nbsp;</h6>
+                                <span><?php echo esc_html( $user_phone_num ); ?></span>
+                            </li>
+                            <?php }?>
                             <li>
                                 <span class="far fa-clock"></span>
                                 <h6><?php esc_html_e('Booking Date', 'wptheaterly'); ?>&nbsp;:&nbsp;</h6>
