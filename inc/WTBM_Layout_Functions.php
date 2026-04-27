@@ -1021,7 +1021,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
             $args = array(
                 'post_type'      => 'wtbm_booking',
-                'post_status'    => 'publish',
+                'post_status'    => ['publish', 'draft'],
                 'posts_per_page' => $display_limit,
                 'post__not_in'   => $loaded_booking_id,
                 'fields'         => 'ids',
@@ -1109,7 +1109,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
 
             $args = array(
                 'post_type'   => 'wtbm_booking',
-                'post_status' => 'publish',
+                'post_status' => ['publish', 'draft'],
                 'p'           => $booking_id, // fetch this specific post
                 'fields'      => 'ids',
             );
