@@ -89,11 +89,11 @@
 						'icon' => 'mi mi-file-code',
 						'title' => esc_html__('Custom CSS', 'wptheaterly')
 					),
-					array(
-						'id' => 'mptrs_license_settings',
-						'icon' => 'mi mi-badget-check-alt',
-						'title' => esc_html__('Mage-People License', 'wptheaterly')
-					),
+					// array(
+					// 	'id' => 'mptrs_license_settings',
+					// 	'icon' => 'mi mi-badget-check-alt',
+					// 	'title' => esc_html__('Mage-People License', 'wptheaterly')
+					// ),
                     array(
                         'id' => 'wtbm_pdf_settings',
                         'icon' => 'mi mi-file-pdf',
