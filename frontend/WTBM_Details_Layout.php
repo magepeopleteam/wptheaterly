@@ -650,6 +650,8 @@
 
                                     $tableBind = isset( $seat['data_tableBind'] ) ? $seat['data_tableBind'] : '';
 
+                                    $title_price_symbol = get_woocommerce_currency_symbol();
+
                                     $custom_content .= '<div class="'.esc_attr( $parent_class_name ).'" 
                                                                 id="' . esc_attr($uniqueId) . '" 
                                                                 data-price="' . esc_attr( $price ) . '" 
@@ -662,7 +664,7 @@
                                                                     top: ' . ((int)$seat['top'] - $leastTop) . 'px;
                                                                     border-radius: ' .$border_radius. ';
                                                                     transform: rotate('.(int)$seat['data_degree'].'deg);"
-                                                                title="Price: $' . esc_attr($seat['price']) . '">
+                                                                title="Price: '. $title_price_symbol.'' . esc_attr($seat['price']) . '">
                                                                 <div class="'.esc_attr( $class_name ).'" 
                                                                     style="
                                                                         background-color: ' . $seat_bg_color . ';
