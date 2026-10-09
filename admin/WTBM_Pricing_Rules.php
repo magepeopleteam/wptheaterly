@@ -8,17 +8,15 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
     {
         public function __construct(){
             add_action('wp_ajax_wtbm_insert_pricing_rules_post', [ $this, 'wtbm_insert_pricing_rules_post' ]);
-            add_action('wp_ajax_nopriv_wtbm_insert_pricing_rules_post', [ $this, 'wtbm_insert_pricing_rules_post' ]);
 
-            /*add_action('wp_ajax_wtbm_add_edit_pricing_rules_form', [ $this, 'wtbm_add_edit_pricing_rules_form' ]);
-            add_action('wp_ajax_nopriv_wtbm_add_edit_pricing_rules_form', [ $this, 'wtbm_add_edit_pricing_rules_form' ]);*/
+
 
             add_action('wp_ajax_wtbm_add_edit_pricing_form', [ $this, 'wtbm_add_edit_pricing_form' ]);
-            add_action('wp_ajax_nopriv_wtbm_add_edit_pricing_form', [ $this, 'wtbm_add_edit_pricing_form' ]);
         }
 
         public function wtbm_add_edit_pricing_form(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) { wp_send_json_error( 'Permission denied.', 403 ); }
 
             $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
             if( $post_id == '' ){
@@ -35,6 +33,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
 
         public function wtbm_insert_pricing_rules_post(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) { wp_send_json_error( 'Permission denied.', 403 ); }
             $cpt = WTBM_Function::get_pricing_cpt();
 
             $name           =  isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
@@ -105,7 +104,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
 
         public static function add_edit_pricing_rules( $action_type, $post_id ) {
 
-            if ( ! current_user_can( 'manage_options' ) ) {
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) {
                 return '<p>' . esc_html__( 'You do not have permission to access this page.', 'wptheaterly' ) . '</p>';
             }
 
@@ -314,7 +313,7 @@ if ( ! class_exists( 'WTBM_Pricing_Rules' ) ) {
                         <div class="text-sm text-gray-500"><?php echo esc_attr( $subtitle ); ?></div>
                     </td>
                     <td class="text-sm text-gray-900"><?php echo esc_attr( $details ); ?></td>
-                    <td class="text-sm text-gray-900"><?php echo esc_attr( $multiplier ); ?>x</td>
+                    <td class="text-sm text-gray-900"><?php echo esc_attr( $multiplier ); ?>x <?php if ( $active ) { echo WTBM_Set_Pricing_Rules::indicator( ( $multiplier - 1 ) * 100 ); } // Escaped by indicator(). ?><?php if ( (int) $rule['rules_min_seats'] > 1 ) { ?><div class="text-xs text-gray-500 mt-1"><?php echo esc_html( sprintf( __( 'Minimum %s seats', 'wptheaterly' ), (int) $rule['rules_min_seats'] ) ); ?></div><?php } ?></td>
                     <td>
                         <span class="status-badge <?php echo esc_attr( $statusClass ); ?>">
                             <?php echo esc_attr( $statusText ); ?>

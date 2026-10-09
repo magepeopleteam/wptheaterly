@@ -1015,7 +1015,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 $meta_query[] = array(
                     'key'     => $meta_key,
                     'value'   => $meta_value,
-                    'compare' => is_numeric( $meta_value ) ? '=' : 'LIKE',
+                    'compare' => '=',
                 );
             }
 
@@ -1025,6 +1025,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                 'posts_per_page' => $display_limit,
                 'post__not_in'   => $loaded_booking_id,
                 'fields'         => 'ids',
+                'orderby'        => array( 'date' => 'DESC', 'ID' => 'DESC' ),
             );
 
             if ( count( $meta_query ) > 1 ) {
@@ -1035,6 +1036,7 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
             $booking_data = array();
             $total_posts  = (int) $query->found_posts;
             $post_count = $query->post_count;
+            if ( $query->posts ) { update_meta_cache( 'post', $query->posts ); }
 
             if ( $query->have_posts() ) {
                 foreach ( $query->posts as $booking_id ) {
@@ -1082,7 +1084,8 @@ if( !class_exists( 'WTBM_Layout_Functions ') ){
                     $status = get_post_meta( $booking_id, 'wtbm_order_status', true );
 
                     $total_orders++;
-                    $total_revenue += $price;
+                    $order = wc_get_order( get_post_meta( $booking_id, 'wtbm_order_id', true ) );
+                    if ( $order && ( $order->is_paid() || $order->get_date_paid() ) ) { $item = $order->get_item( absint( get_post_meta( $booking_id, 'wtbm_item_id', true ) ) ); $total_revenue += $item ? max( 0, (float) $item->get_total() - (float) $order->get_total_refunded_for_item( $item->get_id() ) ) : $price; }
 
                     if ( $status === 'cancelled' ) {
                         $cancelled_orders++;

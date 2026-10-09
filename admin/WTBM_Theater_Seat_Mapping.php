@@ -12,6 +12,25 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
         public function __construct(){
         }
 
+        private static function render_layout_presets() {
+            ob_start();
+            ?>
+            <div class="wtbm-layout-presets">
+                <label for="wtbm-layout-preset"><?php esc_html_e( 'Theater layout', 'wptheaterly' ); ?></label>
+                <select id="wtbm-layout-preset">
+                    <option value="standard"><?php esc_html_e( 'Classic cinema', 'wptheaterly' ); ?></option>
+                    <option value="center"><?php esc_html_e( 'Center aisle', 'wptheaterly' ); ?></option>
+                    <option value="split"><?php esc_html_e( 'Three blocks / two aisles', 'wptheaterly' ); ?></option>
+                    <option value="curved"><?php esc_html_e( 'Curved auditorium', 'wptheaterly' ); ?></option>
+                </select>
+                <button type="button" class="button" id="wtbm-apply-layout"><?php esc_html_e( 'Apply Layout', 'wptheaterly' ); ?></button>
+                <button type="button" class="button" id="wtbm-undo-layout" hidden><?php esc_html_e( 'Undo Layout', 'wptheaterly' ); ?></button>
+                <p><?php esc_html_e( 'Select a seat to change its number, category, color or position. Use Add Seat and Erase to change the plan. Presets rearrange existing seats without changing their IDs or prices; an empty plan uses the theater rows and seats per row. Save the plan when finished.', 'wptheaterly' ); ?></p>
+            </div>
+            <?php
+            return ob_get_clean();
+        }
+
         public static function render_seat_mapping_meta_box( $post_id, $action_type, $rows = 20, $seatsPerRow = 30 ) {
             $template_id = '';
             $selection = WTBM_Plan_ASSETS . 'images/tools/selection.png';
@@ -40,6 +59,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
 //            error_log( print_r( [ '$theater_categories' => $theater_categories ], true ) );
             ob_start();
             ?>
+            <?php echo self::render_layout_presets(); ?>
             <div class="mptrs_mapping_controls" id="<?php echo esc_attr( $post_id ); ?>">
                 <input type="hidden" id="mptrs_mapping_plan_id" name="mptrs_mapping_plan_id" value="<?php echo esc_attr( $post_id ); ?>">
                 <div class="mptrs_mapping_planControlHolder">
@@ -53,8 +73,8 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                     <button class="mptrs_copyPaste tooltips" id="mptrs_copyPaste" title="<?php esc_html_e('Copy Paste', 'wptheaterly'); ?>" data-tooltip="<?php esc_html_e('Paste', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($paste); ?>" alt=""></button>
 <!--                    <button class="mptrs_bindTableWidthChair tooltips" id="mptrs_bindTableWidthChair" data-tooltip="--><?php //esc_html_e('Group Table', 'wptheaterly'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($group); ?><!--" alt=""></button>-->
                     <button class="tooltips" id="mptrs_clearAllPlan"  title="<?php esc_html_e('Remove All', 'wptheaterly'); ?>" data-tooltip="<?php esc_html_e('Clear All', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($reset); ?>" alt=""></button>
-                   <?php if( $action_type === 'add' ){?>
-                        <button class="mptrs_savePlan tooltips" title="<?php esc_html_e('Save Layout', 'wptheaterly'); ?>" data-theater-id="<?php echo esc_attr( $post_id );?>" id="wtbm_saveSeatPlan" data-tooltip="<?php esc_html_e('Save Plan', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($save_plan); ?>" alt=""></button>
+                   <?php if( $post_id ){?>
+                        <button type="button" class="button wtbm-save-layout" data-theater-id="<?php echo esc_attr( $post_id ); ?>" id="wtbm_saveSeatPlan"><?php esc_html_e( 'Save Seat Plan', 'wptheaterly' ); ?></button>
                     <?php }?>
                 </div>
             </div>
@@ -111,8 +131,13 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
 
             $seat_mapping_info = get_option( 'mptrs_seat_mapping_info' );
             $box_size = isset($seat_mapping_info[ 'mptrs_box_size' ]) ? $seat_mapping_info[ 'mptrs_box_size' ] : 25;
-            $rows = isset($seat_mapping_info[ 'mptrs_num_of_rows' ]) ? $seat_mapping_info[ 'mptrs_num_of_rows' ] : $rows;
-            $columns = isset($seat_mapping_info[ 'mptrs_num_of_columns' ]) ? $seat_mapping_info[ 'mptrs_num_of_columns' ] : $seatsPerRow;
+            $rows = max( 1, min( 100, absint( $rows ) ) );
+            $columns = max( 1, min( 100, absint( $seatsPerRow ) ) );
+            $saved_plan = get_post_meta( $post_id, 'wtbp_theater_seat_map', true );
+            foreach ( (array) ( $saved_plan['seat_data'] ?? array() ) as $saved_seat ) {
+                $rows = max( $rows, min( 100, absint( $saved_seat['row'] ?? 0 ) + 1 ) );
+                $columns = max( $columns, min( 100, absint( $saved_seat['col'] ?? 0 ) + 1 ) );
+            }
 
 
             $gap = isset( $get_create_box_data['boxGap'] ) ? absint( $get_create_box_data['boxGap'] ) : 5;
@@ -129,6 +154,10 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
 
             $parent_width = $columns * ( $childWidth + $gap ) + $gap;
             $parent_height = $rows * ( $childHeight + $gap ) + $gap;
+            foreach ( (array) ( $saved_plan['seat_data'] ?? array() ) as $saved_seat ) {
+                $parent_width = max( $parent_width, (int) ( $saved_seat['left'] ?? 0 ) + (int) ( $saved_seat['width'] ?? 25 ) + 20 );
+                $parent_height = max( $parent_height, (int) ( $saved_seat['top'] ?? 0 ) + (int) ( $saved_seat['height'] ?? 30 ) + 20 );
+            }
 
             echo '<div class="mptrs_parentDiv" id="mptrs_parentDiv" style="position: absolute; width: ' . esc_attr( $parent_width ) . 'px; height: ' . esc_attr( $parent_height ) . 'px;">';
 
@@ -205,12 +234,14 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                     $background_img_url = '';
                     $seat_icon_name = '';
                     $tableBind = '';
+                    $saved_id = $col . '_' . $row;
 
                     if ( is_array( $plan_seats ) && count( $plan_seats ) > 0 ) {
                         foreach ( $plan_seats as $plan_seat ) {
                             if ( $plan_seat['col'] == $row && $plan_seat['row'] == $col ) {
 
                                 $isSelected = true;
+                                $saved_id = $plan_seat['id'] ?? $saved_id;
                                 $background_color = sanitize_text_field( $plan_seat['color'] ) ;
                                 $seat_num = isset( $plan_seat['seat_number'] ) ? sanitize_text_field( $plan_seat['seat_number'] ) : '';
                                 $seat_category = isset( $plan_seat['seat_category'] ) ? sanitize_text_field( $plan_seat['seat_category'] ) : '';
@@ -236,7 +267,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
                     $seat_number = $isSelected ? $seat_num : '';
                     $wi = $isSelected ? $width : $childWidth;
                     $hi = $isSelected ? $height : $childHeight;
-                    $zindex = $isSelected ? $zindex : 'auto';
+                    $zindex = $isSelected ? max( 2, (int) $zindex ) : 0;
                     $top = $isSelected ? $to : $top;
                     $left = $isSelected ? $le : $left;
 
@@ -245,7 +276,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
 
                     echo '<div title="'.esc_attr( $hover_price ).esc_attr(get_woocommerce_currency()).'" class=" mptrs_mappingSeat ' . esc_attr( $class ) . '"
                                         id = "div' . esc_attr( $col ) . '_' . esc_attr( $row ) . '"
-                                        data-id="' . esc_attr( $col ) . '_' . esc_attr( $row ) . '" 
+                                        data-id="' . esc_attr( $saved_id ) . '"
                                         data-row="' . esc_attr( $col ) . '" 
                                         data-col="' . esc_attr( $row ) . '" 
                                         data-seat-num=" ' . esc_attr( $seat_num ) . ' " 
@@ -437,6 +468,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
 //            error_log( print_r( [ '$theater_categories' => $theater_categories ], true ) );
             ob_start();
             ?>
+            <?php echo self::render_layout_presets(); ?>
             <div class="mptrs_mapping_controls" id="<?php echo esc_attr( $post_id ); ?>">
                 <input type="hidden" id="mptrs_mapping_plan_id" name="mptrs_mapping_plan_id" value="<?php echo esc_attr( $post_id ); ?>">
                 <div class="mptrs_mapping_planControlHolder">
@@ -451,7 +483,7 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
 <!--                    <button class="mptrs_bindTableWidthChair tooltips" id="mptrs_bindTableWidthChair" data-tooltip="--><?php //esc_html_e('Group Table', 'wptheaterly'); ?><!--"><img class="mptrs_action_img" src="--><?php //echo esc_attr($group); ?><!--" alt=""></button>-->
                     <button class="tooltips" id="mptrs_clearAllPlan"  title="<?php esc_html_e('Remove All', 'wptheaterly'); ?>" data-tooltip="<?php esc_html_e('Clear All', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($reset); ?>" alt=""></button>
                    <?php if( $action_type === 'add' ){?>
-                        <button class="mptrs_savePlan tooltips" title="<?php esc_html_e('Save Layout', 'wptheaterly'); ?>" data-theater-id="<?php echo esc_attr( $post_id );?>" id="wtbm_saveSeatPlan" data-tooltip="<?php esc_html_e('Save Plan', 'wptheaterly'); ?>"><img class="mptrs_action_img" src="<?php echo esc_attr($save_plan); ?>" alt=""></button>
+                        <button type="button" class="button wtbm-save-layout" data-theater-id="<?php echo esc_attr( $post_id ); ?>" id="wtbm_saveSeatPlan"><?php esc_html_e( 'Save Seat Plan', 'wptheaterly' ); ?></button>
                     <?php }?>
                 </div>
             </div>
@@ -508,8 +540,13 @@ if( !class_exists( 'WTBM_Theater_Seat_Mapping ') ) {
 
             $seat_mapping_info = get_option( 'mptrs_seat_mapping_info' );
             $box_size = isset($seat_mapping_info[ 'mptrs_box_size' ]) ? $seat_mapping_info[ 'mptrs_box_size' ] : 25;
-            $rows = isset($seat_mapping_info[ 'mptrs_num_of_rows' ]) ? $seat_mapping_info[ 'mptrs_num_of_rows' ] : $rows;
-            $columns = isset($seat_mapping_info[ 'mptrs_num_of_columns' ]) ? $seat_mapping_info[ 'mptrs_num_of_columns' ] : $seatsPerRow;
+            $rows = max( 1, min( 100, absint( $rows ) ) );
+            $columns = max( 1, min( 100, absint( $seatsPerRow ) ) );
+            $saved_plan = get_post_meta( $post_id, 'wtbp_theater_seat_map', true );
+            foreach ( (array) ( $saved_plan['seat_data'] ?? array() ) as $saved_seat ) {
+                $rows = max( $rows, min( 100, absint( $saved_seat['row'] ?? 0 ) + 1 ) );
+                $columns = max( $columns, min( 100, absint( $saved_seat['col'] ?? 0 ) + 1 ) );
+            }
 
 
             $gap = isset( $get_create_box_data['boxGap'] ) ? absint( $get_create_box_data['boxGap'] ) : 5;

@@ -30,8 +30,8 @@ if (!class_exists('WTBM_Set_Pricing_Rules')) {
                 'meta_query'     => [
                     [
                         'key'     => 'wtbp_pricing_rules_active',
-                        'value'   => 'true',
-                        'compare' => '='
+                        'value'   => array( 'true', '1', 'yes', 'on' ),
+                        'compare' => 'IN'
                     ]
                 ]
             ];
@@ -77,71 +77,93 @@ if (!class_exists('WTBM_Set_Pricing_Rules')) {
          * @return float Adjusted price
          */
         public static function calculate_price_by_rules( $price, $day, $booking_data, $theater_id, $booking_time, $seats  = 1 ) {
+            return self::price_details( $price, $day, $booking_data, $theater_id, $booking_time, $seats )['price'];
+        }
+
+        /** One evaluator for calendar previews, booking summaries and authoritative orders. */
+        public static function price_details( $price, $day, $date, $theater_id, $time, $seats = 1 ) {
             $rules = self::load_pricing_rules();
-
-            $final_price = $price;
-
-            if( is_array( $rules ) && !empty( $rules ) ) {
-                usort($rules, function ($a, $b) {
-                    return $b['priority'] <=> $a['priority'];
-                });
-
-                $theater_type = get_post_meta( $theater_id, 'wtbp_theater_type', true );
-                foreach ($rules as $rule) {
-
-                    if ( $seats < $rule['minSeats'] ) {
-                        continue;
-                    }
-
-                    $apply = false;
-
-                    switch ($rule['rules_type']) {
-                        case 'day':
-                            if ( !empty( $rule['days'] ) &&  in_array( $day, $rule['days'] ) ) {
-                                $apply = true;
-                            }
-                            break;
-
-                        case 'theater':
-                            if ( !empty( $rule['theaterType'] ) && $theater_type === $rule['theaterType'] ) {
-                                $apply = true;
-                            }
-                            break;
-
-                        case 'time':
-
-                            $booking_float = (float)gmdate('H', strtotime($booking_time)) + ((int)gmdate('i', strtotime($booking_time)) / 60);
-
-                            list( $start, $end ) = explode('-', $rule['time_range']);
-                            $start = (int)$start;
-                            $end   = (int)$end;
-                            if ( $booking_float >= $start && $booking_float <= $end ) {
-                                $apply = true;
-                            }
-                            break;
-
-                        case 'date':
-                            $start      = !empty( $rule['startDate'] ) ? strtotime( $rule['startDate'] ) : null;
-                            $end        = !empty( $rule['endDate'] ) ? strtotime( $rule['endDate'] ) : null;
-                            $booking_ts = strtotime( $booking_data );
-                            if ( ( $start === null || $booking_ts >= $start ) && ( $end === null || $booking_ts <= $end ) ) {
-                                $apply = true;
-                            }
-                            break;
-                    }
-
-                    if ( $apply ) {
-                        $final_price *= $rule['multiplier'];
-
-                        if ( !$rule['combinable'] ) {
-                            break;
+            usort( $rules, static function ( $a, $b ) {
+                return ( (int) $b['priority'] <=> (int) $a['priority'] ) ?: ( (int) $a['ID'] <=> (int) $b['ID'] );
+            } );
+            $base = max( 0, (float) $price );
+            $final = $base;
+            $applied = array();
+            $type = strtolower( (string) get_post_meta( $theater_id, 'wtbp_theater_type', true ) );
+            foreach ( $rules as $rule ) {
+                if ( $seats < (int) $rule['minSeats'] || ! is_numeric( $rule['multiplier'] ) || ! is_finite( (float) $rule['multiplier'] ) || (float) $rule['multiplier'] < 0 ) { continue; }
+                $match = false;
+                switch ( $rule['rules_type'] ) {
+                    case 'day':
+                        $match = in_array( strtolower( $day ), array_map( 'strtolower', (array) $rule['days'] ), true );
+                        break;
+                    case 'theater':
+                        $match = $theater_id && ( '' === $rule['theaterType'] || strtolower( $rule['theaterType'] ) === $type );
+                        break;
+                    case 'time':
+                        $range = explode( '-', $rule['time_range'] );
+                        if ( count( $range ) !== 2 || ! $time ) { break; }
+                        $start = self::time_minutes( $range[0] );
+                        $end = self::time_minutes( $range[1] );
+                        $current = self::time_minutes( $time );
+                        if ( null !== $start && null !== $end && null !== $current ) {
+                            $match = $start <= $end ? ( $current >= $start && $current <= $end ) : ( $current >= $start || $current <= $end );
                         }
-                    }
-
+                        break;
+                    case 'date':
+                        $start = $rule['startDate'];
+                        $end = $rule['endDate'];
+                        $valid = static function ( $value ) { $parsed = DateTimeImmutable::createFromFormat( '!Y-m-d', $value, wp_timezone() ); return $parsed && $parsed->format( 'Y-m-d' ) === $value; };
+                        $match = $valid( $date ) && ( $start || $end ) && ( ! $start || ( $valid( $start ) && $date >= $start ) ) && ( ! $end || ( $valid( $end ) && $date <= $end ) );
+                        break;
                 }
+                if ( ! $match ) { continue; }
+                $final *= (float) $rule['multiplier'];
+                $applied[] = array( 'id' => (int) $rule['ID'], 'name' => $rule['title'], 'multiplier' => (float) $rule['multiplier'], 'min_seats' => max( 1, (int) $rule['minSeats'] ) );
+                if ( ! filter_var( $rule['combinable'], FILTER_VALIDATE_BOOLEAN ) ) { break; }
             }
+            $decimals = function_exists( 'wc_get_price_decimals' ) ? wc_get_price_decimals() : 2;
+            return array( 'base' => $base, 'price' => round( $final, $decimals ), 'percent' => $base > 0 ? round( ( $final / $base - 1 ) * 100, 2 ) : 0, 'rules' => $applied );
+        }
 
-            return round( $final_price, 2 );
+        /** Before seats are selected, label conditional offers with their minimum quantity. */
+        public static function date_indicator( $date, $theater = 0, $time = '', $seats = 0 ) {
+            $parsed = DateTimeImmutable::createFromFormat( '!Y-m-d', $date, wp_timezone() );
+            if ( ! $parsed || $parsed->format( 'Y-m-d' ) !== $date ) { return ''; }
+            $pricing = self::price_details( 100, strtolower( $parsed->format( 'l' ) ), $date, $theater, $time, $seats ?: 100 );
+            $badge = self::indicator( $pricing['percent'], implode( ', ', array_column( $pricing['rules'], 'name' ) ) );
+            $minimum = $pricing['rules'] ? max( array_column( $pricing['rules'], 'min_seats' ) ) : 1;
+            if ( $badge && ! $seats && $minimum > 1 ) {
+                $badge .= '<small class="wtbm-price-minimum">' . esc_html( sprintf( __( '%s+ seats', 'wptheaterly' ), $minimum ) ) . '</small>';
+            }
+            return $badge;
+        }
+
+        /** Visible order metadata explains the saved price without recalculating historical orders. */
+        public static function order_details( $item, $pricing ) {
+            $keys = array( __( 'Pricing rules', 'wptheaterly' ), __( 'Base seat total', 'wptheaterly' ), __( 'Price adjustment', 'wptheaterly' ) );
+            foreach ( $keys as $key ) { $item->delete_meta_data( $key ); }
+            if ( empty( $pricing['rules'] ) ) { return; }
+            $item->update_meta_data( $keys[0], implode( ', ', array_column( $pricing['rules'], 'name' ) ) );
+            $item->update_meta_data( $keys[1], wc_format_localized_price( $pricing['base'] ) );
+            $item->update_meta_data( $keys[2], ( $pricing['percent'] < 0 ? '−' : '+' ) . abs( $pricing['percent'] ) . '% (' . wc_format_localized_price( $pricing['price'] - $pricing['base'] ) . ')' );
+        }
+
+        private static function time_minutes( $time ) {
+            $time = trim( $time );
+            if ( preg_match( '/^([01]?\d|2[0-3])(?:\.(\d+))?$/', $time, $parts ) ) { return (float) $time * 60; }
+            if ( ! preg_match( '/^(\d{1,2}):(\d{2})(?:\s*(AM|PM))?$/i', $time, $parts ) ) { return null; }
+            $hour = (int) $parts[1]; $minute = (int) $parts[2];
+            if ( $minute > 59 || ( isset( $parts[3] ) ? ( $hour < 1 || $hour > 12 ) : $hour > 23 ) ) { return null; }
+            if ( isset( $parts[3] ) ) { $hour = $hour % 12 + ( strtoupper( $parts[3] ) === 'PM' ? 12 : 0 ); }
+            return $hour * 60 + $minute;
+        }
+
+        /** Accessible up/down indicator, shared by rule rows and calendar dates. */
+        public static function indicator( $percent, $names = '' ) {
+            if ( abs( $percent ) < 0.005 ) { return ''; }
+            $label = sprintf( $percent < 0 ? __( '%s%% lower price', 'wptheaterly' ) : __( '%s%% higher price', 'wptheaterly' ), number_format_i18n( abs( $percent ), abs( $percent - round( $percent ) ) < 0.005 ? 0 : 2 ) );
+            return '<span class="wtbm-price-indicator ' . ( $percent < 0 ? 'is-discount' : 'is-increase' ) . '" title="' . esc_attr( $label . ( $names ? ' · ' . $names : '' ) ) . '" aria-label="' . esc_attr( $label ) . '"><span aria-hidden="true">' . ( $percent < 0 ? '↓' : '↑' ) . '</span> ' . esc_html( number_format_i18n( abs( $percent ), abs( $percent - round( $percent ) ) < 0.005 ? 0 : 2 ) ) . '%</span>';
         }
 
         /**

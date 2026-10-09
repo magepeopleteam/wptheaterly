@@ -217,7 +217,7 @@ if (!class_exists('WTBM_Layout_Pro')) {
 
             $args = array(
                 'post_type'      => 'wtbm_booking',
-                'post_status'    => 'publish',
+                'post_status'    => array( 'publish', 'draft' ),
                 'posts_per_page' => -1,
                 'post__in'       => $booking_ids,
                 'orderby'        => 'post__in',
@@ -225,6 +225,7 @@ if (!class_exists('WTBM_Layout_Pro')) {
 
             $query = new WP_Query( $args );
             $report_data = array();
+            $checkins = WTBM_Tickets::checkin_data( $booking_ids );
 
             if ( $query->have_posts() ) {
 
@@ -242,6 +243,20 @@ if (!class_exists('WTBM_Layout_Pro')) {
 
                     $attendees_name = get_post_meta( $booking_id, 'wtbm_billing_name', true );
                     $attendees_phone = get_post_meta( $booking_id, 'wtbm_billing_phone', true );
+                    $order = wc_get_order( get_post_meta( $booking_id, 'wtbm_order_id', true ) );
+                    $item = $order ? $order->get_item( absint( get_post_meta( $booking_id, 'wtbm_item_id', true ) ) ) : false;
+                    // Older bookings saved attendee contacts on the order item rather than billing fields.
+                    $item_name = $item ? (string) $item->get_meta( '_wtbm_user_name' ) : '';
+                    $item_phone = $item ? (string) $item->get_meta( '_wtbm_user_phone' ) : '';
+                    if ( '' === trim( (string) $attendees_name ) || ( is_email( $attendees_name ) && '' !== trim( $item_name ) ) ) {
+                        $attendees_name = '' !== trim( $item_name ) ? $item_name : ( $order ? $order->get_formatted_billing_full_name() : '' );
+                    }
+                    if ( '' === trim( (string) $attendees_phone ) ) {
+                        $attendees_phone = '' !== trim( $item_phone ) ? $item_phone : ( $order ? $order->get_billing_phone() : '' );
+                    }
+                    if ( '' === trim( (string) $attendees_name ) ) { $attendees_name = __( 'Not provided', 'wptheaterly' ); }
+                    if ( '' === trim( (string) $attendees_phone ) ) { $attendees_phone = __( 'Not provided', 'wptheaterly' ); }
+
 
                     $booking_seats_str = '';
                     $booking_seats = get_post_meta( $booking_id, 'wtbm_seats', true );
@@ -249,7 +264,18 @@ if (!class_exists('WTBM_Layout_Pro')) {
                         $booking_seats_str = implode( ', ', $booking_seats );
                     }
 
+                    $checkin = $checkins[ $booking_id ];
+                    $label = $checkin['count'] ? ( $checkin['count'] === $checkin['total'] ? __( 'Checked in', 'wptheaterly' ) : __( 'Partially checked in', 'wptheaterly' ) ) : __( 'Not checked in', 'wptheaterly' );
+                    $details = array();
+                    foreach ( $checkin['groups'] as $group ) { $details[] = implode( ', ', $group['seats'] ) . ' · ' . $group['time'] . ' · ' . $group['staff']; }
                     $report_data[] = array(
+                        'booking_number' => 'BK' . str_pad( (string) get_post_meta( $booking_id, 'wtbm_order_id', true ), 6, '0', STR_PAD_LEFT ),
+                        'date' => get_post_meta( $booking_id, 'wtbm_order_date', true ),
+                        'amount' => get_post_meta( $booking_id, 'wtbm_tp', true ),
+                        'currency' => get_woocommerce_currency(),
+                        'status' => wc_get_order_status_name( get_post_meta( $booking_id, 'wtbm_order_status', true ) ),
+                        'checkin' => $label,
+                        'checkin_details' => implode( '; ', $details ),
                         'id'            => $booking_id,
                         'name'          => $attendees_name,
                         'phone'         => $attendees_phone,
@@ -267,59 +293,18 @@ if (!class_exists('WTBM_Layout_Pro')) {
         }
 
         public static function generate_booking_data_pdf( $booking_ids ) {
-
-            if (empty($booking_ids) || !is_array($booking_ids)) {
-                return '';
+            $rows = self::get_booking_data_by_ids( $booking_ids );
+            $columns = array( 'booking_number' => 'Booking ID', 'name' => 'Customer', 'phone' => 'Phone', 'movie_name' => 'Movie', 'theater_name' => 'Theater', 'date' => 'Show date', 'time' => 'Time', 'seat_number' => 'Seats', 'amount' => 'Amount', 'status' => 'Status', 'checkin' => 'Check-in' );
+            $html = '<style>body{font-family:dejavusans;font-size:9px;color:#463452}h1{font-size:22px;color:#8054a8}p{color:#8d789d}table{width:100%;border-collapse:collapse}th{background:#8a61b0;color:white;padding:9px;text-align:left}td{padding:9px;border-bottom:1px solid #e9dff1}tr:nth-child(even){background:#faf7fd}</style>';
+            $html .= '<h1>' . esc_html__( 'Theaterly · Booking report', 'wptheaterly' ) . '</h1><p>' . esc_html( count( $rows ) . ' bookings · ' . get_woocommerce_currency() . ' · ' . wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) ) ) . '</p><table><thead><tr>';
+            foreach ( $columns as $label ) { $html .= '<th>' . esc_html( $label ) . '</th>'; }
+            $html .= '</tr></thead><tbody>';
+            foreach ( $rows as $row ) {
+                $html .= '<tr>';
+                foreach ( $columns as $key => $label ) { $html .= '<td>' . esc_html( $row[ $key ] ) . '</td>'; }
+                $html .= '</tr>';
             }
-            $bookings_data = self::get_booking_data_by_ids( $booking_ids );
-
-            $html = '<style>
-                        body { font-family: sans-serif; font-size: 11px; color: #333; }
-                        h1 { text-align: center; margin-bottom: 10px; font-size: 18px; }
-                        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
-                        th, td { border: 1px solid #ddd; padding: 6px; text-align: left; }
-                        th { background: #2c3e50; color: #fff; }
-                        tr:nth-child(even) { background: #f9f9f9; }
-                        .footer { font-size: 10px; text-align: center; margin-top: 10px; color: #555; }
-                    </style>';
-            $html .= '<div class="footer">Generated on '.gmdate('d M Y H:i').'</div>';
-            $html .= '<table>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Theater Name</th>
-                                <th>Movie Name</th>
-                                <th>Time</th>
-                                <th>Seat Number</th>
-                            </tr>
-                        ';
-            $i = 1;
-            foreach ($bookings_data as $booking_data) {
-                $name       = esc_html($booking_data['name'] ?? '');
-                $phone      = esc_html($booking_data['phone'] ?? '');
-                $theater    = esc_html($booking_data['theater_name'] ?? '');
-                $movie      = esc_html($booking_data['movie_name'] ?? '');
-                $time       = esc_html($booking_data['time'] ?? '');
-                $seat       = esc_html($booking_data['seat_number'] ?? '');
-
-                $html .= '
-                    <tr>
-                        <td>'.$i++.'</td>
-                        <td>'.$name.'</td>
-                        <td>'.$phone.'</td>
-                        <td>'.$theater.'</td>
-                        <td>'.$movie.'</td>
-                        <td>'.$time.'</td>
-                        <td>'.$seat.'</td>
-                    </tr>
-                    ';
-            }
-
-            $html .= '</table>';
-            $html .= '<pagebreak />';
-
-            return $html;
+            return $html . '</tbody></table>';
         }
 
     }

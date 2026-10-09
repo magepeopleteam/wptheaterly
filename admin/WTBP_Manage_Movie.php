@@ -10,20 +10,18 @@ if (!class_exists('WTBP_Manage_Movie')) {
         public function __construct(){
 
             add_action('wp_ajax_mptrs_insert_movie_post', [ $this, 'mptrs_insert_movie_post' ]);
-            add_action('wp_ajax_nopriv_mptrs_insert_movie_post', [ $this, 'mptrs_insert_movie_post' ]);
 
             add_action('wp_ajax_wtbm_update_movie_post', [ $this, 'wtbm_update_movie_post' ]);
             add_action('wp_ajax_wtbm_update_movie_post', [ $this, 'wtbm_update_movie_post' ]);
 
             add_action('wp_ajax_wtbp_add_edit_movie_form', [ $this, 'wtbp_add_edit_movie_form' ]);
-            add_action('wp_ajax_nopriv_wtbp_add_edit_movie_form', [ $this, 'wtbp_add_edit_movie_form' ]);
 
             add_action('wp_ajax_wtbt_delete_custom_post', [ $this, 'wtbt_delete_custom_post' ]);
-            add_action('wp_ajax_nopriv_wtbt_delete_custom_post', [ $this, 'wtbt_delete_custom_post' ]);
         }
 
         public function wtbt_delete_custom_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) { wp_send_json_error( 'Permission denied.', 403 ); }
 
             $post_id = isset($_POST['post_id']) ? intval( wp_unslash( $_POST['post_id'] ) ) : '';
 
@@ -59,6 +57,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
 
         function mptrs_insert_movie_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) { wp_send_json_error( 'Permission denied.', 403 ); }
 
             $cpt = WTBM_Function::get_movie_cpt();
             $title       = isset( $_POST['title'] ) ? sanitize_text_field( wp_unslash( $_POST['title'] ) ) : '';
@@ -126,6 +125,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
 
         function wtbm_update_movie_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) { wp_send_json_error( 'Permission denied.', 403 ); }
             $cpt = WTBM_Function::get_movie_cpt();
             $title          = isset( $_POST['title'] ) ? sanitize_text_field( wp_unslash( $_POST['title'] ) ) : '';
             $genre          = isset( $_POST['genre'] ) ? sanitize_text_field( wp_unslash( $_POST['genre'] ) ) : '';
@@ -200,6 +200,7 @@ if (!class_exists('WTBP_Manage_Movie')) {
 
         public function wtbp_add_edit_movie_form(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) { wp_send_json_error( 'Permission denied.', 403 ); }
 
             $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
             $movie_data = [];

@@ -257,6 +257,7 @@
 
     let wtbm_seatBooked = [];
     let wtbm_seatBookedName = [];
+    let wtbm_purchase_reference = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'wtbm-' + Date.now() + '-' + Math.random().toString(36).slice(2);
     let wtbm_total_price = 0;
     let wtbm_total_seat_count = 0;
 
@@ -299,7 +300,7 @@
         const seatSummaryIds = wtbm_seatBooked.join(", ");
 
         $("#wtbm_summaryQuantity").text( wtbm_total_seat_count );
-        $("#wtbm_summaryTotal").text( wtbm_total_price+''+wtbm_ajax.wc_currency_symbol );
+        $("#wtbm_summaryTotal").text( wtbm_total_price ).siblings('.wtbm_currency').show();
 
     // .text(seatSummary)
 
@@ -319,58 +320,7 @@
         }
 
 
-        let theaterId = $("#wtbm_summeryTheaterId").val().trim();
-        let apply_pricing_rules = $('input[name="wtbm_apply_pricing_rules"]').val();
-        let bookingDate = $("#wtbm_summeryDate").val().trim();
-        let bookingTime = $("#wtbm_summeryTime").val().trim();
-        let action = 'wtbm_apply_pricing_rules_total_price';
-
-        if( apply_pricing_rules === 'yes' ) {
-            const booking_data = {
-                action: action,
-                theater_id: theaterId,
-                booking_date: bookingDate,
-                booking_time: bookingTime,
-                total_amount: wtbm_total_price,
-                seat_count: wtbm_total_seat_count,
-                nonce: wtbm_ajax.nonce,
-            };
-            // console.log( booking_data );
-            $.ajax({
-                type: 'POST',
-                url: wtbm_ajax.ajax_url,
-                data: booking_data,
-                dataType: 'json',
-
-                beforeSend: function () {
-                    console.log('Request sending...');
-                },
-
-                success: function (response) {
-                    if (response.success) {
-                        $("#wtbm_summaryTotal").text(response.data.rules_price + '' + wtbm_ajax.wc_currency_symbol);
-                    } else {
-                        console.error('Server Error:', response.data);
-                        alert(response.data || 'Something went wrong!');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('AJAX Error:', error);
-                    console.error('Status:', status);
-                    console.error('Response:', xhr.responseText);
-
-                    if (xhr.status === 0) {
-                        alert('Network error! Check your internet.');
-                    } else if (xhr.status == 404) {
-                        alert('Requested URL not found (404)');
-                    } else if (xhr.status == 500) {
-                        alert('Internal Server Error (500)');
-                    } else {
-                        alert('Unexpected error: ' + error);
-                    }
-                }
-            });
-        }
+        // The authoritative seat-hold quote updates pricing; avoid competing requests.
 
 
     });
@@ -380,7 +330,7 @@
         let target = $("#wtbm_summarySeats");
         let sourcePos = source.offset();
         let targetPos = target.offset();
-        let floatingDiv = source.clone().addClass("wtbm_selected_seat_floating");
+        let floatingDiv = source.clone().removeAttr("id").removeClass("wtbm_mappedSeat").addClass("wtbm_selected_seat_floating").css("pointer-events", "none");
         $("body").append(floatingDiv);
         floatingDiv.css({
             top: sourcePos.top,
@@ -411,8 +361,10 @@
             $("#wtbm_summeryTime").val( '' );
         }
 
+        $('.wtbm-pricing-breakdown, .wtbm-hold-status').empty().hide();
+        $(document).trigger('wtbm:pricing-reset');
         $("#wtbm_summaryQuantity").text( 0 );
-        $("#wtbm_summaryTotal").text( 0+''+wtbm_ajax.wc_currency_symbol );
+        $("#wtbm_summaryTotal").text( 0 ).siblings('.wtbm_currency').show();
         $("#wtbm_summarySeats").text('—' );
 
         $("#wtbm_summeryTotalAmount").val( 0 );
@@ -464,6 +416,7 @@
             booking_time: bookingTime,
             total_amount: totalAmount,
             seat_count: wtbm_total_seat_count,
+            request_id: wtbm_purchase_reference,
             seat_names: wtbm_seatBookedNameStr,
             booked_seat_ids: wtbm_seatBookedIds,
             userName: userName,
@@ -475,8 +428,10 @@
             type: 'POST',
             url: wtbm_ajax.ajax_url,
             data: booking_data,
+            error: function(xhr) { button.prop('disabled', false).text('PURCHASE TICKET'); alert((xhr.responseJSON && xhr.responseJSON.data) || 'Unable to purchase tickets.'); },
+            complete: function() { button.prop('disabled', false); },
             beforeSend: function () {
-                button.text('Adding...');
+                button.prop('disabled', true).text('Adding...');
             },
             success: function (response) {
                 if (response.success) {
@@ -490,7 +445,7 @@
                     wtbm_total_price = 0;
                     wtbm_total_seat_count = 0;
 
-                    window.location.href = wtbm_ajax.site_url+'/checkout/';
+                    window.location.href = response.data.checkout_url;
                 } else {
                     alert(response.data);
                     button.text('Add to Cart');
@@ -550,6 +505,8 @@
                 booking_time: bookingTime,
                 total_amount: totalAmount,
                 seat_count: wtbm_total_seat_count,
+                payment_method: $('#wtbm-pos-method').val(), tender: $('#wtbm-pos-tender').val(), payment_reference: $('#wtbm-pos-reference').val(), email: $('#wtbm-pos-email').val(),
+            request_id: wtbm_purchase_reference,
                 seat_names: wtbm_seatBookedNameStr,
                 booked_seat_ids: wtbm_seatBookedIds,
                 userName: userName,
@@ -562,8 +519,10 @@
                 type: 'POST',
                 url: wtbm_ajax.ajax_url,
                 data: booking_data,
+                error: function(xhr) { button.prop('disabled', false).text('PURCHASE TICKET'); alert((xhr.responseJSON && xhr.responseJSON.data) || 'Unable to purchase tickets.'); },
+                complete: function() { button.prop('disabled', false); },
                 beforeSend: function () {
-                    button.text('Adding...');
+                    button.prop('disabled', true).text('Adding...');
                 },
                 success: function (response) {
                     if (response.success) {
@@ -585,7 +544,9 @@
                             $("#wtbm_seatsGrid").html('<h6>No Movies Found</h6>');
                         }
 
-                        $("#wtbm_summaryTotal").text(response.data.wtbm_total_price);
+                        $("#wtbm_summaryTotal").text(response.data.wtbm_total_price).siblings('.wtbm_currency').show();
+                        wtbm_purchase_reference = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'wtbm-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+                        $('.wtbm-pos-result').empty().append($('<a>').attr({href: response.data.receipt_url, target: '_blank', rel: 'noopener'}).text('Open receipt'), $('<p>').text('Change: ' + response.data.change));
 
                     } else {
                         alert(response.data);

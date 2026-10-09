@@ -10,21 +10,20 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
         public function __construct() {
 
             add_action('wp_ajax_wtbm_insert_show_time_post', [ $this, 'wtbm_insert_show_time_post' ]);
-            add_action('wp_ajax_nopriv_wtbm_insert_show_time_post', [ $this, 'wtbm_insert_show_time_post' ]);
 
             add_action('wp_ajax_wtbm_update_show_time_post', [ $this, 'wtbm_update_show_time_post' ]);
-            add_action('wp_ajax_nopriv_wtbm_update_show_time_post', [ $this, 'wtbm_update_show_time_post' ]);
 
             add_action('wp_ajax_wtbm_add_edit_show_time_form', [ $this, 'wtbm_add_edit_show_time_form' ]);
-            add_action('wp_ajax_nopriv_wtbm_add_edit_show_time_form', [ $this, 'wtbm_add_edit_show_time_form' ]);
 
             add_action('wp_ajax_wtbm_get_theater_categories', [ $this, 'wtbm_get_theater_categories' ]);
-            add_action('wp_ajax_nopriv_wtbm_get_theater_categories', [ $this, 'wtbm_get_theater_categories' ]);
         }
 
         function wtbm_insert_show_time_post() {
 
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce' );
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) { wp_send_json_error( 'Permission denied.', 403 ); }
+            $validation = WTBM_Operations::validate_schedule( wp_unslash( $_POST ), absint( $_POST['showTimeId'] ?? 0 ) );
+            if ( is_wp_error( $validation ) ) { wp_send_json_error( $validation->get_error_message(), 400 ); }
             $cpt = WTBM_Function::get_show_time_cpt();
             $movieId            = isset( $_POST['movieId'] ) ? sanitize_text_field( wp_unslash( $_POST['movieId'] ) ) : '';
             $movie_title = get_the_title( $movieId );
@@ -77,7 +76,10 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
         function wtbm_update_show_time_post() {
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) { wp_send_json_error( 'Permission denied.', 403 ); }
 
+            $validation = WTBM_Operations::validate_schedule( wp_unslash( $_POST ), absint( $_POST['showTimeId'] ?? 0 ) );
+            if ( is_wp_error( $validation ) ) { wp_send_json_error( $validation->get_error_message(), 400 ); }
             $cpt = WTBM_Function::get_show_time_cpt();
 
             $movieId            = isset( $_POST['movieId'] ) ? sanitize_text_field( wp_unslash( $_POST['movieId'] ) ) : '';
@@ -136,6 +138,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
         public function wtbm_add_edit_show_time_form(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) { wp_send_json_error( 'Permission denied.', 403 ); }
 
             $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
             if( $post_id == '' ){
@@ -150,6 +153,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
         }
         public function wtbm_get_theater_categories(){
             check_ajax_referer('mptrs_admin_nonce', '_ajax_nonce');
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) { wp_send_json_error( 'Permission denied.', 403 ); }
 
             $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
             if( $post_id ){
@@ -234,7 +238,7 @@ if ( ! class_exists( 'WTBM_Manage_Showtimes' ) ) {
 
         public static function add_edit_show_time_html( $action_type, $showtime_id ) {
             ob_start();
-            if ( ! current_user_can( 'manage_options' ) ) {
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) {
                 return '<p>' . esc_html__( 'You do not have permission to access this page.', 'wptheaterly' ) . '</p>';
             }
             $title = ( $action_type === 'edit' ) ? __( 'Edit Showtime', 'wptheaterly' ) : __( 'Create New Showtime', 'wptheaterly' );

@@ -31,6 +31,14 @@
 				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Select_Icon_image.php';
 				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Query.php';
 				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Layout.php';
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Booking_Service.php';
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Operations.php';
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Tickets.php';
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Change_Requests.php';
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_Notifications.php';
+				require_once WTBM_PLUGIN_DIR . '/inc/WTBM_History.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Operations_Admin.php';
+				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Operations_Report.php';
 				require_once WTBM_PLUGIN_DIR . '/admin/WTBM_Admin.php';
 				if (WTBM_Function::check_woocommerce() == 1) {
 					require_once WTBM_PLUGIN_DIR . '/frontend/WTBM_Frontend.php';
@@ -93,6 +101,9 @@
 				wp_enqueue_style('mptrs_admin', WTBM_PLUGIN_URL . '/assets/admin/mptrs_admin.css', [], time());
 				wp_enqueue_script('mptrs_admin', WTBM_PLUGIN_URL . '/assets/admin/mptrs_admin.js', ['jquery'], time(), true);
 				wp_enqueue_script('create_seat_plan', WTBM_PLUGIN_URL . '/assets/admin/create_seat_plan.js', ['jquery'], time(), true);
+				wp_localize_script( 'create_seat_plan', 'wtbmSeatBuilder', array(
+					'categoryRequired' => __( 'Add a seating category with a price before applying a layout.', 'wptheaterly' ),
+				) );
 				wp_enqueue_style('create_seat_plan', WTBM_PLUGIN_URL . '/assets/admin/create_seat_plan.css', array(), time());
 				wp_enqueue_style('wtbm_booking_list_edit', WTBM_PLUGIN_URL . '/assets/admin/wtbm_booking_list_edit.css', array(), time());
 				wp_localize_script('mptrs_admin', 'mptrs_admin_ajax', array(

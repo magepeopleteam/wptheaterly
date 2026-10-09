@@ -1,211 +1,67 @@
-/* Overlay: full screen, semi-transparent background */
-.wtbm_booking_edit_overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    /*display: none; !* Hidden by default *!*/
-    z-index: 9999;
+/* Booking editor styles are isolated from the booking list and other modals. */
+body.wtbm-booking-modal-open { overflow: hidden; }
+.wtbm_booking_edit_overlay { position: fixed; inset: 0; z-index: 100100; display: flex; align-items: center; justify-content: center; padding: 48px 24px; background: rgba(22,17,36,.55); backdrop-filter: blur(4px); }
+.wtbm_booking_edit_overlay * { box-sizing: border-box; }
+.wtbm_booking_edit_modal { display: flex; flex-direction: column; width: 940px; max-width: 100%; max-height: calc(100dvh - 96px); background: #fff; color: #30283e; border-radius: 18px; box-shadow: 0 24px 90px rgba(17,12,31,.28); overflow: hidden; font-family: inherit; }
+.wtbm_booking_edit_header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 26px 28px; border-bottom: 1px solid #e9e5ef; flex-shrink: 0; }
+.wtbm-edit-heading { display: flex; align-items: center; gap: 14px; }
+.wtbm-edit-symbol { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: #f0e8ff; color: #7c3aed; font-size: 23px; }
+.wtbm_booking_edit_overlay .wtbm-edit-eyebrow { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: #7c3aed; margin-bottom: 6px; }
+.wtbm_booking_edit_overlay .wtbm_booking_edit_header h3 { margin: 0; font-size: 25px; font-weight: 700; line-height: 1.2; color: #242136; }
+.wtbm_booking_edit_overlay .wtbm_booking_edit_header p { margin: 7px 0 0; color: #92869f; font-size: 12px; }
+.wtbm_booking_edit_overlay .wtbm_booking_edit_close_icon { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 9px; background: #f1edf7; color: #6f617e; font-size: 25px; cursor: pointer; }
+.wtbm_booking_edit_body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 24px 28px; background: #f8f7fb; }
+.wtbm-edit-context { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 16px; padding: 16px 20px; margin-bottom: 22px; background: #f0ecf7; border-radius: 10px; }
+.wtbm-edit-context > div { min-width: 0; }
+.wtbm-edit-context span { display: block; font-size: 10px; color: #92859f; margin-bottom: 7px; }
+.wtbm-edit-context strong { display: block; font-size: 12px; font-weight: 600; color: #625171; overflow-wrap: anywhere; }
+.wtbm-edit-columns { display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px; align-items: start; }
+.wtbm-edit-card { min-width: 0; background: #fff; border: 1px solid #e8e4ef; border-radius: 12px; overflow: hidden; }
+.wtbm-edit-card-heading { padding: 18px 20px; border-bottom: 1px solid #f0edf5; }
+.wtbm_booking_edit_overlay .wtbm-edit-card-heading h4 { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 15px; font-weight: 650; color: #352b44; }
+.wtbm_booking_edit_overlay .wtbm-edit-card-heading p { margin: 6px 0 0; font-size: 11px; line-height: 1.6; color: #9c91a8; }
+.wtbm-edit-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 14px; padding: 20px; }
+.wtbm-edit-field { min-width: 0; }
+.wtbm-edit-full { grid-column: 1 / -1; }
+.wtbm_booking_edit_overlay label, .wtbm-edit-label { display: block; font-size: 12px; font-weight: 600; color: #776b85; margin-bottom: 8px; }
+.wtbm_booking_edit_overlay .wtbm_booking_edit_input, .wtbm_booking_edit_overlay .wtbm_booking_edit_select { width: 100%; max-width: none; min-height: 43px; padding: 10px 12px; margin: 0; border: 1px solid #ddd6e7; border-radius: 8px; background-color: #fff; font-family: inherit; font-size: 13px; color: #554861; line-height: 1.5; box-shadow: none; }
+.wtbm_booking_edit_overlay .wtbm_booking_edit_select { padding-right: 30px; }
+.wtbm_booking_edit_overlay .wtbm_booking_edit_input:focus, .wtbm_booking_edit_overlay .wtbm_booking_edit_select:focus { outline: none; border-color: #a37dd8; box-shadow: 0 0 0 3px #f1eafa; }
+.wtbm_booking_edit_overlay button:focus-visible { outline: 3px solid #a78bfa; outline-offset: 3px; }
+.wtbm-edit-seat-body { padding: 20px; }
+.wtbm_booking_edit_overlay .wtbm_booked_seats_display { display: flex; gap: 8px; flex-wrap: wrap; }
+#wtbm-edit-selected-seats { min-height: 42px; }
+.wtbm_booking_edit_overlay .wtbm_seat_name { display: inline-flex; align-items: center; gap: 10px; padding: 7px 8px 7px 12px; border: 1px solid #d9c9f1; border-radius: 7px; font-size: 13px; font-weight: 600; background: #f2ebfc; color: #7945b6; }
+.wtbm_booking_edit_overlay .remove-seat { display: inline-grid; place-items: center; position: static; width: 20px; height: 20px; padding: 0; border: 0; border-radius: 5px; background: #e4d5f6; color: #7b4aaf; font-size: 16px; line-height: 1; opacity: 1; cursor: pointer; }
+.wtbm_booking_edit_overlay .remove-seat:hover { background: #dcc1f4; }
+#wtbm-edit-seat-count { display: inline-grid; place-items: center; min-width: 23px; height: 23px; padding: 0 6px; border-radius: 7px; font-size: 11px; background: #eee6f8; color: #8452b8; }
+.wtbm_get_available_seat_holder { margin: 16px 0; }
+.wtbm_booking_edit_overlay .wtbm_get_available_seat { width: 100%; min-height: 40px; padding: 9px 14px; border: 1px solid #d8c7ee; border-radius: 8px; background: #fff; color: #8753b8; font-size: 12px; font-weight: 600; cursor: pointer; }
+.wtbm_booking_edit_overlay .wtbm_get_available_seat:hover { background: #f6f0fe; }
+.wtbm_booking_edit_overlay .wtbm_get_available_seat:disabled { opacity: .6; cursor: wait; }
+.wtbm_booking_edit_overlay .wtbm_available_seats:not(:empty) { max-height: 250px; overflow-y: auto; padding: 12px; border: 1px solid #eee9f5; border-radius: 8px; background: #faf8fd; }
+.wtbm_booking_edit_overlay .wtbm_add_seat_name { min-width: 36px; min-height: 36px; padding: 6px 8px; border: 1px solid #e2dbe9; border-radius: 6px 6px 4px 4px; border-bottom-width: 3px; background: #fff; color: #9684a6; text-align: center; font-family: inherit; font-size: 12px; cursor: pointer; }
+.wtbm_booking_edit_overlay .wtbm_add_seat_name:hover { background: #eee4fb; border-color: #b994e0; color: #7b45b2; }
+.wtbm_booking_edit_overlay .wtbm-edit-seat-hint { margin: 14px 0 0; font-size: 11px; line-height: 1.7; color: #a195ad; }
+.wtbm_booking_edit_footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 28px; border-top: 1px solid #e9e5ef; background: #fff; flex-shrink: 0; }
+.wtbm_booking_edit_footer > span { color: #a094ae; font-size: 11px; }
+.wtbm_booking_edit_footer > div { display: flex; gap: 10px; flex-shrink: 0; }
+.wtbm_booking_edit_overlay .wtbm_booking_edit_update_btn, .wtbm_booking_edit_overlay .wtbm_booking_edit_close_btn { min-height: 40px; padding: 9px 18px; border-radius: 8px; border: 1px solid #ddd4e8; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+.wtbm_booking_edit_overlay .wtbm_booking_edit_update_btn { border-color: #7c3aed; background: #7c3aed; color: #fff; }
+.wtbm_booking_edit_overlay .wtbm_booking_edit_update_btn:hover { background: #6d28d9; }
+.wtbm_booking_edit_overlay .wtbm_booking_edit_update_btn:disabled { opacity: .6; cursor: wait; }
+.wtbm_booking_edit_overlay .wtbm_booking_edit_close_btn { background: #fff; color: #9a89ab; }
+@media (max-width: 782px) {
+    .wtbm_booking_edit_overlay { padding: 36px 12px; }
+    .wtbm_booking_edit_modal { max-height: calc(100dvh - 72px); border-radius: 14px; }
+    .wtbm_booking_edit_header { padding: 20px; }
+    .wtbm-edit-symbol { display: none; }
+    .wtbm_booking_edit_body { padding: 18px; }
+    .wtbm-edit-context { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .wtbm-edit-columns { grid-template-columns: 1fr; }
+    .wtbm_booking_edit_footer { padding: 16px 18px; flex-wrap: wrap; }
+    .wtbm_booking_edit_footer > div { width: 100%; }
+    .wtbm_booking_edit_footer button { flex: 1; }
+    .wtbm_booking_edit_overlay .wtbm_add_seat_name { min-width: 40px; min-height: 40px; }
 }
-
-/* Modal Box: horizontal center, 20% from top */
-.wtbm_booking_edit_modal {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 620px;
-    height: 650px;
-    margin: 0 auto;
-    max-width: 90%;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-    overflow: hidden;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    animation: wtbm_fade_in 0.3s ease-out;
-    overflow-y: scroll;
-}
-
-/* Header */
-.wtbm_booking_edit_header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    background: linear-gradient(90deg, #a9d8ff, #0087ed);
-    color: #fff;
-}
-
-.wtbm_booking_edit_header h3 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 600;
-}
-
-.wtbm_booking_edit_close_icon {
-    font-size: 24px;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.wtbm_booking_edit_close_icon:hover {
-    color: #ff4d4d;
-}
-
-/* Body */
-.wtbm_booking_edit_body {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.wtbm_booking_edit_body label {
-    margin-bottom: 6px;
-    font-weight: 500;
-    color: #333;
-}
-
-.wtbm_booking_edit_input,
-.wtbm_booking_edit_select {
-    padding: 10px 12px;
-    margin-bottom: 16px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.wtbm_booking_edit_input:focus,
-.wtbm_booking_edit_select:focus {
-    border-color: #2271b1;
-    box-shadow: 0 0 6px rgba(34,113,177,0.3);
-    outline: none;
-}
-
-/* Custom select arrow */
-.wtbm_booking_edit_select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cpath fill='%23333' d='M2 4l4 4 4-4z'/%3E%3C/svg%3E") no-repeat right 12px center;
-    background-size: 12px 12px;
-    cursor: pointer;
-}
-
-/* Footer */
-.wtbm_booking_edit_footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    padding: 16px 20px;
-    background: #f5f5f5;
-}
-
-.wtbm_booking_edit_update_btn {
-    background: #2271b1;
-    color: #fff;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.wtbm_booking_edit_update_btn:hover {
-    background: #1a5e91;
-}
-
-.wtbm_booking_edit_close_btn {
-    background: #e0e0e0;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.wtbm_booking_edit_close_btn:hover {
-    background: #cacaca;
-}
-
-.wtbm_booked_seats_display {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-.wtbm_seat_name {
-    position: relative;
-    padding: 6px 24px 6px 10px;
-    background: #f2f2f2;
-    border-radius: 4px;
-    font-size: 14px;
-}
-.wtbm_add_seat_name {
-    position: relative;
-    padding: 6px;
-    width: 35px;
-    text-align: center;
-    background: #f2f2f2;
-    border-radius: 4px;
-    font-size: 14px;
-}
-.remove-seat {
-    position: absolute;
-    top: 50%;
-    right: 6px;
-    transform: translateY(-50%);
-    font-size: 12px;
-    color: #fff;
-    background: #e74c3c;
-    width: 16px;
-    height: 16px;
-    line-height: 16px;
-    text-align: center;
-    border-radius: 50%;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-.wtbm_seat_name:hover .remove-seat {
-    opacity: 1;
-}
-
-.wtbm_add_seat_name:hover {
-    color: #fff;
-    background: #e74c3c;
-    cursor: pointer;
-}
-
-.wtbm_get_available_seat_holder{
-    display: flex;
-    justify-content: end;
-}
-.wtbm_get_available_seat{
-    cursor: pointer;
-    padding: 5px 10px;
-    margin: 5px;
-    border: 1px solid #d9d5d5;
-    border-radius: 5px;
-}
-
-
-/* Fade in animation */
-@keyframes wtbm_fade_in {
-    from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsive for small screens */
-@media (max-width: 480px) {
-    .wtbm_booking_edit_modal {
-        width: 95%;
-        top: 15%;
-    }
-}
+@media (max-width: 420px) { .wtbm-edit-fields { grid-template-columns: 1fr; } }

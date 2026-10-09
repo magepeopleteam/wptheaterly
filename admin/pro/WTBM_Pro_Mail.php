@@ -17,37 +17,7 @@ if ( ! class_exists('WTBM_Pro_Mail') ) {
 
         public function send_mail($order_id = '')
         {
-            $order = wc_get_order($order_id);
-            if (empty($order_id) || !$order) {
-                return new WP_Error('invalid_data', esc_html__('Invalid order id provided', 'wptheaterly'));
-            }
-            $subject = WTBM_Function::get_settings('wtbm_email_settings', 'pdf_email_subject', 'PDF Booking Confirmation');
-            $content = WTBM_Function::get_settings('wtbm_email_settings', 'pdf_email_content', 'Here is PDF Booking Confirmation Attachment');
-            $form_email = get_option('woocommerce_email_from_address');
-            $form_name = get_option('woocommerce_email_from_name');
-            $admin_notify_email = WTBM_Function::get_settings('wtbm_email_settings', 'pdf_admin_notification_email', '');
-            $email_status = WTBM_Function::get_settings('wtbm_email_settings', 'pdf_send_status', 'yes');
-            $attachments = array();
-            $headers = array(
-                sprintf("From: %s <%s>", $form_name, $form_email),
-            );
-            if ($email_status === 'yes') {
-                $upload_dir = wp_upload_dir();
-                $pdf_url = $upload_dir['basedir'] . '/' . $order_id . '.pdf';
-                do_action('wtbm_generate_pdf', $order_id, $pdf_url, 'mail');
-                if (!is_wp_error($pdf_url)) {
-                    $attachments[] = $pdf_url;
-                }
-                $email_address_arr = array(
-                    $order->get_billing_email(),
-                    $admin_notify_email
-                );
-                $email_address = implode(",", $email_address_arr);
-                // Mail content dynamic
-                $content = $this->mail_content($content, $order);
-                $pdf_email_content = apply_filters('wtbm_pdf_email_text', $content, $order_id);
-                wp_mail($email_address, $subject, $pdf_email_content, $headers, $attachments);
-            }
+            return WTBM_Notifications::queue( $order_id, true );
         }
 
         public function mail_content($content, $order)

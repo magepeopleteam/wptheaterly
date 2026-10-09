@@ -22,7 +22,7 @@ if( !class_exists( 'WTBM_Menu' ) ) {
             add_menu_page(
                 $label,
                 $label,
-                'manage_options',
+                WTBM_Booking_Service::can( 'sell' ) ? 'wtbm_sell' : 'wtbm_admit',
                 'mptrs_main_menu',
                 [$this, 'main_menu_page'],
                 'dashicons-admin-multisite',
@@ -33,7 +33,7 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                 'mptrs_main_menu',
                 $label,
                 $label,
-                'manage_options',
+                WTBM_Booking_Service::can( 'sell' ) ? 'wtbm_sell' : 'wtbm_admit',
                 'mptrs_main_menu',
                 [$this, 'main_menu_page']
             );
@@ -51,7 +51,14 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                     }
 
 
-            $current_tab = isset($_GET['tab_name']) ? sanitize_text_field($_GET['tab_name']) : 'wtbm_movies';
+            $current_tab = isset($_GET['tab_name']) ? sanitize_key( wp_unslash( $_GET['tab_name'] ) ) : ( WTBM_Booking_Service::can( 'manage' ) ? 'wtbm_movies' : ( WTBM_Booking_Service::can( 'sell' ) ? 'wtbm_new_ticket_sale' : 'wtbm_admission' ) );
+            if ( ! WTBM_Booking_Service::can( 'manage' ) ) {
+                if ( WTBM_Booking_Service::can( 'admit' ) && 'wtbm_admission' === $current_tab ) { echo '<div class="wrap">'; WTBM_Operations_Admin::page( 'admission' ); echo '</div>'; return; }
+                if ( ! WTBM_Booking_Service::can( 'sell' ) || 'wtbm_new_ticket_sale' !== $current_tab ) { wp_die( esc_html__( 'Permission denied.', 'wptheaterly' ) ); }
+                echo '<div class="wrap wtbm-cashier"><h1>' . esc_html__( 'New Ticket Sale', 'wptheaterly' ) . '</h1>';
+                do_action( 'wtbm_new_ticket_booking', array(), $current_tab );
+                echo '</div>'; return;
+            }
 
             ?>
 
@@ -115,6 +122,9 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                             <i class="mi mi-chart-histogram"></i> <?php esc_attr_e('Sales Report', 'wptheaterly'); ?>
                         </button>
 
+                        <?php foreach ( array( 'admission' => array( 'dashicons-tickets-alt', __( 'Check-in', 'wptheaterly' ) ), 'policies' => array( 'dashicons-admin-settings', __( 'Booking Policies', 'wptheaterly' ) ), 'requests' => array( 'dashicons-yes-alt', __( 'Change Requests', 'wptheaterly' ) ), 'history' => array( 'dashicons-backup', __( 'History', 'wptheaterly' ) ) ) as $section => $item ) { ?>
+                            <button class="nav-item <?php echo 'wtbm_' . $section === $current_tab ? 'active' : ''; ?>" data-tab="wtbm_<?php echo esc_attr( $section ); ?>"><span class="dashicons <?php echo esc_attr( $item[0] ); ?>"></span><?php echo esc_html( $item[1] ); ?></button>
+                        <?php } ?>
                     </nav>
                 </div>
 
@@ -314,6 +324,7 @@ if( !class_exists( 'WTBM_Menu' ) ) {
                         do_action( 'wtbm_new_ticket_booking', 'New Ticket Booking', $current_tab );
 
                         do_action( 'wtbm_sales_report', 'Sales Report', $current_tab );
+                        WTBM_Operations_Admin::tabs( $current_tab );
                     ?>
 
                 </div>

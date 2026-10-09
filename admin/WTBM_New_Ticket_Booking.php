@@ -9,124 +9,12 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
 
 
             add_action( 'wp_ajax_wtbm_theater_ticket_booking_admin', [ $this, 'wtbm_theater_ticket_booking_admin' ] );
-            add_action( 'wp_ajax_nopriv_wtbm_theater_ticket_booking_admin', [ $this, 'wtbm_theater_ticket_booking_admin' ] );
         }
 
         function wtbm_theater_ticket_booking_admin() {
-
-            if ( ! isset($_POST['nonce']) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wtbm_nonce' ) ) {
-                wp_send_json_error('Invalid request.');
-            }
-
-            // Check if user logged in
-            if ( ! is_user_logged_in() ) {
-                wp_send_json_error('Please login to place an order.');
-            }
-
-            $original_post_id = intval($_POST['movie_id'] ?? 0);
-            $product_id = intval( get_post_meta($original_post_id, 'link_wc_product', true ) );
-
-            if ( ! $original_post_id || ! $product_id || ! $product = wc_get_product( $product_id ) ) {
-                wp_send_json_error('Invalid movie or product.');
-            }
-
-            $seat_map = '';
-
-            $quantity = 1;
-            $wtbm_movie_id = $original_post_id;
-            $theater_id = intval($_POST['theater_id'] ?? 0);
-            $booking_date = isset( $_POST['booking_date'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_date'] ) ) : '';
-            $booking_time = isset( $_POST['booking_time'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_time'] ) ) : '';
-//            $seat_count = intval($_POST['seat_count'] ?? 0);
-            $seat_count = isset( $_POST['seat_count'] ) ? intval( wp_unslash( $_POST['seat_count'] ) ) : '';
-
-            $seat_names = isset( $_POST['seat_names'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['seat_names'] ) ) ) : [];
-            $booked_seat_ids = isset( $_POST['booked_seat_ids'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['booked_seat_ids'] ) ) ) : [];
-
-            $wtbm_price = floatval($_POST['total_amount'] ?? 0);
-            $user_name = isset( $_POST['userName'] ) ? sanitize_text_field( wp_unslash( $_POST['userName'] ) ) : '';
-            $user_phone_num = isset( $_POST['userPhoneNum'] ) ? sanitize_text_field( wp_unslash( $_POST['userPhoneNum'] ) ) : '';
-            $user_id = get_current_user_id();
-            $order = wc_create_order(array('customer_id' => $user_id));
-            if ( ! $order ) {
-                wp_send_json_error('Failed to create order.');
-            }
-
-            $day_of_week = strtolower( gmdate('l', strtotime( $booking_date ) ) );
-            $wtbm_price = WTBM_Set_Pricing_Rules::calculate_price_by_rules(  $wtbm_price, $day_of_week, $booking_date, $theater_id, $booking_time, $seat_count  );
-
-            $item = new WC_Order_Item_Product();
-            $item->set_product( wc_get_product( $product_id ) );
-            $item->set_quantity( $quantity );
-            $item->set_total( $wtbm_price );
-
-            // Add meta safely
-            $item->add_meta_data('_wtbm_id', $wtbm_movie_id, true);
-            $item->add_meta_data('_theater_id', $theater_id, true);
-            $item->add_meta_data('_movie_id', $wtbm_movie_id, true);
-            $item->add_meta_data('_wtbm_date', $booking_date, true);
-            $item->add_meta_data('_wtbm_time', $booking_time, true);
-            $item->add_meta_data('_wtbm_tp', $wtbm_price, true);
-            $item->add_meta_data('_wtbm_selected_seats', $seat_names, true);
-            $item->add_meta_data('_wtbm_selected_seat_ids', $booked_seat_ids, true);
-            $item->add_meta_data('_wtbm_number_of_seats', $seat_count, true);
-            $item->add_meta_data('_wtbm_user_name', $user_name, true);
-            $item->add_meta_data('_wtbm_user_phone', $user_phone_num, true);
-
-            $order->add_item($item);
-
-            $order->calculate_totals();
-            $order->update_status('completed');
-
-            $pdf_url_btn= '';
-            if( $order->get_id() ){
-                $data['wtbm_movie_id']          = $wtbm_movie_id;
-                $data['wtbm_theater_id']        = $theater_id;
-                $data['wtbm_tp']                = $wtbm_price;
-                $data['wtbm_order_date']        = $booking_date;
-                $data['wtbm_order_time']        = $booking_time;
-                $data['wtbm_order_id']          = $order->get_id();
-                $data['wtbm_order_status']      = 'completed';
-                $data['wtbm_seats']             = $seat_names;
-                $data['wtbm_seat_ids']          = $booked_seat_ids;
-                $data['wtbm_number_of_seats']   = $seat_count;
-                $data['wtbm_payment_method']    = $order->get_payment_method();
-                $data['wtbm_user_id']           = $order->get_user_id() ?? '';
-                $data['wtbm_billing_name']      = $user_name;
-                $data['wtbm_billing_email']     = '';
-                $data['wtbm_billing_phone']     = $user_phone_num;
-                $data['wtbm_billing_address']   = '';
-
-                $booking_data = apply_filters( 'wtbm_add_booking_data', $data, $wtbm_movie_id );
-
-                WTBM_Woocommerce::add_cpt_data('wtbm_booking', $booking_data['wtbm_billing_name'], $booking_data );
-
-
-                if( $theater_id && $wtbm_movie_id &&  $booking_date && $booking_time ){
-                    $not_available = WTBM_Manage_Ajax::getAvailableSeats( $theater_id, $wtbm_movie_id, $booking_date, $booking_time );
-                }else{
-                    $not_available = [];
-                }
-
-                if( $theater_id ){
-                    $seat_map = WTBM_Details_Layout::display_theater_seat_mapping( $theater_id, $not_available );
-                }
-
-                $pdf_url_btn = WTBM_Pro_Pdf::get_pdf_url_button( $order->get_id(),  );
-
-            }
-
-            wp_send_json_success(array(
-                'message'   => 'Order placed successfully!',
-                'order_id'  => $order->get_id(),
-                'seat_map'  => $seat_map,
-                'pdf_url_btn'  => $pdf_url_btn,
-                'wtbm_total_price' => $wtbm_price,
-            ));
+            check_ajax_referer( 'wtbm_nonce', 'nonce' );
+            WTBM_Operations::response( WTBM_Operations::purchase( wp_unslash( $_POST ), true ) );
         }
-
-
-
 
         public function new_ticket_booking_display( $args, $current_tab ){
 
@@ -137,7 +25,7 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                         <h3 class="section-title"><?php esc_attr_e( 'New Ticket Sale', 'wptheaterly' ); ?></h3>
                     </div>
 
-                    <?php $this->display_registration_data( $args );?>
+                    <?php $this->display_registration_data( $args ); WTBM_Operations_Admin::collect_form(); ?>
                 </div>
             </div>
         <?php }
@@ -260,6 +148,9 @@ if( !class_exists( 'WTBM_New_Ticket_Booking' ) ) {
                             <input type="tel" class="form-input" id="wtbm_getUserPhone" placeholder="Enter mobile number">
                         </div>
                         <div class="" id="wtbm_download_ticket"></div>
+                        <div class="form-group"><label class="form-label" for="wtbm-pos-email"><?php esc_html_e( 'Ticket email', 'wptheaterly' ); ?></label><input type="email" id="wtbm-pos-email" class="form-input"></div>
+                        <?php WTBM_Operations_Admin::payment_fields(); ?>
+                        <div class="wtbm-pos-result" aria-live="polite"></div>
                         <button class="purchase-btn" id="wtbm_adminTicketPurchaseBtn" ><?php esc_attr_e( 'PURCHASE TICKET', 'wptheaterly' );?></button>
                         <div class="admin-ticket-note">
                             <?php esc_attr_e( 'By clicking the Purchase Tickets you are accepting Terms &amp; Conditions of Star Cineplex', 'wptheaterly' );?>

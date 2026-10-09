@@ -20,8 +20,8 @@
                     <h2 class="section-title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
                     <div class="wtbm_booking_date_date_selector" id="wtbm_bookingDateSelector">
                         <?php
-                        for ( $i = 0; $i < 7; $i++ ) {
-                            $date = new DateTime();
+                        for ( $i = 0; $i < (int) WTBM_Booking_Service::setting( 'advance_days', 30 ); $i++ ) {
+                            $date = new DateTime( 'now', wp_timezone() );
                             $date->modify("+$i day");
 
                             $day   = $date->format('D');
@@ -33,6 +33,7 @@
                                 <div class="day"><?php echo esc_html($day); ?></div>
                                 <div class="date"><?php echo esc_html($dayNo); ?></div>
                                 <div class="month"><?php echo esc_html($month); ?></div>
+                                <span class="wtbm-date-pricing"><?php echo WTBM_Set_Pricing_Rules::date_indicator( $full ); // Escaped by date_indicator(). ?></span>
                             </div>
                             <?php
                         }
@@ -51,8 +52,8 @@
                     <h2 class="section-title"><?php esc_attr_e( 'Select Date', 'wptheaterly' );?></h2>
                     <div class="wtbm_single_movie_booking_date" id="wtbm_bookingSingleMovieDate">
                         <?php
-                        for ( $i = 0; $i < 7; $i++ ) {
-                            $date = new DateTime();
+                        for ( $i = 0; $i < (int) WTBM_Booking_Service::setting( 'advance_days', 30 ); $i++ ) {
+                            $date = new DateTime( 'now', wp_timezone() );
                             $date->modify("+$i day");
 
                             $day   = $date->format('D');
@@ -64,6 +65,7 @@
                                 <div class="day"><?php echo esc_html($day); ?></div>
                                 <div class="date"><?php echo esc_html($dayNo); ?></div>
                                 <div class="month"><?php echo esc_html($month); ?></div>
+                                <span class="wtbm-date-pricing"><?php echo WTBM_Set_Pricing_Rules::date_indicator( $full ); // Escaped by date_indicator(). ?></span>
                             </div>
                             <?php
                         }
@@ -564,11 +566,13 @@
                 if (!empty($plan_seats) && is_array( $plan_seats )) {
                     $leastLeft = PHP_INT_MAX;
                     $leastTop = PHP_INT_MAX;
+                    $maxBottom = 0;
 
                     foreach ($plan_seats as $item) {
                         if (isset($item["left"])) {
                             $currentLeft = (int)rtrim($item["left"], "px");
                             $currentTop = (int)rtrim($item["top"], "px");
+                            $maxBottom = max( $maxBottom, $currentTop + (int) ( $item['height'] ?? 30 ) );
 
                             if ($currentLeft < $leastLeft) {
                                 $leastLeft = $currentLeft;
@@ -577,14 +581,28 @@
                                 $leastTop = $currentTop;
                             }
 
-                            $left = (int) str_replace('px', '', $item['left']);
+                            $left = (int) str_replace('px', '', $item['left']) + (int) ( $item['width'] ?? 25 );
                             if ($left > $seat_mapped_width) {
                                 $seat_mapped_width = $left;
                             }
                         }
                     }
 
-                    $total_width = $seat_mapped_width + 50;
+                    // Include stage labels and shapes in the canvas bounds.
+                    foreach ( (array) $plan_seat_texts as $label ) {
+                        $leastLeft = min( $leastLeft, (int) ( $label['textLeft'] ?? 0 ) );
+                        $leastTop = min( $leastTop, (int) ( $label['textTop'] ?? 0 ) );
+                        $maxBottom = max( $maxBottom, (int) ( $label['textTop'] ?? 0 ) + 40 );
+                        $seat_mapped_width = max( $seat_mapped_width, (int) ( $label['textLeft'] ?? 0 ) + strlen( $label['text'] ?? '' ) * 16 );
+                    }
+                    foreach ( (array) $dynamic_shapes as $shape ) {
+                        $leastLeft = min( $leastLeft, (int) ( $shape['textLeft'] ?? 0 ) );
+                        $leastTop = min( $leastTop, (int) ( $shape['textTop'] ?? 0 ) );
+                        $seat_mapped_width = max( $seat_mapped_width, (int) ( $shape['textLeft'] ?? 0 ) + (int) ( $shape['width'] ?? 0 ) );
+                        $maxBottom = max( $maxBottom, (int) ( $shape['textTop'] ?? 0 ) + (int) ( $shape['height'] ?? 0 ) );
+                    }
+                    $total_width = $seat_mapped_width - $leastLeft + 20;
+                    $total_height = $maxBottom - $leastTop + 20;
 
                     $data_tableBindIds = [];
                     $height = $leastTop + 200;
@@ -592,11 +610,11 @@
                     $seat_grid_height = $leastTop + 1;
                     // Start building custom content
                     $custom_content = '
-                        <div id="wtbm_seatGrid" style="min-width: '.$total_width.'px">
+                        <div id="wtbm_seatGrid" style="width: '.esc_attr( $total_width ).'px; min-width: '.esc_attr( $total_width ).'px; height: '.esc_attr( $total_height ).'px">
                             <div id="mptrs_seatMapHolder-'.$post_id.'" class="mptrs_seatMapHolder">';
                                 if( is_array( $plan_seat_texts ) && count( $plan_seat_texts ) > 0 ) {
                                     foreach ($plan_seat_texts as $plan_seat_text) {
-                                        $text_rotate_deg = isset($plan_seat_text['textRotateDeg']) ? $plan_seat_text['textRotateDeg'] : 0;
+                                        $text_rotate_deg = (int) ( $plan_seat_text['textRotateDeg'] ?? 0 );
                                         $custom_content .= '
                                                 <div class="mptrs_dynamicTextWrapper" data-text-degree=' . $text_rotate_deg . '
                                                     style="
@@ -608,10 +626,10 @@
                                                     <span class="mptrs_dynamicText" 
                                                         style="
                                                             display: inline-block; 
-                                                            color: ' . $plan_seat_text['color'] . '; 
-                                                            font-size: ' . $plan_seat_text['fontSize'] . ';
+                                                            color: ' . esc_attr( $plan_seat_text['color'] ) . ';
+                                                            font-size: ' . esc_attr( $plan_seat_text['fontSize'] ) . ';
                                                             cursor: pointer;">
-                                                       ' . $plan_seat_text['text'] . '
+                                                       ' . esc_html( $plan_seat_text['text'] ) . '
                                                     </span>
                                                 </div>';
                                     }
@@ -662,8 +680,8 @@
                                                                     height: ' . $height . 'px;
                                                                     left: ' . ((int)$seat['left'] - $leastLeft) . 'px;
                                                                     top: ' . ((int)$seat['top'] - $leastTop) . 'px;
-                                                                    border-radius: ' .$border_radius. ';
-                                                                    transform: rotate('.(int)$seat['data_degree'].'deg);"
+                                                                    border-radius: ' .esc_attr( $border_radius ). ';
+                                                                    transform: rotate('.(int)($seat['data_degree'] ?? 0).'deg);"
                                                                 title="Price: '. $title_price_symbol.'' . esc_attr($seat['price']) . '">
                                                                 <div class="'.esc_attr( $class_name ).'" 
                                                                     style="
@@ -700,7 +718,7 @@
                                                                         background-color: ' . esc_attr( $dynamic_shape['backgroundColor'] ).'; 
                                                                         border-radius: ' . esc_attr( $dynamic_shape['borderRadius'] ).';
                                                                         clip-path: ' . esc_attr( $dynamic_shape['clipPath'] ).';
-                                                                        transform: rotate(' . $shape_rotate_deg . 'deg);
+                                                                        transform: rotate(' . (int) $shape_rotate_deg . 'deg);
                                                                         background-image:url(' . esc_url( $table_background_img_url ) . ');
                                                                     ">
                                                                     </div>';
