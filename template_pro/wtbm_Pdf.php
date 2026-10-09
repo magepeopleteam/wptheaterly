@@ -42,14 +42,14 @@ if ( $wtbm_order_id > 0 ) { ?>
     if (empty($wtbm_booking_posts)) {
         // If no booking posts found, create a single PDF with order data
         $wtbm_ticket_id = 0; // Use 0 to indicate we're using WooCommerce order data directly
-        include MPCRBM_PLUGIN_DIR_PRO . '/template_pro/pdf/default.php';
+        include WTBM_PLUGIN_DIR . '/template_pro/pdf/default.php';
     } else {
         $wtbm_total_guest = count($wtbm_booking_posts);
         $wtbm_i = 0;
         foreach ($wtbm_booking_posts as $wtbm_booking_post) {
             $wtbm_ticket_id = $wtbm_booking_post->ID;
-           include MPCRBM_PLUGIN_DIR_PRO . '/template_pro/pdf/cinema.php';
-            // include MPCRBM_PLUGIN_DIR_PRO . '/template_pro/pdf/ticket_pdf.php';
+           include WTBM_PLUGIN_DIR . '/template_pro/pdf/cinema.php';
+            // include WTBM_PLUGIN_DIR . '/template_pro/pdf/ticket_pdf.php';
             if ($wtbm_i < $wtbm_total_guest - 1) {
                 $wtbm_i++;
                 ?>

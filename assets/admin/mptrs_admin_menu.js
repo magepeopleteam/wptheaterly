@@ -152,6 +152,7 @@
     });
 
     $(document).on('click', '.wtbm_edit_theater', function (e) {
+        e.preventDefault();
         let addEditTheaterForm = $('#wtbmAddTheaterForm');
         addEditTheaterForm.fadeIn();
         addEditTheaterForm.empty();
@@ -445,7 +446,7 @@
                         $(this).removeClass('wtbm-seat-empty');
                     }
 
-                    seat_number = seat_number.trim().toUpperCase();
+                    seat_number = (seat_number || '').trim().toUpperCase();
                     if (seatNumbers.has(seat_number)) {
                         $(this).addClass('wtbm-seat-duplicate');
                         isSetPrice = 1;
@@ -1035,7 +1036,7 @@
                     $(this).removeClass('wtbm-seat-empty');
                 }
 
-                seat_number = seat_number.trim().toUpperCase();
+                seat_number = (seat_number || '').trim().toUpperCase();
                 if (seatNumbers.has(seat_number)) {
                     $(this).addClass('wtbm-seat-duplicate');
                     isSetPrice = 1;
@@ -1105,7 +1106,7 @@
                     if (response.success) {
                         if (theater_id) {
                             alert("Theater Map Added");
-                            clearForm("#wtbmAddTheaterForm");
+                            // Keep the saved layout open for further editing.
                         }
 
                     } else {
@@ -1252,52 +1253,6 @@
                 success: function (response) {
                     if (response.success) {
                         $('#wtbm_pricing_categories').html(response.data);
-                    } else {
-                        alert("Error: " + response.data);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert("Something went wrong!");
-                }
-            });
-        }else{
-            $('#wtbm_pricing_categories').empty();
-        }
-    });
-
-    // Load More Booking
-    $(document).on("click", "#wtbm_booking_load_more_btn", function(){
-        let alreadyLoadedBookingIds = [];
-        let wtbm_showing_count =  parseInt($("#wtbm_showing_count").text(), 10);
-
-        jQuery("#wtbm_bookings_table_body tr").each(function () {
-            alreadyLoadedBookingIds.push(jQuery(this).data("order-id"));
-        });
-
-        if( alreadyLoadedBookingIds ) {
-            const load_more_rule = {
-                action: "wtbm_get_load_more_booking_data",
-                already_loaded_booking_ids: JSON.stringify( alreadyLoadedBookingIds ),
-                display_limit: 10,
-                movie_id: $('#wtbm_movie_filter').val(),
-                theater_id: $('#wtbm_theater_filter').val(),
-                show_time: $('#wtbm_showtime_filter').val(),
-                show_date: $('#wtbm_booking_date_filter').val(),
-                booking_status: $('#wtbm_order_status_filter').val(),
-                _ajax_nonce: mptrs_admin_ajax.nonce,
-            };
-            $.ajax({
-                url: mptrs_admin_ajax.ajax_url,
-                type: "POST",
-                data: load_more_rule,
-                success: function (response) {
-                    if (response.success) {
-                        let total_show = wtbm_showing_count + response.data.booking_count;
-                        $('#wtbm_bookings_table_body').append(response.data.booking_data);
-                        $("#wtbm_showing_count").text( total_show );
-                        if( response.data.booking_count < 10 ){
-                            $("#wtbm_booking_load_more_btn").fadeOut();
-                        }
                     } else {
                         alert("Error: " + response.data);
                     }

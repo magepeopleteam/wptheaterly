@@ -90,7 +90,9 @@
                 register_post_type('wtbm_pricing', $args);
 
                 $args = [
-                    'public' => true,
+                    'public' => false,
+                    'publicly_queryable' => false,
+                    'show_in_rest' => false,
                     'label' => esc_html__('Seat Booking', 'wptheaterly'),
                     'supports' => ['title', 'thumbnail', 'editor'],
                     'show_in_menu' => false,

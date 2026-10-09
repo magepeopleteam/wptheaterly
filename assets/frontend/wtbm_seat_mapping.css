@@ -1266,3 +1266,8 @@ label[for="mptrs_deliveryLocation"] {
     }
 
 }
+/* Keep the complete saved auditorium visible; only wide maps scroll horizontally. */
+.wtbm_SeatsGrid, #wtbm_single_movie_seats { overflow-x: auto; }
+#wtbm_seatGrid { overflow: visible; flex-shrink: 0; top: 0; }
+.wtbm_mappedSeatInfo, .wtbm_reservedMappedSeatInfo { position: relative; border-radius: 6px 6px 4px 4px; border-bottom: 4px solid rgba(0, 0, 0, .18); }
+.wtbm_mappedSeatInfo::before, .wtbm_reservedMappedSeatInfo::before { content: ''; position: absolute; inset: 3px 4px 7px; border: 1px solid rgba(255, 255, 255, .45); border-radius: 3px; pointer-events: none; }

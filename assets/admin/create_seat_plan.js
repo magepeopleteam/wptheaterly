@@ -2027,3 +2027,80 @@ jQuery(document).ready(function ($) {
 
 
 });
+// Presets use the same seat elements and save pipeline as the manual builder.
+jQuery(function ($) {
+    let previousLayout = null;
+    $(document).on('click', '#wtbm-apply-layout', function () {
+        const canvas = $('#mptrs_parentDiv');
+        const allSeats = canvas.find('.mptrs_mappingSeat');
+        const savedSeats = allSeats.filter('.save');
+        const seats = savedSeats.length ? savedSeats : allSeats;
+        const preset = $('#wtbm-layout-preset').val();
+        const category = $('.wtbm_CategoryHolder').first();
+        if (!savedSeats.length && (!category.length || Number(category.attr('data-category-price')) <= 0)) {
+            window.alert(wtbmSeatBuilder.categoryRequired);
+            return;
+        }
+        previousLayout = {html: canvas.html(), style: canvas.attr('style')};
+        const columns = Math.max(...seats.map(function () { return Number($(this).attr('data-col')) + 1; }).get());
+        const pitchX = Math.max(42, ...seats.map(function () { return (parseFloat($(this).css('width')) || 25) + 12; }).get());
+        const pitchY = Math.max(48, ...seats.map(function () { return (parseFloat($(this).css('height')) || 30) + 18; }).get());
+        let maxRight = 0;
+        let maxBottom = 0;
+        seats.each(function () {
+            const seat = $(this);
+            const row = Number(seat.attr('data-row'));
+            const col = Number(seat.attr('data-col'));
+            let left = 30 + col * pitchX;
+            let top = 65 + row * pitchY;
+            if (preset === 'center' && col >= Math.ceil(columns / 2)) left += 55;
+            if (preset === 'split') {
+                if (col >= Math.ceil(columns / 3)) left += 50;
+                if (col >= Math.ceil(columns * 2 / 3)) left += 50;
+            }
+            if (preset === 'curved') top += Math.round(Math.pow(col - (columns - 1) / 2, 2) * 0.9);
+            if (!savedSeats.length) {
+                let rowLabel = '';
+                let labelIndex = row + 1;
+                while (labelIndex > 0) {
+                    labelIndex--;
+                    rowLabel = String.fromCharCode(65 + labelIndex % 26) + rowLabel;
+                    labelIndex = Math.floor(labelIndex / 26);
+                }
+                const number = rowLabel + '-' + (col + 1);
+                seat.addClass('save').attr({
+                    'data-seat-num': number,
+                    'data-seat-category': category.attr('data-category-id'),
+                    'data-price': category.attr('data-category-price'),
+                    'data-background-image': '', 'data-degree': 0
+                }).css('background-color', category.attr('data-category-color'));
+                seat.find('.mptrs_seatNumber').text(number).show();
+            }
+            const width = Math.max(25, parseFloat(seat.css('width')) || 25);
+            const height = Math.max(30, parseFloat(seat.css('height')) || 30);
+            seat.css({left: left, top: top, zIndex: 2}).removeClass('selected');
+            maxRight = Math.max(maxRight, left + width);
+            maxBottom = Math.max(maxBottom, top + height);
+        });
+        // Keep unused cells out of the way when rearranging an existing plan.
+        allSeats.not(seats).hide();
+        canvas.css({width: maxRight + 30, height: maxBottom + 30});
+        $('#wtbm-undo-layout').prop('hidden', false);
+        $('#mptrs_setPriceColorHolder').hide();
+        if (!$('#mptrs_mapping_singleSelect').hasClass('enable_single_seat_selection')) {
+            $('#mptrs_mapping_singleSelect').trigger('click');
+        }
+    });
+    $(document).on('click', '#mptrs_mapping_set_seat', function () {
+        if ($(this).hasClass('enable_set_seat')) {
+            $('#mptrs_parentDiv .mptrs_mappingSeat').not('.save').show();
+        }
+    });
+    $(document).on('click', '#wtbm-undo-layout', function () {
+        if (previousLayout) {
+            $('#mptrs_parentDiv').html(previousLayout.html).attr('style', previousLayout.style);
+            previousLayout = null;
+            $(this).prop('hidden', true);
+        }
+    });
+});

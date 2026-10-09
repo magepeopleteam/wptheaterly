@@ -303,7 +303,7 @@ $wtbm_pdf_term_text          = WTBM_Function::get_settings('wtbm_pdf_settings', 
                         </tr>
                         <tr>
                             <td style="padding-bottom: 15px;" colspan='2'>                                            
-                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=70x70&data=PIN-<?php echo esc_html($wtbm_pin); ?>" alt="QR Code"><br/>
+                                <barcode code="<?php echo esc_attr( WTBM_Tickets::token( $wtbm_attendee_id ) ); ?>" type="QR" size="1" error="M" /><br/><small><?php echo esc_html( WTBM_Tickets::token( $wtbm_attendee_id ) ); ?></small>
                                 <span style="display: block; font-size: 10px; color: #101010ff; text-transform: uppercase;font-weight: bold;"><?php esc_html_e('PIN:', 'wptheaterly'); ?></span>
                                 <span style="font-size: 10px;  color: #001f3f;"><?php echo esc_html($wtbm_pin); ?></span>                         
                             </td>

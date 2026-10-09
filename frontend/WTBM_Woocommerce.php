@@ -78,7 +78,10 @@
 					$post_id = array_key_exists('wtbm_movie_id', $values) ? $values['wtbm_movie_id'] : 0;
 					if (get_post_type($post_id) == WTBM_Function::get_movie_cpt()) {
 						//wc_add_notice( __( "custom_notice", 'fake_error' ), 'error');
-						do_action('wtbm_validate_cart_item', $values, $post_id );
+						$quote = WTBM_Booking_Service::quote( $post_id, $values['theater_id'], $values['booking_date'], $values['booking_time'], (array) $values['booked_seat_ids'] );
+                        $result = is_wp_error( $quote ) ? $quote : WTBM_Booking_Service::claim( $quote, WTBM_Booking_Service::owner() );
+                        if ( is_wp_error( $result ) ) { wc_add_notice( $result->get_error_message(), 'error' ); }
+                        do_action('wtbm_validate_cart_item', $values, $post_id );
 					}
 				}
 			}
@@ -112,64 +115,22 @@
 					$item->add_meta_data('_wtbm_date', $date);
 					$item->add_meta_data('_wtbm_time', $time);
 					$item->add_meta_data('_wtbm_tp', $total_price);
+                    if ( ! empty( $values['wtbm_pricing_details'] ) ) { $item->add_meta_data( '_wtbm_pricing_details', $values['wtbm_pricing_details'], true ); WTBM_Set_Pricing_Rules::order_details( $item, $values['wtbm_pricing_details'] ); }
+                    $item->add_meta_data('_wtbm_number_of_seats', count( (array) $seat_ids ));
 					$item->add_meta_data('_wtbm_selected_seats', $seat_names );
 					$item->add_meta_data('_wtbm_selected_seat_ids', $seat_ids );
 
 					do_action('wtbm_checkout_create_order_line_item', $item, $values);
 				}
 			}
-			public function checkout_order_processed( $order ) {
-				if ($order) {
-					$order_id = $order->get_id();
-					$order_status = $order->get_status();
-					if ($order_status != 'failed') {
-						//$item_id = current( array_keys( $order->get_items() ) );
-						foreach ( $order->get_items() as $item_id => $item ) {
-							$post_id = wc_get_order_item_meta( $item_id, '_wtbm_id');
-							if (get_post_type( $post_id ) == WTBM_Function::get_movie_cpt() ) {
-								$date = wc_get_order_item_meta($item_id, '_wtbm_date');
-                                $time = wc_get_order_item_meta($item_id, '_wtbm_time');
-                                $selected_seats = wc_get_order_item_meta($item_id, '_wtbm_selected_seats');
-                                $selected_seat_ids = wc_get_order_item_meta($item_id, '_wtbm_selected_seat_ids');
-								$date = $date ? WTBM_Function::data_sanitize($date) : '';
-                                $time = $time ? WTBM_Function::data_sanitize($time) : '';
-								$total_price = wc_get_order_item_meta($item_id, '_wtbm_tp');
-								$total_price = $total_price ? WTBM_Function::data_sanitize($total_price) : '';
-								$data['wtbm_theater_id'] = wc_get_order_item_meta($item_id, '_theater_id');
-								$data['wtbm_movie_id'] = $post_id;
-
-								$data['wtbm_tp'] = $total_price;
-								$data['wtbm_order_date'] = $date;
-								$data['wtbm_order_time'] = $time;
-								$data['wtbm_order_id'] = $order_id;
-								$data['wtbm_order_status'] = $order_status;
-								$data['wtbm_seats'] = $selected_seats;
-								$data['wtbm_seat_ids'] = $selected_seat_ids;
-								$data['wtbm_number_of_seats'] = count( $selected_seat_ids );
-								$data['wtbm_payment_method'] = $order->get_payment_method();
-								$data['wtbm_user_id'] = $order->get_user_id() ?? '';
-								$data['wtbm_billing_name'] = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
-								$data['wtbm_billing_email'] = $order->get_billing_email();
-								$data['wtbm_billing_phone'] = $order->get_billing_phone();
-								$data['wtbm_billing_address'] = $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
-
-								$booking_data = apply_filters( 'wtbm_add_booking_data', $data, $post_id );
-								self::add_cpt_data('wtbm_booking', $booking_data['wtbm_billing_name'], $booking_data);
-							}
-						}
-					}
-				}
-			}
-			public function order_status_changed($order_id) {
-				$order = wc_get_order($order_id);
-				$order_status = $order->get_status();
-				foreach ($order->get_items() as $item_id => $item_values) {
-					$post_id = wc_get_order_item_meta($item_id, '_mpwpb_id');
-					if (get_post_type($post_id) == WTBM_Function::get_movie_cpt()) {
-						$this->wc_order_status_change($order_status, $post_id, $order_id);
-					}
-				}
-			}
+            public function checkout_order_processed( $order_or_id ) {
+                $result = WTBM_Booking_Service::sync_order( $order_or_id );
+                if ( is_wp_error( $result ) ) { throw new Exception( $result->get_error_message() ); }
+                return $result;
+            }
+            public function order_status_changed( $order_id ) {
+                return WTBM_Booking_Service::sync_order( $order_id );
+            }
 			//**************************//
 			public function show_cart_item( $cart_item, $post_id ) {
 
@@ -233,57 +194,9 @@
                 </div>
 				<?php
 			}
-			public function wc_order_status_change($order_status, $post_id, $order_id) {
-				$args = array(
-					'post_type' => 'mpwpb_booking',
-					'posts_per_page' => -1,
-					'meta_query' => array(
-						'relation' => 'AND',
-						array(
-							array(
-								'key' => 'mpwpb_id',
-								'value' => $post_id,
-								'compare' => '='
-							),
-							array(
-								'key' => 'mpwpb_order_id',
-								'value' => $order_id,
-								'compare' => '='
-							)
-						)
-					)
-				);
-				$loop = new WP_Query($args);
-				foreach ($loop->posts as $user) {
-					$user_id = $user->ID;
-					//echo '<pre>';print_r($user_id);echo '</pre>';
-					update_post_meta($user_id, 'mpwpb_order_status', $order_status);
-				}
-				$args = array(
-					'post_type' => 'mpwpb_extra_service_booking',
-					'posts_per_page' => -1,
-					'meta_query' => array(
-						'relation' => 'AND',
-						array(
-							array(
-								'key' => 'mpwpb_id',
-								'value' => $post_id,
-								'compare' => '='
-							),
-							array(
-								'key' => 'mpwpb_order_id',
-								'value' => $order_id,
-								'compare' => '='
-							)
-						)
-					)
-				);
-				$loop = new WP_Query($args);
-				foreach ($loop->posts as $user) {
-					$user_id = $user->ID;
-					update_post_meta($user_id, 'mpwpb_order_status', $order_status);
-				}
-			}
+            public function wc_order_status_change( $status, $movie, $order_id ) {
+                return WTBM_Booking_Service::sync_order( $order_id );
+            }
 			//**********************//
 			public static function add_cpt_data( $cpt_name, $title, $meta_data = array(), $status = 'publish', $cat = array() ) {
 				$new_post = array(
@@ -367,8 +280,9 @@
                 if ( $order ) {
 
                     $booking = self::wtbm_get_booking_data_by_order($order_id);
+                    if ( ! $booking ) { return; }
                     $order_datetime = DateTime::createFromFormat('Y-m-d H:i', $booking['order_date'].' '.$booking['order_time']);
-                    $formatted_datetime = $order_datetime->format('j M, Y | h:i A');
+                    $formatted_datetime = wp_date( 'j M, Y | h:i A', WTBM_Booking_Service::timestamp( $booking['order_date'], $booking['order_time'] ) );
                     ?>
                     <div id="wtbm_pa-welcome-popup" class="wtbm_welcome_popup">
                         <div class="wtbm_welcome_popup_content">
